@@ -1,0 +1,32 @@
+﻿.swagger-ui .topbar {
+	background-color: #111;
+	border-bottom: 3px solid #547f00;
+}
+
+#header {
+	background: #222 !important;
+}
+
+#select_document {
+	background: #666 !important;
+}
+
+input[name=baseUrl] {
+	display: none !important;
+}
+
+.logo__title {
+	display: none !important;
+}
+
+#api_info a {
+	color: #007bff !important;
+	text-decoration: none !important;
+}
+
+	#api_info a:hover,
+	#api_info a:focus,
+	#api_info a:active {
+		color: #0056b3 !important;
+		text-decoration: underline !important;
+	}

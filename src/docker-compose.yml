@@ -1,0 +1,38 @@
+version: '3'
+services:
+  
+    #第一个服务名称
+  NetPro.xxx:
+      #build后的镜像名称
+    image: NetPro.xxx
+      #定义的容器名称
+    container_name: 'NetPro.xxx'
+      #docker build的上下文路径定义
+    build:
+      #docker-compose.yml所在路径开始寻址
+      context: ./
+      #dockerfile所在路径
+      dockerfile: NetPro.XXX.Api/Dockerfile
+      # EXPOSE: 80
+      #主机端口8888映射到容器的80端口
+    ports:
+      - "32769:80"
+      #环境变量
+    environment:
+       # ASPNETCORE_IPv4Address为主机系统环境变量
+      - ASPNETCORE_IPv4Address=${ASPNETCORE_IPv4Address}:32769
+      - Port=32769
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT} #运行环境：开发还是生产
+    restart: always #是否自动启动
+    # volumes:
+       #将容器内src/logs目录映射到主机
+        # - D:/usr/NetPro:/app/logs
+        # - D:/usr/NetPro/opt/data:/opt/data
+        # - D:/usr/NetPro:/logs
+        
+    #第二个服务名称
+
+# networks:
+#   default:
+#     external:
+#       name: nginx-proxy

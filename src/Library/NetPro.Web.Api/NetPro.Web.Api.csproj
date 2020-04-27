@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Version>1.0.0</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Leon</Authors>
+		<Description>
+		</Description>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+	</PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Infrastructure\Swagger\custom.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Infrastructure\Swagger\custom.css" />
+    <EmbeddedResource Include="Infrastructure\Swagger\SwaggerProfiler.html">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.3.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
+	</ItemGroup>
+	<ItemGroup>
+    <ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+    <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+  </Target>
+
+</Project>

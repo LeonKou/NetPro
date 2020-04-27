@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AssemblyName>Leon.XXX.Proxy</AssemblyName>
+		<RootNamespace>Leon.XXX.Proxy</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+    <ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+  </ItemGroup>
+</Project>
+

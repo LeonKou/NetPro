@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.XXX.Domain.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+		<ProjectReference Include="..\Leon.XXX.Repository\Leon.XXX.Repository.csproj" />
+	</ItemGroup>
+
+</Project>
