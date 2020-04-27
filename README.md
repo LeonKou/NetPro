@@ -1,4 +1,7 @@
-# <img src="docs/images/netpro.png"> 
+<p align="center">
+  <img height="150" src="docs/images/netpro.png">
+</p>
+
 # NetPro
 
 ### 🕰️ 项目请参照 
@@ -77,7 +80,7 @@ public class Startup
 		private readonly IConfiguration _configuration;
 		private readonly IWebHostEnvironment _webHostEnvironment;
 		private IEngine _engine;
-		private LeonConfig _LeonConfig;
+		private NetProOtion _NetProOtion;
 
 		#endregion
 
@@ -103,7 +106,7 @@ public class Startup
 		/// <param name="services"></param>
 		public void ConfigureServices(IServiceCollection services)
 		{
-			(_engine, _LeonConfig) = services.ConfigureApplicationServices(_configuration, _webHostEnvironment);
+			(_engine, _NetProOtion) = services.ConfigureApplicationServices(_configuration, _webHostEnvironment);
 		}
 
 		/// <summary>
@@ -112,7 +115,7 @@ public class Startup
 		/// <param name="builder"></param>
 		public void ConfigureContainer(ContainerBuilder builder)
 		{
-			_engine.RegisterDependencies(builder, _LeonConfig);
+			_engine.RegisterDependencies(builder, _NetProOtion);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,7 +133,7 @@ public class Startup
 
 * 增加 `ApiStartup.cs`文件
 
-此文件继承`ILeonStartup`接口，提供了microsoft原生依赖注入能力，所有组件注入放于此 ，Startup.cs将不接受组件注入
+此文件继承`INetProStartup`接口，提供了microsoft原生依赖注入能力，所有组件注入放于此 ，Startup.cs将不接受组件注入
 
 * 修改`appsettings.json` 文件
 
@@ -138,7 +141,7 @@ public class Startup
 
 {
  "Apollo": {
-    "AppId": "Leon",
+    "AppId": "NetPro",
     "MetaServer": "http://189.16.85.62:9080",
     "Cluster": "default",
     "Namespaces": "AppSetting,MicroServicesEndpoint",
@@ -170,7 +173,7 @@ public class Startup
       "SuperRole": "admin",
       "RequestWarningThreshold": 5,
       "AppType": 1,
-      "ErrorUrl": "www.Leon.com",
+      "ErrorUrl": "www.netpro.com",
       "Permission": "url",
       "LoginUrl": "",
       "PageNotFoundUrl": "",
@@ -238,7 +241,7 @@ public class Startup
 	///
 	/// </summary>
 	[Route("api/v1/[controller]")]
-	public class TestController : ApiControllerBase
+	public class WeatherForecastController : ApiControllerBase
 	{
 		private readonly ILogger _logger;
 		private IExampleProxy _userApi { get; set; }
@@ -285,7 +288,7 @@ dotnet publish -r linux-x64 -c release
 
 
 [11:16:52 Development] dotnet process id:25820
-配置： Leon:{
+配置： NetProOption:{
   "DisplayFullErrorStack": false,
   "StaticFilesCacheControl": "Cache-Control",
   "UseResponseCompression": false,
@@ -304,7 +307,7 @@ dotnet publish -r linux-x64 -c release
         "2": "Server="//...
       }
     },
-  "ApplicationName": "LeonService",
+  "ApplicationName": "",
   "SuperRole": "admin",
   "RequestWarningThreshold": 5,
   "SwaggerDoc": {
@@ -313,7 +316,7 @@ dotnet publish -r linux-x64 -c release
     "EnableUI": true
   },
   "AppType": 1,
-  "ErrorUrl": "www.leon.com",
+  "ErrorUrl": "www.netpro.com",
   "Permission": "url",
   "LoginUrl": "",
   "PageNotFoundUrl": "",
