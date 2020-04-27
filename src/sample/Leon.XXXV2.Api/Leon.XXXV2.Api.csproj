@@ -10,9 +10,11 @@
 		<EmbeddedResource Remove="logs\**" />
 		<None Remove="logs\**" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
-		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<PackageReference Include="NetPro.Web.Api" Version="1.0.0" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
 	</ItemGroup>
 
