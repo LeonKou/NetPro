@@ -22,6 +22,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 `Swagger`,`WebApiClient.JIT`,`TimeZoneConverter`
 
 ### 使用
+具体参考sample/Leon.XXXV2.Api项目
 
 * webapi项目引用 `NetPro.Web.Api`
 
