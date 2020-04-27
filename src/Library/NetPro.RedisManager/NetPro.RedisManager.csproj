@@ -19,5 +19,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.3" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.3" />
 	</ItemGroup>
-
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 </Project>
