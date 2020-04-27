@@ -25,13 +25,13 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 * webapi项目引用 `NetPro.Web.Api`
 
-Package Manager方式: `Install-Package Swashbuckle.AspNetCore.Filters -Version 5.1.1`
+Package Manager方式: `Install-Package NetPro.Web.Api -Version 1.0.0`
 
-.NET CLI 方式: `dotnet add package Swashbuckle.AspNetCore.Filters --version 5.1.1`
+.NET CLI 方式: `dotnet add package NetPro.Web.Api --version 1.0.0`
 
-PackageReference:`<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />`
+PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="1.0.0" />`
 
-.NET CLI 方式: `paket add Swashbuckle.AspNetCore.Filters --version 5.1.1`
+.NET CLI 方式: `paket add NetPro.Web.Api --version 1.0.0`
 
 *  修改`Program.cs`
 
