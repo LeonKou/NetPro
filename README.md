@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="150" src="docs/images/netpro.png">
+  <img  src="docs/images/netpro.png">
 </p>
 
 # NetPro
@@ -13,7 +13,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 #### 主要组件：
 
-`Autofac` * `Automapper`,`apollo`,`App.Metrics`,
+`Autofac` , `Automapper`,`apollo`,`App.Metrics`,
 
 `CsRedisCore`,`StackExchange.Redis`,`Serilog`,
 
@@ -23,9 +23,13 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 `Sentry`,`RabbitMQ.Client`,`SkyAPM`,
 
-`Swagger`,`WebApiClient.JIT`,`TimeZoneConverter`
+`Swagger`,`WebApiClient.JIT`,
+
+`TimeZoneConverter`,`healthcheck`
+
 
 ### 使用
+
 具体参考sample/Leon.XXXV2.Api项目
 
 * webapi项目引用 `NetPro.Web.Api`
@@ -335,6 +339,7 @@ dotnet publish -r linux-x64 -c release
 Swagger地址：[/docs/index.html](ip:port/docs/index.html)
 
 健康检查地址 [/health](health)
+
 健康检查面板[/ui](healthdashboard)
 
 应用信息 [/info](/info)
@@ -354,3 +359,5 @@ var mvcBuilder = services.AddControllers(config =>
 ### ...
 ## Target
 # ...
+
+[文档持续更新中...]
