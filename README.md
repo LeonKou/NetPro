@@ -335,6 +335,7 @@ dotnet publish -r linux-x64 -c release
 Swagger地址：[/docs/index.html](ip:port/docs/index.html)
 
 健康检查地址 [/health](health)
+健康检查面板[/ui](healthdashboard)
 
 应用信息 [/info](/info)
 
