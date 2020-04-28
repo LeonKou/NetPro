@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore ~/src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
