@@ -20,6 +20,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
