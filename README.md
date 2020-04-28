@@ -3,6 +3,7 @@
 </p>
 
 # NetPro
+![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)
 
 ### 🕰️ 项目请参照 
 
