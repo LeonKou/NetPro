@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj --no-restore --verbosity normal
