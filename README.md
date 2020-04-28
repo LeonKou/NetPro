@@ -1,5 +1,5 @@
 <p align="center">
-  <img  src="docs/images/netpro.png">
+  <img  src="docs/images/netpro3.jpg">
 </p>
 
 # NetPro
@@ -337,7 +337,7 @@ dotnet publish -r linux-x64 -c release
 [11:16:53 INF] Now listening on: http://localhost:5001
 ```
 
-Swagger地址：[/docs/index.html](ip:port/docs/index.html)
+Swagger地址：[/swagger/index.html](ip:port/docs/index.html)
 
 健康检查地址 [/health](health)
 

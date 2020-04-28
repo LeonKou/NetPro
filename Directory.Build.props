@@ -1,0 +1,25 @@
+<Project>
+    <PropertyGroup Label="SDK Versions">
+        <NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
+        <NetCoreTargetVersion>netcoreapp3.1</NetCoreTargetVersion>
+        <MicrosoftNETTestSdk>16.5.0</MicrosoftNETTestSdk>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Label="Package information">
+        <Authors>Leon</Authors>
+        <PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+      </PropertyGroup>
+
+    <PropertyGroup Label="NetPro SDK Versions">
+        <NetProChecker>1.0.0</NetProChecker>
+        <NetProCore>1.0.0</NetProCore>
+        <NetProDapper>1.0.0</NetProDapper>
+        <NetProLog>1.0.0</NetProLog>
+        <NetProMongoDb>1.0.0</NetProMongoDb>
+        <NetProRabbitMQ>1.0.0</NetProRabbitMQ>
+        <NetProRedisManager>1.0.0</NetProRedisManager>
+        <NetProUtility>1.0.0</NetProUtility>
+        <NetProWebApi>1.0.0</NetProWebApi>
+        <NetProWebCore>1.0.0</NetProWebCore>       
+    </PropertyGroup>
+</Project>

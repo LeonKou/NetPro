@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Version>1.0.0</Version>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<Version>$(NetProDapper)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Leon</Authors>
+		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -18,10 +17,6 @@
   <ItemGroup>
     <Compile Remove="Expressions\DapperExpressionExtensions.cs" />
     <Compile Remove="Expressions\DapperExpressionVisitor.cs" />
-    <Compile Remove="Filters\Query\DapperQueryFilterExecuter.cs" />
-    <Compile Remove="Filters\Query\IDapperQueryFilter.cs" />
-    <Compile Remove="Filters\Query\IDapperQueryFilterExecuter.cs" />
-    <Compile Remove="Filters\Query\SoftDeleteDapperQueryFilter.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,14 +29,8 @@
   <ItemGroup>
     <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Filters\Query\" />
-  </ItemGroup>
   
   <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
     <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
   </Target>  
-  
-
 </Project>

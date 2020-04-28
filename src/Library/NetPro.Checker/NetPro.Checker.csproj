@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Version>1.0.0</Version>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<Version>$(NetProChecker)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Leon</Authors>
+		<Authors>$(Authors)</Authors>
 		<Description>
 			for checking the  complex environment of application in the microservice environment.
 			provide the system environment information of the current application.
 			and Checking the health of application information and components
 		</Description>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
