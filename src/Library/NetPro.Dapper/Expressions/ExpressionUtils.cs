@@ -8,7 +8,7 @@ namespace NetPro.Dapper.Expressions
     internal class ExpressionUtils
     {
         /// <summary>
-        ///     Makes the predicate.
+        /// Makes the predicate.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="name">The name.</param>

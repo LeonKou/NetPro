@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<Version>1.0.0</Version>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<Version>$(NetProWebApi)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>Leon</Authors>
+		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+	<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

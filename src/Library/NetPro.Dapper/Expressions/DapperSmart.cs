@@ -19,7 +19,6 @@ namespace NetPro.Dapper.Expressions
 	/// </summary>
 	public static partial class DapperSmart
 	{
-
 		static DapperSmart()
 		{
 			SetDialect(_dialect);
