@@ -64,7 +64,8 @@ namespace NetPro.Web.Api
 			string title = "Hello NetPro";
 			string description = "This is a webapi interface documentation";
 
-			var swaggerDoc = services.BuildServiceProvider().GetRequiredService<NetProOption>()?.SwaggerDoc;
+			var netProOption = services.BuildServiceProvider().GetRequiredService<NetProOption>();
+			var swaggerDoc = netProOption?.SwaggerDoc;
 			if (swaggerDoc != null)
 			{
 				if (!string.IsNullOrEmpty(swaggerDoc.Title))
@@ -88,7 +89,7 @@ namespace NetPro.Web.Api
 
 				//batch find xml file of swagger
 				var basePath = PlatformServices.Default.Application.ApplicationBasePath;//get app root path
-				List<string> xmlComments = GetXmlComments();
+				List<string> xmlComments = GetXmlComments(netProOption);
 				xmlComments.ForEach(r =>
 				{
 					string filePath = Path.Combine(basePath, r);
@@ -119,13 +120,14 @@ namespace NetPro.Web.Api
 		}
 
 		/// <summary>
-		/// 设置swaager关联的xml文件名称(不包含路径，主要文件名称,如:NetPro.XXX.Api.xml)
+		/// 所有xml默认当作swagger文档注入swagger
 		/// </summary>
 		/// <returns></returns>
-		protected virtual List<string> GetXmlComments()
+		protected virtual List<string> GetXmlComments(NetProOption netProOption)
 		{
-			var pattern = "^NetPro.*.(Api|Domain)$";
-			List<string> assemblyNames = ReflectionHelper.GetAssemblyNames(pattern);
+			var pattern = $"^{netProOption.ProjectPrefix}.*({netProOption.ProjectSuffix}|Domain)$";
+			//List<string> assemblyNames = ReflectionHelper.GetAssemblyNames(pattern);
+			List<string> assemblyNames = AppDomain.CurrentDomain.GetAssemblies().Select(s => s.GetName().Name).ToList();
 			List<string> xmlFiles = new List<string>();
 			assemblyNames.ForEach(r =>
 			{

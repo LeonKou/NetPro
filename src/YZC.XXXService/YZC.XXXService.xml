@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YZC.XXXService</name>
+    </assembly>
+    <members>
+        <member name="T:YZC.XXXService.Controllers.ValuesController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:YZC.XXXService.Controllers.ValuesController.Get(Yzc.Model.Sample)">
+            <summary>
+            这是我
+            </summary>
+            <param name="model">666666666</param>
+            <returns></returns>
+        </member>
+        <member name="M:YZC.XXXService.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:YZC.XXXService.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:YZC.XXXService.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:YZC.XXXService.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+            <param name="webHostEnvironment"></param>
+        </member>
+        <member name="M:YZC.XXXService.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:YZC.XXXService.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:YZC.XXXService.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

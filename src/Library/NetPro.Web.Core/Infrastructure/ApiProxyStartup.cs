@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiClient;
+using NetPro.Core.Configuration;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -24,7 +25,8 @@ namespace NetPro.Web.Core.Infrastructure
 
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
 		{
-			var types = typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, "^NetPro.*\\.(Api|Proxy)$")).ToArray();
+			var netProOption = services.BuildServiceProvider().GetService<NetProOption>();
+			var types = typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{netProOption.ProjectPrefix}.*({netProOption.ProjectSuffix}|Proxy)$")).ToArray();
 
 			foreach (var type in types)
 			{

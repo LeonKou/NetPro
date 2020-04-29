@@ -20,8 +20,6 @@ namespace Leon.XXX.Process
 
 		private void DoWork(object state)
 		{
-			
-
 		}
 
 		protected override Task ExecuteAsync(CancellationToken stoppingToken)

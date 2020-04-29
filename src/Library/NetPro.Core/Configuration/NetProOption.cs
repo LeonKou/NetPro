@@ -9,7 +9,15 @@ namespace NetPro.Core.Configuration
 	/// </summary>
 	public partial class NetProOption
 	{
-		public string ProjectPrefix { get; set; } = "NetCore";
+		/// <summary>
+		/// 项目前缀，用于项目内部批量注入使用
+		/// </summary>
+		public string ProjectPrefix { get; set; } = "NetPro";
+
+		/// <summary>
+		/// 项目后缀，用于项目内部批量注入使用
+		/// </summary>
+		public string ProjectSuffix { get; set; }
 
 		/// <summary>
 		/// 是否显示完整异常内容.(当为开发环境时忽略此参数)

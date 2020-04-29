@@ -41,13 +41,13 @@ namespace NetPro.Web.Core.Infrastructure
 			builder.RegisterGeneric(typeof(GeneralRepository<,>)).As(typeof(IGeneralRepository<>)).InstancePerLifetimeScope();
 
 			builder.RegisterAssemblyTypes(typeFinder.GetAssemblies()
-				.Where(r => RegexHelper.IsMatch(r.GetName().Name, "^NetPro.*\\.(Api|Domain)$")).ToArray())
+				.Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Service)$")).ToArray())
 			 .Where(t => t.Name.EndsWith("Service"))
 		   .AsImplementedInterfaces().InstancePerLifetimeScope();
-			builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, "^NetPro.*\\.(Api|Repository)$")).ToArray())
+			builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Repository)$")).ToArray())
 			.Where(t => t.Name.EndsWith("Repository"))
 			.AsImplementedInterfaces().InstancePerLifetimeScope();
-			builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, "^NetPro.*\\.(Api|Aggregate)$")).ToArray())
+			builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Aggregate)$")).ToArray())
 			.Where(t => t.Name.EndsWith("Aggregate"))
 			.AsImplementedInterfaces().InstancePerLifetimeScope();
 

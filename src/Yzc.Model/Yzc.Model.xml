@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Yzc.Model</name>
+    </assembly>
+    <members>
+        <member name="T:Yzc.Model.Sample">
+            <summary>
+            这是sample
+            </summary>
+        </member>
+        <member name="P:Yzc.Model.Sample.Name">
+            <summary>
+             这是Name
+            </summary>
+        </member>
+    </members>
+</doc>
