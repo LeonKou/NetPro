@@ -1,13 +1,10 @@
 ﻿using Com.Ctrip.Framework.Apollo;
 using Com.Ctrip.Framework.Apollo.Enums;
-using Com.Ctrip.Framework.Apollo.Internals;
-using NetPro.Core.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
-using System.Threading.Tasks;
 
-namespace NetPro.Core.Helpers
+namespace NetPro.Core
 {
 	public static class ApolloClientHelper
 	{
@@ -24,18 +21,16 @@ namespace NetPro.Core.Helpers
 			var apolloBuilder = builder.AddApollo(apolloSection).AddDefault();
 			var apolloNamespaces = apolloSection.GetValue<string>("Namespaces");
 
-			if (!string.IsNullOrWhiteSpace(apolloNamespaces))
-			{
-				var namespaces = apolloNamespaces.Split(',');
-				for (var index = 0; index < namespaces.Length; index++)
-				{
-					if (!string.IsNullOrWhiteSpace(namespaces[index]))
-					{
-						apolloBuilder.AddNamespace(namespaces[index], GetNameSpaceType(namespaces[index]));
-					}
-				}
-			}
-		}
+            if (string.IsNullOrWhiteSpace(apolloNamespaces)) return;
+            var namespaces = apolloNamespaces.Split(',');
+            foreach (var t in namespaces)
+            {
+                if (!string.IsNullOrWhiteSpace(t))
+                {
+                    apolloBuilder.AddNamespace(t, GetNameSpaceType(t));
+                }
+            }
+        }
 
 		private static ConfigFileFormat GetNameSpaceType(string nameSpace)
 		{

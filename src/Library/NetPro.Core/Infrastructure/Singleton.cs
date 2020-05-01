@@ -12,17 +12,17 @@ namespace NetPro.Core.Infrastructure
     /// <remarks>Access to the instance is not synchrnoized.</remarks>
     public class Singleton<T> : Singleton
     {
-        static T instance;
+        static T _instance;
 
         /// <summary>
         /// The singleton instance for the specified type T. Only one instance (at the time) of this object for each type of T.
         /// </summary>
         public static T Instance
         {
-            get { return instance; }
+            get { return _instance; }
             set
             {
-                instance = value;
+                _instance = value;
                 AllSingletons[typeof(T)] = value;
             }
         }
@@ -76,17 +76,12 @@ namespace NetPro.Core.Infrastructure
     {
         static Singleton()
         {
-            allSingletons = new Dictionary<Type, object>();
+            AllSingletons = new Dictionary<Type, object>();
         }
-
-        static readonly IDictionary<Type, object> allSingletons;
 
         /// <summary>
         /// Dictionary of type to singleton instances.
         /// </summary>
-        public static IDictionary<Type, object> AllSingletons
-        {
-            get { return allSingletons; }
-        }
+        public static IDictionary<Type, object> AllSingletons { get; }
     }
 }

@@ -6,11 +6,11 @@ namespace NetPro.Core
     /// <summary>
     ///  Represents the class implementation of cryptographic random number generator derive
     /// </summary>
-    public partial class SecureRandomNumberGenerator : RandomNumberGenerator
+    public class SecureRandomNumberGenerator : RandomNumberGenerator
     {
         #region Field
 
-        private bool _disposed = false;
+        private bool _disposed;
         private readonly RandomNumberGenerator _rng;
 
         #endregion

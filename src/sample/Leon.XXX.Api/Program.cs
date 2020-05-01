@@ -2,7 +2,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using NetPro.Core.Helpers;
+using NetPro.Core;
 
 namespace Leon.XXX.Api
 {

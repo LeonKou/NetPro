@@ -54,7 +54,7 @@ namespace NetPro.Core.Infrastructure
         /// <returns>Result</returns>
         public override IList<Assembly> GetAssemblies()
         {
-            if (this.EnsureBinFolderAssembliesLoaded && !_binFolderAssembliesLoaded)
+            if (EnsureBinFolderAssembliesLoaded && !_binFolderAssembliesLoaded)
             {
                 _binFolderAssembliesLoaded = true;
                 var binPath = GetBinDirectory();
