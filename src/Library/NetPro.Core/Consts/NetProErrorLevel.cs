@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Core.Consts
+﻿namespace NetPro.Core.Consts
 {
     /// <summary>
     /// 错误级别
