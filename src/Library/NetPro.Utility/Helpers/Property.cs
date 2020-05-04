@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -10,18 +9,18 @@ namespace NetPro.Utility.Helpers
     [XmlRoot("Property")]
     public class Property : IXmlSerializable
     {
-        private Dictionary<string, string> properties = new Dictionary<string, string>();
+        private Dictionary<string, string> _properties = new Dictionary<string, string>();
         public string this[string key]
         {
             get
             {
-                if (properties.ContainsKey(key))
-                    return properties[key];
+                if (_properties.ContainsKey(key))
+                    return _properties[key];
                 return null;
             }
             set
             {
-                properties[key] = value;
+                _properties[key] = value;
             }
         }
 
@@ -29,7 +28,7 @@ namespace NetPro.Utility.Helpers
         {
             get
             {
-                return properties;
+                return _properties;
             }
         }
 
@@ -40,10 +39,8 @@ namespace NetPro.Utility.Helpers
             return null;
         }
 
-        public void ReadXml(System.Xml.XmlReader reader)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(string));
-
+        public void ReadXml(XmlReader reader)
+        {         
             if (reader.IsEmptyElement || !reader.Read())
             {
                 return;
@@ -64,15 +61,15 @@ namespace NetPro.Utility.Helpers
 
                 reader.ReadEndElement();
                 reader.MoveToContent();
-                properties.Add(key, value);
+                _properties.Add(key ?? throw new InvalidOperationException(), value);
             }
             reader.ReadEndElement();
 
         }
 
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
-            foreach (string key in properties.Keys)
+            foreach (string key in _properties.Keys)
             {
                 writer.WriteStartElement("item");
 

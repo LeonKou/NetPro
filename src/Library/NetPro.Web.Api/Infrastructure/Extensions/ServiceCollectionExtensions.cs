@@ -1,7 +1,5 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;  
+﻿using Microsoft.Extensions.DependencyInjection;  
 using NetPro.Web.Api.Filters;
-using NetPro.Web.Core.Infrastructure.Extensions;
 
 namespace NetPro.Web.Api.Infrastructure.Extensions
 {
@@ -17,7 +15,7 @@ namespace NetPro.Web.Api.Infrastructure.Extensions
         /// <returns>A builder for configuring MVC services</returns>
         public static IMvcBuilder AddNetProApi(this IServiceCollection services)
         {
-            var NetProOption = services.GetNetProConfig();
+            //var NetProOption = services.GetNetProConfig();
 
             //add basic MVC feature    AddMvc
                

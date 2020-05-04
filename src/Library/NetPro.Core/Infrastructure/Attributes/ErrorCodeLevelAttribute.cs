@@ -1,7 +1,5 @@
 ﻿using NetPro.Core.Consts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.Core.Infrastructure.Attributes
 {
@@ -18,7 +16,7 @@ namespace NetPro.Core.Infrastructure.Attributes
 
         public ErrorCodeLevelAttribute(NetProErrorLevel level)
         {
-            this.Level = level;
+            Level = level;
         }
     }
 }

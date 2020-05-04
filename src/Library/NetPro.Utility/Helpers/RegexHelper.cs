@@ -17,7 +17,7 @@ namespace NetPro.Utility.Helpers {
             var result = new Dictionary<string, string>();
             if( string.IsNullOrWhiteSpace( input ) )
                 return result;
-            var match = System.Text.RegularExpressions.Regex.Match( input, pattern, options );
+            var match = Regex.Match( input, pattern, options );
             if( match.Success == false )
                 return result;
             AddResults( result, match, resultPatterns );
@@ -46,7 +46,7 @@ namespace NetPro.Utility.Helpers {
         public static string GetValue( string input, string pattern, string resultPattern = "", RegexOptions options = RegexOptions.IgnoreCase ) {
             if( string.IsNullOrWhiteSpace( input ) )
                 return string.Empty;
-            var match = System.Text.RegularExpressions.Regex.Match( input, pattern, options );
+            var match = Regex.Match( input, pattern, options );
             if( match.Success == false )
                 return string.Empty;
             return string.IsNullOrWhiteSpace( resultPattern ) ? match.Value : match.Result( resultPattern );
@@ -61,7 +61,7 @@ namespace NetPro.Utility.Helpers {
         public static string[] Split( string input, string pattern, RegexOptions options = RegexOptions.IgnoreCase ) {
             if( string.IsNullOrWhiteSpace( input ) )
                 return new string[]{};
-            return System.Text.RegularExpressions.Regex.Split( input, pattern, options );
+            return Regex.Split( input, pattern, options );
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace NetPro.Utility.Helpers {
         public static string Replace( string input, string pattern,string replacement, RegexOptions options = RegexOptions.IgnoreCase ) {
             if( string.IsNullOrWhiteSpace( input ) )
                 return string.Empty;
-            return System.Text.RegularExpressions.Regex.Replace( input, pattern, replacement, options );
+            return Regex.Replace( input, pattern, replacement, options );
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NetPro.Utility.Helpers {
         /// <param name="pattern">模式字符串</param>
         /// <param name="options">选项</param>
         public static bool IsMatch( string input, string pattern, RegexOptions options ) {
-            return System.Text.RegularExpressions.Regex.IsMatch( input, pattern, options );
+            return Regex.IsMatch( input, pattern, options );
         }
     }
 }

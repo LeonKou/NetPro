@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -12,7 +11,7 @@ namespace NetPro.Utility.Helpers
     /// </summary>
     public class XmlHelper
     {
-        private static object lock_serialize = new object();
+        private static readonly object LockSerialize = new object();
 
         /// <summary>
         /// 将自定义对象序列化为XML字符串
@@ -50,13 +49,13 @@ namespace NetPro.Utility.Helpers
 
         public static void XmlSerializer(object o, string path)
         {
-            lock (lock_serialize)
+            lock (LockSerialize)
             {
                 if (!Directory.Exists(Path.GetDirectoryName(path)))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    Directory.CreateDirectory(Path.GetDirectoryName(path) ?? throw new InvalidOperationException());
                 }
-                System.IO.FileStream stream = new FileStream(path, FileMode.Create);
+                var stream = new FileStream(path, FileMode.Create);
                 XmlSerializer t = new XmlSerializer(o.GetType(), "");
                 t.Serialize(stream, o);
                 stream.Close();
@@ -65,9 +64,9 @@ namespace NetPro.Utility.Helpers
 
         public static object XmlDeserialize(string path, Type type)
         {
-            lock (lock_serialize)
+            lock (LockSerialize)
             {
-                System.IO.FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+                var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
                 XmlSerializer t = new XmlSerializer(type, "");
                 object o = t.Deserialize(stream);
                 stream.Close();
@@ -112,11 +111,12 @@ namespace NetPro.Utility.Helpers
             }
 
         }
+
         /// <summary>
         /// 反序列化
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="xml"></param>
+        /// <param name="stream"></param>
         /// <returns></returns>
         public static object Deserialize(Type type, Stream stream)
         {

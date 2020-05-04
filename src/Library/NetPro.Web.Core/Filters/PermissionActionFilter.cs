@@ -13,7 +13,6 @@ using NetPro.Core.Infrastructure;
 using NetPro.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using NetPro.Logging;
 using Serilog;
 
 namespace NetPro.Web.Core.Filters

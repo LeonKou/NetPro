@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -35,7 +33,6 @@ namespace NetPro.Logging.AspNetCore
             }
             //Serilog.Log.Error(context.Exception, "WebAPI异常 请求URL:{0},参数:{1}", request.Path.ToString(), requestPara);
             Logger.Error(context.Exception, "WebAPI异常 请求URL:{0},参数:{1}", request.Path.ToString(), requestPara);
-            return;
         }
     }
 }

@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Web.Core.Infrastructure.Extensions;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using NetPro.Web.Api.Infrastructure.Extensions;
 
 namespace NetPro.Web.Api.Infrastructure

@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.EntityFrameworkCore
+namespace NetPro.Core.Infrastructure.PagedList
 {
     /// <summary>
     /// 为分页集合提供接口

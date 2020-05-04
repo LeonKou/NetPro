@@ -55,7 +55,7 @@ namespace NetPro.Checker
 
 	public static class HealthChecksUrlExtensions
 	{
-		private const string NAME = "urlcheck";
+		private static readonly string NAME = "urlcheck";
 
 		/// <summary>
 		/// 

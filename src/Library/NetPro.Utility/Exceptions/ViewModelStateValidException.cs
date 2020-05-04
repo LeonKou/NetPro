@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Utility
+﻿namespace NetPro.Utility
 {
     /// <summary>
-    /// viewModel 数据验证失败异常
+    /// viewModel Data validation failed exception
     /// </summary>
     public class ViewModelStateValidException: NetProException
     {
@@ -19,7 +15,7 @@ namespace NetPro.Utility
         /// <param name="errorCode">错误代码</param>
         public ViewModelStateValidException(string errorMsg,string bindModelText,int errorCode):base(errorMsg, errorCode)
         {
-            this.BindModelText = bindModelText;
+            BindModelText = bindModelText;
         }
     }
 }

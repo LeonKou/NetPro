@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Autofac;
 using Autofac.Core.Lifetime;
 
@@ -20,7 +19,7 @@ namespace NetPro.Core.Infrastructure.DependencyManagement
         /// <param name="container">Conainer</param>
         public ContainerManager(IContainer container)
         {
-            this._container = container;
+            _container = container;
         }
 
         /// <summary>

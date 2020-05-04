@@ -78,8 +78,11 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 
                     if (stringEnumConverter != null)
                     {
-                        var defaultValue = parameterInfo.DefaultValue.ToString();
-                        return stringEnumConverter.CamelCaseText ? ToCamelCase(defaultValue) : defaultValue;
+                        if (parameterInfo.DefaultValue != null)
+                        {
+                            var defaultValue = parameterInfo.DefaultValue.ToString();
+                            return stringEnumConverter.CamelCaseText ? ToCamelCase(defaultValue) : defaultValue;
+                        }
                     }
                 }
 
@@ -95,16 +98,15 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
         {
             return char.ToLowerInvariant(name[0]) + name.Substring(1);
         }
-    }
-
+    }    
 
     public class SwaggerJsonDefaultValueFilter: IOperationFilter
     {
-        JsonSerializer _jsonSerializer;
+        //private JsonSerializer _jsonSerializer;
 
         public SwaggerJsonDefaultValueFilter(IOptions<dynamic> mvcJsonOptions)
         {
-            _jsonSerializer = JsonSerializer.CreateDefault(mvcJsonOptions.Value.SerializerSettings);
+            //_jsonSerializer = JsonSerializer.CreateDefault(mvcJsonOptions.Value.SerializerSettings);
         }
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Web.Core.Permission
+﻿namespace NetPro.Web.Core.Permission
 {
     /// <summary>
     /// 权限接口

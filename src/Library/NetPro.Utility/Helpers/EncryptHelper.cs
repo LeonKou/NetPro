@@ -16,12 +16,12 @@ namespace NetPro.Utility.Helpers
 	/// </summary>
 	public static class EncryptHelper
 	{
-		private static readonly object locker = new object();
+		private static readonly object Locker = new object();
 
 		/// <summary>
 		/// 通用8位加密KEY
 		/// </summary>
-		public const string BASE_KEY = "SHUTDOWN";
+		public static string BaseKey = "SHUTDOWN";
 
 		/// <summary>
 		/// 生成指定字节密钥
@@ -84,7 +84,7 @@ namespace NetPro.Utility.Helpers
 		/// </summary>
 		/// <param name="encypStr"></param>
 		/// <returns></returns>
-		public static string MD5Upper(string encypStr)
+		public static string Md5Upper(string encypStr)
 		{
 			MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
 			byte[] bs = Encoding.GetEncoding("utf-8").GetBytes(encypStr);
@@ -120,13 +120,13 @@ namespace NetPro.Utility.Helpers
 		{
 			if (obj == null)
 			{
-				throw new ArgumentNullException("参数不能为空");
+				throw new ArgumentNullException($"The parameter cannot be null");
 			}
 			byte[] soruce;
 			using (MemoryStream fs = new MemoryStream())
 			{
 				BinaryFormatter formatter = new BinaryFormatter();
-				lock (locker)
+				lock (Locker)
 				{
 					formatter.Serialize(fs, obj);
 				}
@@ -208,7 +208,7 @@ namespace NetPro.Utility.Helpers
 		{
 			var bytes = encoding.GetBytes(value);
 			var result = transform.TransformFinalBlock(bytes, 0, bytes.Length);
-			return System.Convert.ToBase64String(result);
+			return Convert.ToBase64String(result);
 		}
 
 		/// <summary>
@@ -252,7 +252,7 @@ namespace NetPro.Utility.Helpers
 		/// </summary>
 		private static string GetDecryptResult(string value, Encoding encoding, ICryptoTransform transform)
 		{
-			var bytes = System.Convert.FromBase64String(value);
+			var bytes = Convert.FromBase64String(value);
 			var result = transform.TransformFinalBlock(bytes, 0, bytes.Length);
 			return encoding.GetString(result);
 		}
@@ -284,7 +284,7 @@ namespace NetPro.Utility.Helpers
 
 		private static string BytesToHexString(byte[] bytes)
 		{
-			System.Text.StringBuilder s = new System.Text.StringBuilder();
+			var s = new StringBuilder();
 			foreach (byte b in bytes)
 			{
 				s.Append(b.ToString("x2").ToUpper());
@@ -295,21 +295,22 @@ namespace NetPro.Utility.Helpers
 		/// <summary>
 		/// DES加密算法,密钥长度为8个字符
 		/// </summary>
-		/// <param name="Data">加密明文</param>
+		/// <param name="data">加密明文</param>
 		/// <param name="key">密钥长度为8个字符</param>
 		/// <param name="charset">字符编码</param>
 		/// <returns>返回密文</returns>
-		public static string DESEncrypt8(string Data, string key, string charset)
+		public static string DesEncrypt8(string data, string key, string charset)
 		{
 
-			DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider
+            {
+                Key = Encoding.ASCII.GetBytes(key), IV = Encoding.ASCII.GetBytes(key)
+            };
 
-			des.Key = ASCIIEncoding.ASCII.GetBytes(key);
-			des.IV = ASCIIEncoding.ASCII.GetBytes(key);
 
-			byte[] inputByteArray = Encoding.GetEncoding(charset).GetBytes(Data);
+            byte[] inputByteArray = Encoding.GetEncoding(charset).GetBytes(data);
 
-			System.IO.MemoryStream ms = new System.IO.MemoryStream();
+			var ms = new MemoryStream();
 			CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
 			cs.Write(inputByteArray, 0, inputByteArray.Length);
 
@@ -323,53 +324,53 @@ namespace NetPro.Utility.Helpers
 			return BytesToHexString(ret);
 		}
 
-		/// <summary>
-		/// DES加密,默认8位密钥
-		/// utf-8
-		/// </summary>
-		/// <param name="Data"></param>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public static string DESEncrypt8(string Data)
+        /// <summary>
+        /// DES加密,默认8位密钥
+        /// utf-8
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string DesEncrypt8(string data)
 		{
-			return DESEncrypt8(Data, BASE_KEY, "utf-8");
+			return DesEncrypt8(data, BaseKey, "utf-8");
 		}
 
 		/// <summary>
 		/// DES加密，8位密钥
 		/// utf-8
 		/// </summary>
-		/// <param name="Data"></param>
+		/// <param name="data"></param>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public static string DESEncrypt8(string Data, string key)
+		public static string DesEncrypt8(string data, string key)
 		{
-			return DESEncrypt8(Data, key, "utf-8");
+			return DesEncrypt8(data, key, "utf-8");
 		}
 
 		/// <summary>
 		/// DES 解密算法,密钥长度为8个字符
 		/// </summary>
-		/// <param name="Data">密文</param>
+		/// <param name="data">密文</param>
 		/// <param name="key">密钥长度为8个字符</param>
 		/// <param name="charset">字符编码</param>
 		/// <returns>明文</returns>
-		public static string DESDecrypt8(string Data, string key, string charset)
+		public static string DesDecrypt8(string data, string key, string charset)
 		{
-			DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider
+            {
+                Key = Encoding.ASCII.GetBytes(key), IV = Encoding.ASCII.GetBytes(key)
+            };
 
-			des.Key = ASCIIEncoding.ASCII.GetBytes(key);
-			des.IV = ASCIIEncoding.ASCII.GetBytes(key);
 
-			byte[] inputByteArray = HexStringToBytes(Data);
+            byte[] inputByteArray = HexStringToBytes(data);
 
-			System.IO.MemoryStream ms = new System.IO.MemoryStream();
-			CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
+			var ms = new MemoryStream();
+			var cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
 			cs.Write(inputByteArray, 0, inputByteArray.Length);
 			cs.FlushFinalBlock();
 
 
-			byte[] ret = ms.ToArray();
+			var ret = ms.ToArray();
 
 			cs.Close();
 			ms.Close();
@@ -381,20 +382,20 @@ namespace NetPro.Utility.Helpers
 		/// DES解密，8位密钥
 		/// utf-8
 		/// </summary>
-		/// <param name="Data"></param>
+		/// <param name="data"></param>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public static string DESDecrypt8(string Data, string key)
+		public static string DesDecrypt8(string data, string key)
 		{
-			return DESDecrypt8(Data, key, "utf-8");
+			return DesDecrypt8(data, key, "utf-8");
 		}
 
 		/// <summary>
 		/// DES 解密算法，默认8位密钥
 		/// </summary>
-		public static string DESDecrypt8(string Data)
+		public static string DesDecrypt8(string data)
 		{
-			return DESDecrypt8(Data, BASE_KEY);
+			return DesDecrypt8(data, BaseKey);
 		}
 		#endregion
 
@@ -470,7 +471,7 @@ namespace NetPro.Utility.Helpers
 		{
 			return new RijndaelManaged
 			{
-				Key = System.Convert.FromBase64String(key),
+				Key = Convert.FromBase64String(key),
 				Mode = CipherMode.CBC,
 				Padding = PaddingMode.PKCS7,
 				IV = Iv
@@ -706,11 +707,10 @@ namespace NetPro.Utility.Helpers
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static string SHA256(string str)
+		public static string Sha256(string str)
 		{
 			byte[] bytes = Encoding.UTF8.GetBytes(str);
-			HashAlgorithm algorithm = null;
-			algorithm = new SHA256Managed();
+            HashAlgorithm algorithm = new SHA256Managed();
 			return BitConverter.ToString(algorithm.ComputeHash(bytes)).Replace("-", "").ToUpper();
 		}
 		#endregion

@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Web.Core.Infrastructure.Extensions;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using NetPro.Core.Configuration;
 using NetPro.Web.Core.Middlewares;
-using Microsoft.AspNetCore.Http;
 using NetPro.Checker;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
@@ -22,12 +19,13 @@ namespace NetPro.Web.Core.Infrastructure
 	/// </summary>
 	public class NetProCoreStartup : INetProStartup
 	{
-		/// <summary>
-		/// Add and configure any of the middleware
-		/// </summary>
-		/// <param name="services">Collection of service descriptors</param>
-		/// <param name="configuration">Configuration root of the application</param>
-		public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
+        /// <summary>
+        /// Add and configure any of the middleware
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="configuration">Configuration root of the application</param>
+        /// <param name="typeFinder"></param>
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
 		{
 			var mongoDbOptions = services.BuildServiceProvider().GetService<MongoDbOptions>();
 			var redisCacheOption = services.BuildServiceProvider().GetService<RedisCacheOption>();
@@ -78,10 +76,6 @@ namespace NetPro.Web.Core.Infrastructure
 		/// <summary>
 		/// Gets order of this startup configuration implementation
 		/// </summary>
-		public int Order
-		{
-			//MVC should be loaded last
-			get { return 1000; }
-		}
-	}
+		public int Order => 1000;
+    }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Core.Infrastructure
+﻿namespace NetPro.Core.Infrastructure
 {
 	/// <summary>
 	/// Interface which should be implemented by tasks run on startup

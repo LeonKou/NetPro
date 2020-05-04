@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using NetPro.Core;
 using NetPro.Web.Core.Helpers;
 
 namespace NetPro.Web.Core.Compression
@@ -10,7 +9,7 @@ namespace NetPro.Web.Core.Compression
     /// <summary>
     /// 请求返回压缩中间件
     /// </summary>
-    public partial class ResponseCompressionVaryWorkaroundMiddleware
+    public class ResponseCompressionVaryWorkaroundMiddleware
     {
         #region Fields
 
@@ -39,7 +38,7 @@ namespace NetPro.Web.Core.Compression
         /// <param name="context">HTTP context</param>
         /// <param name="webHelper">Web helper</param>
         /// <returns>Task</returns>
-        public async Task Invoke(Microsoft.AspNetCore.Http.HttpContext context, IWebHelper webHelper)
+        public async Task Invoke(HttpContext context, IWebHelper webHelper)
         {
             //TODO remove this code once upgraded to the latest version of Microsoft.AspNetCore.ResponseCompression (already fixed there)
 

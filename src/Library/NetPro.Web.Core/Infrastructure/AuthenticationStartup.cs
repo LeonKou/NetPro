@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Web.Core.Infrastructure.Extensions;
-using System.Threading.Tasks;
 
 namespace NetPro.Web.Core.Infrastructure
 {

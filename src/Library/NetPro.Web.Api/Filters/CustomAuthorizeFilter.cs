@@ -1,17 +1,6 @@
 ﻿using NetPro.Core.Configuration;
-using NetPro.Core.Consts;
-using NetPro.Utility;
-using NetPro.Web.Core;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Policy;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetPro.Web.Api.Filters
@@ -25,9 +14,9 @@ namespace NetPro.Web.Api.Filters
 		readonly AuthorizationPolicy _policy;
 
 		public CustomAuthorizeFilter(NetProOption config)
-		{
-
-		}
+        {
+            _config = config;
+        }
 
 		public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
 		{

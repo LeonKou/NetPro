@@ -15,12 +15,12 @@ namespace NetPro.Utility.Helpers
         /// <summary>
         /// office2003的旧版格式.xls
         /// </summary>
-        xls = 2003,
+        Xls = 2003,
 
         /// <summary>
         /// office2007的新版格式.xlsx
         /// </summary>
-        xlsx = 2007
+        Xlsx = 2007
     }
 
     /// <summary>
@@ -54,11 +54,10 @@ namespace NetPro.Utility.Helpers
         /// <returns>DataTable</returns>
         public static DataTable ReadExcelToTable(string fullFilePath)
         {
-            DataTable dt = new DataTable();
             IWorkbook wk = null;
             using (FileStream file = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
             {
-                string fileExtension = Path.GetExtension(file.Name).ToLower();
+                string fileExtension = Path.GetExtension(file.Name)?.ToLower();
                 switch (fileExtension)
                 {
                     case ".xls":
@@ -72,7 +71,7 @@ namespace NetPro.Utility.Helpers
                 if (wk == null)
                     throw new FileNotFoundException("The excel file do not exist");
 
-                return ConvertExcelWBToDataTable(wk);
+                return ConvertExcelWbToDataTable(wk);
             }
         }
 
@@ -87,17 +86,17 @@ namespace NetPro.Utility.Helpers
             IWorkbook wk = null;
             switch (format)
             {
-                case ExcelFormat.xls:
+                case ExcelFormat.Xls:
                     wk = new HSSFWorkbook(file);
                     break;
-                case ExcelFormat.xlsx:
+                case ExcelFormat.Xlsx:
                     wk = new XSSFWorkbook(file);
                     break;
             }
             if (wk == null)
                 throw new FileNotFoundException("The excel file do not exist！");
             
-            return ConvertExcelWBToDataTable(wk);
+            return ConvertExcelWbToDataTable(wk);
         }
 
         /// <summary>
@@ -127,7 +126,7 @@ namespace NetPro.Utility.Helpers
                 if (wk == null)
                     throw new FileNotFoundException("The excel file do not exist");
 
-                return ConvertExcelWBToDataTable(wk);
+                return ConvertExcelWbToDataTable(wk);
             }
         }
 
@@ -139,18 +138,18 @@ namespace NetPro.Utility.Helpers
         /// <param name="source">数据源</param>
         /// <param name="format">文件扩展名（.xls,.xlsx）</param>
         /// <returns>数据流</returns>
-        public static MemoryStream ReadDataTableToExcel(DataTable source, ExcelFormat format = ExcelFormat.xls)
+        public static MemoryStream ReadDataTableToExcel(DataTable source, ExcelFormat format = ExcelFormat.Xls)
         {
             if (source == null || source.Rows.Count == 0)
                 throw new ArgumentNullException(nameof(source));
 
-            IWorkbook workbook = null;
+            IWorkbook workbook;
             switch (format)
             {
-                case ExcelFormat.xls:
+                case ExcelFormat.Xls:
                     workbook = new HSSFWorkbook();
                     break;
-                case ExcelFormat.xlsx:
+                case ExcelFormat.Xlsx:
                     workbook = new XSSFWorkbook();
                     break;
                 default:
@@ -187,7 +186,7 @@ namespace NetPro.Utility.Helpers
                             cell.SetCellValue(defaultValue);
                             break;
                         case "System.Boolean"://布尔型
-                            bool boolV = false;
+                            bool boolV;
                             bool.TryParse(defaultValue, out boolV);
                             cell.SetCellValue(boolV);
                             break;
@@ -195,13 +194,13 @@ namespace NetPro.Utility.Helpers
                         case "System.Int32":
                         case "System.Int64":
                         case "System.Byte":
-                            int intV = 0;
+                            int intV;
                             int.TryParse(defaultValue, out intV);
                             cell.SetCellValue(intV);
                             break;
                         case "System.Decimal"://浮点型
                         case "System.Double":
-                            double doubV = 0;
+                            double doubV;
                             double.TryParse(defaultValue, out doubV);
                             cell.SetCellValue(doubV);
                             break;
@@ -225,23 +224,24 @@ namespace NetPro.Utility.Helpers
         }
 
         /// <summary>
-        /// 读取Excel到List<T>(NPOI方式)
+        /// 读取Excel到List(NPOI方式)
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="fullFilePath">文件的完整物理路径</param>
-        /// <returns>List<T></returns>
+        /// <returns>List<T />
+        /// </returns>
         public static List<T> ReadExcelToList<T>(string fullFilePath) where T : class, new()
         {
             return ReadExcelToTable(fullFilePath).ToList<T>();
         }
 
         /// <summary>
-        /// 读取Excel到List<T>(NPOI方式)
+        /// 读取Excel到List(NPOI方式)
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="file">含有Excel的文件流</param>
         /// <param name="format">文件扩展名（.xls,.xlsx）</param>
-        /// <returns>List<T></returns>
+        /// <returns>List</returns>
         public static List<T> ReadExcelToList<T>(Stream file, ExcelFormat format) where T : class, new()
         {
             return ReadExcelToTable(file, format).ToList<T>();
@@ -259,19 +259,19 @@ namespace NetPro.Utility.Helpers
         }
 
         /// <summary>
-        /// 读取List<T>数据源到Excel内存流(NPOI方式)
+        /// 读取List数据源到Excel内存流(NPOI方式)
         /// 1.写入到Excel文件，2.输出到响应
         /// 3.用完之后记得释放（using{}）
         /// </summary>
         /// <param name="source">数据源</param>
         /// <param name="format">文件扩展名（.xls,.xlsx）</param>
         /// <returns>数据流</returns>
-        public static MemoryStream ReadListToExcel<T>(List<T> source, ExcelFormat format = ExcelFormat.xls) where T : class, new()
+        public static MemoryStream ReadListToExcel<T>(List<T> source, ExcelFormat format = ExcelFormat.Xls) where T : class, new()
         {
             return ReadDataTableToExcel(source.ToDataTable(), format);
         }
 
-        private static DataTable ConvertExcelWBToDataTable(IWorkbook wb)
+        private static DataTable ConvertExcelWbToDataTable(IWorkbook wb)
         {
             if (wb != null)
             {

@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.Web.Core.Models
 {
@@ -14,7 +11,7 @@ namespace NetPro.Web.Core.Models
 		/// <summary>
 		/// 数据内容
 		/// </summary>
-		public T Body { get; set; } = default(T);
+		public T Body { get; set; }
 	}
 
 	/// <summary>
@@ -24,7 +21,7 @@ namespace NetPro.Web.Core.Models
 	{
 		public ApiResultModel()
 		{
-			this.Body = string.Empty;
+			Body = string.Empty;
 		}
 	}
 

@@ -51,7 +51,7 @@ namespace NetPro.Utility.Helpers.Internal {
 
             var signatureBytes = _privateKeyRsaProvider.SignData( dataBytes, _hashAlgorithmName, RSASignaturePadding.Pkcs1 );
 
-            return System.Convert.ToBase64String( signatureBytes );
+            return Convert.ToBase64String( signatureBytes );
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <returns></returns>
         public bool Verify( string data, string sign ) {
             byte[] dataBytes = _encoding.GetBytes( data );
-            byte[] signBytes = System.Convert.FromBase64String( sign );
+            byte[] signBytes = Convert.FromBase64String( sign );
 
             var verify = _publicKeyRsaProvider.VerifyData( dataBytes, signBytes, _hashAlgorithmName, RSASignaturePadding.Pkcs1 );
 
@@ -81,7 +81,7 @@ namespace NetPro.Utility.Helpers.Internal {
             if( _privateKeyRsaProvider == null ) {
                 throw new Exception( "_privateKeyRsaProvider is null" );
             }
-            return Encoding.UTF8.GetString( _privateKeyRsaProvider.Decrypt( System.Convert.FromBase64String( cipherText ), RSAEncryptionPadding.Pkcs1 ) );
+            return Encoding.UTF8.GetString( _privateKeyRsaProvider.Decrypt( Convert.FromBase64String( cipherText ), RSAEncryptionPadding.Pkcs1 ) );
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace NetPro.Utility.Helpers.Internal {
             if( _publicKeyRsaProvider == null ) {
                 throw new Exception( "_publicKeyRsaProvider is null" );
             }
-            return System.Convert.ToBase64String( _publicKeyRsaProvider.Encrypt( Encoding.UTF8.GetBytes( text ), RSAEncryptionPadding.Pkcs1 ) );
+            return Convert.ToBase64String( _publicKeyRsaProvider.Encrypt( Encoding.UTF8.GetBytes( text ), RSAEncryptionPadding.Pkcs1 ) );
         }
 
         #endregion
@@ -100,14 +100,14 @@ namespace NetPro.Utility.Helpers.Internal {
         #region 使用私钥创建RSA实例
 
         public RSA CreateRsaProviderFromPrivateKey( string privateKey ) {
-            var privateKeyBits = System.Convert.FromBase64String( privateKey );
+            var privateKeyBits = Convert.FromBase64String( privateKey );
 
             var rsa = RSA.Create();
             var rsaParameters = new RSAParameters();
 
             using( BinaryReader binr = new BinaryReader( new MemoryStream( privateKeyBits ) ) ) {
-                byte bt = 0;
-                ushort twobytes = 0;
+                byte bt;
+                ushort twobytes;
                 twobytes = binr.ReadUInt16();
                 if( twobytes == 0x8130 )
                     binr.ReadByte();
@@ -145,16 +145,16 @@ namespace NetPro.Utility.Helpers.Internal {
         public RSA CreateRsaProviderFromPublicKey( string publicKeyString ) {
             // encoded OID sequence for  PKCS #1 rsaEncryption szOID_RSA_RSA = "1.2.840.113549.1.1.1"
             byte[] seqOid = { 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 };
-            byte[] seq = new byte[15];
+            byte[] seq;
 
-            var x509Key = System.Convert.FromBase64String( publicKeyString );
+            var x509Key = Convert.FromBase64String( publicKeyString );
 
             // ---------  Set up stream to read the asn.1 encoded SubjectPublicKeyInfo blob  ------
             using( MemoryStream mem = new MemoryStream( x509Key ) ) {
                 using( BinaryReader binr = new BinaryReader( mem ) )  //wrap Memory Stream with BinaryReader for easy reading
                 {
-                    byte bt = 0;
-                    ushort twobytes = 0;
+                    byte bt;
+                    ushort twobytes;
 
                     twobytes = binr.ReadUInt16();
                     if( twobytes == 0x8130 ) //data read as little endian order (actual data order for Sequence is 30 81)
@@ -189,7 +189,7 @@ namespace NetPro.Utility.Helpers.Internal {
                         return null;
 
                     twobytes = binr.ReadUInt16();
-                    byte lowbyte = 0x00;
+                    byte lowbyte;
                     byte highbyte = 0x00;
 
                     if( twobytes == 0x8102 ) //data read as little endian order (actual data order for Integer is 02 81)
@@ -213,7 +213,7 @@ namespace NetPro.Utility.Helpers.Internal {
 
                     if( binr.ReadByte() != 0x02 )            //expect an Integer for the exponent data
                         return null;
-                    int expbytes = (int)binr.ReadByte();        // should only need one byte for actual exponent data (for all useful values)
+                    int expbytes = binr.ReadByte();        // should only need one byte for actual exponent data (for all useful values)
                     byte[] exponent = binr.ReadBytes( expbytes );
 
                     // ------- create RSACryptoServiceProvider instance and initialize with public key -----
@@ -235,8 +235,8 @@ namespace NetPro.Utility.Helpers.Internal {
         #region 导入密钥算法
 
         private int GetIntegerSize( BinaryReader binr ) {
-            byte bt = 0;
-            int count = 0;
+            byte bt;
+            int count;
             bt = binr.ReadByte();
             if( bt != 0x02 )
                 return 0;

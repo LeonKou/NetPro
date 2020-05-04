@@ -1,12 +1,9 @@
-using NetPro.Core;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.Utility;
 using NetPro.Web.Core.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using NetPro.Core.Infrastructure.PagedList;
 
 namespace NetPro.Web.Core
 {

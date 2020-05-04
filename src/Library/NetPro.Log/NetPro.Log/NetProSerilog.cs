@@ -1,12 +1,7 @@
 ﻿using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
-using Serilog.Formatting.Compact;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using Sentry;
 using NetPro.Log.NetPro.Log;
 
 namespace NetPro.Logging

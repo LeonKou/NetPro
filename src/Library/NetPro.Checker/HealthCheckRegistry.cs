@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace NetPro.Checker
 {
@@ -37,7 +36,7 @@ namespace NetPro.Checker
             }
         }
 
-        private static readonly ConcurrentDictionary<string, HealthCheck> checks = new ConcurrentDictionary<string, HealthCheck>();
+        private static readonly ConcurrentDictionary<string, HealthCheck> Checks = new ConcurrentDictionary<string, HealthCheck>();
 
         public static void RegisterHealthCheck(string name, Action check)
         {
@@ -56,18 +55,18 @@ namespace NetPro.Checker
 
         public static void RegisterHealthCheck(HealthCheck healthCheck)
         {
-            checks.TryAdd(healthCheck.Name, healthCheck);
+            Checks.TryAdd(healthCheck.Name, healthCheck);
         }
 
         public static HealthStatus GetStatus()
         {
-            var results = checks.Values.Select(v => v.Execute()).OrderBy(r => r.Name);
+            var results = Checks.Values.Select(v => v.Execute()).OrderBy(r => r.Name);
             return new HealthStatus(results);
         }
 
         public static void UnregisterAllHealthChecks()
         {
-            checks.Clear();
+            Checks.Clear();
         }
 
     }

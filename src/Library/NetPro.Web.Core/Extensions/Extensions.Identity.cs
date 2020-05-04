@@ -1,11 +1,10 @@
-﻿using IdentityModel;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
+using IdentityModel;
+using Microsoft.AspNetCore.Http;
 
 namespace NetPro.Web.Core
 {
@@ -23,7 +22,7 @@ namespace NetPro.Web.Core
             if (identity is ClaimsIdentity claimsIdentity)// 等价于 ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
             {
                 Claim claim = claimsIdentity.FindFirst(r=>r.Type== ClaimTypes.NameIdentifier);
-                string claimValue = string.Empty;
+                string claimValue;
                 if (claim == null)
                 {
                     claimValue= identity.GetClaimValue(JwtClaimTypes.Subject);
@@ -63,6 +62,8 @@ namespace NetPro.Web.Core
         /// 从cookie取出对应值
         /// </summary>
         /// <param name="identity"></param>
+        /// <param name="context"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
         public static string GetValueFromCookie(this IIdentity identity, HttpContext context, string key)
         {
@@ -75,7 +76,8 @@ namespace NetPro.Web.Core
         /// 批量设定cookie
         /// </summary>
         /// <param name="identity"></param>
-        /// <param name="nickName"></param>
+        /// <param name="context"></param>
+        /// <param name="keyValue"></param>
         /// <returns></returns>
         public static void SetValueToCookie(this IIdentity identity, HttpContext context, Dictionary<string, string> keyValue)
         {
@@ -89,7 +91,7 @@ namespace NetPro.Web.Core
         /// 取回当前使用者的指定Claim类型的值
         /// </summary>
         /// <param name="identity"></param>
-        /// <param name="key"></param>
+        /// <param name="claimType"></param>
         /// <returns></returns>
         public static string GetClaimValue(this IIdentity identity, string claimType)
         {

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using NetPro.Core.Infrastructure.PagedList;
 
 namespace NetPro.Web.Core.Models
 {              

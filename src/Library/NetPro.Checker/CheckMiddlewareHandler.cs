@@ -12,7 +12,7 @@ namespace NetPro.Checker
 {
 	public static class CheckMiddlewareHandler
 	{
-		const string DEFAULT_CONTENT_TYPE = "application/json";
+		private static readonly string DEFAULT_CONTENT_TYPE = "application/json";
 
 		/// <summary>
 		/// inclued: EnvCheck ;InfoCheck
@@ -73,7 +73,7 @@ namespace NetPro.Checker
 			});
 		}
 
-		public static async Task WriteHealthCheckUIResponse(HttpContext httpContext, HealthReport report)
+		public static async Task WriteHealthCheckUiResponse(HttpContext httpContext, HealthReport report)
 		{
 			httpContext.Response.ContentType = DEFAULT_CONTENT_TYPE;
 			if (report != null)
@@ -103,15 +103,14 @@ namespace NetPro.Checker
 				if (item.Value.Exception != null)
 				{
 					var message = item.Value.Exception?
-						.Message
-						.ToString();
+                        .Message;
 
 					entry.Exception = message;
 					entry.Description = item.Value.Description ?? message;
 				}
 				result.Add(item.Key, entry);
 			}
-			return Serialize(new { Status = report.Status.ToString(), result = result });
+			return Serialize(new { Status = report.Status.ToString(), result });
 		}
 		private static string Serialize<T>(T obj)
 		{

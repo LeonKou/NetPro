@@ -1,14 +1,11 @@
 ﻿using NetPro.Core.Infrastructure.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.Core.Consts
 {
     /// <summary>
     ///系统层级错误代码定义(与业务无关) 值在1-100之间
     /// </summary>
-    public enum AppErrorCode : int
+    public enum AppErrorCode
     {
         /// <summary>
         /// 未知

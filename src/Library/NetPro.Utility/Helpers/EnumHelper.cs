@@ -22,7 +22,7 @@ namespace NetPro.Utility.Helpers {
                     return default( TEnum );
                 throw new ArgumentNullException( nameof( member ) );
             }
-            return (TEnum)System.Enum.Parse( CommonHelper.GetType<TEnum>(), value, true );
+            return (TEnum)Enum.Parse( CommonHelper.GetType<TEnum>(), value, true );
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace NetPro.Utility.Helpers {
                 return member.ToString();
             if( type.GetTypeInfo().IsEnum == false )
                 return string.Empty;
-            return System.Enum.GetName( type, member );
+            return Enum.GetName( type, member );
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NetPro.Utility.Helpers {
             string value = member.SafeString();
             if( string.IsNullOrWhiteSpace( value ) )
                 throw new ArgumentNullException( nameof(member) );
-            return (int)System.Enum.Parse( type, member.ToString(), true );
+            return (int)Enum.Parse( type, member.ToString(), true );
         }
 
         /// <summary>
@@ -99,10 +99,10 @@ namespace NetPro.Utility.Helpers {
         public static string Description(Enum en)
         {
             Type type = en.GetType(); MemberInfo[] memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
+            if (memInfo.Length > 0)
             {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs.Length > 0)
                     return ((DescriptionAttribute)attrs[0]).Description;
             }
             return en.ToString();
@@ -112,8 +112,9 @@ namespace NetPro.Utility.Helpers {
         /// 获取自定义枚举特性描述（传输描述位置）
         /// </summary>
         /// <param name="enumSubitem"></param>
-        /// <param name="text1"></param>
-        public static void GetSelfAttributeInfo(Enum enumSubitem, out string text, int Pos)
+        /// <param name="text"></param>
+        /// <param name="pos"></param>
+        public static void GetSelfAttributeInfo(Enum enumSubitem, out string text, int pos)
         {
             Object obj = GetAttributeClass(enumSubitem, typeof(SelfAttribute));
             if (obj == null)
@@ -123,9 +124,9 @@ namespace NetPro.Utility.Helpers {
             else
             {
                 SelfAttribute da = (SelfAttribute)obj;
-                if (Pos == 1)
+                if (pos == 1)
                     text = da.DisplayText1;
-                else if (Pos == 2)
+                else if (pos == 2)
                     text = da.DisplayText2;
                 else
                     text = da.DisplayText1;
@@ -206,7 +207,7 @@ namespace NetPro.Utility.Helpers {
                 return null;
             }
             Object[] objs = fieldinfo.GetCustomAttributes(attributeType, false);
-            if (objs == null || objs.Length == 0)
+            if (objs.Length == 0)
             {
                 return null;
             }

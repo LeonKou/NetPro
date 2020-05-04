@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +12,6 @@ using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.Utility;
-using Microsoft.Extensions.Hosting;
 
 namespace NetPro.Core.Infrastructure
 {

@@ -13,8 +13,8 @@ namespace NetPro.Core.Infrastructure
     {
         #region Fields
 
-        private bool _ignoreReflectionErrors = true;
-        protected INetProFileProvider _fileProvider;
+        private readonly bool _ignoreReflectionErrors = true;
+        private readonly INetProFileProvider _fileProvider;
 
         #endregion
 

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 namespace NetPro.Utility.Helpers
 {
@@ -51,7 +49,7 @@ namespace NetPro.Utility.Helpers
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
-        /// <param name="pageNumber"></param>
+        /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static IQueryable<T> DataPaging<T>(IQueryable<T> source, int pageIndex, int pageSize)
@@ -76,12 +74,12 @@ namespace NetPro.Utility.Helpers
         /// <param name="source"></param>
         /// <param name="sortExpression"></param>
         /// <param name="sortDirection"></param>
-        /// <param name="pageNumber"></param>
+        /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static IQueryable<T> SortingAndPaging<T>(IQueryable<T> source, string sortExpression, string sortDirection, int pageIndex, int pageSize)
         {
-            IQueryable<T> query = DataSorting<T>(source, sortExpression, sortDirection);
+            IQueryable<T> query = DataSorting(source, sortExpression, sortDirection);
             return DataPaging(query, pageIndex, pageSize);
         }
     }

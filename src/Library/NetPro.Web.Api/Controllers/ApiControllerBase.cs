@@ -1,13 +1,9 @@
-﻿using NetPro.Core;
-using NetPro.Core.Consts;
+﻿using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure;
 using NetPro.Web.Core.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Serilog;
 using System;
-using NetPro.Web.Core.Middlewares;
 using NetPro.Web.Core.Helpers;
 
 namespace NetPro.Web.Api.Controllers
@@ -109,7 +105,7 @@ namespace NetPro.Web.Api.Controllers
 						pattern = EnumAppPlatform.Android;
 						break;
 					case "ios":
-						pattern = EnumAppPlatform.IOS;
+						pattern = EnumAppPlatform.Ios;
 						break;
 					case "windows":
 						pattern = EnumAppPlatform.Windows;

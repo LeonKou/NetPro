@@ -1,25 +1,17 @@
 ﻿using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.Utility.Helpers;
-using NetPro.Web.Core.Infrastructure;
 using NetPro.Web.Api.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.Extensions.FileProviders;
 
 namespace NetPro.Web.Api
 {
@@ -33,7 +25,7 @@ namespace NetPro.Web.Api
 		public void Configure(IApplicationBuilder application)
 		{
 			var config = EngineContext.Current.Resolve<NetProOption>();
-			var hostingEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
+			//var hostingEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
 			if (config.SwaggerDoc.EnableUI)
 			{
 				// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.

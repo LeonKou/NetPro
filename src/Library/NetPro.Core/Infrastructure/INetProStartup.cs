@@ -14,6 +14,7 @@ namespace NetPro.Core.Infrastructure
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
+        /// <param name="typeFinder"></param>
         void ConfigureServices(IServiceCollection services, IConfiguration configuration=null, ITypeFinder typeFinder=null);
 
         /// <summary>

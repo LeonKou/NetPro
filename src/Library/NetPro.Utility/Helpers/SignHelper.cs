@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NetPro.Utility.Helpers
 {
@@ -23,11 +22,10 @@ namespace NetPro.Utility.Helpers
         /// <returns></returns>
         public static string GetSign(Dictionary<string, object> keys, string secret, bool isToLower = false)
         {
-            string sign = null;
             var exculeKeys = new[] { "appid", "sign" };
             //if (!keys.ContainsKey("appid") || !keys.ContainsKey("sign") || !keys.ContainsKey("ticks")) return sign;
             //if (!long.TryParse(keys["ticks"], out long ticks)) return sign;
-            if (string.IsNullOrEmpty(secret)) return sign;
+            if (string.IsNullOrEmpty(secret)) return null;
             keys = keys.ToDictionary(a => a.Key.ToLower(), a => a.Value);
             var sortKeys = keys.Where(a => !exculeKeys.Contains(a.Key)).ToList();
             sortKeys.Sort(new StringCompare());
@@ -39,7 +37,7 @@ namespace NetPro.Utility.Helpers
             if (isToLower)
                 input = input.ToLower();
             input += secret;
-            sign = EncryptHelper.MD5Upper(input);
+            var sign = EncryptHelper.Md5Upper(input);
             return sign;
         }
 
@@ -68,7 +66,6 @@ namespace NetPro.Utility.Helpers
                     {
                         if (i == xarry.Length - 1)
                             sort = 0;
-                        continue;
                     }
                     else if (xarry[i] > yarry[i])
                     {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -10,7 +9,7 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 {
 	public class SwaggerFileUploadFilter : IOperationFilter
 	{
-		private static readonly string[] fileParameters = new[] { "ContentType", "ContentDisposition", "Headers", "Length", "Name", "FileName" };
+		private static readonly string[] FileParameters = new[] { "ContentType", "ContentDisposition", "Headers", "Length", "Name", "FileName" };
 		public void Apply(OpenApiOperation operation, OperationFilterContext context)
 		{
 			if (!context.ApiDescription.HttpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase) &&
@@ -51,7 +50,6 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 			#endregion	
 
 			operation.Responses.Clear();
-			IDictionary<string, OpenApiSchema> proTemp = new Dictionary<string, OpenApiSchema>();
 			operation.Responses.Add("200", new OpenApiResponse
 			{
 				Content = new Dictionary<string, OpenApiMediaType>
@@ -72,7 +70,7 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 
 		private void RemoveExistingFileParameters(IList<OpenApiParameter> operationParameters)
 		{
-			foreach (var parameter in operationParameters.Where(p => p.In == 0 && fileParameters.Contains(p.Name)).ToList())
+			foreach (var parameter in operationParameters.Where(p => p.In == 0 && FileParameters.Contains(p.Name)).ToList())
 			{
 				operationParameters.Remove(parameter);
 			}

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace NetPro.Core.Consts
 {
@@ -26,7 +23,7 @@ namespace NetPro.Core.Consts
         /// IOS
         /// </summary>
         [Description("IOS")]
-        IOS = 2,
+        Ios = 2,
 
         /// <summary>
         /// Windows

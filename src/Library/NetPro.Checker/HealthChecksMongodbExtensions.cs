@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +12,7 @@ namespace NetPro.Checker
 {
 	public static class HealthChecksMongodbExtensions
 	{
-		const string NAME = "mongodb";
+		private static string NAME = "mongodb";
 
 		/// <summary>
 		/// Add a health check for MongoDb database that list all databases on the system.
@@ -41,7 +40,7 @@ namespace NetPro.Checker
 
 	public class MongoDbHealthCheck : IHealthCheck
 	{
-		private static readonly ConcurrentDictionary<MongoClientSettings, MongoClient> _mongoClient = new ConcurrentDictionary<MongoClientSettings, MongoClient>();
+		private static readonly ConcurrentDictionary<MongoClientSettings, MongoClient> MongoClient = new ConcurrentDictionary<MongoClientSettings, MongoClient>();
 		private readonly MongoClientSettings _mongoClientSettings;
 		private readonly string _specifiedDatabase;
 
@@ -64,12 +63,12 @@ namespace NetPro.Checker
 		{
 			try
 			{
-				var mongoClient = _mongoClient.GetOrAdd(_mongoClientSettings, settings => new MongoClient(settings));
+				var mongoClient = MongoClient.GetOrAdd(_mongoClientSettings, settings => new MongoClient(settings));
 				var server = mongoClient.Settings.Server;
 
 				Ping pingSender = new Ping();
 				PingReply reply = pingSender.Send(server.Host, 5000);
-				if (reply.Status != IPStatus.Success)
+				if (reply != null && reply.Status != IPStatus.Success)
 					return new HealthCheckResult(context.Registration.FailureStatus, $"ping {reply.Address} fail, status is{reply.Status}");
 
 				if (!new System.Net.Sockets.TcpClient(server.Host, server.Port).Connected)

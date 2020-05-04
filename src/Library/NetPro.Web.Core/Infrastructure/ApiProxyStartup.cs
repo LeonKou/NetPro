@@ -1,14 +1,11 @@
-﻿using NetPro.Core;
-using NetPro.Core.Infrastructure;
+﻿using NetPro.Core.Infrastructure;
 using NetPro.Utility;
 using NetPro.Utility.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using WebApiClient;
 using NetPro.Core.Configuration;
 

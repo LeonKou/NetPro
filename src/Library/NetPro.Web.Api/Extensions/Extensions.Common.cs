@@ -6,6 +6,7 @@ using System.Text;
 
 namespace NetPro.Web.Api
 {
+    // ReSharper disable once PartialTypeWithSinglePart
     public static partial class Extensions
     {
         /// <summary>

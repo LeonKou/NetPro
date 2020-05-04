@@ -31,11 +31,11 @@ namespace NetPro.Core.Configuration
 				{
 					if (!string.IsNullOrEmpty(DefaultConnection))
 					{
-						return EncryptHelper.DESDecrypt8(DefaultConnection,"20208956");
+						return EncryptHelper.DesDecrypt8(DefaultConnection, "20208956");
 					}
 					return string.Empty;
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					return DefaultConnection;
 				}

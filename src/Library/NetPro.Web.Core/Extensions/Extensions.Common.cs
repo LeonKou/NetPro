@@ -54,7 +54,7 @@ namespace NetPro.Web.Core
             {
                 throw new NetProException($"{sectionName}值不能为空", AppErrorCode.ArgumentEmpty.Value());
             }
-            return EncryptHelper.DESDecrypt8(value, key);
+            return EncryptHelper.DesDecrypt8(value, key);
         }
     }
 }

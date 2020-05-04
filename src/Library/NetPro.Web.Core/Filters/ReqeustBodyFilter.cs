@@ -19,14 +19,12 @@ namespace NetPro.Web.Core.Filters
     public class ReqeustBodyFilter : IAsyncActionFilter
     {
         private readonly ILogger _logger;
-        readonly NetProOption _config;
-        readonly IWebHelper _webHelper;
+        private readonly NetProOption _config;
 
-        public ReqeustBodyFilter(ILogger logger, NetProOption config, IWebHelper webHelper)
+        public ReqeustBodyFilter(ILogger logger, NetProOption config)
         {
             _logger = logger;
             _config = config;
-            _webHelper = webHelper;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -38,18 +36,20 @@ namespace NetPro.Web.Core.Filters
                 var isDebug = _config.IsDebug;
                 if (isDebug)
                 {
-                    string requestBodyText = string.Empty;
                     var request = context.HttpContext.Request;
-                    var method = request.Method.ToUpper();
                     var url = HttpUtility.UrlDecode(UriHelper.GetDisplayUrl(request));
-                    var macName = Environment.MachineName;
-                    var requestIp = _webHelper.GetCurrentIpAddress();
+                    //var macName = Environment.MachineName;
+                    //var requestIp = _webHelper.GetCurrentIpAddress();
                     var bodyText = ActionFilterHelper.GetRequestBodyText(request);
                     if (Regex.IsMatch(bodyText, "(\\d+?,)+"))
                     {
-                        var index = url.IndexOf('?');
-                        if (index > -1)
-                            url = url.Substring(0, index);
+                        if (url != null)
+                        {
+                            var index = url.IndexOf('?');
+                            if (index > -1)
+                                url = url.Substring(0, index);
+                        }
+
                         string filePath = Path.Combine("C:", "BadUrls");
                         await WriteTxt(filePath, $"{request.Host.Port}.txt", url);
                     }
@@ -69,19 +69,14 @@ namespace NetPro.Web.Core.Filters
                 string filePath = Path.Combine(directoryPath, fileName);
                 if (!File.Exists(filePath))
                 {
-                    using (var fs = File.Create(filePath))
-                    {
-
-                    }
+                    await using var unused = File.Create(filePath);
                 }
 
                 var allLines = File.ReadAllLines(filePath);
                 if (allLines.Contains(input.Trim())) return;
-                using (var fs = File.Open(filePath, FileMode.Append, FileAccess.Write))
-                {
-                    var buffer = Encoding.UTF8.GetBytes(input + Environment.NewLine);
-                    await fs.WriteAsync(buffer, 0, buffer.Length);
-                }
+                await using var fs = File.Open(filePath, FileMode.Append, FileAccess.Write);
+                var buffer = Encoding.UTF8.GetBytes(input + Environment.NewLine);
+                await fs.WriteAsync(buffer, 0, buffer.Length);
             }
             catch (Exception ex)
             {

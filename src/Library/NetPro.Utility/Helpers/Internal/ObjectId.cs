@@ -12,14 +12,12 @@ namespace NetPro.Utility.Helpers.Internal {
     /// </summary>
     internal struct ObjectId : IComparable<ObjectId>, IEquatable<ObjectId>{
         // private static fields
-        private static readonly DateTime __unixEpoch;
-        private static readonly long __dateTimeMaxValueMillisecondsSinceEpoch;
-        private static readonly long __dateTimeMinValueMillisecondsSinceEpoch;
-        private static ObjectId __emptyInstance = default( ObjectId );
-        private static int __staticMachine;
-        private static short __staticPid;
-        private static int __staticIncrement; // high byte will be masked out when generating new ObjectId
-        private static uint[] _lookup32 = Enumerable.Range( 0, 256 ).Select( i => {
+        private static readonly DateTime UnixEpoch;
+        private static readonly ObjectId EmptyInstance = default;
+        private static readonly int StaticMachine;
+        private static readonly short StaticPid;
+        private static int _staticIncrement; // high byte will be masked out when generating new ObjectId
+        private static readonly uint[] Lookup32 = Enumerable.Range( 0, 256 ).Select( i => {
             string s = i.ToString( "x2" );
             return ( (uint)s[0] ) + ( (uint)s[1] << 16 );
         } ).ToArray();
@@ -27,19 +25,17 @@ namespace NetPro.Utility.Helpers.Internal {
         // we're using 14 bytes instead of 12 to hold the ObjectId in memory but unlike a byte[] there is no additional object on the heap
         // the extra two bytes are not visible to anyone outside of this class and they buy us considerable simplification
         // an additional advantage of this representation is that it will serialize to JSON without any 64 bit overflow problems
-        private int _timestamp;
-        private int _machine;
-        private short _pid;
-        private int _increment;
+        private readonly int _timestamp;
+        private readonly int _machine;
+        private readonly short _pid;
+        private readonly int _increment;
 
         // static constructor
         static ObjectId() {
-            __unixEpoch = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
-            __dateTimeMaxValueMillisecondsSinceEpoch = ( DateTime.MaxValue - __unixEpoch ).Ticks / 10000;
-            __dateTimeMinValueMillisecondsSinceEpoch = ( DateTime.MinValue - __unixEpoch ).Ticks / 10000;
-            __staticMachine = GetMachineHash();
-            __staticIncrement = ( new System.Random() ).Next();
-            __staticPid = (short)GetCurrentProcessId();
+            UnixEpoch = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
+            StaticMachine = GetMachineHash();
+            _staticIncrement = ( new Random() ).Next();
+            StaticPid = (short)GetCurrentProcessId();
         }
 
         // constructors
@@ -102,7 +98,7 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Gets an instance of ObjectId where the value is empty.
         /// </summary>
         public static ObjectId Empty {
-            get { return __emptyInstance; }
+            get { return EmptyInstance; }
         }
 
         // public properties
@@ -138,7 +134,7 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Gets the creation time (derived from the timestamp).
         /// </summary>
         public DateTime CreationTime {
-            get { return __unixEpoch.AddSeconds( _timestamp ); }
+            get { return UnixEpoch.AddSeconds( _timestamp ); }
         }
 
         // public operators
@@ -226,8 +222,8 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="timestamp">The timestamp component.</param>
         /// <returns>An ObjectId.</returns>
         public static ObjectId GenerateNewId( int timestamp ) {
-            int increment = Interlocked.Increment( ref __staticIncrement ) & 0x00ffffff; // only use low order 3 bytes
-            return new ObjectId( timestamp, __staticMachine, __staticPid, increment );
+            int increment = Interlocked.Increment( ref _staticIncrement ) & 0x00ffffff; // only use low order 3 bytes
+            return new ObjectId( timestamp, StaticMachine, StaticPid, increment );
         }
 
         /// <summary>
@@ -325,7 +321,7 @@ namespace NetPro.Utility.Helpers.Internal {
         }
 
         private static int GetTimestampFromDateTime( DateTime timestamp ) {
-            return (int)Math.Floor( ( ToUniversalTime( timestamp ) - __unixEpoch ).TotalSeconds );
+            return (int)Math.Floor( ( ToUniversalTime( timestamp ) - UnixEpoch ).TotalSeconds );
         }
 
         // public methods
@@ -433,7 +429,7 @@ namespace NetPro.Utility.Helpers.Internal {
             }
             var result = new char[bytes.Length * 2];
             for( int i = 0; i < bytes.Length; i++ ) {
-                var val = _lookup32[bytes[i]];
+                var val = Lookup32[bytes[i]];
                 result[2 * i] = (char)val;
                 result[2 * i + 1] = (char)( val >> 16 );
             }
@@ -446,7 +442,7 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <returns>Number of seconds since Unix epoch.</returns>
         public static long ToMillisecondsSinceEpoch( DateTime dateTime ) {
             var utcDateTime = ToUniversalTime( dateTime );
-            return ( utcDateTime - __unixEpoch ).Ticks / 10000;
+            return ( utcDateTime - UnixEpoch ).Ticks / 10000;
         }
         /// <summary>
         /// Converts a DateTime to UTC (with special handling for MinValue and MaxValue).
@@ -466,7 +462,7 @@ namespace NetPro.Utility.Helpers.Internal {
         }
 
         private static int GetHexVal( char hex ) {
-            int val = (int)hex;
+            int val = hex;
             //For uppercase A-F letters:
             //return val - (val < 58 ? 48 : 55);
             //For lowercase a-f letters:

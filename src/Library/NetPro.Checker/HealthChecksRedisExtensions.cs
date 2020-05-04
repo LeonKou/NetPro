@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using MongoDB.Driver;
 using StackExchange.Redis;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +11,7 @@ namespace NetPro.Checker
 {
 	public static class HealthChecksRedisExtensions
 	{
-		const string NAME = "redis";
+		private static readonly string NAME = "redis";
 
 		/// <summary>
 		/// Add a health check for Redis services.
@@ -42,7 +39,7 @@ namespace NetPro.Checker
 
 	public class RedisHealthCheck : IHealthCheck
 	{
-		private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> _connections = new ConcurrentDictionary<string, ConnectionMultiplexer>();
+		private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> Connections = new ConcurrentDictionary<string, ConnectionMultiplexer>();
 		private readonly string _redisConnectionString;
 
 		public RedisHealthCheck(string redisConnectionString)
@@ -54,15 +51,15 @@ namespace NetPro.Checker
 		{
 			try
 			{
-				if (!_connections.TryGetValue(_redisConnectionString, out ConnectionMultiplexer connection))
+				if (!Connections.TryGetValue(_redisConnectionString, out ConnectionMultiplexer connection))
 				{
 					connection = await ConnectionMultiplexer.ConnectAsync(_redisConnectionString);
 
-					if (!_connections.TryAdd(_redisConnectionString, connection))
+					if (!Connections.TryAdd(_redisConnectionString, connection))
 					{
 						// Dispose new connection which we just created, because we don't need it.
 						connection.Dispose();
-						connection = _connections[_redisConnectionString];
+						connection = Connections[_redisConnectionString];
 					}
 				}
 

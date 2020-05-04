@@ -48,7 +48,7 @@ namespace NetPro.Utility.Helpers {
         public static string GetDescription( MemberInfo member ) {
             if( member == null )
                 return string.Empty;
-            return member.GetCustomAttribute<DescriptionAttribute>() is DescriptionAttribute attribute ? attribute.Description : member.Name;
+            return member.GetCustomAttribute<DescriptionAttribute>() is { } attribute ? attribute.Description : member.Name;
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace NetPro.Utility.Helpers {
         public static string GetDisplayName( MemberInfo member ) {
             if( member == null )
                 return string.Empty;
-            if( member.GetCustomAttribute<DisplayAttribute>() is DisplayAttribute displayAttribute )
+            if( member.GetCustomAttribute<DisplayAttribute>() is { } displayAttribute )
                 return displayAttribute.Name;
-            if( member.GetCustomAttribute<DisplayNameAttribute>() is DisplayNameAttribute displayNameAttribute )
+            if( member.GetCustomAttribute<DisplayNameAttribute>() is { } displayNameAttribute )
                 return displayNameAttribute.DisplayName;
             return string.Empty;
         }
@@ -111,7 +111,6 @@ namespace NetPro.Utility.Helpers {
         /// 获取实现了接口的所有类型
         /// </summary>
         /// <typeparam name="TInterface">接口类型</typeparam>
-        /// <param name="assembly">在该程序集中查找</param>
         public static List<Type> GetTypesByInterface<TInterface>(string assemblyName)
         {
             return GetTypesByInterface<TInterface>(GetAssembly(assemblyName));
