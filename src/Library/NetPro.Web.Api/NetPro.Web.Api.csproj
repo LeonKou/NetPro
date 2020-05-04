@@ -25,9 +25,9 @@
     </EmbeddedResource>
   </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.3.3" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleAspNetCore)" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="$(SwashbuckleAspNetCoreSwagger)" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="$(SwashbuckleAspNetCoreFilters)" />
 	</ItemGroup>
 	<ItemGroup>
     <ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />

@@ -14,15 +14,15 @@
 		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
+	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-		<PackageReference Include="AutoMapper" Version="9.0.0" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-		<PackageReference Include="Colorful.Console" Version="1.2.10" />
-		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.3.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="$(AutofacExtensionsDependencyInjection)" />
+		<PackageReference Include="AutoMapper" Version="$(AutoMapper)" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="$(AutoMapperExtensionsMicrosoftDependencyInjection)" />
+		<PackageReference Include="Colorful.Console" Version="$(ColorfulConsole)" />
+		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="$(ComCtripFrameworkApolloConfiguration)" />
 	</ItemGroup>
 
 	<ItemGroup>

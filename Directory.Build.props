@@ -22,4 +22,102 @@
         <NetProWebApi>1.0.0</NetProWebApi>
         <NetProWebCore>1.0.0</NetProWebCore>       
     </PropertyGroup>
+         <!--node cannot dot-->
+	<PropertyGroup Label="Package Versions">
+		<MicrosoftAspNetCoreHttpAbstractions>2.2.0</MicrosoftAspNetCoreHttpAbstractions>
+		<MicrosoftExtensionsConfiguration>3.1.3</MicrosoftExtensionsConfiguration>
+		<MongoDBDriver>2.10.3</MongoDBDriver>
+		<NewtonsoftJson>12.0.3</NewtonsoftJson>
+		<StackExchangeRedis>2.1.30</StackExchangeRedis>
+		<AspNetCoreHealthChecksUI>3.1.0</AspNetCoreHealthChecksUI>
+		<MicrosoftExtensionsDiagnosticsHealthChecks>3.1.3</MicrosoftExtensionsDiagnosticsHealthChecks>
+
+
+		<AutofacExtensionsDependencyInjection>6.0.0</AutofacExtensionsDependencyInjection>
+		<AutoMapper>9.0.0</AutoMapper>
+		<AutoMapperExtensionsMicrosoftDependencyInjection>7.0.0</AutoMapperExtensionsMicrosoftDependencyInjection>
+		<ColorfulConsole>1.2.10</ColorfulConsole>
+		<ComCtripFrameworkApolloConfiguration>2.3.0</ComCtripFrameworkApolloConfiguration>
+
+		<Dapper>2.0.30</Dapper>
+		<MicrosoftDataSqlClient>1.1.1</MicrosoftDataSqlClient>
+		<MiniProfilerShared>4.1.0</MiniProfilerShared>
+		<PomeloEntityFrameworkCoreMySql>3.1.1</PomeloEntityFrameworkCoreMySql>
+
+
+		<MicrosoftAspNetCoreMvcAbstractions>2.2.0</MicrosoftAspNetCoreMvcAbstractions>
+		<Sentry>2.1.0</Sentry>
+		<Serilog>2.9.0</Serilog>
+		<SerilogExceptions>5.4.0</SerilogExceptions>
+		<SerilogFormattingCompact>1.1.0</SerilogFormattingCompact>
+		<SerilogSettingsConfiguration>3.1.0</SerilogSettingsConfiguration>
+		<SerilogSinksAsync>1.4.0</SerilogSinksAsync>
+		<SerilogSinksConsole>3.1.1</SerilogSinksConsole>
+		<SerilogSinksDebug>1.0.1</SerilogSinksDebug>
+		<SerilogSinksElasticSearch>8.0.1</SerilogSinksElasticSearch> 
+		<SerilogSinksExceptionless>3.1.0</SerilogSinksExceptionless>
+		<SerilogSinksFile>4.1.0</SerilogSinksFile>
+		<AutofacSerilogIntegration>2.1.0</AutofacSerilogIntegration>
+		<SerilogAspNetCore>3.2.0</SerilogAspNetCore>
+		<SerilogSinksSentry>2.4.1</SerilogSinksSentry>
+
+
+
+		<MicrosoftExtensionsOptions>3.1.3</MicrosoftExtensionsOptions>
+		<MongoDBDriver>2.10.3</MongoDBDriver>
+
+		<MicrosoftExtensionsDependencyInjection>3.1.3</MicrosoftExtensionsDependencyInjection>
+		<MicrosoftExtensionsLogging>3.1.3</MicrosoftExtensionsLogging>
+		<MicrosoftExtensionsLoggingConsole>3.1.3</MicrosoftExtensionsLoggingConsole>
+		<RabbitMQClient>5.1.2</RabbitMQClient>
+
+
+		<MicrosoftExtensionsConfigurationAbstractions>3.1.3</MicrosoftExtensionsConfigurationAbstractions>
+		<MicrosoftExtensionsDependencyInjection>3.1.3</MicrosoftExtensionsDependencyInjection>
+		<MicrosoftExtensionsDependencyInjectionAbstractions>3.1.3</MicrosoftExtensionsDependencyInjectionAbstractions>
+		<StackExchangeRedis>2.1.30</StackExchangeRedis>
+		<RedLocknet>2.2.0</RedLocknet>
+		<CSRedisCore>3.6.2</CSRedisCore>
+		<MicrosoftExtensionsConfigurationBinder>3.1.3</MicrosoftExtensionsConfigurationBinder>
+		<MicrosoftExtensionsOptions>3.1.3</MicrosoftExtensionsOptions>
+
+
+		<DotNetCoreNPOI>1.2.2</DotNetCoreNPOI>
+		<IdGen>2.2.0</IdGen>
+		<MicrosoftAspNetCoreHttpFeatures>3.1.2</MicrosoftAspNetCoreHttpFeatures>
+		<PinYinConverterCore>1.0.2</PinYinConverterCore>
+		<SystemComponentModelAnnotations>4.7.0</SystemComponentModelAnnotations>
+		<TimeZoneConverter>3.2.0</TimeZoneConverter>
+
+
+		<SwashbuckleAspNetCore>5.3.3</SwashbuckleAspNetCore>
+		<SwashbuckleAspNetCoreSwagger>5.3.3</SwashbuckleAspNetCoreSwagger>
+		<SwashbuckleAspNetCoreFilters>5.1.1</SwashbuckleAspNetCoreFilters>
+
+
+		<AppMetricsAspNetCoreHealth>3.2.0</AppMetricsAspNetCoreHealth>
+		<AppMetricsAspNetCoreMvc>3.2.0</AppMetricsAspNetCoreMvc>
+		<AppMetricsHealth>3.2.0</AppMetricsHealth>
+		<AppMetricsHealthChecksHttp>3.2.0</AppMetricsHealthChecksHttp>
+		<AppMetricsHealthChecksNetwork>3.2.0</AppMetricsHealthChecksNetwork>
+		<AppMetricsHealthChecksProcess>3.2.0</AppMetricsHealthChecksProcess>
+		<AppMetricsHealthChecksSql>3.2.0</AppMetricsHealthChecksSql>
+		<AppMetricsReportingInfluxDB>3.2.0</AppMetricsReportingInfluxDB>
+		<AspNetCoreRateLimit>3.0.5</AspNetCoreRateLimit>
+		<WebApiClientJIT>1.1.3</WebApiClientJIT>
+		<DapperFluentMap>1.8.0</DapperFluentMap>
+		<EnumsNET>3.0.3</EnumsNET>
+		<FluentValidation>8.6.2</FluentValidation>
+		<FluentValidationAspNetCore>8.6.2</FluentValidationAspNetCore>
+		<FluentValidationValidatorAttribute>8.6.1</FluentValidationValidatorAttribute>
+		<IdentityModel>4.1.1</IdentityModel>
+		<MicrosoftApplicationInsightsAspNetCore>2.13.1</MicrosoftApplicationInsightsAspNetCore>
+		<MicrosoftApplicationInsightsSnapshotCollector>1.3.6</MicrosoftApplicationInsightsSnapshotCollector>
+		<MicrosoftExtensionsCachingStackExchangeRedis>3.1.2</MicrosoftExtensionsCachingStackExchangeRedis>
+		<MicrosoftIdentityModelTokens>5.6.0</MicrosoftIdentityModelTokens>
+		<MiniProfilerAspNetCoreMvc>4.1.0</MiniProfilerAspNetCoreMvc>
+		<MiniProfilerEntityFrameworkCore>4.1.0</MiniProfilerEntityFrameworkCore>
+		<SkyAPMAgentAspNetCore>0.9.0</SkyAPMAgentAspNetCore>
+		<OpenTracingContribNetCoreUnofficial>0.1.3</OpenTracingContribNetCoreUnofficial>
+	</PropertyGroup>
 </Project>

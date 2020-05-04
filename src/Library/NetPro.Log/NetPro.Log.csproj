@@ -9,21 +9,21 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Sentry" Version="2.1.0" />
-		<PackageReference Include="Serilog" Version="2.9.0" />
-		<PackageReference Include="Serilog.Exceptions" Version="5.4.0" />
-		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-		<PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-		<PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
-		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.0.1" />
-		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(MicrosoftAspNetCoreMvcAbstractions)" />
+		<PackageReference Include="Sentry" Version="$(Sentry)" />
+		<PackageReference Include="Serilog" Version="$(Serilog)" />
+		<PackageReference Include="Serilog.Exceptions" Version="$(SerilogExceptions)" />
+		<PackageReference Include="Serilog.Formatting.Compact" Version="$(SerilogFormattingCompact)" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfiguration)" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="$(SerilogSinksAsync)" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="$(SerilogSinksDebug)" />
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="$(SerilogSinksElasticSearch)" />
+		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="$(SerilogSinksExceptionless)" />
+		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
 		<PackageReference Include="AutofacSerilogIntegration" Version="2.1.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
-		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.1" />			 
+		<PackageReference Include="Serilog.AspNetCore" Version="$(SerilogAspNetCore)" />
+		<PackageReference Include="Serilog.Sinks.Sentry" Version="$(SerilogSinksSentry)" />			 
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

@@ -22,5 +22,10 @@ namespace NetPro.Core.Configuration
         /// 是否开启SwaggerUI
         /// </summary>
         public bool EnableUI { get; set; } = false;
+
+        /// <summary>
+        /// swagger地址前缀
+        /// </summary>
+        public string RoutePrefix { get; set; }
     }
 }

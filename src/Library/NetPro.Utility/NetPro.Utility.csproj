@@ -18,13 +18,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
-		<PackageReference Include="IdGen" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
-		<PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-		<PackageReference Include="TimeZoneConverter" Version="3.2.0" />
+		<PackageReference Include="DotNetCore.NPOI" Version="$(DotNetCoreNPOI)" />
+		<PackageReference Include="IdGen" Version="$(IdGen)" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="$(MicrosoftAspNetCoreHttpFeatures)" />
+		<PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
+		<PackageReference Include="PinYinConverterCore" Version="$(PinYinConverterCore)" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="$(SystemComponentModelAnnotations)" />
+		<PackageReference Include="TimeZoneConverter" Version="$(TimeZoneConverter)" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
