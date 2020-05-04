@@ -1,11 +1,8 @@
-﻿using NetPro.RedisManager;
+﻿using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using StackExchange.Redis;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.RedisManager
 {
@@ -59,7 +56,18 @@ namespace NetPro.RedisManager
 				if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
 				csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix}");
 			}
-			var csredis = new CSRedis.CSRedisClient(null, csredisConns.ToArray());
+
+            CSRedis.CSRedisClient csredis;
+
+			try
+            {
+               csredis = new CSRedis.CSRedisClient(null, csredisConns.ToArray());
+			}
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Check the configuration for redis;{ex}");
+			}
+			
 			RedisHelper.Initialization(csredis);
 			services.AddScoped<IRedisManager, CsRedisManager>();
 			return services;

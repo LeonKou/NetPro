@@ -1,3 +1,4 @@
+<!--node cannot dot-->
 <Project>
     <PropertyGroup Label="SDK Versions">
         <NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
@@ -8,21 +9,23 @@
     <PropertyGroup Label="Package information">
         <Authors>Leon</Authors>
         <PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
-      </PropertyGroup>
+			<PackageIcon>logo2.png</PackageIcon>
+			<PackageIconPath>..\..\..\docs\images\logo2.png</PackageIconPath>
+    </PropertyGroup>
 
     <PropertyGroup Label="NetPro SDK Versions">
-        <NetProChecker>1.0.0</NetProChecker>
-        <NetProCore>1.0.0</NetProCore>
-        <NetProDapper>1.0.0</NetProDapper>
-        <NetProLog>1.0.0</NetProLog>
-        <NetProMongoDb>1.0.0</NetProMongoDb>
-        <NetProRabbitMQ>1.0.0</NetProRabbitMQ>
-        <NetProRedisManager>1.0.0</NetProRedisManager>
-        <NetProUtility>1.0.0</NetProUtility>
-        <NetProWebApi>1.0.0</NetProWebApi>
-        <NetProWebCore>1.0.0</NetProWebCore>       
+        <NetProChecker>1.0.1</NetProChecker>
+        <NetProCore>1.0.1</NetProCore>
+        <NetProDapper>1.0.1</NetProDapper>
+        <NetProLog>1.0.1</NetProLog>
+        <NetProMongoDb>1.0.1</NetProMongoDb>
+        <NetProRabbitMQ>1.0.1</NetProRabbitMQ>
+        <NetProRedisManager>1.0.1</NetProRedisManager>
+        <NetProUtility>1.0.1</NetProUtility>
+        <NetProWebApi>1.0.1</NetProWebApi>
+        <NetProWebCore>1.0.1</NetProWebCore>       
     </PropertyGroup>
-         <!--node cannot dot-->
+       
 	<PropertyGroup Label="Package Versions">
 		<MicrosoftAspNetCoreHttpAbstractions>2.2.0</MicrosoftAspNetCoreHttpAbstractions>
 		<MicrosoftExtensionsConfiguration>3.1.3</MicrosoftExtensionsConfiguration>

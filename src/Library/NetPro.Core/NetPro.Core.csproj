@@ -8,7 +8,14 @@
 		<Description>
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-	</PropertyGroup>
+				 <PackageIcon>$(PackageIcon)</PackageIcon>
+			 </PropertyGroup>
+			 <ItemGroup>
+				 <None Include="$(PackageIconPath)">
+					 <Pack>True</Pack>
+					 <PackagePath></PackagePath>
+				 </None>
+			 </ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Core.xml</DocumentationFile>
