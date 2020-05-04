@@ -9,6 +9,7 @@
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 				 <PackageIcon>$(PackageIcon)</PackageIcon>
+				 <PackageTags>NetPro</PackageTags>
 			 </PropertyGroup>
 			 <ItemGroup>
 				 <None Include="$(PackageIconPath)">

@@ -8,6 +8,7 @@
 		</Description>
 	<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<PackageTags>NetPro,Api,MicroService,Swagger</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
