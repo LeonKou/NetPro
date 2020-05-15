@@ -8,6 +8,7 @@
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<AssemblyName>$(NetProDapperAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

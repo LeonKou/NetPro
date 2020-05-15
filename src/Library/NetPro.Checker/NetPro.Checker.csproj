@@ -11,6 +11,7 @@
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<AssemblyName>$(NetProCheckerAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

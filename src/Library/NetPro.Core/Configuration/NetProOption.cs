@@ -15,7 +15,8 @@ namespace NetPro.Core.Configuration
 		public string ProjectPrefix { get; set; } = "NetPro";
 
 		/// <summary>
-		/// 项目后缀，用于项目内部批量注入使用
+		/// 项目后缀，用于项目内部批量注入使用, 既仅有一个XXX.Api项目时使用
+		/// 仅限于service,repository,proxy,Aggregate,Domain不分层时使用
 		/// </summary>
 		public string ProjectSuffix { get; set; }
 

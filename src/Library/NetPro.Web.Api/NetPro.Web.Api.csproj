@@ -9,6 +9,7 @@
 	<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<PackageTags>NetPro,Api,MicroService,Swagger</PackageTags>
+		<AssemblyName>$(NetProWebApiAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

@@ -8,6 +8,7 @@
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<AssemblyName>$(NetProRabbitMQAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
