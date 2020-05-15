@@ -19,24 +19,24 @@ namespace NetPro.Web.Core.Infrastructure
 	/// </summary>
 	public class NetProCoreStartup : INetProStartup
 	{
-        /// <summary>
-        /// Add and configure any of the middleware
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <param name="configuration">Configuration root of the application</param>
-        /// <param name="typeFinder"></param>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
+		/// <summary>
+		/// Add and configure any of the middleware
+		/// </summary>
+		/// <param name="services">Collection of service descriptors</param>
+		/// <param name="configuration">Configuration root of the application</param>
+		/// <param name="typeFinder"></param>
+		public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
 		{
 			var mongoDbOptions = services.BuildServiceProvider().GetService<MongoDbOptions>();
 			var redisCacheOption = services.BuildServiceProvider().GetService<RedisCacheOption>();
 
 			//健康检查
-			var healthbuild =services.AddHealthChecks();
+			var healthbuild = services.AddHealthChecks();
 			if (!string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
 				healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
 			foreach (var item in redisCacheOption?.Endpoints ?? new List<ServerEndPoint>())
 			{
-				healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", tags: new string[] { $"redis-{item.Host}" });
+				healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", name: $"redis-{item.Host}");
 			}
 
 			services.AddHealthChecksUI();
@@ -77,5 +77,5 @@ namespace NetPro.Web.Core.Infrastructure
 		/// Gets order of this startup configuration implementation
 		/// </summary>
 		public int Order => 1000;
-    }
+	}
 }

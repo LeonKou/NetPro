@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 /src/sample/Leon.XXX.Api/logs
 /src/Test.Demo.Api/logs
+/src/sample/Leon.XXXV2.Api/logs
