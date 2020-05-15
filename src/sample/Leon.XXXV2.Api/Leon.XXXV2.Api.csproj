@@ -14,7 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.Web.Api" Version="1.0.0" />
+		<PackageReference Include="NetPro.Web.Api" Version="1.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
