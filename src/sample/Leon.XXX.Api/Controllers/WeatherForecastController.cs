@@ -3,6 +3,7 @@ using Leon.XXX.Proxy;
 using Microsoft.AspNetCore.Mvc;
 using NetPro.Web.Api.Controllers;
 using NetPro.RedisManager;
+using NetPro.Web.Core.Models;
 using Serilog;
 
 namespace Leon.XXX.Api
@@ -47,7 +48,8 @@ namespace Leon.XXX.Api
 		[ProducesResponseType(200)]
 		[ProducesResponseType(200, Type = typeof(XXXAo))]
 		public IActionResult Get([FromQuery]XXXRequest gg)
-		{
+        {
+           return  ResponseResult.ToSuccessResult("");
 			var dd= _redisManager.Get<string>("");
 			_logger.Information("这是系统日志");
 			//return ToFailResult("", 500);
