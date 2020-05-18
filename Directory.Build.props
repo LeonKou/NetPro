@@ -43,6 +43,9 @@
 
 		<NetProWebCore>1.0.1</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
+
+		<NetProEFCore>1.0.0</NetProEFCore>
+		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
