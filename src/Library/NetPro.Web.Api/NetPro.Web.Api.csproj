@@ -34,8 +34,8 @@
     </EmbeddedResource>
   </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleAspNetCore)" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="$(SwashbuckleAspNetCoreSwagger)" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="$(SwashbuckleAspNetCoreFilters)" />
 	</ItemGroup>
 	<ItemGroup>

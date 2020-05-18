@@ -91,7 +91,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 						string requestPara = string.Empty;
 						var request = context.Request;
 						var method = request.Method.ToUpper();
-						if (method == "POST" || method == "PUT" || method == "DELETE")
+						if (method == "POST" || method == "PUT" || method == "DELETE"|| method == "PATCH")
 						{
 							request.Body.Position = 0;
 							using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8))

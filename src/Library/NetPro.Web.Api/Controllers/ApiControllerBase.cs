@@ -11,7 +11,7 @@ namespace NetPro.Web.Api.Controllers
 	/// <summary>
 	/// api 基类
 	/// </summary>
-	[ApiController]
+	//[ApiController]//This option affects global validation
 	//[Route("api/v1/[controller]")]
 	//[Authorize]
 	public abstract class ApiControllerBase : ControllerBase
