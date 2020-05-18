@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using NetPro.Core.Infrastructure.PagedList;
 using Microsoft.CSharp.RuntimeBinder;
 using System;
 using System.Collections.Concurrent;
@@ -9,8 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using static NetPro.Core.Infrastructure.PagedList.PageFilterDto;
-using static NetPro.Core.Infrastructure.PagedList.PageFilterDto.FilterDto;
 
 namespace NetPro.Dapper.Expressions
 {
@@ -328,38 +325,38 @@ namespace NetPro.Dapper.Expressions
 			return connection.Query<T>(sb.ToString(), dynamicParameters, transaction, true);
 		}
 		  
-		private static KeyValuePair<string, object> SetSqlFilterAndParameterByMysql(FilterDto filterDto)
+		private static KeyValuePair<string, object> SetSqlFilterAndParameterByMysql(PageFilterDto.FilterDto filterDto)
 		{
 			string sql = string.Empty;
 			object val = new object();
 
 			switch (filterDto.FilterType)
 			{
-				case FilterTypeEnum.UnEqual:
+				case PageFilterDto.FilterDto.FilterTypeEnum.UnEqual:
 					sql = $" And `{filterDto.FieldName}` != @{filterDto.FieldName} ";
 					val = filterDto.Value;
 					break;
-				case FilterTypeEnum.Equal:
+				case PageFilterDto.FilterDto.FilterTypeEnum.Equal:
 					sql = $" And `{filterDto.FieldName}` = @{filterDto.FieldName} ";
 					val = filterDto.Value;
 					break;
-				case FilterTypeEnum.Greater:
+				case PageFilterDto.FilterDto.FilterTypeEnum.Greater:
 					sql = $" And `{filterDto.FieldName}` >= @{filterDto.FieldName } ";
 					val = filterDto.Value;
 					break;
-				case FilterTypeEnum.Less:
+				case PageFilterDto.FilterDto.FilterTypeEnum.Less:
 					sql = $" And `{filterDto.FieldName}` <= @{filterDto.FieldName } ";
 					val = filterDto.Value;
 					break;
-				case FilterTypeEnum.Like:
+				case PageFilterDto.FilterDto.FilterTypeEnum.Like:
 					sql = $" And `{filterDto.FieldName}` LIKE CONCAT('%', @{filterDto.FieldName }, '%') ";
 					val = filterDto.Value;
 					break;
-				case FilterTypeEnum.In:
+				case PageFilterDto.FilterDto.FilterTypeEnum.In:
 					sql = $" And `{filterDto.FieldName}` IN @{filterDto.FieldName } ";
 					val = filterDto.Value.Split(',');
 					break;
-				case FilterTypeEnum.NotIn:
+				case PageFilterDto.FilterDto.FilterTypeEnum.NotIn:
 					sql = $" And `{filterDto.FieldName}` Not IN @{filterDto.FieldName } ";
 					val = filterDto.Value.Split(',');
 					break;

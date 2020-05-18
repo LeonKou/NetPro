@@ -1,11 +1,7 @@
-﻿using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
-using StackExchange.Profiling;
+﻿using StackExchange.Profiling;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 
 namespace NetPro.Dapper
 {
@@ -13,14 +9,15 @@ namespace NetPro.Dapper
 	{
 		private readonly DbProviderFactory _provider;
 		private readonly string _connectionString;
-
-		public DbConnectionFactory(string connectionStringName, DataProvider dataProvider)
+        private readonly bool _miniProfilerEnabled;
+		public DbConnectionFactory(string connectionStringName, DataProvider dataProvider, bool miniProfilerEnabled=false)
 		{
 			if (connectionStringName == null) throw new ArgumentNullException("connectionStringName");
 
 			_provider = DbProviderFactories.GetFactory(dataProvider);
 			_connectionString = connectionStringName;
-		}
+            _miniProfilerEnabled = miniProfilerEnabled;
+        }
 
 		/// <summary>
 		/// Creates a new instance of <see cref="IDbConnection"/>.
@@ -32,8 +29,7 @@ namespace NetPro.Dapper
 			var connection = _provider.CreateConnection();
 
 			connection.ConnectionString = _connectionString;
-			bool? miniProfilerEnabled = EngineContext.Current.Resolve<NetProOption>()?.MiniProfilerEnabled;
-			if (miniProfilerEnabled.GetValueOrDefault())
+			if (_miniProfilerEnabled)
 			{
 				return new StackExchange.Profiling.Data.ProfiledDbConnection(connection, MiniProfiler.Current);
 			}

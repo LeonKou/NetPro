@@ -1,7 +1,4 @@
 ﻿using Dapper;
-using NetPro.Core.Infrastructure;
-using NetPro.Core.Infrastructure.PagedList;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;

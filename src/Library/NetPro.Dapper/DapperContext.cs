@@ -22,10 +22,10 @@ namespace NetPro.Dapper
 		/// <para>Uses the <paramref name="connectionStringName"/> to instantiate a <see cref="DbConnectionFactory"/>. This factory will be used to create connections to a database.</para>
 		/// </summary>
 		/// <param name="connectionStringName">The name of the connectionstring as defined in a app/web.config file's connectionstrings section.</param>
-		public DapperContext(string connectionStringName, DataProvider dataProvider)
+		public DapperContext(string connectionStringName, DataProvider dataProvider, bool miniProfilerEnabled = false)
 		{
 			DataProvider = dataProvider;
-			_connectionFactory = new DbConnectionFactory(connectionStringName, dataProvider);
+			_connectionFactory = new DbConnectionFactory(connectionStringName, dataProvider, miniProfilerEnabled);
 		}
 
 		public void SetTempConnection(string sqlconnection)

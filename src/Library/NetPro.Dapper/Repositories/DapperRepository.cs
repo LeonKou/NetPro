@@ -1,44 +1,40 @@
 ﻿using NetPro.Dapper.Expressions;
 using NetPro.Dapper.Parameters;
 using Dapper;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static Dapper.SqlMapper;
-using NetPro.Core.Infrastructure.PagedList;
 
 namespace NetPro.Dapper.Repositories
 {
 	public partial class DapperRepository<DapperDbContext> : IDapperRepository<DapperDbContext> where DapperDbContext : DapperContext
 	{
 		//在此可以动态更改数据库连接
-		private readonly DapperDbContext _context;
+		public virtual DapperDbContext DbContext { get; set; }
 		public DapperRepository(DapperDbContext context)
 		{
-			_context = context;
+            DbContext = context;
 		}
 
 		public virtual DbConnection Connection
 		{
 			get
 			{
-				return _context.Connection as DbConnection;
+				return DbContext.Connection as DbConnection;
 			}
 			set
 			{
-				_context.Connection = value;
+                DbContext.Connection = value;
 			}
 		}
 
 		public virtual DbTransaction ActiveTransaction
 		{
-			get { return _context.ActiveTransaction as DbTransaction; }
+			get { return DbContext.ActiveTransaction as DbTransaction; }
 		}
 
 		#region 事务隔离级别设置

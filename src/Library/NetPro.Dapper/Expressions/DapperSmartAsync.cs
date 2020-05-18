@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using NetPro.Core.Infrastructure.PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;

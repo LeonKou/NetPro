@@ -17,28 +17,24 @@
 		</None>
 	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <DocumentationFile>bin\Release\netstandard2.0\NetPro.Dapper.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Dapper.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Expressions\DapperExpressionExtensions.cs" />
-    <Compile Remove="Expressions\DapperExpressionVisitor.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Expressions\DapperExpressionExtensions.cs" />
+		<Compile Remove="Expressions\DapperExpressionVisitor.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.3" />
-    <PackageReference Include="MiniProfiler.Shared" Version="$(MiniProfilerShared)" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="$(PomeloEntityFrameworkCoreMySql)" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="$(Dapper)" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="$(MicrosoftDataSqlClient)" />
+		<PackageReference Include="MiniProfiler.Shared" Version="$(MiniProfilerShared)" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="$(PomeloEntityFrameworkCoreMySql)" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-  </ItemGroup>
-  
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
-  </Target>  
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 </Project>

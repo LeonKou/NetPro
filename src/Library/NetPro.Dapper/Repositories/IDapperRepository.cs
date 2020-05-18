@@ -1,13 +1,8 @@
-using NetPro.Dapper.Parameters;
 using Dapper;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
-using NetPro.Core.Infrastructure.PagedList;
 using System.Data.Common;
 
 namespace NetPro.Dapper.Repositories
@@ -18,8 +13,9 @@ namespace NetPro.Dapper.Repositories
 		/// 频繁更改数据库连接对象所设
 		/// </summary>
 		/// <returns></returns>
-		DbConnection Connection { get; set; }
-
+		//DbConnection Connection { get; set; }
+        
+        DapperDbContext DbContext { get; set; }
 		#region 同步
 
 		/// <summary>
@@ -162,7 +158,7 @@ namespace NetPro.Dapper.Repositories
 		/// <param name="commandTimeout"></param>
 		/// <param name="commandType"></param>
 		/// <returns></returns>
-		public IDataReader ExecuteReader(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
+		IDataReader ExecuteReader(string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null);
 
 		/// <summary>
 		/// 执行存储过程
