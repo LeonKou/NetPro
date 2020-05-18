@@ -17,14 +17,14 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MicrosoftExtensionsConfigurationAbstractions)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsDependencyInjection)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsDependencyInjectionAbstractions)" />
 		<PackageReference Include="StackExchange.Redis" Version="$(StackExchangeRedis)" />
 		<PackageReference Include="RedLock.net" Version="$(RedLocknet)" />
-		<PackageReference Include="CSRedisCore" Version="3.6.3" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+		<PackageReference Include="CSRedisCore" Version="$(CSRedisCore)" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftExtensionsConfigurationBinder)" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="$(MicrosoftExtensionsOptions)" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

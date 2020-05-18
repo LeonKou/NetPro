@@ -1,5 +1,4 @@
-﻿using NetPro.Core.Infrastructure;
-using NetPro.Dapper;
+﻿using NetPro.Dapper;
 using NetPro.Dapper.Repositories;
 namespace Leon.XXX.Repository
 {
@@ -11,9 +10,10 @@ namespace Leon.XXX.Repository
         private readonly IDapperRepository<DefaultDapperContext> _dapperRepository;
         private readonly IUnitOfWorkFactory<DefaultDapperContext> _unitOfWorkFactoryNew;
         public XXXRepository(IDapperRepository<DefaultDapperContext> dapperRepository,
-            IUnitOfWorkFactory<DefaultDapperContext> _unitOfWorkFactoryNew) : base(dapperRepository)
+            IUnitOfWorkFactory<DefaultDapperContext> unitOfWorkFactoryNew) : base(dapperRepository)
         {
             _dapperRepository = dapperRepository;
+            _unitOfWorkFactoryNew = unitOfWorkFactoryNew;
         }
 
         /// <summary>
@@ -35,7 +35,8 @@ namespace Leon.XXX.Repository
         public override void SetMySqlConnectioin(int serverId)
         {
             //数据库从Apollo读取
-            var context = EngineContext.Current.Resolve<DefaultDapperContext>();
+           
+            var context = _dapperRepository.DbContext;
             if (serverId == 1)
             {
                 context.SetTempConnection("Server=");
