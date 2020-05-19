@@ -98,13 +98,32 @@ namespace NetPro.Web.Api
 					License = new OpenApiLicense { Url = new Uri("http://www.github.com"), Name = "LicenseName" },
 				});
 				c.IgnoreObsoleteActions();
-				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-				{
-					Description = "Authority certification(The data is transferred in the request header) structure of the parameters : \"Authorization: Bearer {token}\"",
-					Name = "Authorization",
-					In = ParameterLocation.Header,
-					Type = SecuritySchemeType.ApiKey
-				});
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Authority certification(The data is transferred in the request header) structure of the parameters : \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
+                });
 			});
 		}
 
