@@ -1,0 +1,172 @@
+{
+	//serilog单文件输出
+	"Serilog": {
+		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+		"MinimumLevel": {
+			"Default": "Information",
+			"Override": {
+				"Microsoft": "Warning",
+				"System": "Warning",
+				"System.Net.Http.HttpClient": "Warning"
+			}
+		},
+		"WriteTo:Async": {
+			"Name": "Async",
+			"Args": {
+				"configure": [
+					{ "Name": "Console" },
+					{
+						"Name": "File",
+						"Args": {
+							"path": "C:\\Program Files (x86)\\Temp\\logs\\log.txt", //要保证文件夹有权限
+							"rollingInterval": "Day",
+							"retainedFileCountLimit": 7,
+							"buffered": false,
+							"outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+						}
+					}
+				]
+			}
+		},
+		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+		"Properties": {
+			"Application": "GameSdk"
+		}
+	},
+
+	//serilog多文件输出
+	"MultiSerilog": {
+		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+		"MinimumLevel": {
+			"Default": "Information",
+			"Override": {
+				"Microsoft": "Debug",
+				"System": "Debug",
+				"System.Net.Http.HttpClient": "Debug"
+			}
+		},
+		"WriteTo:Async": {
+			"Name": "Async",
+			"Args": {
+				"configure": [
+					{ "Name": "Console" },
+					{
+						"Name": "Logger",
+						"Args": {
+							"configureLogger": {
+								"Filter": [
+									{
+										"Name": "ByIncludingOnly",
+										"Args": {
+											"expression": "@Level = 'Debug')"
+										}
+									}
+								],
+								"WriteTo": [
+									{
+										"Name": "File",
+										"Args": {
+											"path": "C:\\Program Files (x86)\\Temp\\logs\\Debug\\log.txt", //要保证文件夹有权限
+											"rollingInterval": "Day",
+											"retainedFileCountLimit": 7,
+											"buffered": false,
+											"outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+										}
+									}
+								]
+							}
+						}
+					},
+
+					{
+						"Name": "Logger",
+						"Args": {
+							"configureLogger": {
+								"Filter": [
+									{
+										"Name": "ByIncludingOnly",
+										"Args": {
+											"expression": "@Level = 'Information')"
+										}
+									}
+								],
+								"WriteTo": [
+									{
+										"Name": "File",
+										"Args": {
+											"path": "C:\\Program Files (x86)\\Temp\\logs\\Information\\log.txt", //要保证文件夹有权限
+											"rollingInterval": "Day",
+											"retainedFileCountLimit": 7,
+											"buffered": false,
+											"outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+										}
+									}
+								]
+							}
+						}
+					},
+
+					{
+						"Name": "Logger",
+						"Args": {
+							"configureLogger": {
+								"Filter": [
+									{
+										"Name": "ByIncludingOnly",
+										"Args": {
+											"expression": "@Level = 'Warning')"
+										}
+									}
+								],
+								"WriteTo": [
+									{
+										"Name": "File",
+										"Args": {
+											"path": "C:\\Program Files (x86)\\Temp\\logs\\Warning\\log.txt", //要保证文件夹有权限
+											"rollingInterval": "Day",
+											"retainedFileCountLimit": 7,
+											"buffered": false,
+											"outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+										}
+									}
+								]
+							}
+						}
+					},
+
+					{
+						"Name": "Logger",
+						"Args": {
+							"configureLogger": {
+								"Filter": [
+									{
+										"Name": "ByIncludingOnly",
+										"Args": {
+											"expression": "@Level = 'Error')"
+										}
+									}
+								],
+								"WriteTo": [
+									{
+										"Name": "File",
+										"Args": {
+											"path": "C:\\Program Files (x86)\\Temp\\logs\\Error\\log.txt", //要保证文件夹有权限
+											"rollingInterval": "Day",
+											"retainedFileCountLimit": 7,
+											"buffered": false,
+											"outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+										}
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		},
+		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+		"Properties": {
+			"Application": "GameSdk"
+		}
+	}
+}
