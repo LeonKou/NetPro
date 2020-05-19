@@ -12,10 +12,8 @@ namespace NetPro.Dapper.Repositories
 		/// <summary>
 		/// 频繁更改数据库连接对象所设
 		/// </summary>
-		/// <returns></returns>
-		//DbConnection Connection { get; set; }
-        
-        DapperDbContext DbContext { get; set; }
+		/// <remarks>用于频繁更改数据库连接对象</remarks>
+		DapperDbContext DbContext { get; set; }
 		#region 同步
 
 		/// <summary>

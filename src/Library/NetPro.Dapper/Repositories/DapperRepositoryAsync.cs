@@ -184,10 +184,11 @@ namespace NetPro.Dapper.Repositories
 		{
 			Func<Task<IList<T>>> acquire = (async () =>
 			{
-				StringBuilder build = new StringBuilder(" where 1=1 And ");
-				build.Append(conditions);
-				var data = await Connection.GetListAsync<T>(build.ToString(), parame, ActiveTransaction);
-				return data.ToList();
+                StringBuilder build = new StringBuilder();
+                if (!string.IsNullOrWhiteSpace(conditions))
+                    build.Append($" where 1=1 And {conditions}");
+                var data =await Connection.GetListAsync<T>(build.ToString(), parame, ActiveTransaction);
+                return data.ToList();
 			});
 
 			return await ReadUncommittedAsync(acquire, withNoLock);
