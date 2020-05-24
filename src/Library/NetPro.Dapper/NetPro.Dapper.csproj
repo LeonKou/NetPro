@@ -32,7 +32,7 @@
 		<PackageReference Include="Dapper" Version="$(Dapper)" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="$(MicrosoftDataSqlClient)" />
 		<PackageReference Include="MiniProfiler.Shared" Version="$(MiniProfilerShared)" />
-		<PackageReference Include="MySql.Data" Version="8.0.20" />
+		<PackageReference Include="MySql.Data" Version="$(MySqlData)" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

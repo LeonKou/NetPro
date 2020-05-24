@@ -14,37 +14,37 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">
-		<NetProChecker>1.0.1</NetProChecker>
+		<NetProChecker>3.1.0</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>1.0.1</NetProCore>
+		<NetProCore>3.1.0</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>1.0.1</NetProDapper>
+		<NetProDapper>3.1.0</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
-		<NetProLog>1.0.1</NetProLog>
+		<NetProLog>3.1.0</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>1.0.1</NetProMongoDb>
+		<NetProMongoDb>3.1.0</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>1.0.1</NetProRabbitMQ>
+		<NetProRabbitMQ>3.1.0</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>1.0.1</NetProRedisManager>
+		<NetProRedisManager>3.1.0</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProUtility>1.0.1</NetProUtility>
+		<NetProUtility>3.1.0</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProWebApi>1.0.1</NetProWebApi>
+		<NetProWebApi>3.1.0</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>1.0.1</NetProWebCore>
+		<NetProWebCore>3.1.0</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
-		<NetProEFCore>1.0.0</NetProEFCore>
+		<NetProEFCore>3.1.0</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 	</PropertyGroup>
 
@@ -67,7 +67,7 @@
 		<Dapper>2.0.30</Dapper>
 		<MicrosoftDataSqlClient>1.1.1</MicrosoftDataSqlClient>
 		<MiniProfilerShared>4.1.0</MiniProfilerShared>
-		<PomeloEntityFrameworkCoreMySql>3.1.1</PomeloEntityFrameworkCoreMySql>
+		<MySqlData>8.0.20</MySqlData>
 
 
 		<MicrosoftAspNetCoreMvcAbstractions>2.2.0</MicrosoftAspNetCoreMvcAbstractions>
