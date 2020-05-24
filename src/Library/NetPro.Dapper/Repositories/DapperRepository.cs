@@ -86,6 +86,17 @@ namespace NetPro.Dapper.Repositories
         }
 
         /// <summary>
+        /// 根据主键查询
+        /// </summary>
+        /// <typeparam name="T">表实体</typeparam>
+        /// <param name="primaryId">主键值</param>
+        /// <returns></returns>
+        public T QueryById<T>(object primaryId)
+        {
+            return Connection.Get<T>(primaryId, ActiveTransaction);
+        }
+
+        /// <summary>
         /// 批量插入数据，返回成功的条数（未启用事物）
         /// </summary>
         /// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
@@ -164,7 +175,7 @@ namespace NetPro.Dapper.Repositories
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
-        public IList<T> GetAll<T>(bool withNoLock = false)
+        public IList<T> QueryAll<T>(bool withNoLock = false)
         {
             Func<IList<T>> acquire = (() =>
             {
@@ -178,12 +189,12 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：GetList<User>(new { Age = 10 })
+        /// 例如：QueryList<User>(new { Age = 10 })
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
-        public IList<T> GetList<T>(object whereConditions, bool withNoLock = false)
+        public IList<T> QueryList<T>(object whereConditions, bool withNoLock = false)
         {
             Func<IList<T>> acquire = (() =>
             {
@@ -196,12 +207,12 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：GetList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+        /// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
-        public IList<T> GetList<T>(string conditions, DynamicParameters parame, bool withNoLock = false)
+        public IList<T> QueryList<T>(string conditions, DynamicParameters parame, bool withNoLock = false)
         {
             Func<IList<T>> acquire = (() =>
             {
@@ -217,7 +228,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 分页
-        /// 例如：GetListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+        /// 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -227,7 +238,7 @@ namespace NetPro.Dapper.Repositories
         /// <param name="parame"></param>
         /// <param name="withNoLock"></param>
         /// <returns></returns>
-        public IPagedList<T> GetListPaged<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false)
+        public IPagedList<T> QueryListPaged<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false)
         {
             Func<IPagedList<T>> acquire = (() =>
             {
@@ -258,7 +269,7 @@ namespace NetPro.Dapper.Repositories
         /// </summary>
         /// <param name="pageFilterDto"></param>
         /// <returns></returns>
-        public IList<T> GetListPagedByDynamic<T>(PageFilterDto pageFilterDto)
+        public IList<T> QueryListPagedByDynamic<T>(PageFilterDto pageFilterDto)
         {
             return Connection.GetListPagedByDynamic<T>(pageFilterDto, ActiveTransaction).ToList();
         }
@@ -268,7 +279,7 @@ namespace NetPro.Dapper.Repositories
         /// </summary>
         /// <param name="pageFilterDto"></param>
         /// <returns></returns>
-        public int GetCountByDynamic<T>(PageFilterDto pageFilterDto)
+        public int QueryCountByDynamic<T>(PageFilterDto pageFilterDto)
         {
             return Connection.GetCountByDynamic<T>(pageFilterDto, ActiveTransaction);
         }
@@ -402,7 +413,7 @@ namespace NetPro.Dapper.Repositories
             return ReadUncommitted(acquire, withNoLock);
         }
 
-        public IPagedList<T> GetPagedListProc<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class
+        public IPagedList<T> QueryPagedListProc<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class
         {
             Func<IPagedList<T>> acquire = (() =>
             {

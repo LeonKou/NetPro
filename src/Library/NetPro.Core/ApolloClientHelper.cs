@@ -6,20 +6,22 @@ using System.IO;
 
 namespace NetPro.Core
 {
-	public static class ApolloClientHelper
-	{
-		public static void ApolloConfig(HostBuilderContext hostingContext, IConfigurationBuilder builder, string[] args)
-		{
-			var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
-			builder.SetBasePath(Directory.GetCurrentDirectory())
-						.AddJsonFile("appsettings.json", true, true)
-						.AddJsonFile($"appsettings.{environmentName}.json", true, true)
-						.AddEnvironmentVariables()
-						.AddCommandLine(args); // 添加环境变量
+    public static class ApolloClientHelper
+    {
+        public static void ApolloConfig(HostBuilderContext hostingContext, IConfigurationBuilder builder, string[] args)
+        {
+            var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", true, true)
+                        .AddJsonFile($"appsettings.{environmentName}.json", true, true)
+                        .AddEnvironmentVariables()
+                        .AddCommandLine(args); // 添加环境变量
 
-			var apolloSection = builder.Build().GetSection("Apollo");
-			var apolloBuilder = builder.AddApollo(apolloSection).AddDefault();
-			var apolloNamespaces = apolloSection.GetValue<string>("Namespaces");
+            if (!builder.Build().GetValue<bool>("Apollo:Enabled", false)) return;
+
+            var apolloSection = builder.Build().GetSection("Apollo");
+            var apolloBuilder = builder.AddApollo(apolloSection).AddDefault();
+            var apolloNamespaces = apolloSection.GetValue<string>("Namespaces");
 
             if (string.IsNullOrWhiteSpace(apolloNamespaces)) return;
             var namespaces = apolloNamespaces.Split(',');
@@ -32,24 +34,15 @@ namespace NetPro.Core
             }
         }
 
-		private static ConfigFileFormat GetNameSpaceType(string nameSpace)
-		{
-			if (nameSpace.Contains("Json")) return ConfigFileFormat.Json;
-			if (nameSpace.Contains("Xml")) return ConfigFileFormat.Xml;
-			if (nameSpace.Contains("Yml")) return ConfigFileFormat.Yml;
-			if (nameSpace.Contains("Yaml")) return ConfigFileFormat.Yaml;
-			if (nameSpace.Contains("Txt")) return ConfigFileFormat.Txt;
+        private static ConfigFileFormat GetNameSpaceType(string nameSpace)
+        {
+            if (nameSpace.Contains("Json")) return ConfigFileFormat.Json;
+            if (nameSpace.Contains("Xml")) return ConfigFileFormat.Xml;
+            if (nameSpace.Contains("Yml")) return ConfigFileFormat.Yml;
+            if (nameSpace.Contains("Yaml")) return ConfigFileFormat.Yaml;
+            if (nameSpace.Contains("Txt")) return ConfigFileFormat.Txt;
 
-			return ConfigFileFormat.Properties;
-		}
-
-		//public static void GetValuesByNamespace(this IConfiguration configuration, string namespaceName)
-		//{
-		//	var apollomanager = EngineContext.Current.Resolve<IConfigManager>();
-		//	var config = apollomanager.GetConfig(namespaceName).GetAwaiter().GetResult();
-		//	var names = config.GetPropertyNames();
-
-		//}
-
-	}
+            return ConfigFileFormat.Properties;
+        }
+    }
 }

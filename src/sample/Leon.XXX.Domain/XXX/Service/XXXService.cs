@@ -31,7 +31,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public XXXAo GetList()
         {
-            var xxxdo = _rankRepository.GetList<XXXDo>("", new DynamicParameters());
+            var xxxdo = _rankRepository.QueryList<XXXDo>("", new DynamicParameters());
             return _mapper.Map<XXXAo>(xxxdo.First());
         }
 

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace NetPro.Dapper.Repositories
@@ -13,15 +14,15 @@ namespace NetPro.Dapper.Repositories
     public class GeneralRepository<Context, Table> : IGeneralRepository<Table> where Context : DapperContext where Table : class
     {
         private readonly IDapperRepository<Context> _dapperRepository;
-        public GeneralRepository(IDapperRepository<Context> dapperRepository)
+        public GeneralRepository(IDapperRepository<Context> dapperRepository
+        )
         {
             _dapperRepository = dapperRepository;
         }
 
         public virtual void SetMySqlConnectioin(int serverId)
         {
-            //通过apollo读取具体换库逻辑  
-            _dapperRepository.DbContext.SetTempConnection("172.16.25.58;Port=41022;Database=demobase;charset=utf8;user=myname;password=***;");
+            //_dapperRepository.DbContext.SetTempConnection(_configuration.GetValue<string>($"ConnectionStrings:ServerIdConnection:{serverId}"));
         }
 
         public int Delete(Table entity)
@@ -44,34 +45,40 @@ namespace NetPro.Dapper.Repositories
             return await _dapperRepository.DeleteAsync(id);
         }
 
-        public int GetCountByDynamic(PageFilterDto pageFilterDto)
+        public int QueryCountByDynamic(PageFilterDto pageFilterDto)
         {
-            return _dapperRepository.GetCountByDynamic<Table>(pageFilterDto);
+            return _dapperRepository.QueryCountByDynamic<Table>(pageFilterDto);
         }
 
-        public async Task<int> GetCountByDynamicAsync(PageFilterDto pageFilterDto)
+        public async Task<int> QueryCountByDynamicAsync(PageFilterDto pageFilterDto)
         {
-            return await _dapperRepository.GetCountByDynamicAsync<Table>(pageFilterDto);
+            return await _dapperRepository.QueryCountByDynamicAsync<Table>(pageFilterDto);
         }
 
-        public IList<Table> GetList<Table>(string conditions, DynamicParameters parame)
+
+        //public Task<Table> QueryByIdAsync<Table>(string premeter, DynamicParameters parame)
+        //{
+        //    return await _dapperRepository.QueryFirstOrDefaultAsync<Table>("where ", parame);
+        //}
+
+        public IList<Table> QueryList<Table>(string conditions, DynamicParameters parame)
         {
-            return _dapperRepository.GetList<Table>(conditions, parame);
+            return _dapperRepository.QueryList<Table>(conditions, parame);
         }
 
-        public async Task<IList<Table>> GetListAsync(string conditions, DynamicParameters parame)
+        public async Task<IList<Table>> QueryListAsync(string conditions, DynamicParameters parame)
         {
-            return await _dapperRepository.GetListAsync<Table>(conditions, parame);
+            return await _dapperRepository.QueryListAsync<Table>(conditions, parame);
         }
 
-        public IList<Table> GetListPagedByDynamic(PageFilterDto pageFilterDto)
+        public IList<Table> QueryListPagedByDynamic(PageFilterDto pageFilterDto)
         {
-            return _dapperRepository.GetListPagedByDynamic<Table>(pageFilterDto);
+            return _dapperRepository.QueryListPagedByDynamic<Table>(pageFilterDto);
         }
 
-        public async Task<IList<Table>> GetListPagedByDynamicAsync(PageFilterDto pageFilterDto)
+        public async Task<IList<Table>> QueryListPagedByDynamicAsync(PageFilterDto pageFilterDto)
         {
-            return await _dapperRepository.GetListPagedByDynamicAsync<Table>(pageFilterDto);
+            return await _dapperRepository.QueryListPagedByDynamicAsync<Table>(pageFilterDto);
         }
 
         public int? Insert(Table entity)

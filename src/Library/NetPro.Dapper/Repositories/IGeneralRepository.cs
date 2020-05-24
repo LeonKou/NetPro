@@ -7,6 +7,11 @@ namespace NetPro.Dapper.Repositories
 {
 	public interface IGeneralRepository<Table> where Table : class
 	{
+		/// <summary>
+		/// 设置数据库连接
+		/// </summary>
+		/// <param name="serverId"></param>
+		/// <remarks>默认没有实现，由调用者重写设置连接逻辑</remarks>
 		void SetMySqlConnectioin(int serverId);
 
 		#region 同步
@@ -45,12 +50,12 @@ namespace NetPro.Dapper.Repositories
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+		/// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
 		/// </summary>
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		IList<Table> GetList<Table>(string conditions, DynamicParameters parame);
+		IList<Table> QueryList<Table>(string conditions, DynamicParameters parame);
 
 		/// <summary>
 		/// 查询分页列表(动态传参)
@@ -58,7 +63,7 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		IList<Table> GetListPagedByDynamic(PageFilterDto pageFilterDto);
+		IList<Table> QueryListPagedByDynamic(PageFilterDto pageFilterDto);
 
 		/// <summary>
 		/// 查询分页总数(动态传参)
@@ -66,7 +71,7 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		int GetCountByDynamic(PageFilterDto pageFilterDto);
+		int QueryCountByDynamic(PageFilterDto pageFilterDto);
 
 		#endregion
 
@@ -106,12 +111,12 @@ namespace NetPro.Dapper.Repositories
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+		/// 例如：QueryListAsync<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
 		/// </summary>
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		Task<IList<Table>> GetListAsync(string conditions, DynamicParameters parame);
+		Task<IList<Table>> QueryListAsync(string conditions, DynamicParameters parame);
 
 		/// <summary>
 		/// 查询分页列表(动态传参)
@@ -119,7 +124,7 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		Task<IList<Table>> GetListPagedByDynamicAsync(PageFilterDto pageFilterDto);
+		Task<IList<Table>> QueryListPagedByDynamicAsync(PageFilterDto pageFilterDto);
 
 		/// <summary>
 		/// 查询分页总数(动态传参)
@@ -127,7 +132,7 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="Table"></typeparam>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		Task<int> GetCountByDynamicAsync(PageFilterDto pageFilterDto);
+		Task<int> QueryCountByDynamicAsync(PageFilterDto pageFilterDto);
 
 		#endregion
 	}

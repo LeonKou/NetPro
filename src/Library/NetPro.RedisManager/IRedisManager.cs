@@ -11,9 +11,25 @@ namespace NetPro.RedisManager
 	/// </summary>
 	public interface IRedisManager
 	{
-		T Get<T>(string key);
+		/// <summary>
+		/// 获取缓存，没有则新增缓存
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="func"></param>
+		/// <param name="expiredTime"></param>
+		/// <returns></returns>
+		T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class;
 
-		Task<T> GetAsync<T>(string key);
+		/// <summary>
+		/// 获取缓存没有则新增缓存
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="func"></param>
+		/// <param name="expiredTime"></param>
+		/// <returns></returns>
+		Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class;
 
 		/// <summary>
 		///新增缓存

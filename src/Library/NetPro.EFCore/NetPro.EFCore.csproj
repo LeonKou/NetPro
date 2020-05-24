@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-		<Version>$(NetProEFCore)</Version>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
-		<Description>
-		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
-		<AssemblyName>$(NetProEFCoreAssemblyName)</AssemblyName>
+	<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+	<Version>$(NetProEFCore)</Version>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Authors>$(Authors)</Authors>
+	<Description>
+	</Description>
+	<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+	<PackageIcon>$(PackageIcon)</PackageIcon>
+	<AssemblyName>$(NetProEFCoreAssemblyName)</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,9 +18,9 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.UnitOfWork" Version="3.1.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.UnitOfWork" Version="3.1.0" />
+  </ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>

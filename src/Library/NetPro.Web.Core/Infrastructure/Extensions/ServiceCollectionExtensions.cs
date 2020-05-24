@@ -44,7 +44,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         {
             var netProOption = services.ConfigureStartupConfig<NetProOption>(configuration.GetSection(nameof(NetProOption)));
             services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
-            services.ConfigureStartupConfig<MongoDbOptions>(configuration.GetSection("MongoDbOptions"));
             if (string.IsNullOrWhiteSpace(netProOption.ApplicationName)) netProOption.ApplicationName = hostEnvironment.ApplicationName;
 
             if (hostEnvironment.EnvironmentName == Environments.Development)
@@ -80,20 +79,23 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                     Console.WriteLine("最小线程数设置大于系统提供，设置失效！！");
             }
 
-            HealthCheckRegistry.RegisterHealthCheck("apollo", () =>
+            if (!configuration.GetValue<bool>("Apollo:Enabled", false))
             {
-                var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
-                using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
-                {
-                    if (tcpClient.Connected)
-                    {
-                        Console.WriteLine($"pollo:Env：{configuration.GetValue<string>("Apollo:Env")}");
-                        Console.WriteLine($"Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
-                        return HealthResponse.Healthy($"{uri.Host}:{uri.Port}连接正常--pollo:Env：{configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
-                    }
-                    return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port}连接不正常");
-                }
-            });
+                HealthCheckRegistry.RegisterHealthCheck("apollo", () =>
+              {
+                  var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
+                  using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
+                  {
+                      if (tcpClient.Connected)
+                      {
+                          Console.WriteLine($"pollo:Env：{configuration.GetValue<string>("Apollo:Env")}");
+                          Console.WriteLine($"Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
+                          return HealthResponse.Healthy($"{uri.Host}:{uri.Port}连接正常--pollo:Env：{configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
+                      }
+                      return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port}连接不正常");
+                  }
+              });
+            }
             return (engine, netProOption);
         }
 
@@ -236,26 +238,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             // profiling
             services.AddMiniProfiler(options =>
                 options.RouteBasePath = "/profiler").AddEntityFramework();
-        }
-
-        /// <summary>
-        /// 新增MongoDb 注入
-        /// </summary>
-        /// <param name="services"></param>
-        public static void AddMongoDb(this IServiceCollection services)
-        {
-            //MongoDb 连接配置文件
-            var mongoDbOptions = services.BuildServiceProvider().GetRequiredService<MongoDbOptions>();
-            if (string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-            {
-                return;
-            }
-
-            services.AddMongoDb(options =>
-            {
-                options = mongoDbOptions;
-            });
-
         }
 
         /// <summary>

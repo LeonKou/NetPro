@@ -25,6 +25,14 @@ namespace NetPro.Dapper.Repositories
 		int? Insert<T>(T entity);
 
 		/// <summary>
+		/// 根据主键查询
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="primaryId"></param>
+		/// <returns></returns>
+        T QueryById<T>(object primaryId);
+
+		/// <summary>
 		/// 批量插入数据，返回成功的条数（未启用事物）
 		/// </summary>
 		/// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
@@ -64,29 +72,29 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		IList<T> GetAll<T>(bool withNoLock = false);
+		IList<T> QueryAll<T>(bool withNoLock = false);
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>(new { Age = 10 })
+		/// 例如：QueryList<User>(new { Age = 10 })
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		IList<T> GetList<T>(object whereConditions, bool withNoLock = false);
+		IList<T> QueryList<T>(object whereConditions, bool withNoLock = false);
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+		/// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		IList<T> GetList<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
+		IList<T> QueryList<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
 
 		/// <summary>
 		/// 分页
-		/// 例如：GetListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+		/// 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="pageIndex"></param>
@@ -96,7 +104,7 @@ namespace NetPro.Dapper.Repositories
 		/// <param name="parame"></param>
 		/// <param name="withNoLock"></param>
 		/// <returns></returns>
-		IPagedList<T> GetListPaged<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false);
+		IPagedList<T> QueryListPaged<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false);
 
 		/// <summary>
 		///  原生Query
@@ -205,7 +213,7 @@ namespace NetPro.Dapper.Repositories
 		/// <param name="parms"></param>
 		/// <param name="withNoLock"></param>
 		/// <returns></returns>
-		IPagedList<T> GetPagedListProc<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class;
+		IPagedList<T> QueryPagedListProc<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class;
 
 		/// <summary>
 		/// 执行查询的存储过程，返回多个结果集
@@ -220,14 +228,14 @@ namespace NetPro.Dapper.Repositories
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		IList<T> GetListPagedByDynamic<T>(PageFilterDto pageFilterDto);
+		IList<T> QueryListPagedByDynamic<T>(PageFilterDto pageFilterDto);
 
 		/// <summary>
 		/// 查询分页总数(动态传参)
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		int GetCountByDynamic<T>(PageFilterDto pageFilterDto);
+		int QueryCountByDynamic<T>(PageFilterDto pageFilterDto);
 		#endregion
 
 		#region 异步	
@@ -258,6 +266,8 @@ namespace NetPro.Dapper.Repositories
 		/// <returns>受影响的行数</returns>
 		Task<int> DeleteAsync<T>(T entity);
 
+        Task<T> QueryByIdAsync<T>(object primaryId);
+
 		/// <summary>
 		/// 根据主键删除
 		/// </summary>
@@ -280,29 +290,29 @@ namespace NetPro.Dapper.Repositories
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		Task<IList<T>> GetAllAsync<T>(bool withNoLock = false);
+		Task<IList<T>> QueryAllAsync<T>(bool withNoLock = false);
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>(new { Age = 10 })
+		/// 例如：QueryListAsync<User>(new { Age = 10 })
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		Task<IList<T>> GetListAsync<T>(object whereConditions, bool withNoLock = false);
+		Task<IList<T>> QueryListAsync<T>(object whereConditions, bool withNoLock = false);
 
 		/// <summary>
 		/// 依据条件查询数据
-		/// 例如：GetList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+		/// 例如：QueryListAsync<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="entity"></param>
 		/// <returns>受影响的行数</returns>
-		Task<IList<T>> GetListAsync<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
+		Task<IList<T>> QueryListAsync<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
 
 		/// <summary>
 		/// 分页
-		/// 例如：GetListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+		/// 例如：QueryListPagedAsync<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="pageIndex"></param>
@@ -312,7 +322,7 @@ namespace NetPro.Dapper.Repositories
 		/// <param name="parame"></param>
 		/// <param name="withNoLock"></param>
 		/// <returns></returns>
-		Task<IPagedList<T>> GetListPagedAsync<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false);
+		Task<IPagedList<T>> QueryListPagedAsync<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false);
 
 		/// <summary>
 		///  原生Query
@@ -421,7 +431,7 @@ namespace NetPro.Dapper.Repositories
 		/// <param name="parms"></param>
 		/// <param name="withNoLock"></param>
 		/// <returns></returns>
-		Task<IPagedList<T>> GetPagedListProcAsync<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class;
+		Task<IPagedList<T>> QueryPagedListProcAsync<T>(string StoredProcedure, string totalCountName = "CountPage", string pageIndexName = "PageIndex", string pageSizeName = "PageSize", DynamicParameters parms = null, bool withNoLock = false) where T : class;
 
 		/// <summary>
 		/// 执行查询的存储过程，返回多个结果集
@@ -437,14 +447,14 @@ namespace NetPro.Dapper.Repositories
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		Task<IList<T>> GetListPagedByDynamicAsync<T>(PageFilterDto pageFilterDto);
+		Task<IList<T>> QueryListPagedByDynamicAsync<T>(PageFilterDto pageFilterDto);
 
 		/// <summary>
 		/// 查询分页总数(动态传参)
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		Task<int> GetCountByDynamicAsync<T>(PageFilterDto pageFilterDto);
+		Task<int> QueryCountByDynamicAsync<T>(PageFilterDto pageFilterDto);
 		#endregion
 	}
 }

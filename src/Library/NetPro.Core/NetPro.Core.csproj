@@ -9,7 +9,6 @@
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
-		<PackageTags>NetPro</PackageTags>
 		<AssemblyName>$(NetProCoreAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>

@@ -28,7 +28,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Returns a single entity by a single id from table T.</returns>
-		public static async Task<T> GetAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static async Task<T> QueryAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			var currenttype = typeof(T);
 			var idProps = GetIdProperties(currenttype).ToList();
@@ -79,7 +79,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Gets a list of entities with optional exact match where conditions</returns>
-		public static Task<IEnumerable<T>> GetListAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static Task<IEnumerable<T>> QueryListAsync<T>(this IDbConnection connection, object whereConditions, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			var currenttype = typeof(T);
 			var name = GetTableName(currenttype);
@@ -118,7 +118,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Gets a list of entities with optional SQL where conditions</returns>
-		public static Task<IEnumerable<T>> GetListAsync<T>(this IDbConnection connection, string conditions, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static Task<IEnumerable<T>> QueryListAsync<T>(this IDbConnection connection, string conditions, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			var currenttype = typeof(T);
 			var name = GetTableName(currenttype);
@@ -144,7 +144,7 @@ namespace NetPro.Dapper.Expressions
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		public static Task<int> GetCountByDynamicAsync<T>(this IDbConnection connection, PageFilterDto pageFilterDto, IDbTransaction transaction = null)
+		public static Task<int> QueryCountByDynamicAsync<T>(this IDbConnection connection, PageFilterDto pageFilterDto, IDbTransaction transaction = null)
 		{
 			var currenttype = typeof(T);
 			var name = GetTableName(currenttype);
@@ -174,7 +174,7 @@ namespace NetPro.Dapper.Expressions
 		/// </summary>
 		/// <param name="pageFilterDto"></param>
 		/// <returns></returns>
-		public static Task<IEnumerable<T>> GetListPagedByDynamicAsync<T>(this IDbConnection connection, PageFilterDto pageFilterDto, IDbTransaction transaction = null)
+		public static Task<IEnumerable<T>> QueryListPagedByDynamicAsync<T>(this IDbConnection connection, PageFilterDto pageFilterDto, IDbTransaction transaction = null)
 		{
 			var currenttype = typeof(T);
 			var name = GetTableName(currenttype);
@@ -234,9 +234,9 @@ namespace NetPro.Dapper.Expressions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="connection"></param>
 		/// <returns>Gets a list of all entities</returns>
-		public static Task<IEnumerable<T>> GetListAsync<T>(this IDbConnection connection)
+		public static Task<IEnumerable<T>> QueryListAsync<T>(this IDbConnection connection)
 		{
-			return connection.GetListAsync<T>(new { });
+			return connection.QueryListAsync<T>(new { });
 		}
 
 		/// <summary>
@@ -257,7 +257,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Gets a list of entities with optional exact match where conditions</returns>
-		public static Task<IEnumerable<T>> GetListPagedAsync<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static Task<IEnumerable<T>> QueryListPagedAsync<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			if (string.IsNullOrEmpty(_getPagedListSql))
 				throw new Exception("GetListPage is not supported with the current SQL Dialect");

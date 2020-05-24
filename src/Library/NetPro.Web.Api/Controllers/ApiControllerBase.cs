@@ -11,7 +11,7 @@ namespace NetPro.Web.Api.Controllers
 	/// <summary>
 	/// api 基类
 	/// </summary>
-	//[ApiController]//This option affects global validation
+	//[ApiController] //与全局验证过滤器冲突，验证不通过，会提前返回，过滤器失效
 	//[Route("api/v1/[controller]")]
 	//[Authorize]
 	public abstract class ApiControllerBase : ControllerBase

@@ -31,7 +31,7 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
 		<PackageReference Include="AutofacSerilogIntegration" Version="2.1.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="$(SerilogAspNetCore)" />
-		<PackageReference Include="Serilog.Sinks.Sentry" Version="$(SerilogSinksSentry)" />
+		<PackageReference Include="Serilog.Sinks.Sentry" Version="$(SerilogSinksSentry)" />			 
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

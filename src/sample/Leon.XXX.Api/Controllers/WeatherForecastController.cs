@@ -50,7 +50,7 @@ namespace Leon.XXX.Api
 		public IActionResult Get([FromQuery]XXXRequest gg)
         {
            return  ResponseResult.ToSuccessResult("");
-			var dd= _redisManager.Get<string>("");
+			var dd= _redisManager.GetOrCreate<string>("");
 			_logger.Information("这是系统日志");
 			//return ToFailResult("", 500);
 			var result = _xXXService.GetList();
