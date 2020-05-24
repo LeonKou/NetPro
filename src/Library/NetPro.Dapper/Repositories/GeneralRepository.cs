@@ -1,8 +1,6 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace NetPro.Dapper.Repositories
 {

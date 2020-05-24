@@ -224,6 +224,7 @@ namespace NetPro.Dapper.Repositories
                 StringBuilder build = new StringBuilder(" where 1=1 And ");
                 build.Append(conditions);
                 //总数
+                if (parame == null) parame = new DynamicParameters();
                 int totalCount = 0;
                 parame.Add("@RowCount", totalCount, DbType.Int32, ParameterDirection.Output);
 
