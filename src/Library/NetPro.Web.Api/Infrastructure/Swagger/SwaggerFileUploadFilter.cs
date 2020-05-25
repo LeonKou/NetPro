@@ -12,8 +12,8 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 		private static readonly string[] FileParameters = new[] { "ContentType", "ContentDisposition", "Headers", "Length", "Name", "FileName" };
 		public void Apply(OpenApiOperation operation, OperationFilterContext context)
 		{
-			if (!context.ApiDescription.HttpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase) &&
-				!context.ApiDescription.HttpMethod.Equals("PUT", StringComparison.OrdinalIgnoreCase) && !context.ApiDescription.ParameterDescriptions.Where(s => s.Type == typeof(IFormFile) || s.Type == typeof(IFormFileCollection)).Any())
+			if (!((context.ApiDescription.HttpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase) ||
+				context.ApiDescription.HttpMethod.Equals("PUT", StringComparison.OrdinalIgnoreCase)) && context.ApiDescription.ParameterDescriptions.Any(s => s.Type == typeof(IFormFile) || s.Type == typeof(IFormFileCollection))))
 			{
 				return;
 			}
@@ -47,7 +47,7 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 			//			} ,
 			//		}
 			//};
-			#endregion	
+			#endregion
 
 			operation.Responses.Clear();
 			operation.Responses.Add("200", new OpenApiResponse
