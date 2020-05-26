@@ -77,18 +77,22 @@ namespace NetPro.RedisManager
         /// <param name="key">缓存key值,key值必须满足规则：模块名:类名:业务方法名:参数.不满足规则将不会被缓存</param>
         /// <param name="data">Value for caching</param>
         /// <param name="cacheTime">Cache time in minutes</param>
-        public bool Set(string key, object data, int? cacheTime)
+        public bool Set(string key, object data, int cacheTime = -1)
         {
             var entryBytes = Common.Serialize(data);
             Common.CheckKey(key);
-            return Do(db => db.StringSet(key, entryBytes, TimeSpan.FromMinutes(cacheTime.Value)));
+            if (cacheTime == -1)
+                return Do(db => db.StringSet(key, entryBytes));
+            return Do(db => db.StringSet(key, entryBytes, TimeSpan.FromMinutes(cacheTime)));
         }
 
-        public async Task<bool> SetAsync(string key, object data, int? cacheTime)
+        public async Task<bool> SetAsync(string key, object data, int cacheTime)
         {
             var entryBytes = Common.Serialize(data);
             Common.CheckKey(key);
-            return await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromMinutes(cacheTime.Value)));
+            if (cacheTime == -1)
+                return await Do(db => db.StringSetAsync(key, entryBytes));
+            return await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromMinutes(cacheTime)));
         }
 
         public bool IsSet(string key)

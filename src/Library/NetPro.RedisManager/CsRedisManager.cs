@@ -26,7 +26,7 @@ namespace NetPro.RedisManager
                 RedisHelper.Set(key, func.Invoke(), expiredTime);
 
                 return func();
-            }    
+            }
 
             return result;
         }
@@ -34,7 +34,7 @@ namespace NetPro.RedisManager
         public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func, int expiredTime = -1) where T : class
         {
             Common.CheckKey(key);
-            var result =await RedisHelper.GetAsync<T>(key);
+            var result = await RedisHelper.GetAsync<T>(key);
 
             if (result == null)
             {
@@ -42,7 +42,7 @@ namespace NetPro.RedisManager
                 RedisHelper.Set(key, func.Invoke(), expiredTime);
 
                 return func();
-            }         
+            }
 
             return result;
         }
@@ -125,18 +125,14 @@ namespace NetPro.RedisManager
             return RedisHelper.Del(keys) > 0 ? true : false;
         }
 
-        public bool Set(string key, object data, int? cacheTime = -1)
+        public bool Set(string key, object data, int cacheTime = -1)
         {
-            TimeSpan? expiry = TimeSpan.FromMinutes(cacheTime.Value);
-            int totalSeconds = expiry == null ? -1 : (expiry.Value.TotalSeconds > int.MaxValue ? -1 : Convert.ToInt32(expiry.Value.TotalSeconds));
-            return RedisHelper.Set(key, data, totalSeconds);
+            return RedisHelper.Set(key, data, cacheTime);
         }
 
-        public async Task<bool> SetAsync(string key, object data, int? cacheTime)
+        public async Task<bool> SetAsync(string key, object data, int cacheTime)
         {
-            TimeSpan? expiry = TimeSpan.FromMinutes(cacheTime.Value);
-            int totalSeconds = expiry == null ? -1 : (expiry.Value.TotalSeconds > int.MaxValue ? -1 : Convert.ToInt32(expiry.Value.TotalSeconds));
-            return await RedisHelper.SetAsync(key, data, totalSeconds);
+            return await RedisHelper.SetAsync(key, data, cacheTime);
         }
 
         public bool ZAdd<T>(string key, T obj, decimal score)

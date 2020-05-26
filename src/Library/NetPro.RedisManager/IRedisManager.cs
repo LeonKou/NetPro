@@ -37,9 +37,9 @@ namespace NetPro.RedisManager
 		/// <param name="key">缓存key值,key值必须满足规则：模块名:类名:业务方法名:参数.不满足规则将不会被缓存</param>
 		/// <param name="data">Value for caching</param>
 		/// <param name="cacheTime">Cache time in minutes</param>
-		bool Set(string key, object data, int? cacheTime=-1);
+		bool Set(string key, object data, int cacheTime=-1);
 
-		Task<bool> SetAsync(string key, object data, int? cacheTime);
+		Task<bool> SetAsync(string key, object data, int cacheTime);
 
 		bool IsSet(string key);
 

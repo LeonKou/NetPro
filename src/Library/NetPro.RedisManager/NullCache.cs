@@ -73,12 +73,12 @@ namespace NetPro.RedisManager
 			return default;
 		}
 
-		public bool Set(string key, object data, int? cacheTime = -1)
+		public bool Set(string key, object data, int cacheTime = -1)
 		{
 			return default;
 		}
 
-		public Task<bool> SetAsync(string key, object data, int? cacheTime)
+		public Task<bool> SetAsync(string key, object data, int cacheTime=-1)
 		{
 			return default;
 		}
