@@ -1,0 +1,1 @@
+dotnet pack src --output publish -c Release
