@@ -22,7 +22,7 @@ namespace NetPro.RedisManager
 
             if (result == null)
             {
-                if (func == null) return default(T);
+                if (func?.Invoke() == null) return default(T);
                 RedisHelper.Set(key, func.Invoke(), expiredTime);
 
                 return func();
@@ -38,8 +38,8 @@ namespace NetPro.RedisManager
 
             if (result == null)
             {
-                if (func == null) return default(T);
-                RedisHelper.Set(key, func.Invoke(), expiredTime);
+                if (func?.Invoke() == null) return default(T);
+                await RedisHelper.SetAsync(key, func.Invoke(), expiredTime);
 
                 return func();
             }

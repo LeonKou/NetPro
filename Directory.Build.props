@@ -32,16 +32,16 @@
 		<NetProRabbitMQ>3.1.0</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.0</NetProRedisManager>
+		<NetProRedisManager>3.1.1</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
 		<NetProUtility>3.1.0</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProWebApi>3.1.1</NetProWebApi>
+		<NetProWebApi>3.1.2</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.1</NetProWebCore>
+		<NetProWebCore>3.1.2</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
 		<NetProEFCore>3.1.0</NetProEFCore>
