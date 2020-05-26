@@ -20,7 +20,7 @@
 		<NetProCore>3.1.0</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.0</NetProDapper>
+		<NetProDapper>3.1.1</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
 		<NetProLog>3.1.0</NetProLog>
@@ -38,10 +38,10 @@
 		<NetProUtility>3.1.0</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProWebApi>3.1.0</NetProWebApi>
+		<NetProWebApi>3.1.1</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.0</NetProWebCore>
+		<NetProWebCore>3.1.1</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
 		<NetProEFCore>3.1.0</NetProEFCore>
