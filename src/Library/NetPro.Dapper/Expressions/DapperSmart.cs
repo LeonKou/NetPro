@@ -91,14 +91,14 @@ namespace NetPro.Dapper.Expressions
 					_getIdentitySql = string.Format("SELECT LAST_INSERT_ID() AS id");
 					//_getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage}";
 					//FOUND_ROWS() 总数
-					_getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage};SELECT @RowCount=COUNT(*) FROM {TableName} {WhereClause}";
+					_getPagedListSql = "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage};SELECT COUNT(*) FROM {TableName} {WhereClause}";
 					break;
 				default:
 					_dialect = Dialect.SQLServer;
 					_encapsulation = "[{0}]";
 					_getIdentitySql = string.Format("SELECT CAST(SCOPE_IDENTITY()  AS BIGINT) AS [id]");
 					//@@ROWCOUNT 总数
-					_getPagedListSql = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY {OrderBy}) AS PagedNumber, {SelectColumns} FROM {TableName} {WhereClause}) AS u WHERE PagedNumber BETWEEN (({PageNumber}-1) * {RowsPerPage} + 1) AND ({PageNumber} * {RowsPerPage});SELECT @RowCount=COUNT(*) FROM {TableName} {WhereClause}";
+					_getPagedListSql = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY {OrderBy}) AS PagedNumber, {SelectColumns} FROM {TableName} {WhereClause}) AS u WHERE PagedNumber BETWEEN (({PageNumber}-1) * {RowsPerPage} + 1) AND ({PageNumber} * {RowsPerPage});SELECT COUNT(*) FROM {TableName} {WhereClause}";
 					break;
 			}
 		}
@@ -402,7 +402,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Gets a paged list of entities with optional exact match where conditions</returns>
-		public static IEnumerable<T> GetListPaged<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static SqlMapper.GridReader GetListPaged<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			if (string.IsNullOrEmpty(_getPagedListSql))
 				throw new Exception("GetListPage is not supported with the current SQL Dialect");
@@ -435,8 +435,8 @@ namespace NetPro.Dapper.Expressions
 
 			if (Debugger.IsAttached)
 				Trace.WriteLine(String.Format("GetListPaged<{0}>: {1}", currenttype, query));
-
-			return connection.Query<T>(query, parameters, transaction, true, commandTimeout);
+            
+			return connection.QueryMultiple(query, parameters, transaction, commandTimeout, CommandType.Text);
 		}
 
 		/// <summary>

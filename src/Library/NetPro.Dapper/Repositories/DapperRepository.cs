@@ -245,16 +245,16 @@ namespace NetPro.Dapper.Repositories
                 StringBuilder build = new StringBuilder(" where 1=1 And ");
                 build.Append(conditions);
                 //总数
-                if(parame==null) parame=new DynamicParameters();
+                if (parame == null) parame = new DynamicParameters();
                 int totalCount = 0;
-                parame.Add("@RowCount", totalCount, DbType.Int32, ParameterDirection.Output);
 
-                var list = Connection.GetListPaged<T>(pageIndex, pageSize, build.ToString(), orderBy, parame, ActiveTransaction);
-                totalCount = parame.Get<int?>("@RowCount") ?? 0;
+                var multi = Connection.GetListPaged<T>(pageIndex, pageSize, build.ToString(), orderBy, parame, ActiveTransaction);
 
+                var items = multi.Read<T>();
+                totalCount = multi.Read<int>().First();
                 return new PagedList<T>()
                 {
-                    Items = list.ToList(),
+                    Items = items.ToList(),
                     PageIndex = pageIndex,
                     PageSize = pageSize,
                     TotalCount = totalCount,

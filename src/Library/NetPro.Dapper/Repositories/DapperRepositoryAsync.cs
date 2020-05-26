@@ -77,7 +77,6 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 批量插入数据，返回成功的条数（未启用事物）
         /// </summary>
-        /// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
         /// <param name="tableName">数据库表名</param>
         /// <param name="fields">数据库表的所有字段，用【,】分隔（主键自增时应排除主键字段）</param>
         /// <param name="list">数据库表对应的实体集合</param>
@@ -89,7 +88,7 @@ namespace NetPro.Dapper.Repositories
             {
                 res[i] = "@" + res[i].Trim();
             }
-            string sqlText = string.Format(" INSERT INTO {0} ({1}) VALUES ({2}); ", tableName, fields, string.Join(",", res));
+            string sqlText = $" INSERT INTO {tableName} ({fields}) VALUES ({string.Join(",", res)}); ";
 
             return await Connection.ExecuteAsync(sqlText, list, transaction: ActiveTransaction);
 
@@ -171,8 +170,9 @@ namespace NetPro.Dapper.Repositories
         /// 例如：QueryList<User>(new { Age = 10 })
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <returns>受影响的行数</returns>
+        /// <param name="whereConditions"></param>
+        /// <param name="withNoLock"></param>
+        /// <returns></returns>
         public async Task<IList<T>> QueryListAsync<T>(object whereConditions, bool withNoLock = false)
         {
             Func<Task<IList<T>>> acquire = (async () =>
@@ -189,7 +189,9 @@ namespace NetPro.Dapper.Repositories
         /// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
+        /// <param name="conditions"></param>
+        /// <param name="parame"></param>
+        /// <param name="withNoLock"></param>
         /// <returns>受影响的行数</returns>
         public async Task<IList<T>> QueryListAsync<T>(string conditions, DynamicParameters parame, bool withNoLock = false)
         {
@@ -207,7 +209,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 分页
-        /// 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+        /// 例如：QueryListPaged<User>(1,10," age = 10 or Name like '%Smith%'","Name desc")
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -217,6 +219,7 @@ namespace NetPro.Dapper.Repositories
         /// <param name="parame"></param>
         /// <param name="withNoLock"></param>
         /// <returns></returns>
+        /// <remarks>查询条件不带where</remarks>
         public async Task<IPagedList<T>> QueryListPagedAsync<T>(int pageIndex, int pageSize, string conditions, string orderBy, DynamicParameters parame, bool withNoLock = false)
         {
             Func<Task<IPagedList<T>>> acquire = (async () =>
@@ -226,14 +229,14 @@ namespace NetPro.Dapper.Repositories
                 //总数
                 if (parame == null) parame = new DynamicParameters();
                 int totalCount = 0;
-                parame.Add("@RowCount", totalCount, DbType.Int32, ParameterDirection.Output);
 
-                var list = await Connection.QueryListPagedAsync<T>(pageIndex, pageSize, build.ToString(), orderBy, parame, ActiveTransaction);
-                totalCount = parame.Get<int?>("@RowCount") ?? 0;
+                var multi = await Connection.QueryListPagedAsync<T>(pageIndex, pageSize, build.ToString(), orderBy, parame, ActiveTransaction);
+                var items = await multi.ReadAsync<T>();
+                totalCount = multi.Read<int>().First();
 
                 return new PagedList<T>()
                 {
-                    Items = list.ToList(),
+                    Items = items.ToList(),
                     PageIndex = pageIndex,
                     PageSize = pageSize,
                     TotalCount = totalCount,

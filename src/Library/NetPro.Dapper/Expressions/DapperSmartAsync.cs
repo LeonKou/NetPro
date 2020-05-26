@@ -257,7 +257,7 @@ namespace NetPro.Dapper.Expressions
 		/// <param name="transaction"></param>
 		/// <param name="commandTimeout"></param>
 		/// <returns>Gets a list of entities with optional exact match where conditions</returns>
-		public static Task<IEnumerable<T>> QueryListPagedAsync<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
+		public static  Task<SqlMapper.GridReader> QueryListPagedAsync<T>(this IDbConnection connection, int pageNumber, int rowsPerPage, string conditions, string orderby, object parameters = null, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			if (string.IsNullOrEmpty(_getPagedListSql))
 				throw new Exception("GetListPage is not supported with the current SQL Dialect");
@@ -287,8 +287,7 @@ namespace NetPro.Dapper.Expressions
 
 			if (Debugger.IsAttached)
 				Trace.WriteLine(String.Format("GetListPaged<{0}>: {1}", currenttype, query));
-
-			return connection.QueryAsync<T>(query, parameters, transaction, commandTimeout);
+            return connection.QueryMultipleAsync(query, parameters, transaction, commandTimeout, CommandType.Text);
 		}
 
 		/// <summary>
