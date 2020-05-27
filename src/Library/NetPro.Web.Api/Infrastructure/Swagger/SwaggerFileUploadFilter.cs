@@ -47,7 +47,7 @@ namespace NetPro.Web.Api.Infrastructure.Swagger
 			//			} ,
 			//		}
 			//};
-			#endregion
+			#endregion	
 
 			operation.Responses.Clear();
 			operation.Responses.Add("200", new OpenApiResponse

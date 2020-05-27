@@ -21,15 +21,15 @@ namespace NetPro.RedisManager
 		/// <returns></returns>
 		T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class;
 
-		/// <summary>
-		/// 获取缓存没有则新增缓存
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="key"></param>
-		/// <param name="func"></param>
-		/// <param name="expiredTime"></param>
-		/// <returns></returns>
-		Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class;
+        /// <summary>
+        /// 获取缓存没有则新增缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="func"></param>
+        /// <param name="expiredTime"></param>
+        /// <returns></returns>
+        Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class;
 
 		/// <summary>
 		///新增缓存

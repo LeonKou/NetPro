@@ -27,6 +27,7 @@ namespace NetPro.RedisManager
             _option = option;
             CustomPrefixKey = option.DefaultCustomKey;
             _database = _connection.GetDatabase();
+           
         }
 
         public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class

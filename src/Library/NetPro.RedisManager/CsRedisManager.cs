@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CSRedis;
 
 namespace NetPro.RedisManager
 {
@@ -25,13 +26,13 @@ namespace NetPro.RedisManager
                 if (func?.Invoke() == null) return default(T);
                 RedisHelper.Set(key, func.Invoke(), expiredTime);
 
-                return func();
+                return func.Invoke();
             }
 
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func, int expiredTime = -1) where T : class
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
         {
             Common.CheckKey(key);
             var result = await RedisHelper.GetAsync<T>(key);
@@ -41,7 +42,7 @@ namespace NetPro.RedisManager
                 if (func?.Invoke() == null) return default(T);
                 await RedisHelper.SetAsync(key, func.Invoke(), expiredTime);
 
-                return func();
+                return func.Invoke();
             }
 
             return result;
@@ -145,6 +146,25 @@ namespace NetPro.RedisManager
             return RedisHelper.ZRange<T>(key, 0, -1)?.ToList();
         }
 
+        /// <summary>
+        /// 订阅
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void Subscribe<T>(params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels)
+        {
+            RedisHelper.Subscribe(channels);
+        }
+
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="func"></param>
+        public void Publish<T>(string key, Func<string> func)
+        {
+            RedisHelper.Publish(key, func.Invoke());
+        }
 
     }
 }
