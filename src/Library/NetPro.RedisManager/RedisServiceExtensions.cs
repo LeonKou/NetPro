@@ -49,12 +49,13 @@ namespace NetPro.RedisManager
             string keyPrefix = option.DefaultCustomKey;
             int writeBuffer = 10240;
             int poolsize = option.PoolSize == 0 ? 10 : option.PoolSize;
+            int timeout = option.ConnectionTimeout;
             foreach (var e in option.Endpoints)
             {
                 string server = e.Host;
                 int port = e.Port;
                 if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
-                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix}");
+                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={option.Preheat},idleTimeout={timeout}");
             }
 
             CSRedis.CSRedisClient csredis;
@@ -93,11 +94,13 @@ namespace NetPro.RedisManager
             services.AddSingleton(redisOption);
             var configurationOptions = new ConfigurationOptions
             {
+                KeepAlive = 180,
                 ConnectTimeout = redisOption.ConnectionTimeout,
                 Password = redisOption.Password,
                 Ssl = redisOption.IsSsl,
                 SslHost = redisOption.SslHost,
                 AbortOnConnectFail = false,
+                AsyncTimeout = redisOption.ConnectionTimeout,
             };
 
             foreach (var endpoint in redisOption.Endpoints)

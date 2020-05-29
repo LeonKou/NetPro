@@ -308,16 +308,24 @@ namespace NetPro.Dapper.Expressions
 					}
 					conditions.Append($" {sort.Key} {sort.Value} ");
 				}
-				conditions.Append(";");
-
-				if (pageFilterDto.PageSize != 0)
+				if (pageFilterDto.PageSize > 0 && pageFilterDto.PageIndex > 0)
 				{
-					int skip = (pageFilterDto.PageIndex - 1) * pageFilterDto.PageSize;
-					dynamicParameters.AddDynamicParams(new { skip = skip });
-					dynamicParameters.AddDynamicParams(new { pageSize = pageFilterDto.PageSize });
-					conditions.Append(" LIMIT @pageSize OFFSET @skip; ");
+					conditions.Append(" ");
+				}
+				else
+				{
+					conditions.Append(";");
 				}
 			}
+
+			if (pageFilterDto.PageSize > 0 && pageFilterDto.PageIndex > 0)
+			{
+				int skip = (pageFilterDto.PageIndex - 1) * pageFilterDto.PageSize;
+				dynamicParameters.AddDynamicParams(new { skip = skip });
+				dynamicParameters.AddDynamicParams(new { pageSize = pageFilterDto.PageSize });
+				conditions.Append(" LIMIT @pageSize OFFSET @skip; ");
+			}
+
 
 			sb.Append(" " + conditions);
 
