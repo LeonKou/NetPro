@@ -17,8 +17,8 @@ namespace Leon.XXX.Domain
         /// 这是名称
         /// </summary>
         [SwaggerDefaultValue(3)]
-        [Required(ErrorMessage = "必填项")]
-        [Range(0, 100)]
+        [Range(6,20)]
+        //[RegularExpression("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{4,20}$")]
         public int Age { get; set; }
     }
 

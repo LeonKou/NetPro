@@ -11,9 +11,9 @@ namespace NetPro.Web.Api.Controllers
 	/// <summary>
 	/// api 基类
 	/// </summary>
-	//[ApiController] //与全局验证过滤器冲突，验证不通过，会提前返回，过滤器失效
 	//[Route("api/v1/[controller]")]
 	//[Authorize]
+	[ApiController] //与全局验证过滤器冲突，验证不通过，会提前返回，过滤器失效
 	public abstract class ApiControllerBase : ControllerBase
 	{
 		#region api返回结果封装

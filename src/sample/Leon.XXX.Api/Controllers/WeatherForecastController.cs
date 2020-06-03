@@ -43,11 +43,11 @@ namespace Leon.XXX.Api
 		/// </summary>
 		/// <param name="gg"></param>
 		/// <returns></returns>
-		[HttpGet]
+		[HttpPost]
 		[Route("pay/create")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(200, Type = typeof(XXXAo))]
-		public IActionResult Get([FromQuery]XXXRequest gg)
+		public IActionResult Get(XXXRequest gg)
         {
            return  ResponseResult.ToSuccessResult("");
 			var dd= _redisManager.GetOrCreate<string>("");
