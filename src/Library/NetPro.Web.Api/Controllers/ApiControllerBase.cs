@@ -13,7 +13,7 @@ namespace NetPro.Web.Api.Controllers
 	/// </summary>
 	//[Route("api/v1/[controller]")]
 	//[Authorize]
-	[ApiController] //与全局验证过滤器冲突，验证不通过，会提前返回，过滤器失效
+	[ApiController] //模型验证失败，会在全局过滤器前返回，故无法通过全局过滤器统一返回，借助ConfigureApiBehaviorOptions可解决
 	public abstract class ApiControllerBase : ControllerBase
 	{
 		#region api返回结果封装

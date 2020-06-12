@@ -128,7 +128,7 @@ namespace NetPro.Logging
 					var elSetting = param.ElasticsearchOptions;
 					if (elSetting == null)
 					{
-						throw new ArgumentNullException("ExceptionLessSetting参数不能为空");
+						throw new ArgumentNullException("ElasticsearchOptions参数不能为空");
 					}
 					configuraton = configuraton.WriteTo.Async(s => s.Exceptionless(elSetting.ApiKey, serverUrl: elSetting.ServerUrl, restrictedToMinimumLevel: elSetting.MinimumLevel));
 				}

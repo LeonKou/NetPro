@@ -42,12 +42,12 @@ namespace NetPro.Core.Configuration
         /// <summary>
         /// 是否启用分布式日志组件
         /// </summary>
-        public bool DistributedLogEnabled { get; set; }
+        //public bool DistributedLogEnabled { get; set; }
 
         /// <summary>
         /// SerilogSinks逗号分割(格式：console,debug,file,exceptionless,sentry,es)
         /// </summary>
-        public string SerilogSinks { get; set; }
+        //public string SerilogSinks { get; set; }
 
         /// <summary>
         /// 是否启用性能监控

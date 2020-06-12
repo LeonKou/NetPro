@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using Console = Colorful.Console;
 using System.Drawing;
+using Serilog;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -130,18 +131,30 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         /// <param name="configuration"></param>
         public static void ConfigureSerilogConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            var NetProOption = services.GetNetProConfig();
-            var distributedLogEnabled = NetProOption.DistributedLogEnabled;
-            //初始化日志组件
-            NetProSerilogOptions setting = new NetProSerilogOptions();
-            if (distributedLogEnabled)
-            {
-                setting.Configuration = configuration;//使用appsettings.json文件初始化serilog
-            }
+            Serilog.Log.Logger = new LoggerConfiguration()
+              .ReadFrom.Configuration(configuration)
+              .CreateLogger();
 
-            setting.ApplicationName = services.GetNetProConfig().ApplicationName;
-            setting.Sinks = NetProOption.SerilogSinks;// $"{ SerilogSink.File},{ SerilogSink.Console}";
-            NetProSerilog.InitSerilog(setting);
+
+            //var NetProOption = services.GetNetProConfig();
+            //var distributedLogEnabled = NetProOption.DistributedLogEnabled;
+            ////初始化日志组件
+            //NetProSerilogOptions setting = new NetProSerilogOptions();
+            //if (distributedLogEnabled)
+            //{
+            //    setting.Configuration = configuration;//使用appsettings.json文件初始化serilog
+            //}
+
+            //setting.ApplicationName = services.GetNetProConfig().ApplicationName;
+            //setting.Sinks = NetProOption.SerilogSinks;// $"{ SerilogSink.File},{ SerilogSink.Console}";
+            //setting.ElasticsearchOptions = configuration.GetSection(nameof(ElasticsearchOptions)).Get<ElasticsearchOptions>();
+            //setting.ExceptionLessOptions = configuration.GetSection(nameof(ExceptionLessOptions)).Get<ExceptionLessOptions>();
+
+            //if (setting.ElasticsearchOptions != null)
+            //    services.AddSingleton(setting.ElasticsearchOptions);
+            //if (setting.ExceptionLessOptions != null)
+            //    services.AddSingleton(setting.ExceptionLessOptions);
+            //NetProSerilog.InitSerilog(setting);             
         }
 
         /// <summary>
