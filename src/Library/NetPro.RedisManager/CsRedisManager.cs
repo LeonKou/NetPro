@@ -5,25 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSRedis;
+using Microsoft.Extensions.Configuration;
 
 namespace NetPro.RedisManager
 {
     internal class CsRedisManager : IRedisManager
     {
         private readonly RedisCacheOption _option;
-        public CsRedisManager(RedisCacheOption option)
+        private readonly ConnectionMultiplexer _connection;
+        public CsRedisManager(RedisCacheOption option, ConnectionMultiplexer connection)
         {
+            _connection = connection;
             _option = option;
         }
 
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             Common.CheckKey(key);
             var result = RedisHelper.Get<T>(key);
 
             if (result == null)
             {
-                if (func?.Invoke() == null) return default(T);
+                if (func() == null) return default(T);
                 RedisHelper.Set(key, func.Invoke(), expiredTime);
 
                 return func.Invoke();
@@ -32,14 +35,14 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             Common.CheckKey(key);
             var result = await RedisHelper.GetAsync<T>(key);
 
             if (result == null)
             {
-                if (func?.Invoke() == null) return default(T);
+                if (func() == null) return default(T);
                 await RedisHelper.SetAsync(key, func.Invoke(), expiredTime);
 
                 return func.Invoke();
@@ -73,13 +76,13 @@ namespace NetPro.RedisManager
         }
 
         /// <summary>
-        /// 获得使用原生stackexchange.redis的能力，用于pipeline (stackExchange.redis专用，Csredis驱动使用此方法会报异常)
+        /// 获得使用原生stackexchange.redis的能力，用于pipeline (stackExchange.redis专用)
         /// </summary>
         /// <returns></returns>
         public IDatabase GetIDatabase()
         {
-            //TODO
-            throw new NotImplementedException();
+            Console.WriteLine("当前CSRedis默认驱动下调用Stackexchange方法");
+            return _connection.GetDatabase();
         }
 
         public T HGet<T>(string key, string field)

@@ -13,12 +13,12 @@ namespace NetPro.RedisManager
 		{
 			Console.WriteLine("redis drive is null");
 		}
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) 
 		{
             return default;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1)
 		{
 			return default;
 		}
