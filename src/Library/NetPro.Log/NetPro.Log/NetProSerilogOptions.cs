@@ -18,12 +18,19 @@ namespace NetPro.Log.NetPro.Log
 
 		public ExceptionLessOptions ExceptionLessOptions { get; set; }
 
-		public ExceptionLessOptions ElasticsearchOptions { get; set; }
+		public ElasticsearchOptions ElasticsearchOptions { get; set; }
 
 		public string SentryOptions { get; set; }  //dsn
 	}
 
 	public class ExceptionLessOptions
+	{
+		public string ApiKey { get; set; }
+		public string ServerUrl { get; set; }
+		public LogEventLevel MinimumLevel { get; set; }
+	}
+
+	public class ElasticsearchOptions
 	{
 		public string ApiKey { get; set; }
 		public string ServerUrl { get; set; }

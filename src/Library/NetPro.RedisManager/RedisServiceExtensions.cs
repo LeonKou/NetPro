@@ -71,6 +71,37 @@ namespace NetPro.RedisManager
 
             RedisHelper.Initialization(csredis);
             services.AddScoped<IRedisManager, CsRedisManager>();
+
+            /*注入stackexchange驱动，防止CSRedis驱动下获取IDatabase异常 */
+            #region   注入stackexchange驱动
+            var configurationOptions = new ConfigurationOptions
+            {
+                KeepAlive = 180,
+                ConnectTimeout = option.ConnectionTimeout,
+                Password = option.Password,
+                Ssl = option.IsSsl,
+                SslHost = option.SslHost,
+                AbortOnConnectFail = false,
+                AsyncTimeout = option.ConnectionTimeout,
+            };
+
+            foreach (var endpoint in option.Endpoints)
+            {
+                configurationOptions.EndPoints.Add(endpoint.Host, endpoint.Port);
+            }
+
+            var connect = ConnectionMultiplexer.Connect(configurationOptions);
+            //注册如下事件
+            connect.ConnectionFailed += MuxerConnectionFailed;
+            connect.ConnectionRestored += MuxerConnectionRestored;
+            connect.ErrorMessage += MuxerErrorMessage;
+            connect.ConfigurationChanged += MuxerConfigurationChanged;
+            connect.HashSlotMoved += MuxerHashSlotMoved;
+            connect.InternalError += MuxerInternalError;
+
+            services.Add(ServiceDescriptor.Singleton(connect));
+            #endregion
+
             return services;
         }
 
@@ -119,6 +150,41 @@ namespace NetPro.RedisManager
 
             services.Add(ServiceDescriptor.Singleton(connect));
             services.AddSingleton<IRedisManager, StackExchangeRedisManager>();
+
+            /*注入CSRedis驱动，防止Stackexchange驱动下获取执行RedisHelper异常*/
+            #region  注入CSRedis驱动
+            services.AddSingleton(redisOption);
+            List<string> csredisConns = new List<string>();
+            string password = redisOption.Password;
+            int defaultDb = redisOption.Database;
+            string ssl = redisOption.SslHost;
+            string keyPrefix = redisOption.DefaultCustomKey;
+            int writeBuffer = 10240;
+            int poolsize = redisOption.PoolSize == 0 ? 10 : redisOption.PoolSize;
+            int timeout = redisOption.ConnectionTimeout;
+            foreach (var e in redisOption.Endpoints)
+            {
+                string server = e.Host;
+                int port = e.Port;
+                if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
+                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={redisOption.Preheat},idleTimeout={timeout}");
+            }
+
+            CSRedis.CSRedisClient csredis;
+
+            try
+            {
+                csredis = new CSRedis.CSRedisClient(null, csredisConns.ToArray());
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Check the configuration for redis;{ex}");
+            }
+
+            RedisHelper.Initialization(csredis);
+
+            #endregion
+
             return services;
         }
 

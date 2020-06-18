@@ -30,7 +30,7 @@ namespace NetPro.RedisManager
            
         }
 
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) 
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
@@ -39,7 +39,7 @@ namespace NetPro.RedisManager
             var rValue = _db.StringGet(key);
             if (!rValue.HasValue)
             {
-                if (func?.Invoke() == null) return default(T);
+                if (func == null) return default(T);
                 var entryBytes = Common.Serialize(func.Invoke());
                 if (expiredTime == -1)
                     Do(db => db.StringSet(key, entryBytes));
@@ -51,7 +51,7 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) where T : class
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) 
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
@@ -60,7 +60,7 @@ namespace NetPro.RedisManager
             var rValue = await _db.StringGetAsync(key);
             if (!rValue.HasValue)
             {
-                if (func?.Invoke() == null) return default(T);
+                if (func == null) return default(T);
                 var entryBytes = Common.Serialize(func.Invoke());
                 if (expiredTime == -1)
                     await Do(db => db.StringSetAsync(key, entryBytes));
