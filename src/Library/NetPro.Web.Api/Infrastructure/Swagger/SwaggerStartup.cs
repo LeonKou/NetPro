@@ -62,6 +62,7 @@ namespace NetPro.Web.Api
 
             services.AddSwaggerGen(c =>
             {
+                c.DescribeAllParametersInCamelCase();//请求参数转小写
                 c.OperationFilter<SwaggerFileUploadFilter>();//add file fifter component
                 c.OperationFilter<SwaggerDefaultValueFilter>();//add webapi  default value of parameter
                 c.OperationFilter<CustomerHeaderParameter>();//add default header
