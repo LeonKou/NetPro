@@ -39,7 +39,7 @@ namespace NetPro.RedisManager
             var rValue = _db.StringGet(key);
             if (!rValue.HasValue)
             {
-                if (func == null) return default(T);
+                if (func == null || func.Invoke() == null) return default(T);
                 var entryBytes = Common.Serialize(func.Invoke());
                 if (expiredTime == -1)
                     Do(db => db.StringSet(key, entryBytes));
@@ -60,7 +60,7 @@ namespace NetPro.RedisManager
             var rValue = await _db.StringGetAsync(key);
             if (!rValue.HasValue)
             {
-                if (func == null) return default(T);
+                if (func == null || func.Invoke() == null) return default(T);
                 var entryBytes = Common.Serialize(func.Invoke());
                 if (expiredTime == -1)
                     await Do(db => db.StringSetAsync(key, entryBytes));
