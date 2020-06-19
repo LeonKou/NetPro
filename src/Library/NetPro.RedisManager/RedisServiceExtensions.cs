@@ -55,7 +55,7 @@ namespace NetPro.RedisManager
                 string server = e.Host;
                 int port = e.Port;
                 if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
-                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={option.Preheat},idleTimeout={timeout}");
+                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={option.Preheat},idleTimeout={timeout},testcluster={option.Cluster}");
             }
 
             CSRedis.CSRedisClient csredis;
@@ -167,7 +167,7 @@ namespace NetPro.RedisManager
                 string server = e.Host;
                 int port = e.Port;
                 if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
-                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={redisOption.Preheat},idleTimeout={timeout}");
+                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={redisOption.Preheat},idleTimeout={timeout},testcluster={redisOption.Cluster}");
             }
 
             CSRedis.CSRedisClient csredis;

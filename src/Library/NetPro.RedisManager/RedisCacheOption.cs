@@ -58,6 +58,11 @@ namespace NetPro.RedisManager
         /// 预热
         /// </summary>
         public int Preheat { get; set; } = 1;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Cluster { get; set; }
     }
 
     public class BaseRedisOptions
