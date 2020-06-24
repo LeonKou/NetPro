@@ -68,7 +68,7 @@ namespace NetPro.Web.Api
             var model = new ApiResultModel()
             {
                 ErrorCode = errorCode,
-                Msg = errorMsg
+                Message = errorMsg
             };
             return JsonConvert.SerializeObject(model);
         }

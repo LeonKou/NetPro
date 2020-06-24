@@ -28,7 +28,7 @@ namespace NetPro.Web.Api.Controllers
 			var resultModel = new ApiResultModel()
 			{
 				ErrorCode = errorCode,
-				Msg = msg
+				Message = msg
 			};
 			var result = new ObjectResult(resultModel);
 			result.StatusCode = errorCode;
@@ -57,7 +57,7 @@ namespace NetPro.Web.Api.Controllers
 			var result = new ApiResultModel()
 			{
 				ErrorCode = 0,
-				Msg = msg
+				Message = msg
 			};
 			return new JsonResult(result);
 		}
@@ -75,7 +75,7 @@ namespace NetPro.Web.Api.Controllers
 			{
 				Body = body,
 				ErrorCode = 0,
-				Msg = msg
+				Message = msg
 			};
 			return new JsonResult(result);
 		}

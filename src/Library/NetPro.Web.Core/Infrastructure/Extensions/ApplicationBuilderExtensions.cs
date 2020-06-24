@@ -117,7 +117,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 						await context.Response.WriteAsync(JsonConvert.SerializeObject(new ApiResultModel()
 						{
 							ErrorCode = errorCode,
-							Msg = errorMsg
+							Message = errorMsg
 						})).ConfigureAwait(false);
 					}
 				});

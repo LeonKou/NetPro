@@ -35,7 +35,7 @@ namespace NetPro.RedisManager
             NotNullOrWhiteSpace(key, nameof(key));
 
             Common.CheckKey(key);
-            var _db = _connection.GetDatabase();
+            var _db = _connection.GetDatabase();                    
             var rValue = _db.StringGet(key);
             if (!rValue.HasValue)
             {

@@ -12,6 +12,9 @@
 		<AssemblyName>$(NetProWebApiAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Filters\ViewModelStateActionFilter.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>

@@ -26,7 +26,7 @@ namespace NetPro.Web.Core
             var model = new ApiResultModel()
             {
                 ErrorCode = errorCode,
-                Msg = errorMsg
+                Message = errorMsg
             };
             return new JsonResult(model);
         }

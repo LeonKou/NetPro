@@ -34,7 +34,7 @@ namespace NetPro.Web.Core.Models
         /// <summary>
         ///消息内容.失败原因、成功提示等.
         /// </summary>
-        public string Msg { get; set; }
+        public string Message { get; set; }
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace NetPro.Web.Core.Models
             var resultModel = new ApiResultModel()
             {
                 ErrorCode = errorCode,
-                Msg = msg
+                Message = msg
             };
             var result = new ObjectResult(resultModel);
             result.StatusCode = errorCode;
@@ -65,7 +65,7 @@ namespace NetPro.Web.Core.Models
             var result = new ApiResultModel()
             {
                 ErrorCode = 0,
-                Msg = msg
+                Message = msg
             };
             return new JsonResult(result);
         }
@@ -83,7 +83,7 @@ namespace NetPro.Web.Core.Models
             {
                 Body = body,
                 ErrorCode = 0,
-                Msg = msg
+                Message = msg
             };
             return new JsonResult(result);
         }
