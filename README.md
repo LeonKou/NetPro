@@ -33,15 +33,15 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 具体参考sample/Leon.XXXV2.Api项目
 
-* webapi项目引用 `NetPro.Web.Api`
+* webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
 
-Package Manager方式: `Install-Package NetPro.Web.Api -Version 1.0.0`
+Package Manager方式: `Install-Package NetPro.Web.Api -Version 3.1.2`
 
-.NET CLI 方式: `dotnet add package NetPro.Web.Api --version 1.0.0`
+.NET CLI 方式: `dotnet add package NetPro.Web.Api --version 3.1.2`
 
-PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="1.0.0" />`
+PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="3.1.2" />`
 
-.NET CLI 方式: `paket add NetPro.Web.Api --version 1.0.0`
+.NET CLI 方式: `paket add NetPro.Web.Api --version 3.1.2`
 
 *  修改`Program.cs`
 
