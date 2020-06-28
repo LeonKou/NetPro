@@ -19,14 +19,14 @@ using System.Threading.Tasks;
 namespace NetPro.Web.Core.Filters
 {
     /// <summary>
-    /// 验证签名
+    /// 接口签名验证
     /// </summary>
-    public class VerifySignFilter : IAsyncActionFilter
+    public class VerifySignAbandonedFilter : IAsyncActionFilter
     {
         private readonly ILogger _logger;
         readonly IConfiguration _configuration;
 
-        public VerifySignFilter(ILogger logger, IConfiguration configuration)
+        public VerifySignAbandonedFilter(ILogger logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
@@ -101,7 +101,7 @@ namespace NetPro.Web.Core.Filters
                 return;
             }
 
-        gotoNext:
+            gotoNext:
             await next();
         }
 
@@ -127,11 +127,5 @@ namespace NetPro.Web.Core.Filters
             }
             return queryString;
         }
-    }
-
-    public class AppSecret
-    {
-        public string AppId { get; set; }
-        public string Secret { get; set; }
     }
 }

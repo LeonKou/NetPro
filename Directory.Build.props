@@ -46,6 +46,10 @@
 
 		<NetProEFCore>3.1.1</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
+
+		<NetProSign>3.1.0</NetProSign>
+		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
+		
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">

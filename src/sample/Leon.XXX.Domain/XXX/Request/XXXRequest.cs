@@ -20,6 +20,8 @@ namespace Leon.XXX.Domain
         [Range(6,20)]
         //[RegularExpression("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{4,20}$")]
         public int Age { get; set; }
+
+        public string Name { get; set; }
     }
 
     /// <summary>

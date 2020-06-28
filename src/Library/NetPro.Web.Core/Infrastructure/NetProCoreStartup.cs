@@ -11,6 +11,7 @@ using HealthChecks.UI.Client;
 using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
+using NetPro.Sign;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -35,6 +36,10 @@ namespace NetPro.Web.Core.Infrastructure
             //services.AddMiniProfilerEF();
             //配置 mvc服务
             services.AddNetProCore();
+            services.AddVerifySign(s =>
+            {
+                s.OperationFilter<VerifySignCustomer>();
+            });
 
             //健康检查
             if (!netproOption.EnabledHealthCheck)
@@ -71,7 +76,7 @@ namespace NetPro.Web.Core.Infrastructure
             {
                 Predicate = _ => true,
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });      
+            });
 
             application.UseHealthChecksUI(s => s.UIPath = "/ui");
 

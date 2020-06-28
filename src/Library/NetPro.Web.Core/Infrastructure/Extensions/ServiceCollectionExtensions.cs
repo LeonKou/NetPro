@@ -26,6 +26,9 @@ using System.Text.Json;
 using Console = Colorful.Console;
 using System.Drawing;
 using Serilog;
+using System.Text;
+using NetPro.Web.Core.Models;
+using NetPro.Sign;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -187,7 +190,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             var mvcBuilder = services.AddControllers(config =>
             {
                 config.Filters.Add(typeof(NetProExceptionFilter));//自定义全局异常过滤器
-                config.Filters.Add(typeof(BenchmarkActionFilter));//接口性能监控过滤器 
+                config.Filters.Add(typeof(BenchmarkActionFilter));//接口性能监控过滤器
 
                 if (NetProOption.PermissionEnabled)
                 {
@@ -196,6 +199,25 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 
                 config.Filters.Add(typeof(ReqeustBodyFilter));//请求数据过滤器
 
+            }).ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    foreach (var keyModelStatePair in context.ModelState)
+                    {
+                        var key = keyModelStatePair.Key;
+                        var errors = keyModelStatePair.Value.Errors;
+                        if (errors != null && errors.Count > 0)
+                        {
+                            stringBuilder.Append(errors[0].ErrorMessage);
+                        }
+                    }
+                    return new BadRequestObjectResult(new ApiResultModel { ErrorCode = -1, Message = $"数据验证失败--详情：{stringBuilder}" })
+                    {
+                        ContentTypes = { "application/problem+json", "application/problem+xml" }
+                    };
+                };
             });
             //mvc binder对象转换支持空字符串.如果传入空字符串为转成空字符串，默认会转成null
             mvcBuilder.AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new CustomMetadataProvider()));
