@@ -50,17 +50,43 @@ services.AddVerifySign(s =>
 #### appsetting.json
 ```json
 "VerifySignOption": {
-		"Enable": true,//是否开启签名
-		"ExpireSeconds": 60,//时间戳过期时长，单位秒
-		"CommonParameters": { //公共参数名的定义
-			"TimestampName": "timestamp",
-			"AppIdName": "appid",
-			"SignName": "sign"
-		},
-		"AppSecret": {  //默认AK/SK
-			"AppId": {
-
-			}
-		}
+"Enable": true,//是否开启签名
+"IsDebug": true,//是否调试，显示更多敏感信息
+"Scheme": "attribute",//global与attribute两种，attribute需要向controller或者action加特式签名，global则全局
+"ExpireSeconds": 60,//时间戳过期时长，单位秒
+"CommonParameters": { //公共参数名的定义
+	"TimestampName": "timestamp",
+	"AppIdName": "appid",
+	"SignName": "sign"
+},
+"AppSecret": {  //默认AK/SK
+	"AppId": 
 	}
+    }
+}
+```
+Attribute模式
+* 设置需签名的控制器或方法
+```csharp
+    [Route("api/v1/[controller]")]
+    [VerifySign]//此控制器将签名访问
+    public class WeatherForecastController : ControllerBase
+
+    ...
+
+
+    [HttpPost]
+    [Route("pay/create")]
+    [ProducesResponseType(200)]
+    [VerifySign]//此action将签名访问
+    public IActionResult Get()
+```
+
+* 忽略签名
+```csharp
+    [HttpPost]
+    [Route("pay/create")]
+    [ProducesResponseType(200)]
+    [IgnoreSign]//此方法忽略签名
+    public IActionResult Get()
 ```
