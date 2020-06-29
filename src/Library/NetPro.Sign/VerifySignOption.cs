@@ -11,7 +11,15 @@ namespace NetPro.Sign
         {
 
         }
+
+        public bool IsDebug { get; set; }
+
         public bool Enable { get; set; }
+
+        /// <summary>
+        /// 签名方案，global;attribute
+        /// </summary>
+        public string Scheme { get; set; }
 
         public int ExpireSeconds { get; set; } = 5;
 

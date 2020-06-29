@@ -1,14 +1,39 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic.CompilerServices;
+using NetPro.Web.Core.Filters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NetPro.Sign
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    internal static class IoC
+    {
+        internal static IServiceProvider ServiceProvider { get; set; }
+
+        private static IServiceProvider GetServiceProvider()
+        {
+            if (ServiceProvider == null)
+                return null;
+            var accessor = ServiceProvider?.GetService<IHttpContextAccessor>();
+            var context = accessor?.HttpContext;
+            return context?.RequestServices ?? ServiceProvider;
+        }
+
+        internal static T Resolve<T>()
+        {
+            return (T)GetServiceProvider().GetService(typeof(T));
+        }
+    }
+
     public static class VerifySignExtensions
     {
         public static IServiceCollection AddVerifySign(this IServiceCollection services, Action<VerifySignOption> setupAction = null)
@@ -25,16 +50,28 @@ namespace NetPro.Sign
                 option.OperationFilterDescriptors.AddRange(tempOption.OperationFilterDescriptors);
                 services.TryAddSingleton(option);
 
-                services.AddScoped<IOperationFilter, VerifySignCommon>();//注入默认处理
+                services.AddScoped<IOperationFilter, VerifySignDefaultFilter>();//注入默认处理
 
                 foreach (var item in tempOption.OperationFilterDescriptors)
                 {
                     services.AddScoped(typeof(IOperationFilter), item);//覆盖默认处理
                 }
-                services.AddControllers(config =>
+                switch (option.Scheme.ToLower())
                 {
-                    config.Filters.Add(typeof(VerifySignFilter));//签名验证启动
-                });
+                    case "global":
+                        services.AddControllers(config =>
+                         {
+                             config.Filters.Add(typeof(VerifySignFilter));//签名验证启动
+                         });
+                        break;
+                    case "attribute":
+                        IoC.ServiceProvider = services.BuildServiceProvider();
+                        services.AddScoped<VerifySignAttribute>();
+                        break;
+                    default:
+                        Console.WriteLine("签名验证已关闭");
+                        break;
+                }
             }
             else
                 Console.WriteLine("签名验证已关闭");

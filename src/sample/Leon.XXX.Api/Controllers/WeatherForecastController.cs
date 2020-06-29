@@ -5,6 +5,8 @@ using NetPro.Web.Api.Controllers;
 using NetPro.RedisManager;
 using NetPro.Web.Core.Models;
 using Serilog;
+using NetPro.Web.Core.Filters;
+using NetPro.Sign;
 
 namespace Leon.XXX.Api
 {
@@ -12,6 +14,7 @@ namespace Leon.XXX.Api
 	///这是controller
 	/// </summary>
 	[Route("api/v1/[controller]")]
+	[VerifySign]
 	public class WeatherForecastController : ApiControllerBase
 	{
 		private readonly IXXXService _xXXService;
@@ -47,6 +50,7 @@ namespace Leon.XXX.Api
 		[Route("pay/create")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(200, Type = typeof(XXXAo))]
+		[IgnoreSign]
 		public IActionResult Get(XXXRequest gg)
         {
            return  ResponseResult.ToSuccessResult("");

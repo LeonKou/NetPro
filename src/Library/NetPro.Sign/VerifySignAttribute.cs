@@ -1,37 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using NetPro.Sign;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace NetPro.Sign
+namespace NetPro.Web.Core.Filters
 {
-    public class VerifySignFilter : IAsyncActionFilter
+    public class VerifySignAttribute : ActionFilterAttribute
     {
         private readonly IConfiguration _configuration;
         private readonly IOperationFilter _verifySignCommon;
         private readonly VerifySignOption _verifySignOption;
-
-        public VerifySignFilter(IConfiguration configuration, IOperationFilter verifySignCommon, VerifySignOption verifySignOption)
+        public VerifySignAttribute()
         {
-            _configuration = configuration;
-            _verifySignCommon = verifySignCommon;
-            _verifySignOption = verifySignOption;
+            Order = 1;
+            _configuration = IoC.Resolve<IConfiguration>();
+            _verifySignCommon = IoC.Resolve<IOperationFilter>();
+            _verifySignOption = IoC.Resolve<VerifySignOption>();
         }
 
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             var descriptor = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor;
             var attributeController = (IgnoreSignAttribute)descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(IgnoreSignAttribute), true).FirstOrDefault();
@@ -45,14 +38,13 @@ namespace NetPro.Sign
             if (!GetSignValue(context.HttpContext.Request))
             {
                 SignCommon.BuildErrorJson(context);
-                await Task.CompletedTask;
                 return;
             }
             else
                 goto gotoNext;
 
             gotoNext:
-            await next();
+            base.OnActionExecuting(context);
         }
 
         private bool GetSignValue(HttpRequest request)
