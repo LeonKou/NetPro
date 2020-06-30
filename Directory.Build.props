@@ -14,10 +14,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">
-		<NetProChecker>3.1.1</NetProChecker>
+		<NetProChecker>3.1.2</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>3.1.1</NetProCore>
+		<NetProCore>3.1.2</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
 		<NetProDapper>3.1.2</NetProDapper>
@@ -32,16 +32,16 @@
 		<NetProRabbitMQ>3.1.1</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.2</NetProRedisManager>
+		<NetProRedisManager>3.1.3</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
 		<NetProUtility>3.1.1</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProWebApi>3.1.3</NetProWebApi>
+		<NetProWebApi>3.1.4</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.3</NetProWebCore>
+		<NetProWebCore>3.1.4</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
 		<NetProEFCore>3.1.1</NetProEFCore>

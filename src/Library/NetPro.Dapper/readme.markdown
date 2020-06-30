@@ -26,8 +26,22 @@
       new DefaultDapperContext(configuration.GetValue<string>("DatabaseConnection"), DataProvider.Mysql));
   }
 ```
+#### 定义数据库映射的实体
 
-#### 定义Repository
+```csharp
+[Table("rank")]
+ public class XXXDo
+ {
+ 	[Key]
+ 	[Column("id")]
+ 	public int Id { get; set; }
+ 	[Column("type")]
+ 	public int Type { get; set; }
+ }
+
+ 注意：Table所在命名空间为NetPro.Dapper
+```
+#### 定义Repository(可选择使用)
 业务简单可不定义Repository，直接使用IDapperRepository<T> 接口直接操作数据库
 ``` csharp
 
@@ -57,12 +71,11 @@
         }
 
         /// <summary>
-        ///  重写切换数据库逻辑
+        ///  自定义切换数据库逻辑
         /// </summary>
         /// <param name="serverId"></param>
         public override void SetMySqlConnectioin(int serverId)
         {
-            //数据库从Apollo读取
             var context = EngineContext.Current.Resolve<DefaultDapperContext>();
             if (serverId == 1)
             {
