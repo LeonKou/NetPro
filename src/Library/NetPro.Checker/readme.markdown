@@ -1,7 +1,7 @@
 
 ## Checker使用
- [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
- 
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.Checker.svg)](https://nuget.org/packages/NetPro.Checker)
+
 对Microsoft.AspNetCore.Diagnostics.HealthChecks的强化和redis，mongodb检查的完善
 
 ### 使用
@@ -79,7 +79,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 #### 访问 /ui 
 可视化查看健康检查
 <p align="center">
-  <img  src="https://github.com/LeonKou/NetPro/blob/master/docs/images/leonkou.png">
+  <img  src="https://github.com/LeonKou/NetPro/blob/master/docs/images/checkhealth.jpg">
 </p>
 
 #### 访问 /env 

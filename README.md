@@ -50,29 +50,29 @@ PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="3.1.2" />`
 ```csharp
 
 public class Program
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		public static void Main(string[] args)
-		{
-			CreateHostBuilder(args).Build().Run();
-		}
+{
+/// <summary>
+/// 
+/// </summary>
+/// <param name="args"></param>
+public static void Main(string[] args)
+{
+	CreateHostBuilder(args).Build().Run();
+}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
-				.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-				.ConfigureAppConfiguration((hostingContext, config) => ApolloClientHelper.ApolloConfig(hostingContext, config, args))
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				}).UseSerilog();
+/// <summary>
+/// 
+/// </summary>
+/// <param name="args"></param>
+/// <returns></returns>
+public static IHostBuilder CreateHostBuilder(string[] args) =>
+	Host.CreateDefaultBuilder(args)
+	.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+	.ConfigureAppConfiguration((hostingContext, config) => ApolloClientHelper.ApolloConfi	(hostingContext, config, args))
+	.ConfigureWebHostDefaults(webBuilder =>
+	{
+		webBuilder.UseStartup<Startup>();
+	}).UseSerilog();
 	}
 ```
 
@@ -81,61 +81,61 @@ public class Program
 ```csharp
 
 public class Startup
-	{
-		#region Fields
+{
+ #region Fields
 
-		private readonly IConfiguration _configuration;
-		private readonly IWebHostEnvironment _webHostEnvironment;
-		private IEngine _engine;
-		private NetProOtion _NetProOtion;
+ private readonly IConfiguration _configuration;
+ private readonly IWebHostEnvironment _webHostEnvironment;
+ private IEngine _engine;
+ private NetProOtion _NetProOtion;
 
-		#endregion
+ #endregion
 
-		#region Ctor
+ #region Ctor
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="configuration"></param>
-		/// <param name="webHostEnvironment"></param>
-		public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
-		{
-			_configuration = configuration;
-			_webHostEnvironment = webHostEnvironment;
-		}
+ /// <summary>
+ /// 
+ /// </summary>
+ /// <param name="configuration"></param>
+ /// <param name="webHostEnvironment"></param>
+ public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+ {
+ 	_configuration = configuration;
+ 	_webHostEnvironment = webHostEnvironment;
+ }
 
-		#endregion
+ #endregion
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="services"></param>
-		public void ConfigureServices(IServiceCollection services)
-		{
-			(_engine, _NetProOtion) = services.ConfigureApplicationServices(_configuration, _webHostEnvironment);
-		}
+ // This method gets called by the runtime. Use this method to add services to the  container.
+ /// <summary>
+ /// 
+ /// </summary>
+ /// <param name="services"></param>
+ public void ConfigureServices(IServiceCollection services)
+ {
+ 	(_engine, _NetProOtion) = services.ConfigureApplicationServices(_configuration, _webHostEnvironment);
+ }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="builder"></param>
-		public void ConfigureContainer(ContainerBuilder builder)
-		{
-			_engine.RegisterDependencies(builder, _NetProOtion);
-		}
-
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="app"></param>
-		/// <param name="env"></param>
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			app.ConfigureRequestPipeline();
-		}
-	}
+ /// <summary>
+ /// 
+ /// </summary>
+ /// <param name="builder"></param>
+ public void ConfigureContainer(ContainerBuilder builder)
+ {
+ 	_engine.RegisterDependencies(builder, _NetProOtion);
+ }
+ 
+ // This method gets called by the runtime. Use this method to configure the HTTP request  pipeline.
+ /// <summary>
+ /// 
+ /// </summary>
+ /// <param name="app"></param>
+ /// <param name="env"></param>
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+ {
+ 	app.ConfigureRequestPipeline();
+ }
+}
 ```
 
 * 为了Startup文件干净清爽，建议创建`ApiStartup.cs`文件
@@ -147,181 +147,175 @@ public class Startup
 ```json
 
 {
-	"Apollo": {
-		"Enabled": false,
-		"AppId": "Leon",
-		"MetaServer": "http://192.168.56.98:7078",
-		"Cluster": "default",
-		"Namespaces": "AppSetting,MicroServicesEndpoint",
-		"RefreshInterval": 300000,
-		"LocalCacheDir": "apollo/data"
-	},
+"Apollo": {
+	"Enabled": false,//是否开启Apollo
+	"AppId": "Leon",
+	"MetaServer": "http://192.168.56.98:7078",
+	"Cluster": "default",
+	"Namespaces": "AppSetting,MicroServicesEndpoint",
+	"RefreshInterval": 300000,
+	"LocalCacheDir": "apollo/data"
+},//apollo配置
 
-	"Serilog": {
-		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
-		"MinimumLevel": {
-			"Default": "Information",
-			"Override": {
-				"Microsoft": "Debug",
-				"System": "Debug",
-				"System.Net.Http.HttpClient": "Debug"
-			}
-		},
-		"WriteTo:Async": {
-			"Name": "Async",
-			"Args": {
-				"configure": [
-					{ "Name": "Console" }
-				]
-			}
-		},
-		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
-		"Properties": {
-			"Application": "GameSdk"
+"Serilog": {
+    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+    "MinimumLevel": {
+    	"Default": "Information",
+    	"Override": {
+    	   "Microsoft": "Debug",
+    	   "System": "Debug",
+    	   "System.Net.Http.HttpClient": "Debug"
+    	}
+    },
+    "WriteTo:Async": {
+    	"Name": "Async",
+    	"Args": {
+    		"configure": [
+    			{ "Name": "Console" }]
+    	}
+    },
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+    "Properties": {
+    	"Application": "GameSdk"
+    }
+},
+
+ "AllowedHosts": "*",
+ 
+ "NetProOption": {
+   "ProjectPrefix": "Leon", //项目前缀名称，Leon.User.Api的前缀则为Leon
+   "ProjectSuffix": "",//项目后缀，不填
+   "DisplayFullErrorStack": false,
+   "StaticFilesCacheControl": "Cache-Control",
+   "UseResponseCompression": false,
+   "ThreadMinCount": 5,//最小线程数，高并发情况下， 可增大此值预热防止出现请求超时情况，或者连接数不可用等错误
+   "APMEnabled": false,//是否开启APM
+   "PermissionEnabled": false,//是否开启权限验证
+   "MiniProfilerEnabled": false,//是否开启MiniProfiler
+   "ApplicationName": "",//应用名称
+   "SuperRole": "admin",
+   "RequestWarningThreshold": 5,
+   "AppType": 1,//1:restapi应用
+   "ErrorUrl": "www.Leon.com",
+   "Permission": "url",//权限验证方式url
+   "LoginUrl": "",
+   "PageNotFoundUrl": "",
+   "IsDebug": true,
+   "CorsOrigins": "false",//允许跨域
+   "EnabledHealthCheck": true,//是否开启健康检查
+   "ConnectionStrings": {
+   	"DefaultConnection": "Server=192.168.57.66;Port=3306;Database=netprodb;charset=utf8;user=netpro;password=netpro;",
+   	"ServerIdConnection": {
+   		"1": "Server=192.168.57.68;Port=3306;Database=netprodb1;charset=utf8;user=netpro;password=netpro;"//dapper切库使用
+   	}
+   }
+ },
+
+"VerifySignOption": {//sign签名配置
+	"Enable": true,
+	"IsDebug": true,
+	"Scheme": "attribute",//特性方式签名
+	"ExpireSeconds": 60,
+	"CommonParameters": {
+		"TimestampName": "timestamp",
+		"AppIdName": "appid",
+		"SignName": "sign"
+	},
+	"AppSecret": {
+		"AppId": {
 		}
-	},
-
-	"AllowedHosts": "*",
-
-	"NetProOption": {
-		"ProjectPrefix": "Leon", //Project prefix name,,for example："Leon.User.Api"'s prefix is Leon
-		"ProjectSuffix": "",
-		"DisplayFullErrorStack": false,
-		"StaticFilesCacheControl": "Cache-Control",
-		"UseResponseCompression": false,
-		"ThreadMinCount": 5,
-		"APMEnabled": false,
-		"PermissionEnabled": false,
-		"MiniProfilerEnabled": false,
-		"ApplicationName": "",
-		"SuperRole": "admin",
-		"RequestWarningThreshold": 5,
-		"AppType": 1,
-		"ErrorUrl": "www.Leon.com",
-		"Permission": "url",
-		"LoginUrl": "",
-		"PageNotFoundUrl": "",
-		"IsDebug": true,
-		"CorsOrigins": "false",
-		"EnabledHealthCheck": true,
-		"ConnectionStrings": {
-			"DefaultConnection": "Server=192.168.57.66;Port=3306;Database=netprodb;charset=utf8;user=netpro;password=netpro;",
-			"ServerIdConnection": {
-				"1": "Server=192.168.57.68;Port=3306;Database=netprodb1;charset=utf8;user=netpro;password=netpro;"
-			}
-		}
-	},
-
-	"VerifySignOption": {
-		"Enable": true,
-		"IsDebug": true,
-		"Scheme": "attribute",
-		"ExpireSeconds": 60,
-		"CommonParameters": {
-			"TimestampName": "timestamp",
-			"AppIdName": "appid",
-			"SignName": "sign"
-		},
-		"AppSecret": {
-			"AppId": {
-
-			}
-		}
-	},
-
-	"SwaggerOption": {
-		"Enable": true,
-		"MiniProfilerEnabled": false,
-		"XmlComments": [ "", "" ],
-		"RoutePrefix": "swagger",
-		"Description": "this is swagger for netcore",
-		"Title": "Demo swagger",
-		"Version": "first version",
-		"TermsOfService": "netcore.com",
-		"Contact": {
-			"Email": "swagger@netcore.com",
-			"Name": "swagger",
-			"Url": "swagger@netcore.com"
-		},
-		"License": {
-			"Name": "",
-			"Url": ""
-		},
-		"Headers": [ "User" ] //设置swagger默认头参数
-	},
-
-	"HealthChecksUI": {
-		"HealthChecks": [
-			{
-				"Name": "HealthList",
-				"Uri": "/health"
-			}
-		],
-		"Webhooks": [],
-		"EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
-		"MinimumSecondsBetweenFailureNotifications": 60
-	},
-
-	"Hosting": {
-		"ForwardedHttpHeader": "",
-		"UseHttpClusterHttps": false,
-		"UseHttpXForwardedProto": false
-	},
-
-	"RedisCacheOption": {
-		"Enabled": true,
-		"RedisComponent": 2,
-		"Password": "netpro",
-		"IsSsl": false,
-		"Preheat": 20,
-		"Cluster": true, //集群模式
-		"ConnectionTimeout": 20,
-		"Endpoints": [
-			{
-				"Port": 6665,
-				"Host": "192.168.66.33"
-			},
-			{
-				"Port": 6666,
-				"Host": "192.168.66.66"
-			}
-		],
-		"Database": 0,
-		"DefaultCustomKey": "",
-		"PoolSize": 50
-	},
-
-	"MicroServicesEndpoint": {
-		"Example": "http://localhost:5000",
-		"XXX": ""
-	},
-
-	"MongoDbOptions": {
-		"Enabled": false,
-		"ConnectionString": "",
-		"Database": -1
 	}
-
-	,
-	"RabbitMq": {
-		"HostName": "127.0.0.1",
-		"Port": "5672",
-		"UserName": "guest",
-		"Password": "guest"
+},
+"SwaggerOption": {//swagger配置
+	"Enable": true,
+	"MiniProfilerEnabled": false,
+	"XmlComments": [ "", "" ],
+	"RoutePrefix": "swagger",
+	"Description": "this is swagger for netcore",
+	"Title": "Demo swagger",
+	"Version": "first version",
+	"TermsOfService": "netcore.com",
+	"Contact": {
+	    "Email": "swagger@netcore.com",
+	    "Name": "swagger",
+	    "Url": "swagger@netcore.com"
 	},
-	"RabbitMqExchange": {
-		"Type": "direct",
-		"Durable": true,
-		"AutoDelete": false,
-		"DeadLetterExchange": "default.dlx.exchange",
-		"RequeueFailedMessages": true,
-		"Queues": [
-			{
-				"Name": "myqueue",
-				"RoutingKeys": [ "routing.key" ]
-			}
-		]
-	}
+	"License": {
+	    "Name": "",
+	    "Url": ""
+	},
+	"Headers": [ "User" ] //设置swagger默认头参数
+},
+"HealthChecksUI": {//健康检查配置
+	"HealthChecks": [
+		{
+		 "Name": "HealthList",
+		 "Uri": "/health"
+		}
+	],
+	"Webhooks": [],
+	"EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
+	"MinimumSecondsBetweenFailureNotifications": 60
+},
+"Hosting": {
+	"ForwardedHttpHeader": "",
+	"UseHttpClusterHttps": false,
+	"UseHttpXForwardedProto": false
+},
+"RedisCacheOption": {//redis配置
+    "Enabled": true,
+    "RedisComponent": 2,//1：csredis驱动；2:stackexchangeRedis驱动
+    "Password": "netpro",
+    "IsSsl": false,
+    "Preheat": 20,
+    "Cluster": true, //集群模式
+    "ConnectionTimeout": 20,
+    "Endpoints": [
+    	{
+    		"Port": 6665,
+    		"Host": "192.168.66.33"
+    	},
+    	{
+    		"Port": 6666,
+    		"Host": "192.168.66.66"
+    	}
+    ],
+    "Database": 0,
+    "DefaultCustomKey": "",
+    "PoolSize": 50
+	},
+
+  "MicroServicesEndpoint": {//跨服务调用配置
+  	"Example": "http://localhost:5000",
+  	"XXX": ""
+  },
+  
+  "MongoDbOptions": {//mongodb配置
+  	"Enabled": false,
+  	"ConnectionString": "",
+  	"Database": -1
+  }
+  
+  ,
+  "RabbitMq": {//rabitmq配置
+  	"HostName": "127.0.0.1",
+  	"Port": "5672",
+  	"UserName": "guest",
+  	"Password": "guest"
+  },
+  "RabbitMqExchange": {
+  	"Type": "direct",
+  	"Durable": true,
+  	"AutoDelete": false,
+  	"DeadLetterExchange": "default.dlx.exchange",
+  	"RequeueFailedMessages": true,
+  	"Queues": [
+  		{
+  		 "Name": "myqueue",
+  		 "RoutingKeys": [ "routing.key" ]
+  		}
+  	]
+  }
 }
 
 
