@@ -11,10 +11,25 @@
 startup注入
 
 ``` csharp
-services.AddVerifySign(s =>
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddVerifySign(s =>
             {
                 s.OperationFilter<VerifySignCustomer>();
             });
+}
+```
+
+```csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+     application.Use(next => context =>
+     {       
+         //此设置用于其他地方读取Body https://stackoverflow.com/questions/31389781/read-request-body-twice
+         context.Request.EnableBuffering();
+         return next(context);
+     });
+}
 ```
 
 ### 自定义摘要算法

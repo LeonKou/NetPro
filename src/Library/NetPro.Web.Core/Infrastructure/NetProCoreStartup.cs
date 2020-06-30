@@ -12,6 +12,7 @@ using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
 using NetPro.Sign;
+using Microsoft.AspNetCore.Http;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -62,7 +63,14 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
-        {
+        {                 
+            application.Use(next => context =>
+            {       
+                //此设置用于其他地方读取Body https://stackoverflow.com/questions/31389781/read-request-body-twice
+                context.Request.EnableBuffering();
+                return next(context);
+            });
+
             var config = EngineContext.Current.Resolve<NetProOption>();
             if (config.MiniProfilerEnabled)
             {
