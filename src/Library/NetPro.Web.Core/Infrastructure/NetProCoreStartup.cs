@@ -36,6 +36,7 @@ namespace NetPro.Web.Core.Infrastructure
             //services.AddMiniProfilerEF();
             //配置 mvc服务
             services.AddNetProCore();
+            //启用请求签名组件
             services.AddVerifySign(s =>
             {
                 s.OperationFilter<VerifySignCustomer>();
@@ -50,7 +51,7 @@ namespace NetPro.Web.Core.Infrastructure
                 healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
             foreach (var item in redisCacheOption?.Endpoints ?? new List<ServerEndPoint>())
             {
-                healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", name: $"redis-{item.Host}");
+                healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", name: $"redis-{item.Host}:{item.Port}");
             }
 
             services.AddHealthChecksUI();

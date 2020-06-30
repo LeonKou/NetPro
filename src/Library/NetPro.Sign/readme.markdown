@@ -1,5 +1,9 @@
 
-#### 接口签名使用
+## 接口签名
+
+主要防范请求参数被篡改和增加爬虫难度，支持Attribute和Global 模式
+
+### 接口签名使用
 默认为url参数与body参数合并成一个字符串再utf-8编码后进行摘要计算，得到的值转为16进制小写
 
 startup注入
@@ -11,7 +15,7 @@ services.AddVerifySign(s =>
             });
 ```
 
-#### 自定义摘要算法
+### 自定义摘要算法
 
 ```csharp
  public class VerifySignCustomer : IOperationFilter
@@ -47,7 +51,7 @@ services.AddVerifySign(s =>
     }
 ```
 
-#### appsetting.json
+### appsetting.json
 ```json
 "VerifySignOption": {
 "Enable": true,//是否开启签名
@@ -65,7 +69,7 @@ services.AddVerifySign(s =>
     }
 }
 ```
-Attribute模式
+### Attribute模式使用方式
 * 设置需签名的控制器或方法
 ```csharp
     [Route("api/v1/[controller]")]
@@ -82,11 +86,30 @@ Attribute模式
     public IActionResult Get()
 ```
 
-* 忽略签名
+###  忽略签名
 ```csharp
     [HttpPost]
     [Route("pay/create")]
     [ProducesResponseType(200)]
     [IgnoreSign]//此方法忽略签名
     public IActionResult Get()
+```
+
+生成签名
+```csharp
+        /// <summary>
+        /// 生成签名(签名公共参数必须以url方式提供,便于查看与快速调试) 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("createsign")]
+        public IActionResult CreateSign()
+        {
+            Dictionary<string, string> queryDic = new Dictionary<string, string>();
+            queryDic.Add("appid", "111");//必填参数，参数名与appsetting.json的CommonParameters：AppIdName要一致
+            queryDic.Add("a", "1");
+            queryDic.Add("b", "1");
+            var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: new { a = 1, b = "1" });
+            queryDic.Add("sign", sign);
+            return Ok(sign);
+        }
 ```

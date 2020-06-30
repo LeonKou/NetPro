@@ -18,10 +18,10 @@ namespace NetPro.Checker
 		/// inclued: EnvCheck ;InfoCheck
 		/// </summary>
 		/// <param name="app"></param>
-		public static void UseCheck(this IApplicationBuilder app)
+		public static void UseCheck(this IApplicationBuilder app,string envPath= "/env", string infoPath= "/info")
 		{
-			app.UseEnvCheck();
-			app.UseInfoCheck();
+			app.UseEnvCheck(envPath);
+			app.UseInfoCheck(infoPath);
 		}
 
 		public static void UseEnvCheck(this IApplicationBuilder app, string path = "/env")

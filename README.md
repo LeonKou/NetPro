@@ -33,7 +33,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 具体参考sample/Leon.XXXV2.Api项目
 
-* webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
+* webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)  引用最新nuget即可
 
 Package Manager方式: `Install-Package NetPro.Web.Api -Version 3.1.2`
 
@@ -136,7 +136,7 @@ public class Startup
 	}
 ```
 
-* 增加 `ApiStartup.cs`文件
+* 为了Startup文件干净清爽，建议创建`ApiStartup.cs`文件
 
 此文件继承`INetProStartup`接口，提供了microsoft原生依赖注入能力，所有组件注入放于此 ，Startup.cs将不接受组件注入
 
@@ -145,91 +145,180 @@ public class Startup
 ```json
 
 {
- "Apollo": {
-    "AppId": "NetPro",
-    "MetaServer": "http://189.16.85.62:9080",
-    "Cluster": "default",
-    "Namespaces": "AppSetting,MicroServicesEndpoint",
-    "RefreshInterval": 300000,
-    "LocalCacheDir": "apollo/data"
-  },
-"Logging": {
-"LogLevel": {
-    "Default": "Information",
-    "Microsoft": "Information",
-    "Microsoft.Hosting.Lifetime": "Information"
-    }
-},
-"AllowedHosts": "*",
-"NetProOption": {
-      "DisplayFullErrorStack": false,
-      "StaticFilesCacheControl": "Cache-Control",
-      "UseResponseCompression": false,
-      "RedisCacheEnabled": false,
-      "ThreadMinCount": 5,
-      "DistributedLogEnabled": false,
-      "SerilogSinks": null,//"console,debug,file",
-      "SerilogMinimumLevel": 2,
-      "RedisCacheComponent": 2,
-      "APMEnabled": false,
-      "PermissionEnabled": false,
-      "MiniProfilerEnabled": false,
-      "ApplicationName": "",
-      "SuperRole": "admin",
-      "RequestWarningThreshold": 5,
-      "AppType": 1,
-      "ErrorUrl": "www.netpro.com",
-      "Permission": "url",
-      "LoginUrl": "",
-      "PageNotFoundUrl": "",
-      "IsDebug": false,
-      "CorsOrigins": "false",
-      "ConnectionStrings": {
-       "DefaultConnection": "156.16.183.168;Port=3563;Database=center;charset=utf8;user=yutyu;password=LKPL%ylLdLNjn%Au;",
-       "ServerIdConnection": {
-      "1": "Server=",
-      "2": "Server="
-   }
-  },
-  "SwaggerDoc": {
-   "Title": "",
-   "Description": "",
-   "EnableUI": true}
+	"Apollo": {
+		"Enabled": false,
+		"AppId": "Leon",
+		"MetaServer": "http://192.168.56.98:7078",
+		"Cluster": "default",
+		"Namespaces": "AppSetting,MicroServicesEndpoint",
+		"RefreshInterval": 300000,
+		"LocalCacheDir": "apollo/data"
 	},
+
+	"Serilog": {
+		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+		"MinimumLevel": {
+			"Default": "Information",
+			"Override": {
+				"Microsoft": "Debug",
+				"System": "Debug",
+				"System.Net.Http.HttpClient": "Debug"
+			}
+		},
+		"WriteTo:Async": {
+			"Name": "Async",
+			"Args": {
+				"configure": [
+					{ "Name": "Console" }
+				]
+			}
+		},
+		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+		"Properties": {
+			"Application": "GameSdk"
+		}
+	},
+
+	"AllowedHosts": "*",
+
+	"NetProOption": {
+		"ProjectPrefix": "Leon", //Project prefix name,,for example："Leon.User.Api"'s prefix is Leon
+		"ProjectSuffix": "",
+		"DisplayFullErrorStack": false,
+		"StaticFilesCacheControl": "Cache-Control",
+		"UseResponseCompression": false,
+		"ThreadMinCount": 5,
+		"APMEnabled": false,
+		"PermissionEnabled": false,
+		"MiniProfilerEnabled": false,
+		"ApplicationName": "",
+		"SuperRole": "admin",
+		"RequestWarningThreshold": 5,
+		"AppType": 1,
+		"ErrorUrl": "www.Leon.com",
+		"Permission": "url",
+		"LoginUrl": "",
+		"PageNotFoundUrl": "",
+		"IsDebug": true,
+		"CorsOrigins": "false",
+		"EnabledHealthCheck": true,
+		"ConnectionStrings": {
+			"DefaultConnection": "Server=192.168.57.66;Port=3306;Database=netprodb;charset=utf8;user=netpro;password=netpro;",
+			"ServerIdConnection": {
+				"1": "Server=192.168.57.68;Port=3306;Database=netprodb1;charset=utf8;user=netpro;password=netpro;"
+			}
+		}
+	},
+
+	"VerifySignOption": {
+		"Enable": true,
+		"IsDebug": true,
+		"Scheme": "attribute",
+		"ExpireSeconds": 60,
+		"CommonParameters": {
+			"TimestampName": "timestamp",
+			"AppIdName": "appid",
+			"SignName": "sign"
+		},
+		"AppSecret": {
+			"AppId": {
+
+			}
+		}
+	},
+
+	"SwaggerOption": {
+		"Enable": true,
+		"MiniProfilerEnabled": false,
+		"XmlComments": [ "", "" ],
+		"RoutePrefix": "swagger",
+		"Description": "this is swagger for netcore",
+		"Title": "Demo swagger",
+		"Version": "first version",
+		"TermsOfService": "netcore.com",
+		"Contact": {
+			"Email": "swagger@netcore.com",
+			"Name": "swagger",
+			"Url": "swagger@netcore.com"
+		},
+		"License": {
+			"Name": "",
+			"Url": ""
+		},
+		"Headers": [ "User" ] //设置swagger默认头参数
+	},
+
 	"HealthChecksUI": {
 		"HealthChecks": [
-   {
-    "Name": "HealthList",
-    "Uri": "/health"
+			{
+				"Name": "HealthList",
+				"Uri": "/health"
 			}
 		],
 		"Webhooks": [],
-		"EvaluationTimeOnSeconds": 3600,
+		"EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
 		"MinimumSecondsBetweenFailureNotifications": 60
 	},
+
 	"Hosting": {
 		"ForwardedHttpHeader": "",
 		"UseHttpClusterHttps": false,
 		"UseHttpXForwardedProto": false
 	},
+
 	"RedisCacheOption": {
-		"RedisComponent": 1,
-		"Password": "rtyrr",
+		"Enabled": true,
+		"RedisComponent": 2,
+		"Password": "netpro",
 		"IsSsl": false,
+		"Preheat": 20,
+		"Cluster": true, //集群模式
 		"ConnectionTimeout": 20,
 		"Endpoints": [
 			{
-				"Port": 6379,
-				"Host": "192.168.231.133"
+				"Port": 6665,
+				"Host": "192.168.66.33"
+			},
+			{
+				"Port": 6666,
+				"Host": "192.168.66.66"
 			}
 		],
 		"Database": 0,
 		"DefaultCustomKey": "",
 		"PoolSize": 50
 	},
+
 	"MicroServicesEndpoint": {
 		"Example": "http://localhost:5000",
 		"XXX": ""
+	},
+
+	"MongoDbOptions": {
+		"Enabled": false,
+		"ConnectionString": "",
+		"Database": -1
+	}
+
+	,
+	"RabbitMq": {
+		"HostName": "127.0.0.1",
+		"Port": "5672",
+		"UserName": "guest",
+		"Password": "guest"
+	},
+	"RabbitMqExchange": {
+		"Type": "direct",
+		"Durable": true,
+		"AutoDelete": false,
+		"DeadLetterExchange": "default.dlx.exchange",
+		"RequeueFailedMessages": true,
+		"Queues": [
+			{
+				"Name": "myqueue",
+				"RoutingKeys": [ "routing.key" ]
+			}
+		]
 	}
 }
 
@@ -238,7 +327,7 @@ public class Startup
 
 * Controller使用
 
-`Controller`继承`ApiControllerBase`抽象类提供统一响应和简化其他操作
+`Controller`继承`ApiControllerBase`抽象类提供统一响应和简化其他操作，如果不需要默认提供的响应格式也可直接继承ControllerBase
 
 ```csharp
 
@@ -291,57 +380,53 @@ dotnet publish -r linux-x64 -c release
  |  _  |  __/ | | (_) |  _| |\  |  __/ || (_| (_) | | |  __/
  |_| |_|\___|_|_|\___/  (_)_| \_|\___|\__\___\___/|_|  \___|
 
-
-[11:16:52 Development] dotnet process id:25820
-配置： NetProOption:{
-  "DisplayFullErrorStack": false,
-  "StaticFilesCacheControl": "Cache-Control",
-  "UseResponseCompression": false,
-  "RedisCacheEnabled": false,
-  "ThreadMinCount": 5,
-  "DistributedLogEnabled": false,
-  "SerilogSinks": "console,debug,file",
-  "RedisCacheComponent": 2,
-  "APMEnabled": false,
-  "PermissionEnabled": false,
-  "MiniProfilerEnabled": false,
-  "ConnectionStrings": {
-      "DefaultConnection": "192.168.56.89;Port=40036;Database=leon;charset=utf8;user=leon;password=*******;",
-      "ServerIdConnection": {
-        "1": "Server=",
-        "2": "Server="//...
-      }
-    },
-  "ApplicationName": "",
-  "SuperRole": "admin",
-  "RequestWarningThreshold": 5,
-  "SwaggerDoc": {
-    "Title": "title",
-    "Description": "this is Description",
-    "EnableUI": true
-  },
-  "AppType": 1,
-  "ErrorUrl": "www.netpro.com",
-  "Permission": "url",
-  "LoginUrl": "",
-  "PageNotFoundUrl": "",
-  "IsDebug": false,
-  "CorsOrigins": "false"
-}
-核心数为：6--默认线程最小为：30--Available:32767
-[11:16:53 DBG] Hosting starting
-  health:/health
-  env:/env
-  info:/info
-[11:16:53 DBG] Failed to locate the development https certificate at 'null'.
-[11:16:53 INF] Now listening on: http://localhost:5001
+[13:00:00 Development] dotnet process id:15120
+[13:00:02 DBG] Hosting starting
+[13:00:02 DBG] Failed to locate the development https certificate at 'null'.
+[13:00:02 INF] Now listening on: http://localhost:5001
+[13:00:02 DBG] Loaded hosting startup assembly Leon.XXX.Api
+[13:00:02 INF] Application started. Press Ctrl+C to shut down.
+[13:00:02 INF] Hosting environment: Development
+[13:00:02 INF] Content root path: F:\自己代码库\NetPro\src\sample\Leon.XXX.Api
+[13:00:02 DBG] Hosting started
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" accepted.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" accepted.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" started.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" started.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" received FIN.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" received FIN.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" sending FIN because: "The client closed the connection."
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" sending FIN because: "The client closed the connection."
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" disconnecting.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" disconnecting.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" stopped.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" stopped.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" accepted.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" started.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6J" accepted.
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6J" started.
+[13:00:03 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.html
+[13:00:03 DBG] Wildcard detected, all requests with hosts will be allowed.
+[13:00:03 DBG] The request path /swagger/index.html does not match an existing file
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" completed keep alive response.
+[13:00:03 INF] Request finished in 113.6636ms 200 text/html;charset=utf-8
+[13:00:03 INF] Request starting HTTP/1.1 GET http://localhost:5001/docs/v1/docs.json
+[13:00:03 DBG] The request path /docs/v1/docs.json does not match an existing file
+[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" completed keep alive response.
+[13:00:03 INF] Request finished in 113.9995ms 200 application/json;charset=utf-8
 ```
 
 Swagger地址：[/swagger/index.html](ip:port/docs/index.html)
+<p align="center">
+  <img  src="docs/images/swagger.jpg">
+</p>
 
 健康检查地址 [/health](health)
 
 健康检查面板[/ui](healthdashboard)
+<p align="center">
+  <img  src="docs/images/checkhealth.jpg">
+</p>
 
 应用信息 [/info](/info)
 

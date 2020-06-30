@@ -10,6 +10,7 @@ using NetPro.Sign;
 using MaxMind.Db;
 using System.Net;
 using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace Leon.XXX.Api
 {
@@ -45,19 +46,20 @@ namespace Leon.XXX.Api
         }
 
         /// <summary>
-        /// 获取一个查询
+        /// 测试Redis
         /// </summary>
         /// <param name="gg"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("pay/create")]
+        [HttpPost("TestRedis")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
         [IgnoreSign]
-        public IActionResult Get(XXXRequest gg)
+        public IActionResult TestRedis(XXXRequest gg)
         {
-            return ResponseResult.ToSuccessResult("");
-            var dd = _redisManager.GetOrCreate<string>("");
+            var dd = _redisManager.GetOrCreate<string>("1",func: ()=>
+            {
+                return "1";
+            });
             _logger.Information("这是系统日志");
             //return ToFailResult("", 500);
             var result = _xXXService.GetList();
@@ -124,6 +126,22 @@ namespace Leon.XXX.Api
                 var data = reader.Find<Dictionary<string, object>>(ipresult);
                 return ToSuccessResult(body: data);
             }
+        }
+
+        /// <summary>
+        /// 生成签名 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("createsign")]
+        public IActionResult CreateSign()
+        {
+            Dictionary<string, string> queryDic = new Dictionary<string, string>();
+            queryDic.Add("appid", "111");
+            queryDic.Add("a", "1");
+            queryDic.Add("b", "1");
+            var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: new { a = 1, b = "1" });
+            queryDic.Add("sign", sign);
+            return Ok(sign);
         }
     }
 }

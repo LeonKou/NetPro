@@ -23,6 +23,7 @@ namespace Leon.XXX.Api
 
 		public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NetProOption config)
 		{
+			//autofac方式注入dapper
 			builder.Register(c => new DefaultDapperContext(config.ConnectionStrings.ServerIdConnection["1"], DataProvider.Mysql)).InstancePerLifetimeScope();
 		}
 	}
