@@ -1,5 +1,5 @@
 <p align="center">
-  <img  src="docs/images/netpro3.jpg">
+  <img  src="docs/images/netpro.png">
 </p>
 
 # NetPro
