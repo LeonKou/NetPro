@@ -3,6 +3,8 @@
 
 
 ### 使用
+[![NuGet](https://img.shields.io/nuget/v/NetPro.RabbitMQ.svg)](https://nuget.org/packages/NetPro.RabbitMQ)
+
 #### 初始化Rabbit服务（代码方式）
 ```csharp
  services.AddRabbitMqClient(new RabbitMqClientOptions

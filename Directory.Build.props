@@ -20,7 +20,7 @@
 		<NetProCore>3.1.2</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.2</NetProDapper>
+		<NetProDapper>3.1.3</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
 		<NetProLog>3.1.1</NetProLog>

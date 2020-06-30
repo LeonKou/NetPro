@@ -1,5 +1,7 @@
 
 ## Checker使用
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
+ 
 对Microsoft.AspNetCore.Diagnostics.HealthChecks的强化和redis，mongodb检查的完善
 
 ### 使用
