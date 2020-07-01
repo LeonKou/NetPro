@@ -37,7 +37,7 @@ namespace NetPro.Sign
                 return string.Empty;
             }
 
-            queryDic.Add("timestamp", CreateTimestamp());
+            //queryDic.Add("timestamp", CreateTimestamp());
 
             if (body != null)
             {
@@ -156,7 +156,11 @@ namespace NetPro.Sign
             context.Result = new BadRequestObjectResult(new { ErrorCode = -1, Message = $"签名验证失败" });
         }
 
-        private static string CreateTimestamp()
+        /// <summary>
+        /// 生成当前时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateTimestamp()
         {
             long unixSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             return unixSeconds.ToString();

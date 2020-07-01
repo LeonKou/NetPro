@@ -122,11 +122,14 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         public IActionResult CreateSign()
         {
             Dictionary<string, string> queryDic = new Dictionary<string, string>();
-            queryDic.Add("appid", "111");//必填参数，参数名与appsetting.json的CommonParameters：AppIdName要一致
+            long timestamp=SignCommon.CreateTimestamp();
+            queryDic.Add("appid", "111");//必填参数，参数名与appsetting.json的CommonParameters：
+            queryDic.Add("timestamp",timestamp);//必填参数，参数名与appsetting.json的CommonParameters：AppIdName要一致
             queryDic.Add("a", "1");
             queryDic.Add("b", "1");
             var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: new { a = 1, b = "1" });
             queryDic.Add("sign", sign);
+            //得到的queryDic便是完整url参数字典
             return Ok(sign);
         }
 ```
