@@ -68,7 +68,10 @@ namespace NetPro.Web.Core.Filters
 
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp))
+                {
+                    _logger.LogError($"{timestampStr}时间戳已过期");
                     return false;
+                }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
@@ -115,7 +118,7 @@ namespace NetPro.Web.Core.Filters
                     _logger.LogInformation($"拼装排序后的值{requestStr}");
                     _logger.LogInformation($"摘要计算后的值：{result}");
                     _logger.LogInformation($"摘要比对： {result}----{signvalue }");
-                }                       
+                }
                 else if (signvalue != result)
                 {
                     _logger.LogWarning(@$"摘要被篡改：[iphide]----{signvalue }

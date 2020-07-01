@@ -76,7 +76,10 @@ namespace NetPro.Sign
 
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp))
+                {
+                    _logger.LogError($"{timestampStr}时间戳已过期");
                     return false;
+                }                    
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
