@@ -56,7 +56,7 @@
     <ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
     <ProjectReference Include="..\NetPro.MongoDb\NetPro.MongoDb.csproj" />
     <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
-    <ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />
+    <!--<ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />-->
     <ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
   </ItemGroup>
   <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

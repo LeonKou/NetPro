@@ -28,7 +28,6 @@ using System.Drawing;
 using Serilog;
 using System.Text;
 using NetPro.Web.Core.Models;
-using NetPro.Sign;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {

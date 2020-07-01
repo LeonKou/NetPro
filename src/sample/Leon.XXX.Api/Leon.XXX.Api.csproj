@@ -28,6 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Sign\NetPro.Sign.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Aggregate\Leon.XXX.Aggregate.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Domain\Leon.XXX.Domain.csproj" />

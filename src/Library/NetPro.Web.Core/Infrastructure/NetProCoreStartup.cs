@@ -11,7 +11,6 @@ using HealthChecks.UI.Client;
 using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
-using NetPro.Sign;
 using Microsoft.AspNetCore.Http;
 
 namespace NetPro.Web.Core.Infrastructure
