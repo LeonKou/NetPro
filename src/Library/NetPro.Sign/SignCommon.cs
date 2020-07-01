@@ -165,5 +165,15 @@ namespace NetPro.Sign
             long unixSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             return unixSeconds.ToString();
         }
+
+        /// <summary>
+        /// 生成指定时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateTimestamp(DateTime time)
+        {
+            long unixSeconds = new DateTimeOffset(time).ToUnixTimeSeconds();
+            return unixSeconds.ToString();
+        }
     }
 }
