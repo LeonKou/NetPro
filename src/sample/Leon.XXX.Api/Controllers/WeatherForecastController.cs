@@ -17,8 +17,7 @@ namespace Leon.XXX.Api
     /// <summary>
     ///这是controller
     /// </summary>
-    [Route("api/v1/[controller]")]
-    [VerifySign]
+    [Route("api/v1/[controller]")]     
     public class WeatherForecastController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
@@ -133,13 +132,14 @@ namespace Leon.XXX.Api
         /// </summary>
         /// <returns></returns>
         [HttpGet("createsign")]
+        [VerifySign]
         public IActionResult CreateSign()
         {
             Dictionary<string, string> queryDic = new Dictionary<string, string>();
             queryDic.Add("appid", "111");
-            queryDic.Add("a", "1");
-            queryDic.Add("b", "1");
-            var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: new { a = 1, b = "1" });
+            queryDic.Add("c", "1");
+            queryDic.Add("d", "1");
+            var sign = SignCommon.CreateSign("sadfsdf", queryDic: queryDic, body: new { a = 1, b = "1" });
             queryDic.Add("sign", sign);
             return Ok(sign);
         }

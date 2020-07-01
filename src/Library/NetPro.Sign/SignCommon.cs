@@ -42,10 +42,10 @@ namespace NetPro.Sign
             if (body != null)
             {
                 var jsonString = JsonSerializer.Serialize(body);
-                var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString);
+                var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString);
                 foreach (var item in dict)
                 {
-                    queryDic.Add(item.Key, item.Value);
+                    queryDic.Add(item.Key, item.Value.ToString());
                     Console.WriteLine($"字段:{item.Key}--值:{item.Value}");
                 }
             }

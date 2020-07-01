@@ -66,7 +66,6 @@ namespace NetPro.Sign
                         break;
                     case "attribute":
                         IoC.ServiceProvider = services.BuildServiceProvider();
-                        services.AddScoped<VerifySignAttribute>();
                         break;
                     default:
                         Console.WriteLine("签名验证已关闭");

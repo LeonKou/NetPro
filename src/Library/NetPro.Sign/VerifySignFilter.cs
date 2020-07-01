@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,14 @@ namespace NetPro.Sign
 {
     public class VerifySignFilter : IAsyncActionFilter
     {
+        private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly IOperationFilter _verifySignCommon;
         private readonly VerifySignOption _verifySignOption;
 
-        public VerifySignFilter(IConfiguration configuration, IOperationFilter verifySignCommon, VerifySignOption verifySignOption)
+        public VerifySignFilter(ILogger<VerifySignFilter> logger, IConfiguration configuration, IOperationFilter verifySignCommon, VerifySignOption verifySignOption)
         {
+            _logger = logger;
             _configuration = configuration;
             _verifySignCommon = verifySignCommon;
             _verifySignOption = verifySignOption;
@@ -33,6 +36,10 @@ namespace NetPro.Sign
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            if (!_verifySignOption.Enable || _verifySignOption.Scheme?.ToLower() != "attribute")
+            {
+                goto gotoNext;
+            }
             var descriptor = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor;
             var attributeController = (IgnoreSignAttribute)descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(IgnoreSignAttribute), true).FirstOrDefault();
             if (attributeController != null)
@@ -63,7 +70,7 @@ namespace NetPro.Sign
                 var commonParameters = _verifySignOption.CommonParameters;
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
-                    Console.WriteLine("url参数中未找到签名所需参数[timestamp];[appid]或[sign]");
+                    _logger.LogError("url参数中未找到签名所需参数[timestamp];[appid]或[sign]");
                     return false;
                 }
 
@@ -74,7 +81,7 @@ namespace NetPro.Sign
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
                 {
-                    Console.WriteLine(@"The request parameter is missing the Ak/Sk appID parameter
+                    _logger.LogError(@"The request parameter is missing the Ak/Sk appID parameter
                                           VerifySign:{
                                             AppSecret:{
                                             [AppId]:[Secret]
@@ -93,7 +100,7 @@ namespace NetPro.Sign
                     {
                         queryDic.Add(item.Key, item.Value);
                         if (_verifySignOption.IsDebug)
-                            Console.WriteLine($"字段:{item.Key}--值:{item.Value}");
+                            _logger.LogInformation($"字段:{item.Key}--值:{item.Value}");
                     }
                 }
                 var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
@@ -106,26 +113,27 @@ namespace NetPro.Sign
                     else
                         requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
                 }
-                if (_verifySignOption.IsDebug)
-                    Console.WriteLine($"拼装排序后的值{requestStr}");
 
                 var utf8Request = SignCommon.GetUtf8(requestStr.ToString());
 
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString));
                 if (_verifySignOption.IsDebug)
-                    Console.WriteLine($"摘要计算后的值：{result}");
-                if (_verifySignOption.IsDebug)
-                    Console.WriteLine($"摘要比对： {result}----{signvalue }");
+                {
+                    _logger.LogInformation($"拼装排序后的值{request.Path}");
+                    _logger.LogInformation($"拼装排序后的值{requestStr}");
+                    _logger.LogInformation($"摘要计算后的值：{result}");
+                    _logger.LogInformation($"摘要比对： {result}----{signvalue }");
+                }
                 else if (signvalue != result)
                 {
-                    Console.WriteLine(@$"摘要被篡改：[iphide]----{signvalue }
+                    _logger.LogWarning(@$"摘要被篡改：[iphide]----{signvalue }
                                             查看详情，请设置VerifySignOption节点的IsDebug为true");
                 }
                 return signvalue == result;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError(ex, "签名异常");
                 return false;
             }
         }

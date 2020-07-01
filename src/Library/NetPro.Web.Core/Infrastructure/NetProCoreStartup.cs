@@ -37,11 +37,7 @@ namespace NetPro.Web.Core.Infrastructure
             //services.AddMiniProfilerEF();
             //配置 mvc服务
             services.AddNetProCore();
-            //启用请求签名组件
-            services.AddVerifySign(s =>
-            {
-                s.OperationFilter<VerifySignCustomer>();
-            });
+           
 
             //健康检查
             if (!netproOption.EnabledHealthCheck)

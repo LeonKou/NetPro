@@ -31,7 +31,7 @@ namespace NetPro.Web.Core.Infrastructure
             services.AddOptions();
 
             //新增redis缓存注入
-            if (configuration.GetValue<bool>("RedisCacheOption:Enabled",false))
+            if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
                 services.AddRedisManager(configuration);
            
             //MongoDb 连接配置文件
