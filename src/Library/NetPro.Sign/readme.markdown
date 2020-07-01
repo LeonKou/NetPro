@@ -81,8 +81,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 	"SignName": "sign"
 },
 "AppSecret": {  //默认AK/SK
-	"AppId": 
-	}
+	"AppId":{
+	    "你的appid": "对应的secret",
+	    "你的appid": "对应的secret"
+	} 
     }
 }
 ```
