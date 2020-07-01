@@ -65,8 +65,7 @@ namespace NetPro.Web.Core.Infrastructure
         public void Configure(IApplicationBuilder application)
         {                 
             application.Use(next => context =>
-            {       
-                //此设置用于其他地方读取Body https://stackoverflow.com/questions/31389781/read-request-body-twice
+            {     
                 context.Request.EnableBuffering();
                 return next(context);
             });
