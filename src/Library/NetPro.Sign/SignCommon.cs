@@ -37,8 +37,6 @@ namespace NetPro.Sign
                 return string.Empty;
             }
 
-            //queryDic.Add("timestamp", CreateTimestamp());
-
             if (body != null)
             {
                 var jsonString = JsonSerializer.Serialize(body);
@@ -62,11 +60,11 @@ namespace NetPro.Sign
                 else
                     requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
             }
-            Console.WriteLine($"拼装排序后的值{requestStr}");
+
             var utf8Request = GetUtf8(requestStr.ToString());
 
             var result = GetSignhHash(utf8Request, secret);
-            Console.WriteLine($"摘要计算后的值：{result}");
+            Console.WriteLine($"拼装排序后的值==>{requestStr};摘要计算后的值==>{result}");
             return result;
         }
 
@@ -109,6 +107,7 @@ namespace NetPro.Sign
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"读取requet的body出错：{ex}");
                 return null;
             }
         }

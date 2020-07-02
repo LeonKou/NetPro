@@ -15,7 +15,7 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddVerifySign(s =>
             {
-                s.OperationFilter<VerifySignCustomer>();
+                s.OperationFilter<VerifySignCustomer>();//VerifySignCustomer为自定义摘要与获取secret，如默认规则。则不需要OperationFilter
             });
 }
 ```
@@ -51,7 +51,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         /// <returns></returns>
         public string GetSignSecret(string appid)
         {
-            var secret = "1111";
+            var secret = "1111";//自定义通过appid获取对应的secret
             return secret;
         }
 
@@ -63,7 +63,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         /// <returns></returns>
         public string GetSignhHash(string message, string secret)
         {
-            return "5555555";
+            return "5555555";//对message进行摘要，secret作为干扰项
         }
     }
 ```
@@ -82,8 +82,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 },
 "AppSecret": {  //默认AK/SK
 	"AppId":{
-	    "你的appid": "对应的secret",
-	    "你的appid": "对应的secret"
+	    "你的appid1": "对应的secret1",
+	    "你的appid2": "对应的secret2"
 	} 
     }
 }
@@ -123,14 +123,13 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         [HttpGet("createsign")]
         public IActionResult CreateSign()
         {
+            object body=new { a = 1, b = "1" };
             Dictionary<string, string> queryDic = new Dictionary<string, string>();
             long timestamp=SignCommon.CreateTimestamp();
             queryDic.Add("appid", "111");//必填参数，参数名与appsetting.json的CommonParameters：
-            queryDic.Add("timestamp",timestamp);//必填参数，参数名与appsetting.json的CommonParameters：AppIdName要一致
-            queryDic.Add("a", "1");
-            queryDic.Add("b", "1");
-            var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: new { a = 1, b = "1" });
-            queryDic.Add("sign", sign);
+            queryDic.Add("timestamp",timestamp);//必填参数，参数名与appsetting.json的CommonParameters：AppIdName要一致           
+            var sign = SignCommon.CreateSign("secret", queryDic: queryDic, body: body);//如果为Get请求，Body参数为空即可
+            queryDic.Add("sign", sign);//公共必填参数：appid；timestamp；sign
             //得到的queryDic便是完整url参数字典
             return Ok(sign);
         }
