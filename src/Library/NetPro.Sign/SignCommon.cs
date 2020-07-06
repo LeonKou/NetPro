@@ -24,12 +24,13 @@ namespace NetPro.Sign
         /// <param name="secret"></param>
         /// <param name="queryDic">url参数,参数名统一小写；参数中不能包含时间戳，时间戳已内部处理，参数名为：timestamp</param>
         /// <param name="body">body参数</param>
+        /// <param name="signMethod">算法名称:hmac-sha256；md5</param>
         /// <remarks>将url参数与body参数以&分割
         /// 拼装新字符串utf-8编码后
         /// HMACSHA256摘要后转16进制小写
         /// </remarks>
         /// <returns></returns>
-        public static string CreateSign(string secret, Dictionary<string, string> queryDic, object body = null)
+        public static string CreateSign(string secret, Dictionary<string, string> queryDic, object body = null, string signMethod = "")
         {
             if (queryDic == null || !queryDic.Any())
             {
@@ -51,24 +52,45 @@ namespace NetPro.Sign
             var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 
             StringBuilder requestStr = new StringBuilder();
+            StringBuilder logString = new StringBuilder();
             //requestStr.Append(string.Join("&", dicOrder.Select(a => $"{a.Key}={a.Value?.ToString().Trim()}")));
 
             for (int i = 0; i < dicOrder.Count(); i++)
             {
+                requestStr.Append($"{dicOrder[i].Key}{dicOrder[i].Value}");
+
                 if (i == dicOrder.Count() - 1)
-                    requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
+                {
+                    logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
+                }
+
                 else
-                    requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
+                {
+                    logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
+                }
             }
 
             var utf8Request = GetUtf8(requestStr.ToString());
 
-            var result = GetSignhHash(utf8Request, secret);
-            Console.WriteLine($"拼装排序后的值==>{requestStr};摘要计算后的值==>{result}");
+            string result;
+            switch (signMethod)
+            {
+                case "hmac-sha256":
+                    result = GetHMACSHA256Sign(utf8Request, secret);
+                    break;
+                case "md5":
+                    result = CreateMD5(utf8Request, secret);
+                    break;
+                default:
+                    result = GetHMACSHA256Sign(utf8Request, secret);
+                    break;
+            }
+
+            Console.WriteLine($"拼装排序后的值==>{logString};摘要计算后的值==>{result}");
             return result;
         }
 
-        internal static string GetSignhHash(string message, string secret)
+        internal static string GetHMACSHA256Sign(string message, string secret)
         {
             secret = secret ?? "";
             var encoding = new ASCIIEncoding();
@@ -78,6 +100,25 @@ namespace NetPro.Sign
             {
                 byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
                 var hexString = hashmessage.Aggregate(new StringBuilder(),
+                               (sb, v) => sb.Append(v.ToString("x2"))
+                              ).ToString();
+                return hexString;
+            }
+        }
+
+        /// <summary>
+        /// MD5获取签名
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        public static string CreateMD5(string message, string secret)
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(secret + message + secret));
+
+                var hexString = hashBytes.Aggregate(new StringBuilder(),
                                (sb, v) => sb.Append(v.ToString("x2"))
                               ).ToString();
                 return hexString;

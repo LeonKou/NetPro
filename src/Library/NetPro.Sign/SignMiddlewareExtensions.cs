@@ -103,7 +103,8 @@ namespace NetPro.Sign
         /// </summary>
         /// <param name="message">待摘要的内容</param>
         /// <param name="secret">Ak/SK的secret</param>
+        /// <param name="signMethod">客户端要求的加密方式;hmac，md5，hmac-sha256</param>
         /// <returns></returns>
-        public string GetSignhHash(string message, string secret);
+        public string GetSignhHash(string message, string secret, string signMethod);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NetPro.Sign;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +67,12 @@ namespace NetPro.Web.Core.Filters
                     return false;
                 }
 
+                string signMethod = "hmac-sha256";
+                if (queryDic.ContainsKey("signmethod"))
+                {
+                    signMethod = queryDic["signmethod"];
+                }
+
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp))
                 {
@@ -90,7 +97,8 @@ namespace NetPro.Web.Core.Filters
                 var bodyValue = SignCommon.ReadAsString(request);
                 if (!string.IsNullOrEmpty(bodyValue) && !"null".Equals(bodyValue))
                 {
-                    var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(bodyValue);
+                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(bodyValue);
+                    //var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(bodyValue);//System.Text.Json 无法自动int转string
                     foreach (var item in dict)
                     {
                         queryDic.Add(item.Key, item.Value);
@@ -101,21 +109,31 @@ namespace NetPro.Web.Core.Filters
                 var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 
                 StringBuilder requestStr = new StringBuilder();
+                StringBuilder logString = new StringBuilder();
+
                 for (int i = 0; i < dicOrder.Count(); i++)
                 {
+                    requestStr.Append($"{dicOrder[i].Key}{dicOrder[i].Value}");
+
                     if (i == dicOrder.Count() - 1)
-                        requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
+                    {
+                        logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
+                    }
+
                     else
-                        requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
+                    {
+                        logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
+                    }
                 }
 
                 var utf8Request = SignCommon.GetUtf8(requestStr.ToString());
 
-                var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString));
+                var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), signMethod);
                 if (_verifySignOption.IsDebug)
                 {
-                    _logger.LogInformation($"拼装排序后的值{request.Path}");
-                    _logger.LogInformation($"拼装排序后的值{requestStr}");
+                    _logger.LogInformation($"请求接口地址：{request.Path}");
+                    _logger.LogInformation($"拼装排序后的值{logString}");
+                    _logger.LogInformation($"拼装排序后的值{logString}");
                     _logger.LogInformation($"摘要计算后的值：{result}");
                     _logger.LogInformation($"摘要比对： {result}----{signvalue }");
                 }

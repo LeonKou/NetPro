@@ -33,7 +33,6 @@ namespace NetPro.Sign
         public string TimestampName { get; set; } = "timestamp";
         public string AppIdName { get; set; } = "appid";
         public string SignName { get; set; } = "sign";
-
     }
 
     public static class VerifySignOptionsExtensions

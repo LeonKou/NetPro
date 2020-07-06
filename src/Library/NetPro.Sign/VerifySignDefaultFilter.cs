@@ -41,10 +41,20 @@ namespace NetPro.Sign
         /// </summary>
         /// <param name="message"></param>
         /// <param name="secret"></param>
+        /// <param name="signMethod">签名算法；支持hmac-sha256；md5</param>
         /// <returns>签名16进制</returns>
-        public virtual string GetSignhHash(string message, string secret)
+        public virtual string GetSignhHash(string message, string secret, string signMethod)
         {
-            return SignCommon.GetSignhHash(message, secret);
+            switch (signMethod)
+            {
+                case "hmac-sha256":
+                    return SignCommon.GetHMACSHA256Sign(message, secret);
+                case "md5":
+                    return SignCommon.CreateMD5(message, secret);
+                default:
+                    return SignCommon.GetHMACSHA256Sign(message, secret);
+            }
+            
         }
 
     }

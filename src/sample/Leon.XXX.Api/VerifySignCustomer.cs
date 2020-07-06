@@ -31,8 +31,9 @@ namespace Leon.XXX.Api
         /// </summary>
         /// <param name="message"></param>
         /// <param name="secret"></param>
+        /// <param name="signMethod"></param>
         /// <returns></returns>
-        public string GetSignhHash(string message, string secret)
+        public string GetSignhHash(string message, string secret, string signMethod)
         {
             return "5555555";
         }
