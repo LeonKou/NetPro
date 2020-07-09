@@ -52,7 +52,8 @@ namespace Leon.XXX.Api
         [HttpPost("TestRedis")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
-        [IgnoreSign]
+        //[IgnoreSign]
+        [VerifySign]
         public IActionResult TestRedis(XXXRequest gg)
         {
             var dd = _redisManager.GetOrCreate<string>("1",func: ()=>

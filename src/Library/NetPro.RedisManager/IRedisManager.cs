@@ -117,5 +117,26 @@ namespace NetPro.RedisManager
 		/// </summary>
 		/// <returns></returns>
 		IDatabase GetIDatabase();
+
+		/// <summary>
+		/// 发布消息
+		/// </summary>
+		/// <param name="channel">管道</param>
+		/// <param name="input">发布的消息</param>
+		/// <returns></returns>
+		long Publish(string channel, string input);
+
+		/// <summary>
+		/// 订阅消息
+		/// </summary>
+		/// <param name="channel">管道</param>
+		/// <returns>收到的消息</returns>
+		string Subscriber(string channel);
+
+		/// 订阅消息
+		/// </summary>
+		/// <param name="channel">管道</param>
+		/// <returns>收到的消息</returns>
+		Task<string> SubscriberAsync(string channel);
 	}
 }

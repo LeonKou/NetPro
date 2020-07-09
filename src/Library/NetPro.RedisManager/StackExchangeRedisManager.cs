@@ -27,15 +27,15 @@ namespace NetPro.RedisManager
             _option = option;
             CustomPrefixKey = option.DefaultCustomKey;
             _database = _connection.GetDatabase();
-           
+
         }
 
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1) 
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
             Common.CheckKey(key);
-            var _db = _connection.GetDatabase();                    
+            var _db = _connection.GetDatabase();
             var rValue = _db.StringGet(key);
             if (!rValue.HasValue)
             {
@@ -51,7 +51,7 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1) 
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
@@ -87,13 +87,13 @@ namespace NetPro.RedisManager
             return Do(db => db.StringSet(key, entryBytes, TimeSpan.FromMinutes(cacheTime)));
         }
 
-        public async Task<bool> SetAsync(string key, object data, int cacheTime)
+        public async Task<bool> SetAsync(string key, object data, int expiredTime = -1)
         {
             var entryBytes = Common.Serialize(data);
             Common.CheckKey(key);
-            if (cacheTime == -1)
+            if (expiredTime == -1)
                 return await Do(db => db.StringSetAsync(key, entryBytes));
-            return await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromMinutes(cacheTime)));
+            return await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromMinutes(expiredTime)));
         }
 
         public bool IsSet(string key)
@@ -198,6 +198,67 @@ namespace NetPro.RedisManager
         public IDatabase GetIDatabase()
         {
             return _database;
+        }
+
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <param name="input">发布的消息</param>
+        /// <returns></returns>
+        public long Publish(string channel, string input)
+        {
+            ISubscriber sub = _connection.GetSubscriber();
+
+            return sub.Publish(channel, input);
+        }
+
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <param name="input">发布的消息</param>
+        /// <returns></returns>
+        public async Task<long> PublishAsync(string channel, string input)
+        {
+            ISubscriber sub = _connection.GetSubscriber();
+
+            return await sub.PublishAsync(channel, input);
+        }
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <returns>收到的消息</returns>
+        public string Subscriber(string channel)
+        {
+            string result = null;
+
+            ISubscriber sub = _connection.GetSubscriber();
+            //订阅名为 messages 的通道
+            sub.Subscribe(channel, (channel, message) =>
+            {
+                result = message;
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <returns>收到的消息</returns>
+        public async Task<string> SubscriberAsync(string channel)
+        {
+            string result = null;
+            ISubscriber sub = _connection.GetSubscriber();
+            //订阅名为 messages 的通道
+            await sub.SubscribeAsync(channel, (channel, message) =>
+            {
+                result = message;
+            });
+            return result;
         }
     }
 

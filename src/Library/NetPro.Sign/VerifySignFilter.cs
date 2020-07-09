@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -105,14 +106,12 @@ namespace NetPro.Sign
                 var bodyValue = SignCommon.ReadAsString(request);
                 if (!string.IsNullOrEmpty(bodyValue) && !"null".Equals(bodyValue))
                 {
-                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(bodyValue);
-                    //var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(bodyValue);//System.Text.Json 无法自动int转string
-                    foreach (var item in dict)
-                    {
-                        queryDic.Add(item.Key, item.Value);
-                        if (_verifySignOption.IsDebug)
-                            _logger.LogInformation($"字段:{item.Key}--值:{item.Value}");
-                    }
+                    bodyValue = Regex.Replace(bodyValue, @"\s(?=([^""]*""[^""]*"")*[^""]*$)", string.Empty);
+
+                    bodyValue = bodyValue.Replace("\r\n", "").Replace(" : ", ":").Replace("\n  ", "").Replace("\n", "").Replace(": ", ":").Replace(", ", ",");
+
+                    queryDic.Add("body", bodyValue);
+
                 }
                 var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 

@@ -23,7 +23,7 @@ namespace NetPro.RedisManager
         {
             Common.CheckKey(key);
             var result = RedisHelper.Get<T>(key);
-                                                             
+
             if (result == null)
             {
                 if (func == null || func.Invoke() == null) return default(T);
@@ -164,10 +164,49 @@ namespace NetPro.RedisManager
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
-        public void Publish<T>(string key, Func<string> func)
+        public long Publish(string key, string message)
         {
-            RedisHelper.Publish(key, func.Invoke());
+            return RedisHelper.Publish(key, message);
         }
 
+        public async Task<long> PublishAsync<T>(string chennel, Func<string> func)
+        {
+            var result = await RedisHelper.PublishAsync(chennel, func.Invoke());
+            return result;
+        }
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <returns>收到的消息</returns>
+        public string Subscriber(string channel)
+        {
+            string result = null;
+            ISubscriber sub = _connection.GetSubscriber();
+            //订阅名为 messages 的通道
+            sub.Subscribe(channel, (channel, message) =>
+            {
+                result = message;
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="channel">管道</param>
+        /// <returns>收到的消息</returns>
+        public async Task<string> SubscriberAsync(string channel)
+        {
+            string result = null;
+            ISubscriber sub = _connection.GetSubscriber();
+            //订阅名为 messages 的通道
+            await sub.SubscribeAsync(channel, (channel, message) =>
+             {
+                 result = message;
+             });
+            return result;
+        }
     }
 }
