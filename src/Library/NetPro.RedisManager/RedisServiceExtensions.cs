@@ -70,7 +70,7 @@ namespace NetPro.RedisManager
             }
 
             RedisHelper.Initialization(csredis);
-            services.AddScoped<IRedisManager, CsRedisManager>();
+            services.AddSingleton<IRedisManager, CsRedisManager>();
 
             /*注入stackexchange驱动，防止CSRedis驱动下获取IDatabase异常 */
             #region   注入stackexchange驱动
