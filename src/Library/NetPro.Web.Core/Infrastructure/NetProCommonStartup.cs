@@ -9,6 +9,8 @@ using NetPro.Web.Core.Compression;
 using NetPro.Web.Core.Infrastructure.Extensions;
 using NetPro.RedisManager;
 using NetPro.MongoDb;
+using NetPro.Dapper;
+using System.Linq;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -33,7 +35,7 @@ namespace NetPro.Web.Core.Infrastructure
             //新增redis缓存注入
             if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
                 services.AddRedisManager(configuration);
-           
+
             //MongoDb 连接配置文件
             if (configuration.GetValue<bool>("MongoDbOptions:Enabled", false))
             {
@@ -49,14 +51,22 @@ namespace NetPro.Web.Core.Infrastructure
                     options = mongoDbOptions;
                 });
             }
-           
+
+            services = services.AddDapperRepository();
+            services.Scan(scan => scan
+               .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("Repository")).ToArray()
+                   .Where(s => s.GetName().Name.EndsWith("Repository")))
+               .AddClasses()
+               .AsImplementedInterfaces()
+               .WithScopedLifetime());
+
         }
         /// <summary>
         /// Configure the using of added middleware
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
-        {    
+        {
             var config = EngineContext.Current.Resolve<NetProOption>();
 
             //compression

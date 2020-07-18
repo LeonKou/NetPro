@@ -35,6 +35,11 @@ namespace NetPro.Web.Core.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            if (_configuration.GetValue<bool>("VerifySignOption:Enable") ||
+                !_configuration.GetValue<string>("VerifySignOption:Scheme", "").ToLower().Equals("attribute", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
             var descriptor = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor;
             var attributeController = (IgnoreSignAttribute)descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(IgnoreSignAttribute), true).FirstOrDefault();
             if (attributeController != null)
