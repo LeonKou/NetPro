@@ -24,8 +24,10 @@
 ```csharp
  public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null)
   {
-      services.AddTransient(s =>
-      new DefaultDapperContext(configuration.GetValue<string>("DatabaseConnection"), DataProvider.Mysql));
+      services = services.AddDapperRepository();
+      services.AddScoped<IXXXRepository,XXXRepository>();//有定义Repository便添加数据表Repository，没有使用可不添加
+      ...//建议统一命名批量自动注入
+      
   }
 ```
 #### 定义数据库映射的实体
