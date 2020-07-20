@@ -17,7 +17,7 @@ namespace NetPro.Web.Core.Filters
     /// <summary>
     /// 验签特性
     /// </summary>
-    /// <remarks>特性方式继承自动生效</remarks>
+    /// <remarks>特性加于action方法生效</remarks>
     public class VerifySignAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;
@@ -35,7 +35,7 @@ namespace NetPro.Web.Core.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (_configuration.GetValue<bool>("VerifySignOption:Enable") ||
+            if (!_configuration.GetValue<bool>("VerifySignOption:Enable") ||
                 !_configuration.GetValue<string>("VerifySignOption:Scheme", "").ToLower().Equals("attribute", StringComparison.OrdinalIgnoreCase))
             {
                 return;

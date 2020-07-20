@@ -81,6 +81,7 @@ namespace Leon.XXX.Api
         [Route("pay/gettest")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
+        [VerifySign]
         public IActionResult GetTest([FromQuery]XXXRequest gg)
         {
             //return ResponseResult.ToSuccessResult("");
