@@ -31,7 +31,7 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="$(AutoMapperExtensionsMicrosoftDependencyInjection)" />
 		<PackageReference Include="Colorful.Console" Version="$(ColorfulConsole)" />
 		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="$(ComCtripFrameworkApolloConfiguration)" />
-		<PackageReference Include="Scrutor" Version="3.2.1" />
+		<PackageReference Include="Scrutor" Version="$(Scrutor)" />
 	</ItemGroup>
 
 	<ItemGroup>

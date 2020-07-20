@@ -49,7 +49,7 @@
 
 		<NetProSign>3.1.0</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
-		
+
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
@@ -148,5 +148,7 @@
 		<MiniProfilerEntityFrameworkCore>4.1.0</MiniProfilerEntityFrameworkCore>
 		<SkyAPMAgentAspNetCore>0.9.0</SkyAPMAgentAspNetCore>
 		<OpenTracingContribNetCoreUnofficial>0.1.3</OpenTracingContribNetCoreUnofficial>
+		<Scrutor>3.2.1</Scrutor>
+
 	</PropertyGroup>
 </Project>
