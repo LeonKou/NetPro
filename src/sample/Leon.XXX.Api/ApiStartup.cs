@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Dapper;
 using NetPro.Sign;
+using NetPro.TypeFinder;
 
 namespace Leon.XXX.Api
 {

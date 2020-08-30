@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.TypeFinder
 {
     /// <summary>
     /// IO functions using the on-disk file system
@@ -19,10 +19,10 @@ namespace NetPro.Core.Infrastructure
         /// </summary>
         /// <param name="hostingEnvironment">Hosting environment</param>
         public NetProFileProvider(IHostEnvironment hostingEnvironment)
-            : base(File.Exists(hostingEnvironment.ContentRootPath) ? Path.GetDirectoryName(hostingEnvironment.ContentRootPath) : hostingEnvironment.ContentRootPath)
+            : base(System.IO.File.Exists(hostingEnvironment.ContentRootPath) ? Path.GetDirectoryName(hostingEnvironment.ContentRootPath) : hostingEnvironment.ContentRootPath)
         {
             var path = hostingEnvironment.ContentRootPath ?? string.Empty;
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
                 path = Path.GetDirectoryName(path);
 
             BaseDirectory = path;
@@ -81,9 +81,9 @@ namespace NetPro.Core.Infrastructure
                 return;
 
             //we use 'using' to close the file after it's created
-            using (File.Create(path)) { }
+            using (System.IO.File.Create(path)) { }
         }
-        
+
         /// <summary>
         ///  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
         /// </summary>
@@ -125,7 +125,7 @@ namespace NetPro.Core.Infrastructure
             if (!FileExists(filePath))
                 return;
 
-            File.Delete(filePath);
+            System.IO.File.Delete(filePath);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="overwrite">true if the destination file can be overwritten; otherwise, false</param>
         public virtual void FileCopy(string sourceFileName, string destFileName, bool overwrite = false)
         {
-            File.Copy(sourceFileName, destFileName, overwrite);
+            System.IO.File.Copy(sourceFileName, destFileName, overwrite);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace NetPro.Core.Infrastructure
         /// </returns>
         public virtual bool FileExists(string filePath)
         {
-            return File.Exists(filePath);
+            return System.IO.File.Exists(filePath);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="destFileName">The new path and name for the file</param>
         public virtual void FileMove(string sourceFileName, string destFileName)
         {
-            File.Move(sourceFileName, destFileName);
+            System.IO.File.Move(sourceFileName, destFileName);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace NetPro.Core.Infrastructure
         /// </returns>
         public virtual DateTime GetCreationTime(string path)
         {
-            return File.GetCreationTime(path);
+            return System.IO.File.GetCreationTime(path);
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace NetPro.Core.Infrastructure
         /// <returns>A System.DateTime structure set to the date and time that the specified file</returns>
         public virtual DateTime GetLastAccessTime(string path)
         {
-            return File.GetLastAccessTime(path);
+            return System.IO.File.GetLastAccessTime(path);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace NetPro.Core.Infrastructure
         /// </returns>
         public virtual DateTime GetLastWriteTime(string path)
         {
-            return File.GetLastWriteTime(path);
+            return System.IO.File.GetLastWriteTime(path);
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace NetPro.Core.Infrastructure
         /// </returns>
         public virtual DateTime GetLastWriteTimeUtc(string path)
         {
-            return File.GetLastWriteTimeUtc(path);
+            return System.IO.File.GetLastWriteTimeUtc(path);
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace NetPro.Core.Infrastructure
         {
             return Directory.GetParent(directoryPath).FullName;
         }
-            
+
         /// <summary>
         /// Checks if the path is directory
         /// </summary>
@@ -427,7 +427,7 @@ namespace NetPro.Core.Infrastructure
             path = path.Replace("~/", string.Empty).TrimStart('/');
             return Combine(BaseDirectory ?? string.Empty, path);
         }
-        
+
         /// <summary>
         /// Reads the contents of the file into a byte array
         /// </summary>
@@ -435,7 +435,7 @@ namespace NetPro.Core.Infrastructure
         /// <returns>A byte array containing the contents of the file</returns>
         public virtual byte[] ReadAllBytes(string filePath)
         {
-            return File.Exists(filePath) ? File.ReadAllBytes(filePath) : new byte[0];
+            return System.IO.File.Exists(filePath) ? System.IO.File.ReadAllBytes(filePath) : new byte[0];
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace NetPro.Core.Infrastructure
         /// <returns>A string containing all lines of the file</returns>
         public virtual string ReadAllText(string path, Encoding encoding)
         {
-            return File.ReadAllText(path, encoding);
+            return System.IO.File.ReadAllText(path, encoding);
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace NetPro.Core.Infrastructure
         /// </param>
         public virtual void SetLastWriteTimeUtc(string path, DateTime lastWriteTimeUtc)
         {
-            File.SetLastWriteTimeUtc(path, lastWriteTimeUtc);
+            System.IO.File.SetLastWriteTimeUtc(path, lastWriteTimeUtc);
         }
 
         /// <summary>
@@ -469,7 +469,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="bytes">The bytes to write to the file</param>
         public virtual void WriteAllBytes(string filePath, byte[] bytes)
         {
-            File.WriteAllBytes(filePath, bytes);
+            System.IO.File.WriteAllBytes(filePath, bytes);
         }
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="encoding">The encoding to apply to the string</param>
         public virtual void WriteAllText(string path, string contents, Encoding encoding)
         {
-            File.WriteAllText(path, contents, encoding);
+            System.IO.File.WriteAllText(path, contents, encoding);
         }
 
         protected string BaseDirectory { get; }

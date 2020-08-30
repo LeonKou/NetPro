@@ -1,4 +1,5 @@
 ﻿using NetPro.Core.Infrastructure;
+using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.Data;

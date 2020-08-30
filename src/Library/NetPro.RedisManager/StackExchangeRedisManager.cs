@@ -39,19 +39,21 @@ namespace NetPro.RedisManager
             var rValue = _db.StringGet(key);
             if (!rValue.HasValue)
             {
-                if (func == null || func.Invoke() == null) return default(T);
-                var entryBytes = Common.Serialize(func.Invoke());
+                if (func == null) return default(T);
+                var executeResult = func.Invoke();
+                if (executeResult == null) return default(T);
+                var entryBytes = Common.Serialize(executeResult);
                 if (expiredTime == -1)
                     Do(db => db.StringSet(key, entryBytes));
                 else Do(db => db.StringSet(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
 
-                return func.Invoke();
+                return executeResult;
             }
             var result = Common.Deserialize<T>(rValue);
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
@@ -60,13 +62,15 @@ namespace NetPro.RedisManager
             var rValue = await _db.StringGetAsync(key);
             if (!rValue.HasValue)
             {
-                if (func == null || func.Invoke() == null) return default(T);
-                var entryBytes = Common.Serialize(func.Invoke());
+                if (func == null) return default(T);
+                var executeResult =await func.Invoke();
+                if (executeResult == null) return default(T);
+                var entryBytes = Common.Serialize(executeResult);
                 if (expiredTime == -1)
                     await Do(db => db.StringSetAsync(key, entryBytes));
                 else await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
 
-                return func.Invoke();
+                return executeResult;
             }
             var result = Common.Deserialize<T>(rValue);
             return result;
@@ -130,7 +134,7 @@ namespace NetPro.RedisManager
             });
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait, Func<T> func)
         {
             Common.CheckKey(resource);
 
@@ -139,6 +143,8 @@ namespace NetPro.RedisManager
                 throw new ArgumentException($"The timeout is not valid with a distributed lock object--key:{resource}--expiryTime--{timeoutSeconds}");
             }
 
+            if(isAwait)
+            //只有expiryTime参数，锁未释放会直接跳过
             using (var redLock = GetDistributedLock().CreateLock(resource, TimeSpan.FromSeconds(timeoutSeconds), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(1)))
             {
                 if (redLock.IsAcquired)
@@ -152,6 +158,20 @@ namespace NetPro.RedisManager
                 Console.ResetColor();
                 return default(T);
             }
+            else
+                using (var redLock = GetDistributedLock().CreateLock(resource, TimeSpan.FromSeconds(timeoutSeconds)))
+                {
+                    if (redLock.IsAcquired)
+                    {
+                        var result = func();
+                        return result;
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
+                    Console.ResetColor();
+                    return default(T);
+                }
         }
 
         public bool HSet<T>(string key, string field, T value, int expirationMinute = 1)

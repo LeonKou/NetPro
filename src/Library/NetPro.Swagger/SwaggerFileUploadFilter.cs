@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NetPro.Web.Api.Infrastructure.Swagger
+namespace NetPro.Swagger
 {
 	public class SwaggerFileUploadFilter : IOperationFilter
 	{

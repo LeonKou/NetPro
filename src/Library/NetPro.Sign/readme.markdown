@@ -1,7 +1,6 @@
 
 ## 接口签名
 
-[![NuGet](https://img.shields.io/nuget/v/NetPro.Sign.svg)](https://nuget.org/packages/NetPro.Sign)
 
 主要防范请求参数被篡改和增加爬虫难度，支持Attribute和Global 模式
 

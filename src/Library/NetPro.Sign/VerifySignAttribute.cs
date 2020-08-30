@@ -17,7 +17,7 @@ namespace NetPro.Web.Core.Filters
     /// <summary>
     /// 验签特性
     /// </summary>
-    /// <remarks>特性加于action方法生效</remarks>
+    /// <remarks>特性方式继承自动生效</remarks>
     public class VerifySignAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;
@@ -33,12 +33,12 @@ namespace NetPro.Web.Core.Filters
             _verifySignOption = IoC.Resolve<VerifySignOption>();
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!_configuration.GetValue<bool>("VerifySignOption:Enable") ||
                 !_configuration.GetValue<string>("VerifySignOption:Scheme", "").ToLower().Equals("attribute", StringComparison.OrdinalIgnoreCase))
             {
-                return;
+                goto gotoNext;
             }
             var descriptor = (Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor;
             var attributeController = (IgnoreSignAttribute)descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(IgnoreSignAttribute), true).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace NetPro.Web.Core.Filters
             if (attribute != null)
                 goto gotoNext;
 
-            if (!GetSignValue(context.HttpContext.Request))
+            if (!await GetSignValueAsync(context.HttpContext))
             {
                 SignCommon.BuildErrorJson(context);
                 return;
@@ -58,14 +58,19 @@ namespace NetPro.Web.Core.Filters
                 goto gotoNext;
 
             gotoNext:
-            base.OnActionExecuting(context);
+            await next();
         }
 
-        private bool GetSignValue(HttpRequest request)
+        private async Task<bool> GetSignValueAsync(HttpContext request)
         {
             try
             {
-                var queryDic = request.Query.ToDictionary(s => s.Key, s => s.Value);
+                var convertedDictionatry = request.Request.Query.ToDictionary(s => s.Key, s => s.Value);
+                var queryDic = new Dictionary<string, string>();
+                foreach (var item in convertedDictionatry)
+                {
+                    queryDic.Add(item.Key.ToLower(), item.Value);
+                }
                 var commonParameters = _verifySignOption.CommonParameters;
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
@@ -100,7 +105,7 @@ namespace NetPro.Web.Core.Filters
                 var signvalue = queryDic[commonParameters.SignName].ToString();
                 queryDic.Remove(commonParameters.SignName);
 
-                var bodyValue = SignCommon.ReadAsString(request);
+                var bodyValue = await SignCommon.ReadAsStringAsync(request);
                 if (!string.IsNullOrEmpty(bodyValue) && !"null".Equals(bodyValue))
                 {
                     bodyValue = Regex.Replace(bodyValue, @"\s(?=([^""]*""[^""]*"")*[^""]*$)", string.Empty);
@@ -133,7 +138,7 @@ namespace NetPro.Web.Core.Filters
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), signMethod);
                 if (_verifySignOption.IsDebug)
                 {
-                    _logger.LogInformation($"请求接口地址：{request.Path}");
+                    _logger.LogInformation($"请求接口地址：{request.Request.Path}");
                     _logger.LogInformation($"拼装排序后的值{logString}");
                     _logger.LogInformation($"拼装排序后的值{logString}");
                     _logger.LogInformation($"摘要计算后的值：{result}");

@@ -1,0 +1,7 @@
+﻿{
+	"ResponseCacheOption": {
+		"Enabled": "true",
+		"Expired": 5,
+		"ExcluedQuery": [ "sign,timestamp" ]
+	}
+}

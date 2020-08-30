@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Web.Api.Infrastructure.Extensions;
+using NetPro.TypeFinder;
+using NetPro.Swagger;
 
 namespace NetPro.Web.Api.Infrastructure
 {
@@ -20,6 +22,7 @@ namespace NetPro.Web.Api.Infrastructure
 		{
 			//配置 mvc服务
 			services.AddNetProApi();
+			services.AddNetProSwagger(configuration);
 		}
 
 		public void Configure(IApplicationBuilder application)
@@ -27,6 +30,7 @@ namespace NetPro.Web.Api.Infrastructure
 			application.UseRouting();
 			application.UseCors("CorsPolicy");
 			application.UseAuthorization();
+			application.UseNetProSwagger();
 			application.UseEndpoints(s =>
 			{
 				s.MapControllers();

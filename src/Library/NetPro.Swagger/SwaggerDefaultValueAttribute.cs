@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro.Web.Core
+namespace NetPro.Swagger
 {
 	/// <summary>
 	/// Swagger默认值设置

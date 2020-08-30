@@ -34,8 +34,6 @@ namespace Leon.XXX.Repository
         /// <param name="serverId"></param>
         public override void SetMySqlConnectioin(int serverId)
         {
-            //数据库从Apollo读取
-           
             var context = _dapperRepository.DbContext;
             if (serverId == 1)
             {

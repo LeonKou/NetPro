@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.TypeFinder
 {
     /// <summary>
     /// Classes implementing this interface provide information about types 

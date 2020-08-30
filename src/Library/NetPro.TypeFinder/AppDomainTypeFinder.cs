@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.TypeFinder
 {
     /// <summary>
     ///应用程序域内 循环类型查找(在bin目录中)
@@ -20,7 +20,7 @@ namespace NetPro.Core.Infrastructure
 
         #region Ctor
 
-        public AppDomainTypeFinder(INetProFileProvider fileProvider = null)
+        public AppDomainTypeFinder(INetProFileProvider fileProvider=null)
         {
             _fileProvider = fileProvider ?? CoreHelper.DefaultFileProvider;
         }

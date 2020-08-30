@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CSRedis;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace NetPro.RedisManager
 {
@@ -26,26 +27,32 @@ namespace NetPro.RedisManager
 
             if (result == null)
             {
-                if (func == null || func.Invoke() == null) return default(T);
-                RedisHelper.Set(key, func.Invoke(), expiredTime);
+                if (func == null) return default(T);
+                var executeResult = func.Invoke();
+                if (executeResult == null) return default(T);
 
-                return func.Invoke();
+                RedisHelper.Set(key, executeResult, expiredTime);
+
+                return executeResult;
             }
 
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<T> func = null, int expiredTime = -1)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
             Common.CheckKey(key);
             var result = await RedisHelper.GetAsync<T>(key);
 
             if (result == null)
             {
-                if (func == null || func.Invoke() == null) return default(T);
-                await RedisHelper.SetAsync(key, func.Invoke(), expiredTime);
+                if (func == null) return default(T);
+                var executeResult = await func.Invoke();
+                if (executeResult == null) return default(T);
 
-                return func.Invoke();
+                await RedisHelper.SetAsync(key, executeResult, expiredTime);
+
+                return executeResult;
             }
 
             return result;
@@ -57,21 +64,38 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait, Func<T> func)
         {
             if (timeoutSeconds <= 0 || string.IsNullOrWhiteSpace(resource))
             {
                 throw new ArgumentException($"The timeout is not valid with a distributed lock object--key:{resource}--expiryTime--{timeoutSeconds}");
             }
-            using (var lockObject = RedisHelper.Lock($"Lock:{resource?.Trim()}", timeoutSeconds))
+
+            if (isAwait)
+                goto gotoNext;
+            using (var _lockObject = RedisHelper.Lock($"Lock:{resource?.Trim()}", 1))
             {
-                if (lockObject == null)
+                if (_lockObject == null)
                 {
                     return default;
                 }
-                var result = func();
-                lockObject.Unlock();
-                return result;
+                goto gotoNext;
+            }
+
+            gotoNext:
+            {
+                using (var lockObject = RedisHelper.Lock($"Lock:{resource?.Trim()}", timeoutSeconds))
+                {
+                    if (lockObject == null)
+                    {
+                        return default;
+                    }
+                    var result = func();
+                    if (lockObject.Unlock())
+                        return result;
+                    return default;
+                }
+                Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
             }
         }
 
@@ -81,7 +105,6 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         public IDatabase GetIDatabase()
         {
-            Console.WriteLine("当前CSRedis默认驱动下调用Stackexchange方法");
             return _connection.GetDatabase();
         }
 
@@ -166,12 +189,12 @@ namespace NetPro.RedisManager
         /// <param name="func"></param>
         public long Publish(string key, string message)
         {
-            return RedisHelper.Publish(key, message);
+            return RedisHelper.PublishNoneMessageId(key, message);
         }
 
-        public async Task<long> PublishAsync<T>(string chennel, Func<string> func)
+        public async Task<long> PublishAsync(string channel, string input)
         {
-            var result = await RedisHelper.PublishAsync(chennel, func.Invoke());
+            var result = await RedisHelper.PublishNoneMessageIdAsync(channel, input);
             return result;
         }
 

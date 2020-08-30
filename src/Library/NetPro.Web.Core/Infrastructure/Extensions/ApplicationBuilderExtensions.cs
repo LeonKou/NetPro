@@ -114,10 +114,10 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 						var requestIp = EngineContext.Current.Resolve<IWebHelper>().GetCurrentIpAddress();
 						Serilog.Log.Error(exception, "WebApi异常.errorCode:{0},requestId:{1},请求url:{2},参数:{3},IP:{4}", errorCode, requestId, url, requestPara, requestIp);
 						//自定义异常返回
-						await context.Response.WriteAsync(JsonConvert.SerializeObject(new ApiResultModel()
+						await context.Response.WriteAsync(JsonConvert.SerializeObject(new ResponseResult()
 						{
-							ErrorCode = errorCode,
-							Message = errorMsg
+							Code = errorCode,
+							Msg= errorMsg
 						})).ConfigureAwait(false);
 					}
 				});

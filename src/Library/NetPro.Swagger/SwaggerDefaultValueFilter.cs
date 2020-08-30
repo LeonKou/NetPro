@@ -1,5 +1,4 @@
-﻿using NetPro.Web.Core;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Options;
@@ -11,7 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro.Web.Api.Infrastructure.Swagger
+namespace NetPro.Swagger
 {
     /// <summary>
     /// swagger默认值，只对swagger生效，避免直接使用[DefaultValue]影响正常业务

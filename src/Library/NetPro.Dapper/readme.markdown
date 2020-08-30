@@ -1,6 +1,6 @@
 
 ## Dapper使用
-[![NuGet](https://img.shields.io/nuget/v/NetPro.Dapper.svg)](https://nuget.org/packages/NetPro.Dapper)
+
 
 对Dapper的封装，简化操作与映射
 

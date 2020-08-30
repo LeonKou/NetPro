@@ -11,6 +11,7 @@ using MaxMind.Db;
 using System.Net;
 using System.Collections.Generic;
 using MongoDB.Driver;
+using System.Web;
 
 namespace Leon.XXX.Api
 {
@@ -137,12 +138,11 @@ namespace Leon.XXX.Api
         [VerifySign]
         public IActionResult CreateSign()
         {
-            Dictionary<string, string> queryDic = new Dictionary<string, string>();
-            queryDic.Add("appid", "111");
-            queryDic.Add("c", "1");
-            queryDic.Add("d", "1");
-            var sign = SignCommon.CreateSign("sadfsdf", queryDic: queryDic, body: new { a = 1, b = "1" });
-            queryDic.Add("sign", sign);
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["appid"] = "sadfsdf";       //必传 应用id
+           
+            var sign = SignCommon.CreateSign("sadfsdf", query: query, body: new { a = 1, b = "1" });
+            query.Add("sign", sign);
             return Ok(sign);
         }
     }

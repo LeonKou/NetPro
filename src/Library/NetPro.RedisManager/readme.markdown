@@ -1,8 +1,6 @@
 
 ## RedisManager使用
 
-[![NuGet](https://img.shields.io/nuget/v/NetPro.RedisManager.svg)](https://nuget.org/packages/NetPro.RedisManager)
-
 同时支持StackExchangeRedis和CsRedis
 
 ### appsetting.json

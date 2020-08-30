@@ -38,7 +38,7 @@ namespace NetPro.Sign
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (!_verifySignOption.Enable || _verifySignOption.Scheme?.ToLower() != "attribute")
+            if (!_verifySignOption.Enable || _verifySignOption.Scheme?.ToLower() != "global")
             {
                 goto gotoNext;
             }
@@ -51,7 +51,7 @@ namespace NetPro.Sign
             if (attribute != null)
                 goto gotoNext;
 
-            if (!GetSignValue(context.HttpContext.Request))
+            if (!await GetSignValue(context.HttpContext))
             {
                 SignCommon.BuildErrorJson(context);
                 await Task.CompletedTask;
@@ -64,11 +64,16 @@ namespace NetPro.Sign
             await next();
         }
 
-        private bool GetSignValue(HttpRequest request)
+        private async Task<bool> GetSignValue(HttpContext request)
         {
             try
             {
-                var queryDic = request.Query.ToDictionary(s => s.Key, s => s.Value);
+                var convertedDictionatry = request.Request.Query.ToDictionary(s => s.Key, s => s.Value);
+                var queryDic = new Dictionary<string, string>();
+                foreach (var item in convertedDictionatry)
+                {
+                    queryDic.Add(item.Key.ToLower(), item.Value);
+                }
                 var commonParameters = _verifySignOption.CommonParameters;
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
@@ -103,7 +108,7 @@ namespace NetPro.Sign
                 var signvalue = queryDic[commonParameters.SignName].ToString();
                 queryDic.Remove(commonParameters.SignName);
 
-                var bodyValue = SignCommon.ReadAsString(request);
+                var bodyValue = await SignCommon.ReadAsStringAsync(request);
                 if (!string.IsNullOrEmpty(bodyValue) && !"null".Equals(bodyValue))
                 {
                     bodyValue = Regex.Replace(bodyValue, @"\s(?=([^""]*""[^""]*"")*[^""]*$)", string.Empty);
@@ -138,7 +143,7 @@ namespace NetPro.Sign
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), signMethod);
                 if (_verifySignOption.IsDebug)
                 {
-                    _logger.LogInformation($"请求接口地址：{request.Path}");
+                    _logger.LogInformation($"请求接口地址：{request.Request.Path}");
                     _logger.LogInformation($"拼装排序后的值{logString}");
                     _logger.LogInformation($"拼装排序后的值{logString}");
                     _logger.LogInformation($"摘要计算后的值：{result}");

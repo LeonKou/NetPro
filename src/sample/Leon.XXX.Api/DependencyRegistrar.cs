@@ -4,6 +4,7 @@ using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Dapper;
+using NetPro.TypeFinder;
 
 namespace Leon.XXX.Api
 {

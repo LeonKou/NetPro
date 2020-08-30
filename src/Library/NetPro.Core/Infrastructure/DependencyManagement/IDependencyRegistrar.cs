@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using NetPro.Core.Configuration;
+using NetPro.TypeFinder;
 
 namespace NetPro.Core.Infrastructure.DependencyManagement
 {

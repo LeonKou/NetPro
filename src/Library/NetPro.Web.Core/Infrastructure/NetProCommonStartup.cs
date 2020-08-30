@@ -9,8 +9,8 @@ using NetPro.Web.Core.Compression;
 using NetPro.Web.Core.Infrastructure.Extensions;
 using NetPro.RedisManager;
 using NetPro.MongoDb;
-using NetPro.Dapper;
 using System.Linq;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -52,7 +52,7 @@ namespace NetPro.Web.Core.Infrastructure
                 });
             }
 
-            services = services.AddDapperRepository();
+            //services = services.AddDapperRepository();
             services.Scan(scan => scan
                .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("Repository")).ToArray()
                    .Where(s => s.GetName().Name.EndsWith("Repository")))

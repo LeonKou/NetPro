@@ -13,7 +13,7 @@ using System.Text;
 
 namespace NetPro.Web.Core
 {
-   public  static partial class Extensions
+    public static partial class Extensions
     {
         /// <summary>
         /// 返回错误的ActionResult
@@ -23,10 +23,10 @@ namespace NetPro.Web.Core
         /// <returns></returns>
         public static JsonResult ToErrorActionResult(this string errorMsg, int errorCode)
         {
-            var model = new ApiResultModel()
+            var model = new ResponseResult()
             {
-                ErrorCode = errorCode,
-                Message = errorMsg
+                Code = errorCode,
+                Msg = errorMsg
             };
             return new JsonResult(model);
         }

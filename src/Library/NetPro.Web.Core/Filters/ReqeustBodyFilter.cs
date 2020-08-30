@@ -41,7 +41,8 @@ namespace NetPro.Web.Core.Filters
                     //var macName = Environment.MachineName;
                     //var requestIp = _webHelper.GetCurrentIpAddress();
                     var bodyText = ActionFilterHelper.GetRequestBodyText(request);
-                    if (Regex.IsMatch(bodyText, "(\\d+?,)+"))
+
+                    if (bodyText != null && Regex.IsMatch(bodyText, "(\\d+?,)+"))
                     {
                         if (url != null)
                         {
@@ -82,7 +83,7 @@ namespace NetPro.Web.Core.Filters
             {
                 _logger.Error(ex, "【WriteTxt】error：" + ex.Message);
             }
-            
+
         }
     }
 }

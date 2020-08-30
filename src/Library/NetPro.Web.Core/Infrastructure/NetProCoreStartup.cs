@@ -12,6 +12,7 @@ using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

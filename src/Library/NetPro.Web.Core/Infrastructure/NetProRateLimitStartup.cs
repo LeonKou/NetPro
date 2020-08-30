@@ -5,6 +5,7 @@ using NetPro.Core.Infrastructure;
 using AspNetCoreRateLimit;
 using StackExchange.Redis;
 using NetPro.RedisManager;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

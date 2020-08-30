@@ -3,8 +3,6 @@ using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure;
 using NetPro.Core.Infrastructure.DependencyManagement;
-using NetPro.Dapper;
-using NetPro.Dapper.Repositories;
 using NetPro.Utility.Helpers;
 using NetPro.Web.Core.Permission;
 using Autofac;
@@ -12,7 +10,7 @@ using AutofacSerilogIntegration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NetPro.Web.Core.Helpers;
-using Microsoft.Extensions.DependencyInjection;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -31,15 +29,11 @@ namespace NetPro.Web.Core.Infrastructure
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NetProOption config)
         {
             //file provider
-            builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().PropertiesAutowired();
+            //builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().InstancePerLifetimeScope();
+            //builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().PropertiesAutowired();//属性注入；TODO 保留，可能用到，实际注入在NetPro.TypeFinder
             //web helper
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
-
-            //builder.RegisterGeneric(typeof(NetProUnitOfWorkFactory<>)).As(typeof(IUnitOfWorkFactory<>)).InstancePerLifetimeScope();
-            //builder.RegisterGeneric(typeof(DapperRepository<>)).As(typeof(IDapperRepository<>)).InstancePerLifetimeScope();
-            //builder.RegisterGeneric(typeof(GeneralRepository<,>)).As(typeof(IGeneralRepository<>)).InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(typeFinder.GetAssemblies()
                 .Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Service)$")).ToArray())

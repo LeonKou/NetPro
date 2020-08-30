@@ -11,15 +11,16 @@ using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
+using NetPro.TypeFinder;
 using NetPro.Utility;
 
 namespace NetPro.Core.Infrastructure
 {
-	/// <summary>
-	/// IEngine接口实现
-	/// </summary>
-	public class NetProEngine : IEngine
-	{
+    /// <summary>
+    /// IEngine接口实现
+    /// </summary>
+    public class NetProEngine : IEngine
+    {
         #region Fields
 
         private ITypeFinder _typeFinder;
@@ -82,7 +83,7 @@ namespace NetPro.Core.Infrastructure
             containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
 
             //register type finder
-            containerBuilder.RegisterInstance(_typeFinder).As<ITypeFinder>().SingleInstance();
+            //containerBuilder.RegisterInstance(_typeFinder).As<ITypeFinder>().SingleInstance();
 
             //find dependency registrars provided by other assemblies
             var dependencyRegistrars = _typeFinder.FindClassesOfType<IDependencyRegistrar>();
@@ -154,7 +155,9 @@ namespace NetPro.Core.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, NetProOption nopConfig)
         {
             //find startup configurations provided by other assemblies
-            _typeFinder = new WebAppTypeFinder();
+
+            _typeFinder= services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
+            //_typeFinder = new WebAppTypeFinder();
             var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 
             //create and sort instances of startup configurations

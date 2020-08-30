@@ -58,6 +58,7 @@ namespace NetPro.Sign
                 switch (option.Scheme.ToLower())
                 {
                     case "global":
+                        IoC.ServiceProvider = services.BuildServiceProvider();
                         services.AddControllers(config =>
                          {
                              config.Filters.Add(typeof(VerifySignFilter));//签名验证启动

@@ -18,6 +18,7 @@ using App.Metrics.Health.Checks.Sql;
 using NetPro.Utility.Helpers;
 using NetPro.Core.Consts;
 using App.Metrics.Builder;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

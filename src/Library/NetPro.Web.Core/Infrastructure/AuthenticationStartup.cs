@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Web.Core.Infrastructure.Extensions;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

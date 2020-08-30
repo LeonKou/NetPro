@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.TypeFinder
 {
     /// <summary>
     ///  Web程序域内 循环类型查找(在bin目录中)
@@ -34,7 +35,7 @@ namespace NetPro.Core.Infrastructure
             get { return _ensureBinFolderAssembliesLoaded; }
             set { _ensureBinFolderAssembliesLoaded = value; }
         }
-        
+
         #endregion
 
         #region Methods

@@ -52,11 +52,15 @@
   <ItemGroup>
     <ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
     <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-    <ProjectReference Include="..\NetPro.Dapper\NetPro.Dapper.csproj" />
     <ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
     <ProjectReference Include="..\NetPro.MongoDb\NetPro.MongoDb.csproj" />
-    <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+    <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />      
     <ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
+  </ItemGroup>                 
+
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Attributes\" />
   </ItemGroup>
   <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
     <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

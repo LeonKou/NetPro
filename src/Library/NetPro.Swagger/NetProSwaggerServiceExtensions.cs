@@ -1,59 +1,28 @@
-﻿using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
-using NetPro.Web.Api.Infrastructure.Swagger;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.OpenApi.Models;
+using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace NetPro.Web.Api
+namespace NetPro.Swagger
 {
-    /// <summary>
-    /// swagger 启动配置,默认包含 api,viewmodel,servicemodel对应的xml文件，如果需要增加可以继承改类重写GetXmlComments方法
-    /// </summary>
-    public class SwaggerStartup : INetProStartup
+    public static class NetProSwaggerServiceExtensions
     {
-        public int Order => 999;
-
-        public void Configure(IApplicationBuilder application)
+        public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration)
         {
-            var openApiInfo = application.ApplicationServices.GetService<OpenApiInfo>();
-            var configuration = application.ApplicationServices.GetService<IConfiguration>();
-            //var config = EngineContext.Current.Resolve<NetProOption>();
-            if (!configuration.GetValue<bool>("SwaggerOption:Enable", false)) return;
-
-            application.UseSwagger(c =>
-            {
-                c.RouteTemplate = "docs/{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Info.Description = httpReq.Path);//请求过滤处理
-            });
-
-            application.UseSwaggerUI(c =>
-            {
-                c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix")}";//设置文档首页根路径
-                c.SwaggerEndpoint("/docs/v1/docs.json", "V1");//此处配置要和UseSwagger的RouteTemplate匹配
-                c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例
-                                                                                                     //c.InjectStylesheet("NetPro.Web.Api.Infrastructure.Swagger.custom.css");//注入style文件
-                c.InjectStylesheet("/custom.css");//注入style文件
-                if (configuration.GetValue<bool>("SwaggerOption:MiniProfilerEnabled", false))
-                {
-                    var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Web.Api.Infrastructure.Swagger.SwaggerProfiler.html");
-                    c.IndexStream = () => stream;
-                }
-            });
-        }
-
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
-        {
+            services.AddFileProcessService();
             if (!configuration.GetValue<bool>("SwaggerOption:Enable", false))
-                return;
+                return services;
 
             services
                 .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));
@@ -120,13 +89,15 @@ namespace NetPro.Web.Api
                     }
                 });
             });
+
+            return services;
         }
 
         /// <summary>
         /// 所有xml默认当作swagger文档注入swagger
         /// </summary>
         /// <returns></returns>
-        protected virtual List<string> GetXmlComments()
+        private static List<string> GetXmlComments()
         {
             //var pattern = $"^{netProOption.ProjectPrefix}.*({netProOption.ProjectSuffix}|Domain)$";
             //List<string> assemblyNames = ReflectionHelper.GetAssemblyNames(pattern);
@@ -139,6 +110,59 @@ namespace NetPro.Web.Api
             });
             return xmlFiles;
         }
+    }
 
+    public static class NetProSwaggerMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseNetProSwagger(
+         this IApplicationBuilder application)
+        {
+            var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
+
+            if (configuration.GetValue<bool>("SwaggerOption:Enable", false))
+            {
+                var openApiInfo = application.ApplicationServices.GetService<OpenApiInfo>();                  
+
+                application.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "docs/{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
+                    c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Info.Description = httpReq.Path);//请求过滤处理
+                });
+
+                application.UseSwaggerUI(c =>
+                {
+                    c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix", "swagger")}";//设置文档首页根路径
+                    c.SwaggerEndpoint("/docs/v1/docs.json", "V1");//此处配置要和UseSwagger的RouteTemplate匹配
+                    c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例
+                                                                                                         //c.InjectStylesheet("NetPro.Web.Api.Infrastructure.Swagger.custom.css");//注入style文件
+                    c.InjectStylesheet("/custom.css");//注入style文件
+                    //if (configuration.GetValue<bool>("SwaggerOption:MiniProfilerEnabled", false))
+                    //{
+                    //    var stream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Web.Api.Infrastructure.Swagger.SwaggerProfiler.html");
+                    //    c.IndexStream = () => stream;
+                    //}
+                });
+
+            }
+              
+            return application;
+        }
+    }
+
+    public class NetProSwaggerMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public NetProSwaggerMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+
+            await _next(context);
+            return;
+        }
     }
 }

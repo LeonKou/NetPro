@@ -1,6 +1,8 @@
-﻿using NetPro.Core.Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace NetPro.Core
+namespace NetPro.TypeFinder
 {
     /// <summary>
     /// Represents a common helper
@@ -9,7 +11,7 @@ namespace NetPro.Core
     public partial class CoreHelper
     {
         #region Fields
-       
+
         #endregion
 
         #region Methods

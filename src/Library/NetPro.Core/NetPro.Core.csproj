@@ -35,6 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 		<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
 	</ItemGroup>
 

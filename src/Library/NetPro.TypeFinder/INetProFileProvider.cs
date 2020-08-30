@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.TypeFinder
 {
     /// <summary>
     /// 文件操作抽象类
@@ -16,7 +16,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="paths">An array of parts of the path</param>
         /// <returns>The combined paths</returns>
         string Combine(params string[] paths);
-        
+
         /// <summary>
         /// 创建一个目录(文件夹)
         /// </summary>
@@ -257,7 +257,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="path">The path to map. E.g. "~/bin"</param>
         /// <returns>The physical path. E.g. "c:\inetpub\wwwroot\bin"</returns>
         string MapPath(string path);
-        
+
         /// <summary>
         /// Reads the contents of the file into a byte array
         /// </summary>
@@ -272,7 +272,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="encoding">The encoding applied to the contents of the file</param>
         /// <returns>A string containing all lines of the file</returns>
         string ReadAllText(string path, Encoding encoding);
-        
+
         /// <summary>
         /// Sets the date and time, in coordinated universal time (UTC), that the specified file was last written to
         /// </summary>
@@ -282,7 +282,7 @@ namespace NetPro.Core.Infrastructure
         /// This value is expressed in UTC time
         /// </param>
         void SetLastWriteTimeUtc(string path, DateTime lastWriteTimeUtc);
-        
+
         /// <summary>
         /// Writes the specified byte array to the file
         /// </summary>

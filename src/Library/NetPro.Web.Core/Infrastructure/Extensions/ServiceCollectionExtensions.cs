@@ -28,6 +28,7 @@ using System.Drawing;
 using Serilog;
 using System.Text;
 using NetPro.Web.Core.Models;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -45,6 +46,8 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         public static (IEngine, NetProOption) ConfigureApplicationServices(this IServiceCollection services,
             IConfiguration configuration, IHostEnvironment hostEnvironment)
         {
+            //文件查找组件注入
+            services.AddFileProcessService();
             var netProOption = services.ConfigureStartupConfig<NetProOption>(configuration.GetSection(nameof(NetProOption)));
             services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
             if (string.IsNullOrWhiteSpace(netProOption.ApplicationName)) netProOption.ApplicationName = hostEnvironment.ApplicationName;
@@ -61,8 +64,8 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 
             services.AddHttpContextAccessor();
 
-            //create default file provider
-            CoreHelper.DefaultFileProvider = new NetProFileProvider(hostEnvironment);
+            ////create default file provider
+            //CoreHelper.DefaultFileProvider = new NetProFileProvider(hostEnvironment);
 
             //日志初始化配置
             services.ConfigureSerilogConfig(configuration);
@@ -212,7 +215,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                             stringBuilder.Append(errors[0].ErrorMessage);
                         }
                     }
-                    return new BadRequestObjectResult(new ApiResultModel { ErrorCode = -1, Message = $"数据验证失败--详情：{stringBuilder}" })
+                    return new BadRequestObjectResult(new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" })
                     {
                         ContentTypes = { "application/problem+json", "application/problem+xml" }
                     };

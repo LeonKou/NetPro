@@ -13,13 +13,16 @@ using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.VisualBasic.CompilerServices;
+using System.Collections.Specialized;
+using System.Text.RegularExpressions;
+using System.Text.Encodings.Web;
 
 namespace NetPro.Sign
 {
     public class SignCommon
     {
         /// <summary>
-        /// 生成签名
+        /// 通用生成签名
         /// </summary>
         /// <param name="secret"></param>
         /// <param name="queryDic">url参数,参数名统一小写；参数中不能包含时间戳，时间戳已内部处理，参数名为：timestamp</param>
@@ -30,8 +33,14 @@ namespace NetPro.Sign
         /// HMACSHA256摘要后转16进制小写
         /// </remarks>
         /// <returns></returns>
-        public static string CreateSign(string secret, Dictionary<string, string> queryDic, object body = null, string signMethod = "")
+        public static string CreateSign(string secret, NameValueCollection query, object body = null, string signMethod = "")
         {
+            IDictionary<string, string> queryDic = new Dictionary<string, string>();
+            foreach (var k in query.AllKeys)
+            {
+                queryDic.Add(k, query[k]);
+            }
+
             if (queryDic == null || !queryDic.Any())
             {
                 Console.WriteLine("签名公共参数必须以url方式提供");
@@ -40,20 +49,15 @@ namespace NetPro.Sign
 
             if (body != null)
             {
-                var jsonString = JsonSerializer.Serialize(body);
-                var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString);
-                foreach (var item in dict)
-                {
-                    queryDic.Add(item.Key, item.Value.ToString());
-                    Console.WriteLine($"字段:{item.Key}--值:{item.Value}");
-                }
+                var jsonString = JsonSerializer.Serialize(body, new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+                queryDic.Add("body", Regex.Replace(jsonString, @"\s(?=([^""]*""[^""]*"")*[^""]*$)", string.Empty));
+
             }
 
             var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 
             StringBuilder requestStr = new StringBuilder();
             StringBuilder logString = new StringBuilder();
-            //requestStr.Append(string.Join("&", dicOrder.Select(a => $"{a.Key}={a.Value?.ToString().Trim()}")));
 
             for (int i = 0; i < dicOrder.Count(); i++)
             {
@@ -112,7 +116,7 @@ namespace NetPro.Sign
         /// <param name="message"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
-        public static string CreateMD5(string message, string secret)
+        internal static string CreateMD5(string message, string secret)
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
@@ -133,33 +137,42 @@ namespace NetPro.Sign
             return decodedString;
         }
 
-        internal static string ReadAsString(HttpRequest request)
+        internal static async Task<string> ReadAsStringAsync(HttpContext context)
         {
             try
             {
-                if (request.ContentLength > 0)
+                if (context.Request.ContentLength > 0)
                 {
-                    EnableRewind(request);
-                    var encoding = GetRequestEncoding(request);
-                    return ReadStream(request.Body, encoding);
+                    EnableRewind(context.Request);
+                    var encoding = GetRequestEncoding(context.Request);
+                    return await ReadStream(context, encoding);
                 }
                 return null;
 
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex.Message == "Unexpected end of request content.")
             {
-                Console.WriteLine($"读取requet的body出错：{ex}");
+                //_iLogger.LogError(ex, $"[ReadAsString] Post响应缓存出错,客户端取消请求");
                 return null;
             }
         }
 
-        internal static string ReadStream(Stream stream, Encoding encoding)
+        internal static async Task<string> ReadStream(HttpContext context, Encoding encoding)
         {
-            using (StreamReader sr = new StreamReader(stream, encoding, true, 1024, true))
+            try
             {
-                var str = sr.ReadToEnd();
-                stream.Seek(0, SeekOrigin.Begin);
-                return str;
+                using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
+                {
+                    if (context.RequestAborted.IsCancellationRequested)
+                        return null;
+                    var str = await sr.ReadToEndAsync();
+                    context.Request.Body.Seek(0, SeekOrigin.Begin);
+                    return str;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

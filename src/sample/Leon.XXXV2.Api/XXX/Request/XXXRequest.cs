@@ -20,7 +20,7 @@ namespace Leon.XXXV2.Api
 		/// <summary>
 		/// 这是名称
 		/// </summary>
-		[SwaggerDefaultValue(3)]
+		//[SwaggerDefaultValue(3)]
 		[Required(ErrorMessage = "必填项")]
 		[Range(0, 100)]
 		public int Age { get; set; }

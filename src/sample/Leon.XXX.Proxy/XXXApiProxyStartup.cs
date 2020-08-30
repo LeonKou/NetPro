@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
+using NetPro.TypeFinder;
 
 namespace Leon.XXX.Proxy
 {

@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using WebApiClient;
 using NetPro.Core.Configuration;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

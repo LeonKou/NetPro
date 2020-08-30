@@ -65,10 +65,10 @@ namespace NetPro.Web.Api
         /// <returns></returns>
         public static string ToErrorApiJson(this string errorMsg, int errorCode)
         {
-            var model = new ApiResultModel()
+            var model = new ResponseResult()
             {
-                ErrorCode = errorCode,
-                Message = errorMsg
+                Code = errorCode,
+                Msg = errorMsg
             };
             return JsonConvert.SerializeObject(model);
         }

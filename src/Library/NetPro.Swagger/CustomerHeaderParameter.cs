@@ -1,10 +1,9 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 
-namespace NetPro.Web.Api.Infrastructure.Swagger
+namespace NetPro.Swagger
 {
     public class CustomerHeaderParameter : IOperationFilter
     {
