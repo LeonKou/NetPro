@@ -51,9 +51,10 @@ namespace NetPro.Sign
             if (attribute != null)
                 goto gotoNext;
 
-            if (!await GetSignValue(context.HttpContext))
+            var result = await GetSignValue(context.HttpContext);
+            if (_verifySignOption.IsForce && !result.Item1)
             {
-                SignCommon.BuildErrorJson(context);
+                SignCommon.BuildErrorJson(context, result.Item2);
                 await Task.CompletedTask;
                 return;
             }
@@ -64,7 +65,7 @@ namespace NetPro.Sign
             await next();
         }
 
-        private async Task<bool> GetSignValue(HttpContext request)
+        private async Task<Tuple<bool, string>> GetSignValue(HttpContext request)
         {
             try
             {
@@ -78,7 +79,7 @@ namespace NetPro.Sign
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
                     _logger.LogError("url参数中未找到签名所需参数[timestamp];[appid]或[sign]");
-                    return false;
+                    return Tuple.Create<bool, string>(false, "签名参数缺失");
                 }
 
                 string signMethod = "hmac-sha256";
@@ -91,7 +92,7 @@ namespace NetPro.Sign
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp))
                 {
                     _logger.LogError($"{timestampStr}时间戳已过期");
-                    return false;
+                    return Tuple.Create<bool, string>(false, "请校准客户端时间后再试");
                 }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
@@ -102,7 +103,7 @@ namespace NetPro.Sign
                                             AppSecret:{
                                             [AppId]:[Secret]
                                                       }}");
-                    return false;
+                    return Tuple.Create<bool, string>(false, "服务异常，AppIdName未配置");
                 }
 
                 var signvalue = queryDic[commonParameters.SignName].ToString();
@@ -154,12 +155,17 @@ namespace NetPro.Sign
                     _logger.LogWarning(@$"摘要被篡改：[iphide]----{signvalue }
                                             查看详情，请设置VerifySignOption节点的IsDebug为true");
                 }
-                return signvalue == result;
+
+                if (signvalue == result)
+                {
+                    return Tuple.Create<bool, string>(true, "签名通过");
+                }
+                return Tuple.Create<bool, string>(false, "签名异常,请求非法");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "签名异常");
-                return false;
+                return Tuple.Create<bool, string>(false, "签名异常");
             }
         }
 

@@ -19,7 +19,7 @@ namespace NetPro.RedisManager
         public static IServiceCollection AddRedisManager(this IServiceCollection services, RedisCacheOption redisCacheOption)
         {
             var redisCacheComponent = redisCacheOption?.RedisComponent ?? RedisCacheComponentEnum.NullRedis;
-
+            services.AddMemoryCache();
             switch (redisCacheComponent)
             {
                 case RedisCacheComponentEnum.CSRedisCore:

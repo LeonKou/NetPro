@@ -6,6 +6,7 @@ using Autofac;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Configuration;
@@ -156,7 +157,7 @@ namespace NetPro.Core.Infrastructure
         {
             //find startup configurations provided by other assemblies
 
-            _typeFinder= services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
+            _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
             //_typeFinder = new WebAppTypeFinder();
             var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 
@@ -185,6 +186,8 @@ namespace NetPro.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void ConfigureRequestPipeline(IApplicationBuilder application)
         {
+            //转发头数据
+            application.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.All });
             _serviceProvider = application.ApplicationServices;
 
             //find startup configurations provided by other assemblies

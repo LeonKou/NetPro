@@ -48,11 +48,11 @@ namespace NetPro.Web.Core.Filters
 
 			var permissionAttribute = (PermissionActionAttribute)descriptor.MethodInfo.GetCustomAttributes(typeof(PermissionActionAttribute), true).FirstOrDefault();
 			// 过滤匿名访问
-			if (context.Filters.Any(item => item is IAllowAnonymousFilter) || ((!(_config.PermissionEnabled) && string.IsNullOrWhiteSpace(_config.Permission)) || (permissionAttribute?.Ignore).GetValueOrDefault()))
-			{
-				await next();
-				return;
-			}
+			//if (context.Filters.Any(item => item is IAllowAnonymousFilter) || ((!(_config.PermissionEnabled) && string.IsNullOrWhiteSpace(_config.Permission)) || (permissionAttribute?.Ignore).GetValueOrDefault()))
+			//{
+			//	await next();
+			//	return;
+			//}
 
 			string redirectUrl = "";
 			var ret = false;//是否拥有权限

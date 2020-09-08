@@ -1,6 +1,6 @@
 ﻿namespace NetPro.Web.Core.Models
 {
-    public class BaseViewModel
+    public class BaseDto
     {
     }
 }

@@ -1,0 +1,37 @@
+﻿{
+	"SwaggerOption": {
+		"Enable": true,
+		"MiniProfilerEnabled": false,
+		"XmlComments": [ "", "" ],
+		"RoutePrefix": "swagger",
+		"Description": "this is swagger for netcore",
+		"Title": "Demo swagger",
+		"Version": "first version",
+		"TermsOfService": "netcore.com",
+		"Contact": {
+			"Email": "swagger@netcore.com",
+			"Name": "swagger",
+			"Url": "swagger@netcore.com"
+		},
+		"License": {
+			"Name": "",
+			"Url": ""
+		},
+		"Headers": [ //swagger默认头参数
+			{
+				"Name": "User",
+				"Description": "用户"
+			}
+		],
+		"Query": [ //swagger默认url公共参数
+			{
+				"Name": "sign",
+				"Description": "签名"
+			},
+			{
+				"Name": "timestamp",
+				"Description": "客户端时间戳"
+			}
+		]
+	}
+}

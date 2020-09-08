@@ -1,0 +1,9 @@
+﻿{
+	"AuthenticationOption": {
+		"Enabled": true,
+		"Secret": "6666666666666666", //最少配置16位
+		"Issuer": "q1.com",
+		"AccessTokenExpired": 6, //单位小时
+		"RefreshTokenExpired": 168 //单位小时
+	}
+}

@@ -13,6 +13,7 @@ namespace NetPro.RedisManager
     {
         /// <summary>
         /// 获取缓存，没有则新增缓存
+        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -23,6 +24,7 @@ namespace NetPro.RedisManager
 
         /// <summary>
         /// 获取缓存没有则新增缓存
+        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>

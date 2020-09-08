@@ -27,8 +27,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.NPOI" Version="$(DotNetCoreNPOI)" />
-		<PackageReference Include="IdGen" Version="$(IdGen)" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="$(MicrosoftAspNetCoreHttpFeatures)" />
+		<PackageReference Include="IdGen" Version="3.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.7" />
 		<PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
 		<PackageReference Include="PinYinConverterCore" Version="$(PinYinConverterCore)" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="$(SystemComponentModelAnnotations)" />

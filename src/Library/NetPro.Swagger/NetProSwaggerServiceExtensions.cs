@@ -35,6 +35,7 @@ namespace NetPro.Swagger
                 c.OperationFilter<SwaggerFileUploadFilter>();//add file fifter component
                 c.OperationFilter<SwaggerDefaultValueFilter>();//add webapi  default value of parameter
                 c.OperationFilter<CustomerHeaderParameter>();//add default header
+                c.OperationFilter<CustomerQueryParameter>();//add default query
 
                 var securityRequirement = new OpenApiSecurityRequirement();
                 securityRequirement.Add(new OpenApiSecurityScheme { Name = "Bearer" }, new string[] { });
@@ -89,6 +90,7 @@ namespace NetPro.Swagger
                     }
                 });
             });
+            services.AddSwaggerGenNewtonsoftSupport();
 
             return services;
         }
@@ -121,7 +123,7 @@ namespace NetPro.Swagger
 
             if (configuration.GetValue<bool>("SwaggerOption:Enable", false))
             {
-                var openApiInfo = application.ApplicationServices.GetService<OpenApiInfo>();                  
+                var openApiInfo = configuration.GetSection("SwaggerOption").Get<OpenApiInfo>();
 
                 application.UseSwagger(c =>
                 {
@@ -132,7 +134,7 @@ namespace NetPro.Swagger
                 application.UseSwaggerUI(c =>
                 {
                     c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix", "swagger")}";//设置文档首页根路径
-                    c.SwaggerEndpoint("/docs/v1/docs.json", "V1");//此处配置要和UseSwagger的RouteTemplate匹配
+                    c.SwaggerEndpoint("/docs/v1/docs.json", $"{openApiInfo.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
                     c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例
                                                                                                          //c.InjectStylesheet("NetPro.Web.Api.Infrastructure.Swagger.custom.css");//注入style文件
                     c.InjectStylesheet("/custom.css");//注入style文件
@@ -144,7 +146,7 @@ namespace NetPro.Swagger
                 });
 
             }
-              
+
             return application;
         }
     }

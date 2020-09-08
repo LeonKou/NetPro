@@ -1,25 +1,18 @@
 ﻿using NetPro.Core.Infrastructure;
-using NetPro.Core.Infrastructure.Attributes;
 using NetPro.Web.Core.Validators;
 using FluentValidation;
-using FluentValidation.Attributes;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using NetPro.Core.Infrastructure.PagedList;
-//using NetPro.Swagger;
+using NetPro.Web.Core.PagedList;
 
 namespace NetPro.Web.Core.Models
-{              
+{
     /// <summary>
     /// 分页查询请求基类
     /// </summary>
-    [Validator(typeof(PaginationSearchModelValidator))]
     public abstract class PaginationSearchModel : SortSearchModel
     {
-        private int _pageSize ;
+        private int _pageSize;
 
         /// <summary>
         ///页码 从0开始

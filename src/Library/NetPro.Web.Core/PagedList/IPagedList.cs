@@ -1,8 +1,6 @@
-﻿// Copyright (c) Arch team. All rights reserved.
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
-
-namespace NetPro.Core.Infrastructure.PagedList
+namespace NetPro.Web.Core.PagedList
 {
     /// <summary>
     /// 为分页集合提供接口

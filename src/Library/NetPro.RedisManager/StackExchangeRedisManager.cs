@@ -1,4 +1,5 @@
-﻿using RedLockNet.SERedis;
+﻿using Microsoft.Extensions.Caching.Memory;
+using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
 using System;
@@ -16,21 +17,44 @@ namespace NetPro.RedisManager
         private readonly ConnectionMultiplexer _connection;
         private readonly RedisCacheOption _option;
         private readonly IDatabase _database;
+        private IMemoryCache _memorycache;
 
         /// <summary>
         /// 自定义Key的前缀
         /// </summary>
         public string CustomPrefixKey { get; set; }
-        public StackExchangeRedisManager(ConnectionMultiplexer connection, RedisCacheOption option)
+        public StackExchangeRedisManager(ConnectionMultiplexer connection,
+            RedisCacheOption option,
+             IMemoryCache memorycache)
         {
             _connection = connection;
             _option = option;
             CustomPrefixKey = option.DefaultCustomKey;
             _database = _connection.GetDatabase();
-
+            _memorycache = memorycache;
         }
 
         public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
+        {
+            if (expiredTime == -1 || expiredTime > 3600)
+            {
+                var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
+                {
+                    var resultTemp = _(key, func, expiredTime);
+                    if (resultTemp == null)
+                    {
+                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                        return resultTemp;
+                    }
+                    s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    return resultTemp;
+                });
+                return memoryResult;
+            }
+            return _(key, func, expiredTime);
+        }
+
+        private T _<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
 
@@ -55,6 +79,27 @@ namespace NetPro.RedisManager
 
         public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
+            if (expiredTime == -1 || expiredTime > 3600)
+            {
+                var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
+                {
+                    var resultTemp = await _Async(key, func, expiredTime);
+                    if (resultTemp == null)
+                    {
+                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                        return resultTemp;
+                    }
+                    s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    return resultTemp;
+                });
+                return memoryResult;
+            }
+            return await _Async(key, func, expiredTime);
+
+        }
+
+        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        {
             NotNullOrWhiteSpace(key, nameof(key));
 
             Common.CheckKey(key);
@@ -63,7 +108,7 @@ namespace NetPro.RedisManager
             if (!rValue.HasValue)
             {
                 if (func == null) return default(T);
-                var executeResult =await func.Invoke();
+                var executeResult = await func.Invoke();
                 if (executeResult == null) return default(T);
                 var entryBytes = Common.Serialize(executeResult);
                 if (expiredTime == -1)
@@ -143,21 +188,21 @@ namespace NetPro.RedisManager
                 throw new ArgumentException($"The timeout is not valid with a distributed lock object--key:{resource}--expiryTime--{timeoutSeconds}");
             }
 
-            if(isAwait)
-            //只有expiryTime参数，锁未释放会直接跳过
-            using (var redLock = GetDistributedLock().CreateLock(resource, TimeSpan.FromSeconds(timeoutSeconds), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(1)))
-            {
-                if (redLock.IsAcquired)
+            if (isAwait)
+                //只有expiryTime参数，锁未释放会直接跳过
+                using (var redLock = GetDistributedLock().CreateLock(resource, TimeSpan.FromSeconds(timeoutSeconds), TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(1)))
                 {
-                    var result = func();
-                    return result;
-                }
+                    if (redLock.IsAcquired)
+                    {
+                        var result = func();
+                        return result;
+                    }
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
-                Console.ResetColor();
-                return default(T);
-            }
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
+                    Console.ResetColor();
+                    return default(T);
+                }
             else
                 using (var redLock = GetDistributedLock().CreateLock(resource, TimeSpan.FromSeconds(timeoutSeconds)))
                 {

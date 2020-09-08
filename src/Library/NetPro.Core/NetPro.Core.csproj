@@ -27,11 +27,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="$(AutofacExtensionsDependencyInjection)" />
-		<PackageReference Include="AutoMapper" Version="$(AutoMapper)" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="$(AutoMapperExtensionsMicrosoftDependencyInjection)" />
-		<PackageReference Include="Colorful.Console" Version="$(ColorfulConsole)" />
-		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="$(ComCtripFrameworkApolloConfiguration)" />
-		<PackageReference Include="Scrutor" Version="$(Scrutor)" />
+		<PackageReference Include="AutoMapper" Version="10.0.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+		<PackageReference Include="Colorful.Console" Version="1.2.11" />
+		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1" />
+		<PackageReference Include="Scrutor" Version="3.2.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,11 +1,8 @@
-﻿// Copyright (c) Arch team. All rights reserved.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetPro.Core.Infrastructure.PagedList;
 
-namespace Microsoft.EntityFrameworkCore
+namespace NetPro.Web.Core.PagedList
 {
     /// <summary>
     /// 分页实现
@@ -65,7 +62,7 @@ namespace Microsoft.EntityFrameworkCore
         /// <param name="pageIndex">当前页码.</param>
         /// <param name="pageSize">显示条数</param>
         /// <param name="indexFrom">起始页码.</param>
-        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int indexFrom=0)
+        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int indexFrom = 0)
         {
             if (indexFrom > pageIndex)
             {
@@ -160,7 +157,7 @@ namespace Microsoft.EntityFrameworkCore
         /// <param name="pageIndex">页码.</param>
         /// <param name="pageSize">每页显示数量.</param>
         /// <param name="indexFrom">起始页码</param>
-        public PagedList(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TResult>> converter, int pageIndex, int pageSize, int indexFrom=0)
+        public PagedList(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TResult>> converter, int pageIndex, int pageSize, int indexFrom = 0)
         {
             if (indexFrom > pageIndex)
             {

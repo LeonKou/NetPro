@@ -25,18 +25,19 @@ namespace NetPro.Web.Core.Infrastructure
     /// <summary>
     /// 应用性能监控
     /// </summary>
-    public class AppMetricsStartup : INetProStartup
+    [Obsolete("停用")]
+    public class AppMetricsStartup //: INetProStartup
     {
         public int Order => 200;
 
         public void Configure(IApplicationBuilder application)
         {
             var config = EngineContext.Current.Resolve<NetProOption>();
-            if (!config.APMEnabled) return;
+            //if (!config.APMEnabled) return;
             application.UseMetricsAllMiddleware();
             application.UseMetricsAllEndpoints();
             //健康检测
-           // application.UseHealthAllEndpoints();
+            // application.UseHealthAllEndpoints();
         }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
@@ -44,9 +45,8 @@ namespace NetPro.Web.Core.Infrastructure
             //TODO APM按需实现
             return;
             var config = services.BuildServiceProvider().GetRequiredService<NetProOption>();
-            if (!config.APMEnabled) return;
+            //if (!config.APMEnabled) return;
 
-            var connectionString = config.ConnectionStrings?.DecryptDefaultConnection;
             var influxOptions = new MetricsReportingInfluxDbOptions();
             configuration.GetSection(nameof(MetricsReportingInfluxDbOptions)).Bind(influxOptions);
 
@@ -56,7 +56,8 @@ namespace NetPro.Web.Core.Infrastructure
             var metricsBuilder = AppMetrics.CreateDefaultBuilder()
                  .Configuration.ReadFrom(configuration);
 
-            if (influxOptions != null) {
+            if (influxOptions != null)
+            {
                 metricsBuilder = metricsBuilder.Report.ToInfluxDb(influxOptions);
             }
             //if (esOptions!= null)
@@ -64,7 +65,7 @@ namespace NetPro.Web.Core.Infrastructure
             //    metricsBuilder = metricsBuilder.Report.ToElasticsearch(esOptions);
             //}
 
-            var  metricsRoot = metricsBuilder.Build();
+            var metricsRoot = metricsBuilder.Build();
             services.AddMetrics(metricsRoot);
             services.AddMetricsReportingHostedService();
             services.AddMetricsTrackingMiddleware(configuration);

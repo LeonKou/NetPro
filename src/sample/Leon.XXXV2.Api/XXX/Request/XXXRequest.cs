@@ -1,6 +1,4 @@
-﻿
-using FluentValidation;
-using FluentValidation.Attributes;
+﻿using FluentValidation;
 using NetPro.Web.Core;
 using NetPro.Web.Core.Validators;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +27,6 @@ namespace Leon.XXXV2.Api
 	/// <summary>
 	/// 这是	FileTestInput
 	/// </summary>
-	[Validator(typeof(XXXValidator))]
 	public class FileTestInput
 	{
 		/// <summary>

@@ -22,7 +22,7 @@ namespace NetPro.Web.Core.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
 
-            var isOpen = configuration.GetValue<bool>("EnableAspNetCoreRateLimit",false);
+            var isOpen = configuration.GetValue<bool>("EnableAspNetCoreRateLimit", false);
             if (isOpen)
             {
                 //需要存储速率和ip规则
@@ -68,7 +68,7 @@ namespace NetPro.Web.Core.Infrastructure
                 services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
                 services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
-                
+
             }
         }
 

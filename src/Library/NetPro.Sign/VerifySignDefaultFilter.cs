@@ -31,7 +31,7 @@ namespace NetPro.Sign
         /// <returns></returns>
         public virtual string GetSignSecret(string appid)
         {
-            var secret = _configuration.GetValue<string>($"VerifySignOption:AppSecret:AppId:{appid}");
+            var secret = _configuration.GetValue<string>($"{nameof(VerifySignOption)}:AppSecret:AppId:{appid}");
 
             return secret;
         }

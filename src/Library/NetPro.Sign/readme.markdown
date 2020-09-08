@@ -2,7 +2,7 @@
 ## 接口签名
 
 
-主要防范请求参数被篡改和增加爬虫难度，支持Attribute和Global 模式
+主要防范请求参数被篡改和增加爬虫难度，签名组件应该在所有中间件之前执行，以保证其他组件不影响签名的正常执行(签名组件如在拦截类型的缓存中间件等之后执行，会让大部分请求绕过签名直接请求成功)
 
 ### 接口签名使用
 默认为url参数与body参数合并成一个字符串再utf-8编码后进行摘要计算，得到的值转为16进制小写
@@ -71,8 +71,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ```json
 "VerifySignOption": {
 "Enable": true,//是否开启签名
-"IsDebug": true,//是否调试，显示更多敏感信息
-"Scheme": "attribute",//global与attribute两种，attribute需要向controller或者action加特式签名，global则全局
+"IsDebug": true,//是否调试，显示更多敏感信息action加特式签名，global则全局
 "ExpireSeconds": 60,//时间戳过期时长，单位秒
 "CommonParameters": { //公共参数名的定义
 	"TimestampName": "timestamp",
@@ -87,7 +86,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     }
 }
 ```
-### Attribute模式使用方式
+### Attribute模式使用方式(废弃，签名只适合中间件方式)
 * 设置需签名的控制器或方法
 ```csharp
     [Route("api/v1/[controller]")]
@@ -104,7 +103,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     public IActionResult Get()
 ```
 
-###  忽略签名
+###  忽略签名(废弃，此特性在中间件中无效)
 ```csharp
     [HttpPost]
     [Route("pay/create")]

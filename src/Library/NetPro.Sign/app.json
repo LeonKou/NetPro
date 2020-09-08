@@ -1,0 +1,20 @@
+﻿{
+	"VerifySignOption": {
+		"Enable": false,
+		"IsDebug": true,
+		"IsForce": false, //是否强制签名
+		"Scheme": "attribute", //attribute;global
+		"ExpireSeconds": 60,
+		"CommonParameters": {
+			"TimestampName": "timestamp",
+			"AppIdName": "appid",
+			"SignName": "sign"
+		},
+		"AppSecret": {
+			"AppId": {
+				"sadfsdf": "sdfsfd"
+			}
+		},
+		"IgnoreRoute": [ "api/ignore/", "" ]
+	}
+}

@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using NetPro.Web.Core.PagedList;
 using System.Collections.Generic;
-using System.Text;
-using NetPro.Core.Infrastructure.PagedList;
 
 namespace NetPro.Web.Core.Models
 {

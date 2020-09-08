@@ -14,10 +14,12 @@ namespace NetPro.Sign
 
         public bool IsDebug { get; set; }
 
+        public bool IsForce { get; set; }
+
         public bool Enable { get; set; }
 
         /// <summary>
-        /// 签名方案，global;attribute
+        /// 签名方案，global;attribute，默认中间件方式
         /// </summary>
         public string Scheme { get; set; }
 
@@ -26,6 +28,11 @@ namespace NetPro.Sign
         public DeclareCommonParameters CommonParameters { get; set; }
 
         public List<Type> OperationFilterDescriptors { get; set; } = new List<Type>();
+
+        /// <summary>
+        /// 忽略的路由不检查签名
+        /// </summary>
+        public string[] IgnoreRoute { get; set; }
     }
 
     public class DeclareCommonParameters

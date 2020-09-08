@@ -11,8 +11,6 @@ namespace NetPro.Web.Api.Controllers
     /// <summary>
     /// api 基类
     /// </summary>
-    //[Route("api/v1/[controller]")]
-    //[Authorize]
     [ApiController] //模型验证失败，会在全局过滤器前返回，故无法通过全局过滤器统一返回，借助ConfigureApiBehaviorOptions可解决
     public abstract class ApiControllerBase : ControllerBase
     {
@@ -23,7 +21,7 @@ namespace NetPro.Web.Api.Controllers
         /// <param name="msg">错误消息</param>
         /// <param name="errorCode">http错误码</param>
         /// <returns></returns>
-        protected IActionResult ToFailResult(string msg, int errorCode = 100)
+        protected IActionResult ToFailResult(string msg, int errorCode = -1)
         {
             var resultModel = new ResponseResult()
             {
@@ -33,19 +31,7 @@ namespace NetPro.Web.Api.Controllers
             var result = new ObjectResult(resultModel);
             result.StatusCode = errorCode;
             return result;
-            //return BadRequest(result);
-            //return new JsonResult(result);
         }
-
-        //protected virtual IActionResult ToResult(string msg, int errorCode)
-        //{
-        //	var result = new ApiResultModel()
-        //	{
-        //		ErrorCode = errorCode,
-        //		Msg = msg
-        //	};
-        //	return new JsonResult(result);
-        //}
 
         /// <summary>
         /// 成功返回结果.body为空
@@ -57,7 +43,7 @@ namespace NetPro.Web.Api.Controllers
             var result = new ResponseResult()
             {
                 Code = 0,
-                Msg= msg
+                Msg = msg
             };
             return new JsonResult(result);
         }
@@ -75,7 +61,7 @@ namespace NetPro.Web.Api.Controllers
             {
                 Result = body,
                 Code = 0,
-                Msg= msg
+                Msg = msg
             };
             return new JsonResult(result);
         }

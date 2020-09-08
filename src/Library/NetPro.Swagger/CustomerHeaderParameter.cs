@@ -20,15 +20,16 @@ namespace NetPro.Swagger
                 operation.Parameters = new List<OpenApiParameter>();
             }
 
-            var headers = _configuration.GetSection("SwaggerOption:Headers").Get<string[]>();
+            var headers = _configuration.GetSection("SwaggerOption:Headers").Get<List<OpenApiParameter>>();
             if (headers == null) return;
             foreach (var header in headers)
             {
                 operation.Parameters.Add(new OpenApiParameter
                 {
-                    Name = header,
+                    Name = header.Name,
                     In = ParameterLocation.Header,
                     Required = false,
+                    Description = header.Description,
                 });
             }
         }

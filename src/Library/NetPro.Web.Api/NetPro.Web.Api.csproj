@@ -24,10 +24,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
   </PropertyGroup>
-	<ItemGroup>
-		<!--<PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleAspNetCore)" />
+	<ItemGroup><!--<PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleAspNetCore)" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="$(SwashbuckleAspNetCoreSwagger)" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="$(SwashbuckleAspNetCoreFilters)" />-->
+	
+	  <Folder Include="Extensions\" />
+	  <Folder Include="Infrastructure\Extensions\" />
+	  <Folder Include="Models\" />
 	</ItemGroup>
 	<ItemGroup>
     <ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />

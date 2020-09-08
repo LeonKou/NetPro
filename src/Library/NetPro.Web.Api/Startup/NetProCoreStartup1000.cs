@@ -7,12 +7,12 @@ using NetPro.Core.Configuration;
 using NetPro.Web.Core.Middlewares;
 using NetPro.Checker;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using HealthChecks.UI.Client;
 using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using NetPro.TypeFinder;
+using HealthChecks.UI.Client;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -29,15 +29,16 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            var mongoDbOptions = services.BuildServiceProvider().GetService<MongoDbOptions>();
-            var redisCacheOption = services.BuildServiceProvider().GetService<RedisCacheOption>();
-            var netproOption = services.BuildServiceProvider().GetService<NetProOption>();
+            var serviceProvider = services.BuildServiceProvider();
+            var mongoDbOptions = serviceProvider.GetService<MongoDbOptions>();
+            var redisCacheOption = serviceProvider.GetService<RedisCacheOption>();
+            var netproOption = serviceProvider.GetService<NetProOption>();
 
             //配置 ef性能监控
             //services.AddMiniProfilerEF();
             //配置 mvc服务
-            services.AddNetProCore();
-           
+            services.AddNetProCore(netproOption);
+
 
             //健康检查
             if (!netproOption.EnabledHealthCheck)
@@ -59,20 +60,20 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
-        {                 
+        {
             application.Use(next => context =>
-            {     
+            {
                 context.Request.EnableBuffering();
                 return next(context);
             });
 
             var config = EngineContext.Current.Resolve<NetProOption>();
-            if (config.MiniProfilerEnabled)
-            {
-                //add MiniProfiler
-                application.UseMiniProfiler();
-                application.UseMiddleware<MiniProfilerMiddleware>();
-            }
+            //if (config.MiniProfilerEnabled)
+            //{
+            //    //add MiniProfiler
+            //    application.UseMiniProfiler();
+            //    application.UseMiddleware<MiniProfilerMiddleware>();
+            //}
 
             if (!config.EnabledHealthCheck) return;
 

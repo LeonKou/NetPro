@@ -5,7 +5,6 @@ using NetPro.Logging;
 using NetPro.MongoDb;
 using NetPro.Utility.Helpers;
 using NetPro.Web.Core.Filters;
-using NetPro.Web.Core.FluentValidation;
 using NetPro.Web.Core.Providers;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +28,12 @@ using Serilog;
 using System.Text;
 using NetPro.Web.Core.Models;
 using NetPro.TypeFinder;
+using NetPro.ShareRequestBody;
+using NetPro.ResponseCache;
+using NetPro.Sign;
+using FluentValidation;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -63,7 +68,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             services.AddHttpContextAccessor();
-
+            services.AddHttpClient();
             ////create default file provider
             //CoreHelper.DefaultFileProvider = new NetProFileProvider(hostEnvironment);
 
@@ -73,9 +78,9 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             var engine = EngineContext.Create();
             engine.ConfigureServices(services, configuration, netProOption);
 
-            if (int.TryParse(configuration.GetValue<string>("NetPro:ThreadMinCount"), out int threadMinCount) && threadMinCount > 2)
+            if (netProOption.ThreadMinCount > 2)
             {
-                if (ThreadPool.SetMinThreads(Environment.ProcessorCount * threadMinCount, Environment.ProcessorCount * threadMinCount))
+                if (ThreadPool.SetMinThreads(Environment.ProcessorCount * netProOption.ThreadMinCount, Environment.ProcessorCount * netProOption.ThreadMinCount))
                 {
                     ThreadPool.GetMinThreads(out int work, out int comple);
                     ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
@@ -139,27 +144,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             Serilog.Log.Logger = new LoggerConfiguration()
               .ReadFrom.Configuration(configuration)
               .CreateLogger();
-
-
-            //var NetProOption = services.GetNetProConfig();
-            //var distributedLogEnabled = NetProOption.DistributedLogEnabled;
-            ////初始化日志组件
-            //NetProSerilogOptions setting = new NetProSerilogOptions();
-            //if (distributedLogEnabled)
-            //{
-            //    setting.Configuration = configuration;//使用appsettings.json文件初始化serilog
-            //}
-
-            //setting.ApplicationName = services.GetNetProConfig().ApplicationName;
-            //setting.Sinks = NetProOption.SerilogSinks;// $"{ SerilogSink.File},{ SerilogSink.Console}";
-            //setting.ElasticsearchOptions = configuration.GetSection(nameof(ElasticsearchOptions)).Get<ElasticsearchOptions>();
-            //setting.ExceptionLessOptions = configuration.GetSection(nameof(ExceptionLessOptions)).Get<ExceptionLessOptions>();
-
-            //if (setting.ElasticsearchOptions != null)
-            //    services.AddSingleton(setting.ElasticsearchOptions);
-            //if (setting.ExceptionLessOptions != null)
-            //    services.AddSingleton(setting.ExceptionLessOptions);
-            //NetProSerilog.InitSerilog(setting);             
         }
 
         /// <summary>
@@ -176,8 +160,15 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <returns>A builder for configuring MVC services</returns>
-        public static IMvcBuilder AddNetProCore(this IServiceCollection services)
+        public static IMvcBuilder AddNetProCore(this IServiceCollection services, NetProOption netProOption)
         {
+            //签名
+            services.AddVerifySign();
+            //TODO 流量分析
+
+            //响应缓存
+            services.AddResponseCachingExtension();
+
             var NetProOption = services.GetNetProConfig();
 
             //支持IIS
@@ -191,15 +182,16 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             //AddMvc
             var mvcBuilder = services.AddControllers(config =>
             {
-                config.Filters.Add(typeof(NetProExceptionFilter));//自定义全局异常过滤器
+                //config.Filters.Add(typeof(ShareResponseBodyFilter));//请求响应body
+                //config.Filters.Add(typeof(NetProExceptionFilter));//自定义全局异常过滤器
                 config.Filters.Add(typeof(BenchmarkActionFilter));//接口性能监控过滤器
 
-                if (NetProOption.PermissionEnabled)
-                {
-                    config.Filters.Add(typeof(PermissionActionFilter));//用户权限验证过滤器
-                }
+                //if (NetProOption.PermissionEnabled)
+                //{
+                //    config.Filters.Add(typeof(PermissionActionFilter));//用户权限验证过滤器
+                //}
 
-                config.Filters.Add(typeof(ReqeustBodyFilter));//请求数据过滤器
+                //config.Filters.Add(typeof(ReqeustBodyFilter));//请求数据过滤器
 
             }).ConfigureApiBehaviorOptions(options =>
             {
@@ -230,7 +222,14 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             //add fluent validation
             mvcBuilder.AddFluentValidation(configuration =>
             {
-                configuration.ValidatorFactoryType = typeof(NetProValidatorFactory);
+                //register all available validators from netpro assemblies               
+
+                var assemblies = mvcBuilder.PartManager.ApplicationParts
+                    .OfType<AssemblyPart>()
+                    .Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))
+                    .Select(part => part.Assembly);
+                configuration.RegisterValidatorsFromAssemblies(assemblies);
+
                 //implicit/automatic validation of child properties 复合对象是否验证
                 configuration.ImplicitlyValidateChildProperties = true;
             });
@@ -257,25 +256,25 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 
             });
 
-            if (NetProOption.APMEnabled)
-            {
-                mvcBuilder.AddMetrics();
-            }
+            //if (NetProOption.APMEnabled)
+            //{
+            //    mvcBuilder.AddMetrics();
+            //}
             return mvcBuilder;
         }
 
-        /// <summary>
-        /// 新增EFCore性能监控
-        /// </summary>
-        /// <param name="services"></param>
-        public static void AddMiniProfilerEF(this IServiceCollection services)
-        {
-            var config = services.GetNetProConfig();
-            if (!config.MiniProfilerEnabled) return;
-            // profiling
-            services.AddMiniProfiler(options =>
-                options.RouteBasePath = "/profiler").AddEntityFramework();
-        }
+        ///// <summary>
+        ///// 新增EFCore性能监控
+        ///// </summary>
+        ///// <param name="services"></param>
+        //public static void AddMiniProfilerEF(this IServiceCollection services)
+        //{
+        //    var config = services.GetNetProConfig();
+        //    if (!config.MiniProfilerEnabled) return;
+        //    // profiling
+        //    services.AddMiniProfiler(options =>
+        //        options.RouteBasePath = "/profiler").AddEntityFramework();
+        //}
 
         /// <summary>
         /// 获取配置信息

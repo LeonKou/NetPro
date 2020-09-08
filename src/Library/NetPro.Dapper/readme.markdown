@@ -1,5 +1,5 @@
 
-## Dapper使用
+## Dapper使用（废弃，建议使用Freesql）
 
 
 对Dapper的封装，简化操作与映射

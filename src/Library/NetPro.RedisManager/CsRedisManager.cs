@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CSRedis;
 using Microsoft.Extensions.Configuration;
 using System.Threading;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace NetPro.RedisManager
 {
@@ -14,13 +15,45 @@ namespace NetPro.RedisManager
     {
         private readonly RedisCacheOption _option;
         private readonly ConnectionMultiplexer _connection;
-        public CsRedisManager(RedisCacheOption option, ConnectionMultiplexer connection)
+        private IMemoryCache _memorycache;
+        public CsRedisManager(RedisCacheOption option,
+            ConnectionMultiplexer connection,
+               IMemoryCache memorycache)
         {
             _connection = connection;
             _option = option;
+            _memorycache = memorycache;
         }
 
+        /// <summary>
+        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="func"></param>
+        /// <param name="expiredTime"></param>
+        /// <returns></returns>
         public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
+        {
+            if (expiredTime == -1 || expiredTime > 3600)
+            {
+                var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
+                 {
+                     var resultTemp = _(key, func, expiredTime);
+                     if (resultTemp == null)
+                     {
+                         s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                         return resultTemp;
+                     }
+                     s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                     return resultTemp;
+                 });
+                return memoryResult;
+            }
+            return _(key, func, expiredTime);
+        }
+
+        private T _<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             Common.CheckKey(key);
             var result = RedisHelper.Get<T>(key);
@@ -40,6 +73,26 @@ namespace NetPro.RedisManager
         }
 
         public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        {
+            if (expiredTime == -1 || expiredTime > 3600)
+            {
+                var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
+                  {
+                      var resultTemp = await _Async(key, func, expiredTime);
+                      if (resultTemp == null)
+                      {
+                          s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                          return resultTemp;
+                      }
+                      s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                      return resultTemp;
+                  });
+                return memoryResult;
+            }
+            return await _Async(key, func, expiredTime);
+        }
+
+        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
             Common.CheckKey(key);
             var result = await RedisHelper.GetAsync<T>(key);

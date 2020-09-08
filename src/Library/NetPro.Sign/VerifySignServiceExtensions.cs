@@ -34,7 +34,7 @@ namespace NetPro.Sign
         }
     }
 
-    public static class VerifySignExtensions
+    public static class VerifySignServiceExtensions
     {
         public static IServiceCollection AddVerifySign(this IServiceCollection services, Action<VerifySignOption> setupAction = null)
         {
@@ -68,7 +68,7 @@ namespace NetPro.Sign
                         IoC.ServiceProvider = services.BuildServiceProvider();
                         break;
                     default:
-                        Console.WriteLine("签名验证已关闭");
+                        Console.WriteLine("签名以中间件方式启动");
                         break;
                 }
             }
@@ -81,7 +81,7 @@ namespace NetPro.Sign
             return services;
         }
 
-        public static void ConfigureSign(
+        private static void ConfigureSign(
            this IServiceCollection services,
            Action<VerifySignOption> setupAction)
         {

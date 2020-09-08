@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Attributes;
 using NetPro.Web.Core;
 using NetPro.Web.Core.Validators;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +26,6 @@ namespace Leon.XXX.Domain
     /// <summary>
     /// 这是	FileTestInput
     /// </summary>
-    [Validator(typeof(XXXValidator))]
     public class FileTestInput
     {
         /// <summary>

@@ -10,11 +10,11 @@ using WebApiClient;
 using NetPro.Core.Configuration;
 using NetPro.TypeFinder;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
 	public class ApiProxyStartup : INetProStartup
 	{
-		public int Order => 900;
+		public int Order => 2000;
 
 		public void Configure(IApplicationBuilder application)
 		{

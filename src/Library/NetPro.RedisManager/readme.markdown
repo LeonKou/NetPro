@@ -1,7 +1,7 @@
 
 ## RedisManager使用
 
-同时支持StackExchangeRedis和CsRedis
+同时支持StackExchangeRedis和CsRedis，支持分布式锁
 
 ### appsetting.json
 
@@ -60,10 +60,33 @@ public class WeatherForecastController : ControllerBase
 
 ```
 
+```csharp
+方法说明
+/// <summary>
+/// 获取缓存，没有则新增缓存
+/// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+/// 过期时间等于-1(永不过期)的缓存无法覆盖更新，建议删除后新增
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="key">缓存健值，建议key最少三段以:分割便于的管理</param>
+/// <param name="func">缓存不存在要执行的委托</param>
+/// <param name="expiredTime">过期时间，单位秒</param>
+/// <returns></returns>
+T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime -1);
+```
+
 #### 方法中调用
 ```csharp
 
- var dd = _redisManager.GetOrCreate<string>("1",func: ()=>//获取key的值，没有则执行委托并将委托返回的值插入redis
+//同步方法
+ var result = _redisManager.GetOrCreate<string>("1",func: ()=>//获取key的值，没有找到则执行委托并将委托返回的值插入redis缓存
+ {
+     return "1";
+ },500);
+
+
+//异步方法
+  var resultAsync = await _redisManager.GetOrCreateAsync<string>("1",func: ()=>//获取key的值，没有找到则执行委托并将委托返回的值插入redis缓存
  {
      return "1";
  });

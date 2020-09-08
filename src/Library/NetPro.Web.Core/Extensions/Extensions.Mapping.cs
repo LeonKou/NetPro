@@ -1,9 +1,9 @@
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.Utility;
 using NetPro.Web.Core.Models;
+using NetPro.Web.Core.PagedList;
 using System;
 using System.Collections.Generic;
-using NetPro.Core.Infrastructure.PagedList;
 
 namespace NetPro.Web.Core
 {
@@ -71,7 +71,7 @@ namespace NetPro.Web.Core
         /// <summary>
         ///  类型映射 viewmodel to Domain
         /// </summary>
-        public static T ToDomain<T>(this BaseViewModel entity)
+        public static T ToDomain<T>(this BaseDto entity)
         {
             if (entity == null)
                 return default(T);
@@ -83,7 +83,7 @@ namespace NetPro.Web.Core
         /// model => Domains
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<T> ToDomains<T>(this IEnumerable<BaseViewModel> models)
+        public static IEnumerable<T> ToDomains<T>(this IEnumerable<BaseDto> models)
         {
             return AutoMapperConfiguration.Mapper.Map<ICollection<T>>(models);
         }

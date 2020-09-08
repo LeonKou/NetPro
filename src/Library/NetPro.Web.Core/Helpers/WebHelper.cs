@@ -131,30 +131,32 @@ namespace NetPro.Web.Core.Helpers
             if (!IsRequestAvailable())
                 return string.Empty;
 
-            var result = string.Empty;
+            var stringIp = string.Empty;
             try
             {
                 //first try to get IP address from the forwarded header
                 if (_httpContextAccessor.HttpContext.Request.Headers != null)
                 {
-                    //the X-Forwarded-For (XFF) HTTP header field is a de facto standard for identifying the originating IP address of a client
-                    //connecting to a web server through an HTTP proxy or load balancer
-                    var forwardedHttpHeaderKey = "X-FORWARDED-FOR";
-                    if (!string.IsNullOrEmpty(_hostingConfig.ForwardedHttpHeader))
+                    if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Real-IP"))
                     {
-                        //but in some cases server use other HTTP header
-                        //in these cases an administrator can specify a custom Forwarded HTTP header (e.g. CF-Connecting-IP, X-FORWARDED-PROTO, etc)
-                        forwardedHttpHeaderKey = _hostingConfig.ForwardedHttpHeader;
+                        stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Real-IP"];
+                        return stringIp;
                     }
-
-                    var forwardedHeader = _httpContextAccessor.HttpContext.Request.Headers[forwardedHttpHeaderKey];
-                    if (!StringValues.IsNullOrEmpty(forwardedHeader))
-                        result = forwardedHeader.FirstOrDefault();
+                    else if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
+                    {
+                        stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"];
+                        return stringIp;
+                    }
+                    else
+                    {
+                        stringIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+                        return stringIp;
+                    }
                 }
 
                 //if this header not exists try get connection remote IP address
-                if (string.IsNullOrEmpty(result) && _httpContextAccessor.HttpContext.Connection.RemoteIpAddress != null)
-                    result = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                if (string.IsNullOrEmpty(stringIp) && _httpContextAccessor.HttpContext.Connection.RemoteIpAddress != null)
+                    stringIp = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             }
             catch
             {
@@ -162,18 +164,18 @@ namespace NetPro.Web.Core.Helpers
             }
 
             //some of the validation
-            if (result != null && result.Equals("::1", StringComparison.InvariantCultureIgnoreCase))
-                result = "127.0.0.1";
+            if (stringIp != null && stringIp.Equals("::1", StringComparison.InvariantCultureIgnoreCase))
+                stringIp = "127.0.0.1";
 
             //"TryParse" doesn't support IPv4 with port number
-            if (IPAddress.TryParse(result ?? string.Empty, out IPAddress ip))
+            if (IPAddress.TryParse(stringIp ?? string.Empty, out IPAddress ip))
                 //IP address is valid 
-                result = ip.ToString();
-            else if (!string.IsNullOrEmpty(result))
+                stringIp = ip.ToString();
+            else if (!string.IsNullOrEmpty(stringIp))
                 //remove port
-                result = result.Split(':').FirstOrDefault();
+                stringIp = stringIp.Split(':').FirstOrDefault();
 
-            return result;
+            return stringIp;
         }
 
         /// <summary>
@@ -198,7 +200,7 @@ namespace NetPro.Web.Core.Helpers
 
             return result;
         }
-                                   
+
         /// <summary>
         /// Gets a value indicating whether current connection is secured
         /// </summary>

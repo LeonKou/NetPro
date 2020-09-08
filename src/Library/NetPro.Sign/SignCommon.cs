@@ -202,11 +202,11 @@ namespace NetPro.Sign
         /// 以json返回签名错误
         /// </summary>
         /// <param name="context"></param>
-        internal static void BuildErrorJson(ActionExecutingContext context)
+        internal static void BuildErrorJson(ActionExecutingContext context,string msg="签名失败")
         {
             context.HttpContext.Response.StatusCode = 400;
             context.HttpContext.Response.ContentType = "application/json";
-            context.Result = new BadRequestObjectResult(new { ErrorCode = -1, Message = $"签名验证失败" });
+            context.Result = new BadRequestObjectResult(new { Code = -1, Msg = msg });
         }
 
         /// <summary>
@@ -227,6 +227,18 @@ namespace NetPro.Sign
         {
             long unixSeconds = new DateTimeOffset(time).ToUnixTimeSeconds();
             return unixSeconds.ToString();
+        }
+
+
+        internal static bool CheckTime(long requestTime, long expireSeconds)
+        {
+            long unixSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+            if (requestTime + expireSeconds - unixSeconds < 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

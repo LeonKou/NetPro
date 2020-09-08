@@ -11,6 +11,9 @@
 		<AssemblyName>$(NetProWebCoreAssemblyName)</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="FluentValidation\NetProValidatorFactory.cs" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -23,44 +26,43 @@
 
   <ItemGroup>
     <PackageReference Include="App.Metrics.AspNetCore.Health" Version="$(AppMetricsAspNetCoreHealth)" />
-    <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="$(AppMetricsAspNetCoreMvc)" />
+    <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="App.Metrics.Health" Version="$(AppMetricsHealth)" />
     <PackageReference Include="App.Metrics.Health.Checks.Http" Version="$(AppMetricsHealthChecksHttp)" />
     <PackageReference Include="App.Metrics.Health.Checks.Network" Version="$(AppMetricsHealthChecksNetwork)" />
     <PackageReference Include="App.Metrics.Health.Checks.Process" Version="$(AppMetricsHealthChecksProcess)" />
     <PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
-    <PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="$(AppMetricsReportingInfluxDB)" />
+    <PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="$(AspNetCoreRateLimit)" />
-		<PackageReference Include="WebApiClient.JIT" Version="$(WebApiClientJIT)" />
-    <PackageReference Include="Dapper.FluentMap" Version="$(DapperFluentMap)" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
+		<PackageReference Include="WebApiClient.JIT" Version="1.1.4" />
+    <PackageReference Include="Dapper.FluentMap" Version="2.0.0" />
     <PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
-    <PackageReference Include="FluentValidation" Version="$(FluentValidation)" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationAspNetCore)" />
-    <PackageReference Include="FluentValidation.ValidatorAttribute" Version="$(FluentValidationValidatorAttribute)" />
-    <PackageReference Include="IdentityModel" Version="$(IdentityModel)" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="$(MicrosoftApplicationInsightsAspNetCore)" />
-    <PackageReference Include="Microsoft.ApplicationInsights.SnapshotCollector" Version="$(MicrosoftApplicationInsightsSnapshotCollector)" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="$(MicrosoftExtensionsCachingStackExchangeRedis)" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="$(MicrosoftIdentityModelTokens)" />
-    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="$(MiniProfilerAspNetCoreMvc)" />
-    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="$(MiniProfilerEntityFrameworkCore)" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+    <PackageReference Include="IdentityModel" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.7" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
     <PackageReference Include="SkyAPM.Agent.AspNetCore" Version="$(SkyAPMAgentAspNetCore)" />
     <PackageReference Include="OpenTracing.Contrib.NetCore.Unofficial" Version="$(OpenTracingContribNetCoreUnofficial)" />
   </ItemGroup>                 
 
 
   <ItemGroup>
+    <ProjectReference Include="..\NetPro.Authentication\NetPro.Authentication.csproj" />
     <ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
     <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
     <ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
     <ProjectReference Include="..\NetPro.MongoDb\NetPro.MongoDb.csproj" />
-    <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />      
+    <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+    <ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
+    <ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />      
     <ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
   </ItemGroup>                 
 
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Attributes\" />
+    <Folder Include="FluentValidation\" />
   </ItemGroup>
   <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
     <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

@@ -65,7 +65,7 @@ namespace NetPro.Web.Core.Filters
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "获得基础信息写入阿里云日志时异常！");
+                _logger.Error(ex, "api执行时间监控日志异常！");
             }
         }
     }
