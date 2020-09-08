@@ -14,40 +14,55 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">
-		<NetProChecker>3.1.2</NetProChecker>
+		<NetProAuthentication>3.1.5</NetProAuthentication>
+		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
+
+		<NetProChecker>3.1.5</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>3.1.2</NetProCore>
+		<NetProCore>3.1.5</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.3</NetProDapper>
+		<NetProDapper>3.1.5</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
-		<NetProLog>3.1.1</NetProLog>
+		<NetProLog>3.1.5</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>3.1.1</NetProMongoDb>
+		<NetProMongoDb>3.1.5</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>3.1.1</NetProRabbitMQ>
+		<NetProRabbitMQ>3.1.5</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.3</NetProRedisManager>
+		<NetProRedisManager>3.1.5</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProUtility>3.1.1</NetProUtility>
+		<NetProUtility>3.1.5</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProWebApi>3.1.4</NetProWebApi>
+		<NetProTypeFinder>3.1.5</NetProTypeFinder>
+		<NetProTypeFinderAssemblyName>NetPro.TypeFinder</NetProTypeFinderAssemblyName>
+
+		<NetProSwagger>3.1.5</NetProSwagger>
+		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
+
+		<NetProShareRequestBody>3.1.5</NetProShareRequestBody>
+		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>		
+
+		<NetProResponseCache>3.1.5</NetProResponseCache>
+		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>		
+		
+		<NetProWebApi>3.1.5</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.4</NetProWebCore>
+		<NetProWebCore>3.1.5</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
-		<NetProEFCore>3.1.1</NetProEFCore>
+		<NetProEFCore>3.1.5</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 
-		<NetProSign>3.1.0</NetProSign>
+		<NetProSign>3.1.5</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
 
 	</PropertyGroup>
