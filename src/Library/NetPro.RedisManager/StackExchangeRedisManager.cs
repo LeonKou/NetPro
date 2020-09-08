@@ -46,7 +46,8 @@ namespace NetPro.RedisManager
                         s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
                         return resultTemp;
                     }
-                    s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    if (expiredTime > 3600)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
                     return resultTemp;
                 });
                 return memoryResult;
@@ -89,7 +90,8 @@ namespace NetPro.RedisManager
                         s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
                         return resultTemp;
                     }
-                    s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    if (expiredTime > 3600)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
                     return resultTemp;
                 });
                 return memoryResult;

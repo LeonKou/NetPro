@@ -162,8 +162,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         /// <returns>A builder for configuring MVC services</returns>
         public static IMvcBuilder AddNetProCore(this IServiceCollection services, NetProOption netProOption)
         {
-            //签名
-            services.AddVerifySign();
             //TODO 流量分析
 
             //响应缓存

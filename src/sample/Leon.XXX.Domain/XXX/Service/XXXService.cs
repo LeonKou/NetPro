@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Dapper;
 using Leon.XXX.Repository;
 using System.Linq;
 
@@ -31,8 +30,8 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public XXXAo GetList()
         {
-            var xxxdo = _rankRepository.QueryList<XXXDo>("", new DynamicParameters());
-            return _mapper.Map<XXXAo>(xxxdo.First());
+            var xxxdo = _rankRepository.Where(s => s.Id > 0).First();
+            return _mapper.Map<XXXAo>(xxxdo);
         }
 
         /// <summary>

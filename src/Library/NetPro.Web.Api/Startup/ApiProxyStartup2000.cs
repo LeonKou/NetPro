@@ -6,9 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
-using WebApiClient;
 using NetPro.Core.Configuration;
 using NetPro.TypeFinder;
+using System.Net.Http;
+using System.Net;
 
 namespace NetPro.Web.Api
 {
@@ -25,7 +26,7 @@ namespace NetPro.Web.Api
 		{
 			var netProOption = services.BuildServiceProvider().GetService<NetProOption>();
 			var types = typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{netProOption.ProjectPrefix}.*({netProOption.ProjectSuffix}|Proxy)$")).ToArray();
-
+			var cookieContainer = new CookieContainer();
 			foreach (var type in types)
 			{
 				if (type != null)
@@ -39,6 +40,11 @@ namespace NetPro.Web.Api
 							var servicename = RegexHelper.GetValue(item.Name, "I(.*)Proxy", "$1");
 							var host = configuration.GetValue<string>($"MicroServicesEndpoint:{servicename}");
 							s.HttpHost = new Uri(host);
+						}).ConfigurePrimaryHttpMessageHandler(() =>
+						{
+							var handler = new HttpClientHandler { UseCookies = true };//true相当于真实浏览器请求
+							handler.CookieContainer = cookieContainer;
+							return handler;
 						});
 					}
 				}

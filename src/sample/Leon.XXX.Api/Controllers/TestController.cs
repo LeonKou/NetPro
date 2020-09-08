@@ -18,8 +18,8 @@ namespace Leon.XXX.Api
     /// <summary>
     ///这是controller
     /// </summary>
-    [Route("api/v1/[controller]")]     
-    public class WeatherForecastController : ApiControllerBase
+    [Route("api/test")]     
+    public class TestController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
         private readonly IRedisManager _redisManager;
@@ -34,7 +34,7 @@ namespace Leon.XXX.Api
         /// <param name="xXXService"></param>
         /// <param name="userApi"></param>
         //[FromServices]
-        public WeatherForecastController(ILogger logger
+        public TestController(ILogger logger
             , IXXXService xXXService
             , IExampleProxy userApi
             , IRedisManager redisManager)
@@ -50,12 +50,10 @@ namespace Leon.XXX.Api
         /// </summary>
         /// <param name="gg"></param>
         /// <returns></returns>
-        [HttpPost("TestRedis")]
+        [HttpPost("TestPost")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
-        //[IgnoreSign]
-        [VerifySign]
-        public IActionResult TestRedis(XXXRequest gg)
+        public IActionResult TestRedis([FromBody]XXXInput gg)
         {
             var dd = _redisManager.GetOrCreate<string>("1",func: ()=>
             {
@@ -82,8 +80,7 @@ namespace Leon.XXX.Api
         [Route("pay/gettest")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
-        [VerifySign]
-        public IActionResult GetTest([FromQuery]XXXRequest gg)
+        public IActionResult GetTest([FromQuery]XXXInput gg)
         {
             //return ResponseResult.ToSuccessResult("");
             var dd = _redisManager.GetOrCreate<string>("");
@@ -119,7 +116,6 @@ namespace Leon.XXX.Api
         /// <remarks>ip库地址：https://db-ip.com/db/download/ip-to-city-lite</remarks>
         [HttpGet]
         [Route("toip")]
-        [IgnoreSign]
         public IActionResult IpConvert(string ip)
         {
             using (var reader = new Reader("wwwroot/dbip-city-lite-2020-06.mmdb"))
@@ -135,7 +131,6 @@ namespace Leon.XXX.Api
         /// </summary>
         /// <returns></returns>
         [HttpGet("createsign")]
-        [VerifySign]
         public IActionResult CreateSign()
         {
             var query = HttpUtility.ParseQueryString(string.Empty);

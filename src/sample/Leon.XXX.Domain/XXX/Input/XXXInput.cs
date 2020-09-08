@@ -10,7 +10,7 @@ namespace Leon.XXX.Domain
     /// <summary>
     /// 这是Input
     /// </summary>
-    public class XXXRequest
+    public class XXXInput
     {
         /// <summary>
         /// 这是名称

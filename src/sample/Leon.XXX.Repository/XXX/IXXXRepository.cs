@@ -1,11 +1,12 @@
-﻿using NetPro.Dapper.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FreeSql;
 
 namespace Leon.XXX.Repository
 {
-	public interface  IXXXRepository : IGeneralRepository<XXXDo>
-	{
-	}
+    public class XXXRepository : BaseRepository<XXXDo, int>, IXXXRepository
+    {
+        public XXXRepository(IFreeSql fsql) : base(fsql, null, null) { }
+    }
+    public interface IXXXRepository : IBaseRepository<XXXDo, int>
+    {
+    }
 }

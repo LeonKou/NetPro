@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.Dapper;
 using NetPro.Sign;
 using NetPro.TypeFinder;
 
@@ -12,6 +11,7 @@ namespace Leon.XXX.Api
     public class ApiStartup : INetProStartup
     {
         public int Order => 900;
+        public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
@@ -23,11 +23,15 @@ namespace Leon.XXX.Api
                  //自定义摘要逻辑
                  s.OperationFilter<VerifySignCustomer>();
              });
+            var connectionString = configuration.GetValue<string>("ConnectionStrings:MysqlConnection");
+            Fsql = new FreeSql.FreeSqlBuilder()
+         .UseConnectionString(FreeSql.DataType.MySql, connectionString)
+         .UseAutoSyncStructure(false) //自动同步实体结构到数据库
+         .Build(); //请务必定义成 Singleton 单例模式
+            services.AddSingleton<IFreeSql>(Fsql);
 
-            //原生注入dapper
-            services.AddScoped(s =>
-            new DefaultDapperContext(configuration.GetValue<string>("NetProOption:ConnectionStrings:DefaultConnection")
-            , DataProvider.Mysql));//原生自带DIf方式注入
+            services.AddFreeRepository(null,
+           this.GetType().Assembly);
         }
 
         public void Configure(IApplicationBuilder application)

@@ -18,6 +18,7 @@ namespace NetPro.Web.Core.Filters
     /// 验签特性
     /// </summary>
     /// <remarks>特性方式继承自动生效</remarks>
+    [Obsolete("废弃，建议使用中间件方式")]
     public class VerifySignAttribute : ActionFilterAttribute
     {
         private readonly ILogger _logger;

@@ -50,6 +50,7 @@ namespace NetPro.ShareRequestBody
                     {
                         Body = bodyValue
                     };
+                    await _next(context);
                 }
             }
         }

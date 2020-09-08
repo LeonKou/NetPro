@@ -12,11 +12,13 @@ namespace Leon.XXX.Domain
 		/// <summary>
 		/// 这是Id
 		/// </summary>
-		public int Id { get; set; }
+		public uint Id { get; set; }
 
 		/// <summary>
 		/// 这是Type
 		/// </summary>
-		public int Type { get; set; }
+		public ulong CreateTime { get; set; }
+		public uint UserId { get; set; }
+		public string UserName { get; set; }
 	}
 }

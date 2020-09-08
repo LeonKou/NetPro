@@ -155,6 +155,8 @@ namespace NetPro.Core.Infrastructure
         /// <param name="nopConfig">Nop configuration parameters</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, NetProOption nopConfig)
         {
+            //用户基础框架在运行成功前执行EngineContext.Current.Resolve<xxx>
+            //_serviceProvider = services.BuildServiceProvider(); //TODO 预留，运行成功前需要用到基础对象时打开
             //find startup configurations provided by other assemblies
 
             _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
