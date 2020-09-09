@@ -38,17 +38,17 @@ namespace NetPro.RedisManager
             if (expiredTime == -1 || expiredTime > 3600)
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
-                 {
-                     var resultTemp = _(key, func, expiredTime);
-                     if (resultTemp == null)
-                     {
-                         s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
-                         return resultTemp;
-                     }
-                     if (expiredTime > 3600)
-                         s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
-                     return resultTemp;
-                 });
+                {
+                    var resultTemp = _(key, func, expiredTime);
+                    if (resultTemp == null)
+                    {
+                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                        return resultTemp;
+                    }
+                    if (expiredTime > 3600)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    return resultTemp;
+                });
                 return memoryResult;
             }
             return _(key, func, expiredTime);
@@ -78,17 +78,17 @@ namespace NetPro.RedisManager
             if (expiredTime == -1 || expiredTime > 3600)
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
-                  {
-                      var resultTemp = await _Async(key, func, expiredTime);
-                      if (resultTemp == null)
-                      {
-                          s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
-                          return resultTemp;
-                      }
-                      if (expiredTime > 3600)
-                          s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
-                      return resultTemp;
-                  });
+                {
+                    var resultTemp = await _Async(key, func, expiredTime);
+                    if (resultTemp == null)
+                    {
+                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
+                        return resultTemp;
+                    }
+                    if (expiredTime > 3600)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                    return resultTemp;
+                });
                 return memoryResult;
             }
             return await _Async(key, func, expiredTime);
@@ -281,9 +281,9 @@ namespace NetPro.RedisManager
             ISubscriber sub = _connection.GetSubscriber();
             //订阅名为 messages 的通道
             await sub.SubscribeAsync(channel, (channel, message) =>
-             {
-                 result = message;
-             });
+            {
+                result = message;
+            });
             return result;
         }
     }

@@ -32,7 +32,7 @@ namespace NetPro.Swagger
             }
 
             var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-                .Where(parameter => GetDefaultValueAttribute(parameter) != null || GetParameterInfo(parameter).HasDefaultValue)
+                .Where(parameter => GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false))
                 .ToDictionary(parameter => parameter.Name, GetDefaultValue);
             if (parameterValuePairs.Count == 0) return;
             foreach (var parameter in operation.Parameters)
@@ -40,7 +40,7 @@ namespace NetPro.Swagger
                 if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue))
                 {
                     parameter.Extensions.Add("default", new OpenApiString(defaultValue.ToString()));
-                   
+
                 }
             }
         }
@@ -59,7 +59,9 @@ namespace NetPro.Swagger
 
         public ParameterInfo GetParameterInfo(ApiParameterDescription parameter)
         {
-            return ((ControllerParameterDescriptor)parameter.ParameterDescriptor).ParameterInfo;
+            if (parameter.ParameterDescriptor != null)
+                return ((ControllerParameterDescriptor)parameter.ParameterDescriptor).ParameterInfo;
+            return null;
         }
 
         private object GetDefaultValue(ApiParameterDescription parameter)
@@ -96,9 +98,9 @@ namespace NetPro.Swagger
         {
             return char.ToLowerInvariant(name[0]) + name.Substring(1);
         }
-    }    
+    }
 
-    public class SwaggerJsonDefaultValueFilter: IOperationFilter
+    public class SwaggerJsonDefaultValueFilter : IOperationFilter
     {
         //private JsonSerializer _jsonSerializer;
 
