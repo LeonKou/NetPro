@@ -1,6 +1,7 @@
 ﻿{
 	"SwaggerOption": {
 		"Enable": true,
+		"IsDarkTheme": true,
 		"MiniProfilerEnabled": false,
 		"XmlComments": [ "", "" ],
 		"RoutePrefix": "swagger",

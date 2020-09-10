@@ -26,7 +26,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 `Sentry`,`RabbitMQ.Client`,`SkyAPM`,
 
-`Swagger`,`WebApiClient.JIT`,
+`Swagger`,`WebApiClient.Core`,
 
 `TimeZoneConverter`,`healthcheck`
 `exceptionless`
@@ -147,175 +147,186 @@ public class Startup
 ```json
 
 {
-"Apollo": {
-	"Enabled": false,//是否开启Apollo
-	"AppId": "Leon",
-	"MetaServer": "http://192.168.56.98:7078",
-	"Cluster": "default",
-	"Namespaces": "AppSetting,MicroServicesEndpoint",
-	"RefreshInterval": 300000,
-	"LocalCacheDir": "apollo/data"
-},//apollo配置
-
-"Serilog": {
-    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
-    "MinimumLevel": {
-    	"Default": "Information",
-    	"Override": {
-    	   "Microsoft": "Debug",
-    	   "System": "Debug",
-    	   "System.Net.Http.HttpClient": "Debug"
-    	}
-    },
-    "WriteTo:Async": {
-    	"Name": "Async",
-    	"Args": {
-    		"configure": [
-    			{ "Name": "Console" }]
-    	}
-    },
-    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
-    "Properties": {
-    	"Application": "GameSdk"
-    }
-},
-
- "AllowedHosts": "*",
- 
- "NetProOption": {
-   "ProjectPrefix": "Leon", //项目前缀名称，Leon.User.Api的前缀则为Leon
-   "ProjectSuffix": "",//项目后缀，不填
-   "DisplayFullErrorStack": false,
-   "StaticFilesCacheControl": "Cache-Control",
-   "UseResponseCompression": false,
-   "ThreadMinCount": 5,//最小线程数，高并发情况下， 可增大此值预热防止出现请求超时情况，或者连接数不可用等错误
-   "APMEnabled": false,//是否开启APM
-   "PermissionEnabled": false,//是否开启权限验证
-   "MiniProfilerEnabled": false,//是否开启MiniProfiler
-   "ApplicationName": "",//应用名称
-   "SuperRole": "admin",
-   "RequestWarningThreshold": 5,
-   "AppType": 1,//1:restapi应用
-   "ErrorUrl": "www.Leon.com",
-   "Permission": "url",//权限验证方式url
-   "LoginUrl": "",
-   "PageNotFoundUrl": "",
-   "IsDebug": true,
-   "CorsOrigins": "false",//允许跨域
-   "EnabledHealthCheck": true,//是否开启健康检查
-   "ConnectionStrings": {
-   	"DefaultConnection": "Server=192.168.57.66;Port=3306;Database=netprodb;charset=utf8;user=netpro;password=netpro;",
-   	"ServerIdConnection": {
-   		"1": "Server=192.168.57.68;Port=3306;Database=netprodb1;charset=utf8;user=netpro;password=netpro;"//dapper切库使用
-   	}
-   }
- },
-
-"VerifySignOption": {//sign签名配置
-	"Enable": true,
-	"IsDebug": true,
-	"Scheme": "attribute",//特性方式签名
-	"ExpireSeconds": 60,
-	"CommonParameters": {
-		"TimestampName": "timestamp",
-		"AppIdName": "appid",
-		"SignName": "sign"
+	"ConnectionStrings": {
+		"DefaultConnection": "Server=189.33.22.1;Port=3306;Database=netpro_microservice_demo;charset=utf8mb4;user=root;password=123abc;Allow User Variables=True;",
+		"MysqlConnection": "Server=189.33.22.1;Port=3306;Database=netpro_microservice_demo;charset=utf8mb4;user=root;password=123abc;Allow User Variables=True;"
 	},
-	"AppSecret": {
-		"AppId": {
+	"Apollo": {
+		"Enabled": false,
+		"AppId": "Leon",
+		"MetaServer": "http://192.168.56.98:7078",
+		"Cluster": "default",
+		"Namespaces": "AppSetting,MicroServicesEndpoint",
+		"RefreshInterval": 300000,
+		"LocalCacheDir": "apollo/data"
+	},
+	"ResponseCacheOption": {
+		"Enabled": true,
+		"Expired": 10,
+		"ExcluedQuery": [ "sign", "timestamp" ]
+	},
+	"Serilog": {
+		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+		"MinimumLevel": {
+			"Default": "Information",
+			"Override": {
+				"Microsoft": "Debug",
+				"System": "Debug",
+				"System.Net.Http.HttpClient": "Debug"
+			}
+		},
+		"WriteTo:Async": {
+			"Name": "Async",
+			"Args": {
+				"configure": [
+					{ "Name": "Console" }
+				]
+			}
+		},
+		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+		"Properties": {
+			"Application": "Netpro"
 		}
+	},
+
+	"AllowedHosts": "*",
+
+	"NetProOption": {
+		"ProjectPrefix": "Leon",
+		"ProjectSuffix": "",
+		"UseResponseCompression": false,
+		"ThreadMinCount": 5,
+		"ApplicationName": "",
+		"RequestWarningThreshold": 5
+	},
+
+	"VerifySignOption": {		
+		"Enable": true,
+		"IsDarkTheme":true,
+		"IsDebug": false,
+		"IsForce": false, //是否强制签名
+		"Scheme": "attribute", //attribute;global
+		"ExpireSeconds": 60,
+		"CommonParameters": {
+			"TimestampName": "timestamp",
+			"AppIdName": "appid",
+			"SignName": "sign"
+		},
+		"AppSecret": {
+			"AppId": {
+				"sadfsdf": "sdfsfd"
+			}
+		},
+		"IgnoreRoute": [ "api/ignore/", "" ]
+	},
+
+	"SwaggerOption": {
+		"Enable": true,
+		"IsDarkTheme":true,
+		"MiniProfilerEnabled": false,
+		"XmlComments": [ "", "" ],
+		"RoutePrefix": "swagger",
+		"Description": "this is swagger for netcore",
+		"Title": "Demo swagger",
+		"Version": "first version",
+		"TermsOfService": "netcore.com",
+		"Contact": {
+			"Email": "swagger@netcore.com",
+			"Name": "swagger",
+			"Url": "swagger@netcore.com"
+		},
+		"License": {
+			"Name": "",
+			"Url": ""
+		},
+		"Headers": [ //swagger默认头参数
+			{
+				"Name": "User",
+				"Description": "用户"
+			}
+		], 
+		"Query": [ //swagger默认url公共参数
+			{
+				"Name": "sign",
+				"Description": "签名"
+			},
+			{
+				"Name": "timestamp",
+				"Description": "客户端时间戳"
+			}
+		]
+	},
+
+	"HealthChecksUI": {
+		"HealthChecks": [
+			{
+				"Name": "HealthList",
+				"Uri": "/health"
+			}
+		],
+		"Webhooks": [],
+		"EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
+		"MinimumSecondsBetweenFailureNotifications": 60
+	},
+
+	"Hosting": {
+		"ForwardedHttpHeader": "",
+		"UseHttpClusterHttps": false,
+		"UseHttpXForwardedProto": false
+	},
+
+	"RedisCacheOption": {
+		"Enabled": true,
+		"RedisComponent": 1,
+		"Password": "szgla.com",
+		"IsSsl": false,
+		"Preheat": 20,
+		"Cluster": true, //集群模式
+		"ConnectionTimeout": 20,
+		"Endpoints": [
+			{
+				"Port": 7000,
+				"Host": "172.16.127.13"
+			},
+			{
+				"Port": 7000,
+				"Host": "172.16.127.15"
+			}
+		],
+		"Database": 0,
+		"DefaultCustomKey": "",
+		"PoolSize": 50
+	},
+
+	"MicroServicesEndpoint": {
+		"Example": "http://localhost:5000",
+		"Baidu": ""
+	},
+
+	"MongoDbOptions": {
+		"Enabled": false,
+		"ConnectionString": null,
+		"Database": -1
+	},
+	"RabbitMq": {
+		"HostName": "127.0.0.1",
+		"Port": "5672",
+		"UserName": "guest",
+		"Password": "guest"
+	},
+	"RabbitMqExchange": {
+		"Type": "direct",
+		"Durable": true,
+		"AutoDelete": false,
+		"DeadLetterExchange": "default.dlx.exchange",
+		"RequeueFailedMessages": true,
+		"Queues": [
+			{
+				"Name": "myqueue",
+				"RoutingKeys": [ "routing.key" ]
+			}
+		]
 	}
-},
-"SwaggerOption": {//swagger配置
-	"Enable": true,
-	"MiniProfilerEnabled": false,
-	"XmlComments": [ "", "" ],
-	"RoutePrefix": "swagger",
-	"Description": "this is swagger for netcore",
-	"Title": "Demo swagger",
-	"Version": "first version",
-	"TermsOfService": "netcore.com",
-	"Contact": {
-	    "Email": "swagger@netcore.com",
-	    "Name": "swagger",
-	    "Url": "swagger@netcore.com"
-	},
-	"License": {
-	    "Name": "",
-	    "Url": ""
-	},
-	"Headers": [ "User" ] //设置swagger默认头参数
-},
-"HealthChecksUI": {//健康检查配置
-	"HealthChecks": [
-		{
-		 "Name": "HealthList",
-		 "Uri": "/health"
-		}
-	],
-	"Webhooks": [],
-	"EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
-	"MinimumSecondsBetweenFailureNotifications": 60
-},
-"Hosting": {
-	"ForwardedHttpHeader": "",
-	"UseHttpClusterHttps": false,
-	"UseHttpXForwardedProto": false
-},
-"RedisCacheOption": {//redis配置
-    "Enabled": true,
-    "RedisComponent": 2,//1：csredis驱动；2:stackexchangeRedis驱动
-    "Password": "netpro",
-    "IsSsl": false,
-    "Preheat": 20,
-    "Cluster": true, //集群模式
-    "ConnectionTimeout": 20,
-    "Endpoints": [
-    	{
-    		"Port": 6665,
-    		"Host": "192.168.66.33"
-    	},
-    	{
-    		"Port": 6666,
-    		"Host": "192.168.66.66"
-    	}
-    ],
-    "Database": 0,
-    "DefaultCustomKey": "",
-    "PoolSize": 50
-	},
-
-  "MicroServicesEndpoint": {//跨服务调用配置
-  	"Example": "http://localhost:5000",
-  	"XXX": ""
-  },
-  
-  "MongoDbOptions": {//mongodb配置
-  	"Enabled": false,
-  	"ConnectionString": "",
-  	"Database": -1
-  }
-  
-  ,
-  "RabbitMq": {//rabitmq配置
-  	"HostName": "127.0.0.1",
-  	"Port": "5672",
-  	"UserName": "guest",
-  	"Password": "guest"
-  },
-  "RabbitMqExchange": {
-  	"Type": "direct",
-  	"Durable": true,
-  	"AutoDelete": false,
-  	"DeadLetterExchange": "default.dlx.exchange",
-  	"RequeueFailedMessages": true,
-  	"Queues": [
-  		{
-  		 "Name": "myqueue",
-  		 "RoutingKeys": [ "routing.key" ]
-  		}
-  	]
-  }
 }
 
 
