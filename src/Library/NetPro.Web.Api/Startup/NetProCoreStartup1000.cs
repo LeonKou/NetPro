@@ -7,7 +7,6 @@ using NetPro.Core.Configuration;
 using NetPro.Web.Core.Middlewares;
 using NetPro.Checker;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using NetPro.MongoDb;
 using NetPro.RedisManager;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +29,6 @@ namespace NetPro.Web.Core.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             var serviceProvider = services.BuildServiceProvider();
-            var mongoDbOptions = serviceProvider.GetService<MongoDbOptions>();
             var redisCacheOption = serviceProvider.GetService<RedisCacheOption>();
             var netproOption = serviceProvider.GetService<NetProOption>();
 
@@ -45,8 +43,8 @@ namespace NetPro.Web.Core.Infrastructure
                 return;
 
             var healthbuild = services.AddHealthChecks();
-            if (!string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-                healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
+            //if (!string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
+            //    healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
             foreach (var item in redisCacheOption?.Endpoints ?? new List<ServerEndPoint>())
             {
                 healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", name: $"redis-{item.Host}:{item.Port}");

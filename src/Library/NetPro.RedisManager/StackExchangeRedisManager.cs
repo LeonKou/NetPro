@@ -22,7 +22,7 @@ namespace NetPro.RedisManager
         /// <summary>
         /// 自定义Key的前缀
         /// </summary>
-        public string CustomPrefixKey { get; set; }
+        private string CustomPrefixKey { get; set; }
         public StackExchangeRedisManager(ConnectionMultiplexer connection,
             RedisCacheOption option,
              IMemoryCache memorycache)
@@ -32,6 +32,19 @@ namespace NetPro.RedisManager
             CustomPrefixKey = option.DefaultCustomKey;
             _database = _connection.GetDatabase();
             _memorycache = memorycache;
+        }
+        public T Get<T>(string key)
+        {
+            key = AddDefaultPrefixKey(key);
+            var result = _<T>(key);
+            return result;
+        }
+
+        public async Task<T> GetAsync<T>(string key)
+        {
+            key = AddDefaultPrefixKey(key);
+            var result = await _Async<T>(key);
+            return result;
         }
 
         public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
@@ -55,10 +68,21 @@ namespace NetPro.RedisManager
             return _(key, func, expiredTime);
         }
 
+        /// <summary>
+        /// 系统自定义Key前缀
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private string AddDefaultPrefixKey(string key)
+        {
+            var build = new StringBuilder(CustomPrefixKey ?? string.Empty);
+            return build.Append(key).ToString();
+        }
+
         private T _<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
-
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             var _db = _connection.GetDatabase();
             var rValue = _db.StringGet(key);
@@ -103,7 +127,7 @@ namespace NetPro.RedisManager
         private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
             NotNullOrWhiteSpace(key, nameof(key));
-
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             var _db = _connection.GetDatabase();
             var rValue = await _db.StringGetAsync(key);
@@ -131,6 +155,7 @@ namespace NetPro.RedisManager
         /// <param name="cacheTime">Cache time in minutes</param>
         public bool Set(string key, object data, int cacheTime = -1)
         {
+            key = AddDefaultPrefixKey(key);
             var entryBytes = Common.Serialize(data);
             Common.CheckKey(key);
             if (cacheTime == -1)
@@ -140,6 +165,7 @@ namespace NetPro.RedisManager
 
         public async Task<bool> SetAsync(string key, object data, int expiredTime = -1)
         {
+            key = AddDefaultPrefixKey(key);
             var entryBytes = Common.Serialize(data);
             Common.CheckKey(key);
             if (expiredTime == -1)
@@ -147,32 +173,36 @@ namespace NetPro.RedisManager
             return await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromMinutes(expiredTime)));
         }
 
-        public bool IsSet(string key)
+        public bool Exists(string key)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Do(db => db.KeyExists(key));
         }
 
         public bool Remove(string key)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Do(db => db.KeyDelete(key));
         }
 
         public bool Remove(string[] keys)
         {
-            var redisKeys = keys.Select(a => (RedisKey)Common.CheckKey(a)).ToArray();
+            var redisKeys = keys.Select(a => (RedisKey)AddDefaultPrefixKey(Common.CheckKey(a))).ToArray();
             return Do(db => db.KeyDelete(redisKeys) > 0);
         }
 
         public bool ZAdd<T>(string key, T obj, decimal score)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Do(db => db.SortedSetAdd(key, Common.SerializeToString(obj), (double)score));
         }
 
         public List<T> ZRange<T>(string key)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Do(redis =>
             {
@@ -181,8 +211,9 @@ namespace NetPro.RedisManager
             });
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait, Func<T> func)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait)
         {
+            //resource = AddDefaultPrefixKey(resource);
             Common.CheckKey(resource);
 
             if (timeoutSeconds <= 0 || string.IsNullOrWhiteSpace(resource))
@@ -223,24 +254,28 @@ namespace NetPro.RedisManager
 
         public bool HSet<T>(string key, string field, T value, int expirationMinute = 1)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Do(db => db.HashSet(key, field, Common.Serialize(value), flags: CommandFlags.FireAndForget));
         }
 
         public T HGet<T>(string key, string field)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return Common.Deserialize<T>(Do(db => db.HashGet(key, field)));
         }
 
         public async Task<bool> HSetAsync<T>(string key, string field, T value, int expirationMinute = 1)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             return await Do(db => db.HashSetAsync(key, field, Common.Serialize(value), flags: CommandFlags.FireAndForget));
         }
 
         public async Task<T> HGetAsync<T>(string key, string field)
         {
+            key = AddDefaultPrefixKey(key);
             Common.CheckKey(key);
             var redisvalue = await _database.HashGetAsync(key, field);
             return Common.ConvertObj<T>(redisvalue);

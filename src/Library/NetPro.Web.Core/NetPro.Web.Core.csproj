@@ -10,6 +10,13 @@
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProWebCoreAssemblyName)</AssemblyName>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="FluentValidation\NetProValidatorFactory.cs" />
 	</ItemGroup>
@@ -34,11 +41,11 @@
     <PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
     <PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="$(AspNetCoreRateLimit)" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />    
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />    
     <PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="IdentityModel" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.8" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
     <PackageReference Include="SkyAPM.Agent.AspNetCore" Version="$(SkyAPMAgentAspNetCore)" />
@@ -52,7 +59,6 @@
     <ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
     <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
     <ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
-    <ProjectReference Include="..\NetPro.MongoDb\NetPro.MongoDb.csproj" />
     <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
     <ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
     <ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />      

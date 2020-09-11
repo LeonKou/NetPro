@@ -12,6 +12,22 @@ namespace NetPro.RedisManager
     public interface IRedisManager
     {
         /// <summary>
+        /// 获取缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        T Get<T>(string key);
+
+        /// <summary>
+        /// 异步获取缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<T> GetAsync<T>(string key);
+
+        /// <summary>
         /// 获取缓存，没有则新增缓存
         /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
         /// </summary>
@@ -54,7 +70,7 @@ namespace NetPro.RedisManager
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        bool IsSet(string key);
+        bool Exists(string key);
 
         /// <summary>
         /// 移除key
@@ -95,8 +111,9 @@ namespace NetPro.RedisManager
         /// <param name="resource"></param>
         /// <param name="timeoutSeconds"></param>
         /// <param name="func"></param>
+        /// <param name="isAwait">是否等待</param>
         /// <returns></returns>
-        T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait = true, Func<T> func = null);
+        T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait = true);
 
         bool HSet<T>(string key, string field, T value, int expirationMinute = 1);
 

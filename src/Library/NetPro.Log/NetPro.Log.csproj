@@ -10,6 +10,14 @@
 	  <PackageIcon>$(PackageIcon)</PackageIcon>
 	  <AssemblyName>$(NetProLogAssemblyName)</AssemblyName>
   </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Log.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Log.xml</DocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
@@ -19,7 +27,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(MicrosoftAspNetCoreMvcAbstractions)" />
 		<PackageReference Include="Sentry" Version="2.1.6" />
-		<PackageReference Include="Serilog" Version="$(Serilog)" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
 		<PackageReference Include="Serilog.Exceptions" Version="5.6.0" />
 		<PackageReference Include="Serilog.Formatting.Compact" Version="$(SerilogFormattingCompact)" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfiguration)" />

@@ -6,9 +6,7 @@ using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.Web.Core.Compression;
-using NetPro.Web.Core.Infrastructure.Extensions;
 using NetPro.RedisManager;
-using NetPro.MongoDb;
 using System.Linq;
 using NetPro.TypeFinder;
 
@@ -37,20 +35,20 @@ namespace NetPro.Web.Core.Infrastructure
                 services.AddRedisManager(configuration);
 
             //MongoDb 连接配置文件
-            if (configuration.GetValue<bool>("MongoDbOptions:Enabled", false))
-            {
-                services.ConfigureStartupConfig<MongoDbOptions>(configuration.GetSection("MongoDbOptions"));
-                var mongoDbOptions = services.BuildServiceProvider().GetRequiredService<MongoDbOptions>();
-                if (string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-                {
-                    return;
-                }
+            //if (configuration.GetValue<bool>("MongoDbOptions:Enabled", false))
+            //{
+            //    services.ConfigureStartupConfig<MongoDbOptions>(configuration.GetSection("MongoDbOptions"));
+            //    var mongoDbOptions = services.BuildServiceProvider().GetRequiredService<MongoDbOptions>();
+            //    if (string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
+            //    {
+            //        return;
+            //    }
 
-                services.AddMongoDb(options =>
-                {
-                    options = mongoDbOptions;
-                });
-            }
+            //    services.AddMongoDb(options =>
+            //    {
+            //        options = mongoDbOptions;
+            //    });
+            //}
 
             //services = services.AddDapperRepository();
             services.Scan(scan => scan

@@ -1,8 +1,5 @@
 ﻿using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.Log.NetPro.Log;
-using NetPro.Logging;
-using NetPro.MongoDb;
 using NetPro.Utility.Helpers;
 using NetPro.Web.Core.Filters;
 using NetPro.Web.Core.Providers;

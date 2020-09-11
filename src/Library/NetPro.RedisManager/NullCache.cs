@@ -13,6 +13,16 @@ namespace NetPro.RedisManager
         {
             Console.WriteLine("redis drive is null");
         }
+        public T Get<T>(string key)
+        {
+            return default;
+        }
+
+        public async Task<T> GetAsync<T>(string key)
+        {
+            return default;
+        }
+
         public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
             return default;
@@ -28,7 +38,7 @@ namespace NetPro.RedisManager
             return default;
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait, Func<T> func)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func,bool isAwait )
         {
             return default;
         }
@@ -58,7 +68,7 @@ namespace NetPro.RedisManager
             return default;
         }
 
-        public bool IsSet(string key)
+        public bool Exists(string key)
         {
             return default;
         }

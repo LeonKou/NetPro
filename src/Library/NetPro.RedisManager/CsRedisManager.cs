@@ -24,6 +24,17 @@ namespace NetPro.RedisManager
             _option = option;
             _memorycache = memorycache;
         }
+        public T Get<T>(string key)
+        {
+            var result = _<T>(key);
+            return result;
+        }
+
+        public async Task<T> GetAsync<T>(string key)
+        {
+            var result = await _Async<T>(key);
+            return result;
+        }
 
         /// <summary>
         /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
@@ -119,7 +130,7 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, bool isAwait, Func<T> func)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait)
         {
             if (timeoutSeconds <= 0 || string.IsNullOrWhiteSpace(resource))
             {
@@ -143,6 +154,7 @@ namespace NetPro.RedisManager
                 {
                     if (lockObject == null)
                     {
+                        Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
                         return default;
                     }
                     var result = func();
@@ -150,7 +162,6 @@ namespace NetPro.RedisManager
                         return result;
                     return default;
                 }
-                Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
             }
         }
 
@@ -192,7 +203,7 @@ namespace NetPro.RedisManager
             return isSet;
         }
 
-        public bool IsSet(string key)
+        public bool Exists(string key)
         {
             return RedisHelper.Exists(key);
         }

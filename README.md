@@ -16,7 +16,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 #### 主要组件：
 
-`Autofac` , `Automapper`,`apollo`,`App.Metrics`,
+`FreeSql`,`Autofac` , `Automapper`,`apollo`,`App.Metrics`,
 
 `CsRedisCore`,`StackExchange.Redis`,`Serilog`,
 
@@ -32,6 +32,26 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 `exceptionless`
 
 ### 使用
+###### $\color{SlateBlue}{NetPro.Web.Api组件打包封装了其他所有组件，"开箱即用"，各组件已发布Nuget包，也可单独使用，建议直接使用NetPro.Web.Api省去各种初始化与避免配置有误导致的问题}$
+
+##### 包含的内置组件
+$\color{RoyalBlue}{NetPro.Core}$（辅助NetPro.Core）
+$\color{Teal}{NetPro.Web.Core}$（辅助NetPro.Web.Api）
+$\color{Gold}{NetPro.Web.Api}$（包含所有常用组件）
+$\color{SkyBlue}{NetPro.TypeFinder}$（dll检索，反射）
+$\color{Turquoise}{NetPro.Utility}$（工具）
+$\color{GoldenRod}{NetPro.Authentication}$（认证）
+$\color{MediumTurquoise}{NetPro.Checker}$（组件健康检查）
+$\color{MediumSpringGreen}{NetPro.Dapper}$dapper封装，建议使用FreeSql
+$\color{MediumPurple}{NetPro.Log}$日志
+$\color{MediumSeaGreen}{NetPro.MongoDb}$（mongodb）
+$\color{LimeGreen}{NetPro.RabbitMQ}$（rabbitmq组件的封装，特性方式消费消息）
+$\color{LightSlateGray}{NetPro.RedisManager}$（Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
+$\color{LightSalmon}{NetPro.Swagger}$（Swagger，包含认证，文件上传，公共参，个性主题）
+$\color{YellowGreen}{NetPro.EFCore}$（EFCore批量注入DbSet,建议使用FreeSql）
+$\color{Gray}{NetPro.Sign}$（签名）
+$\color{DodgerBlue}{NetPro.ResponseCache}$（响应缓存）
+$\color{Fuchsia}{NetPro.NetProShareRequestBody}$（辅助）
 
 具体参考sample/Leon.XXXV2.Api项目
 
@@ -146,11 +166,9 @@ public class Startup
 
 ```json
 
-{
-	"ConnectionStrings": {
-		"DefaultConnection": "Server=189.33.22.1;Port=3306;Database=netpro_microservice_demo;charset=utf8mb4;user=root;password=123abc;Allow User Variables=True;",
-		"MysqlConnection": "Server=189.33.22.1;Port=3306;Database=netpro_microservice_demo;charset=utf8mb4;user=root;password=123abc;Allow User Variables=True;"
-	},
+{	
+	//数据库ORM建议使用FreeSql，为了便于灵活选择使用适合自己的ORM，框架已剔除内置的NetPro.Dapper
+	//apollo配置
 	"Apollo": {
 		"Enabled": false,
 		"AppId": "Leon",
@@ -160,11 +178,13 @@ public class Startup
 		"RefreshInterval": 300000,
 		"LocalCacheDir": "apollo/data"
 	},
+	//响应缓存配置，建议不大于3秒
 	"ResponseCacheOption": {
 		"Enabled": true,
-		"Expired": 10,
+		"Expired": 3,
 		"ExcluedQuery": [ "sign", "timestamp" ]
 	},
+	//日志配置
 	"Serilog": {
 		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
 		"MinimumLevel": {
@@ -190,7 +210,7 @@ public class Startup
 	},
 
 	"AllowedHosts": "*",
-
+	//框架核心配置
 	"NetProOption": {
 		"ProjectPrefix": "Leon",
 		"ProjectSuffix": "",
@@ -199,7 +219,7 @@ public class Startup
 		"ApplicationName": "",
 		"RequestWarningThreshold": 5
 	},
-
+	//接口签名防篡改配置
 	"VerifySignOption": {		
 		"Enable": true,
 		"IsDarkTheme":true,
@@ -219,10 +239,10 @@ public class Startup
 		},
 		"IgnoreRoute": [ "api/ignore/", "" ]
 	},
-
+	//swagger配置
 	"SwaggerOption": {
 		"Enable": true,
-		"IsDarkTheme":true,
+		"IsDarkTheme":true,//Swagger黑色主题
 		"MiniProfilerEnabled": false,
 		"XmlComments": [ "", "" ],
 		"RoutePrefix": "swagger",
@@ -239,7 +259,7 @@ public class Startup
 			"Name": "",
 			"Url": ""
 		},
-		"Headers": [ //swagger默认头参数
+		"Headers": [ //swagger默认公共头参数
 			{
 				"Name": "User",
 				"Description": "用户"
@@ -256,7 +276,7 @@ public class Startup
 			}
 		]
 	},
-
+	//中间件健康检查配置
 	"HealthChecksUI": {
 		"HealthChecks": [
 			{
@@ -274,7 +294,7 @@ public class Startup
 		"UseHttpClusterHttps": false,
 		"UseHttpXForwardedProto": false
 	},
-
+	//redis配置
 	"RedisCacheOption": {
 		"Enabled": true,
 		"RedisComponent": 1,
@@ -294,20 +314,21 @@ public class Startup
 			}
 		],
 		"Database": 0,
-		"DefaultCustomKey": "",
+		"DefaultCustomKey": "NetPro:",//key前缀
 		"PoolSize": 50
 	},
-
+	//跨服务访问配置
 	"MicroServicesEndpoint": {
 		"Example": "http://localhost:5000",
 		"Baidu": ""
 	},
-
+	//mongodb配置
 	"MongoDbOptions": {
 		"Enabled": false,
 		"ConnectionString": null,
 		"Database": -1
 	},
+	//rabbitmq配置
 	"RabbitMq": {
 		"HostName": "127.0.0.1",
 		"Port": "5672",
