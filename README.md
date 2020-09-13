@@ -32,26 +32,27 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 `exceptionless`
 
 ### 使用
-###### $\color{SlateBlue}{NetPro.Web.Api组件打包封装了其他所有组件，"开箱即用"，各组件已发布Nuget包，也可单独使用，建议直接使用NetPro.Web.Api省去各种初始化与避免配置有误导致的问题}$
+###### NetPro.Web.Api组件打包封装了其他所有组件，"开箱即用"，各组件已发布Nuget包，也可单独使用，建议直接使用NetPro.Web.Api省去各种初始化与避免配置有误导致的问题
 
 ##### 包含的内置组件
-$\color{RoyalBlue}{NetPro.Core}$（辅助NetPro.Core）
-$\color{Teal}{NetPro.Web.Core}$（辅助NetPro.Web.Api）
-$\color{Gold}{NetPro.Web.Api}$（包含所有常用组件）
-$\color{SkyBlue}{NetPro.TypeFinder}$（dll检索，反射）
-$\color{Turquoise}{NetPro.Utility}$（工具）
-$\color{GoldenRod}{NetPro.Authentication}$（认证）
-$\color{MediumTurquoise}{NetPro.Checker}$（组件健康检查）
-$\color{MediumSpringGreen}{NetPro.Dapper}$dapper封装，建议使用FreeSql
-$\color{MediumPurple}{NetPro.Log}$日志
-$\color{MediumSeaGreen}{NetPro.MongoDb}$（mongodb）
-$\color{LimeGreen}{NetPro.RabbitMQ}$（rabbitmq组件的封装，特性方式消费消息）
-$\color{LightSlateGray}{NetPro.RedisManager}$（Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
-$\color{LightSalmon}{NetPro.Swagger}$（Swagger，包含认证，文件上传，公共参，个性主题）
-$\color{YellowGreen}{NetPro.EFCore}$（EFCore批量注入DbSet,建议使用FreeSql）
-$\color{Gray}{NetPro.Sign}$（签名）
-$\color{DodgerBlue}{NetPro.ResponseCache}$（响应缓存）
-$\color{Fuchsia}{NetPro.NetProShareRequestBody}$（辅助）
+
+
+-NetPro.Web.Core（辅助NetPro.Web.Api) 
+-NetPro.Web.Api（包含所有常用组件）
+-NetPro.TypeFinder（dll检索，反射）
+-NetPro.Utility（工具）
+-NetPro.Authentication（认证）
+-NetPro.Checker（组件健康检查）
+-NetPro.Dapper （dapper封装，建议使用FreeSql
+-NetPro.Log （日志）
+-NetPro.MongoDb（mongodb）
+-NetPro.RabbitMQ（rabbitmq组件的封装，特性方式消费消息）
+-NetPro.RedisManager（Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
+-NetPro.Swagger（Swagger，包含认证，文件上传，公共参，个性主题）
+-NetPro.EFCore（EFCore批量注入DbSet,建议使用FreeSql）
+-NetPro.Sign（签名）
+-NetPro.ResponseCache（响应缓存）
+-NetPro.NetProShareRequestBody（辅助）
 
 具体参考sample/Leon.XXXV2.Api项目
 
