@@ -38,21 +38,37 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 
 -NetPro.Web.Core（辅助NetPro.Web.Api) 
+
 -NetPro.Web.Api（包含所有常用组件）
+
 -NetPro.TypeFinder（dll检索，反射）
+
 -NetPro.Utility（工具）
+
 -NetPro.Authentication（认证）
+
 -NetPro.Checker（组件健康检查）
+
 -NetPro.Dapper （dapper封装，建议使用FreeSql
+
 -NetPro.Log （日志）
+
 -NetPro.MongoDb（mongodb）
+
 -NetPro.RabbitMQ（rabbitmq组件的封装，特性方式消费消息）
+
 -NetPro.RedisManager（Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
+
 -NetPro.Swagger（Swagger，包含认证，文件上传，公共参，个性主题）
+
 -NetPro.EFCore（EFCore批量注入DbSet,建议使用FreeSql）
+
 -NetPro.Sign（签名）
+
 -NetPro.ResponseCache（响应缓存）
+
 -NetPro.NetProShareRequestBody（辅助）
+
 
 具体参考sample/Leon.XXXV2.Api项目
 
