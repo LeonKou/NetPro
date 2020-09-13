@@ -9,6 +9,11 @@ namespace NetPro.ResponseCache
 {
     public static class ResponseCachingExtensionService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddResponseCachingExtension(this IServiceCollection services)
         {
             services.AddResponseCaching(options =>
@@ -25,11 +30,4 @@ namespace NetPro.ResponseCache
         }
     }
 
-    public class ResponseCacheOption
-    {
-        public bool Enabled { get; set; }
-        public int Expired { get; set; }
-
-        public List<string> ExcluedQuery { get; set; }
-    }
 }

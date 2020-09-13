@@ -37,16 +37,18 @@ namespace NetPro.RedisManager
         }
 
         /// <summary>
-        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+        ///获取或者创建缓存 
+        ///不过期或者过期时间时间大于一小时，数据将缓存到本地内存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="expiredTime"></param>
+        /// <param name="isLocalCache"></param>
         /// <returns></returns>
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
-            if (expiredTime == -1 || expiredTime > 3600)
+            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
                 {
@@ -57,7 +59,7 @@ namespace NetPro.RedisManager
                         return resultTemp;
                     }
                     if (expiredTime > 3600)
-                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime / 3);
                     return resultTemp;
                 });
                 return memoryResult;
@@ -84,9 +86,9 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
-            if (expiredTime == -1 || expiredTime > 3600)
+            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
                 {

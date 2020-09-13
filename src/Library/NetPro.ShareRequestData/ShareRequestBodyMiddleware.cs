@@ -43,13 +43,14 @@ namespace NetPro.ShareRequestBody
             else
             {
                 string bodyValue;
-                if (requestCacheData == null || string.IsNullOrEmpty(requestCacheData.Body))
+                bodyValue = await Common.ReadAsString(context);
+                if (requestCacheData == null)
                 {
-                    bodyValue = await Common.ReadAsString(context);
-                    requestCacheData = new RequestCacheData
-                    {
-                        Body = bodyValue
-                    };
+                    requestCacheData = new RequestCacheData { Body = bodyValue };
+                }
+                else if (string.IsNullOrEmpty(requestCacheData.Body))
+                {
+                    requestCacheData.Body = bodyValue;
                     await _next(context);
                 }
             }
@@ -70,3 +71,4 @@ namespace NetPro.ShareRequestBody
         }
     }
 }
+

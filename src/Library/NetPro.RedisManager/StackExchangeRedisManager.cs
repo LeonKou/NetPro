@@ -47,9 +47,9 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
-            if (expiredTime == -1 || expiredTime > 3600)
+            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
                 {
@@ -102,9 +102,9 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
-            if (expiredTime == -1 || expiredTime > 3600)
+            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
                 {

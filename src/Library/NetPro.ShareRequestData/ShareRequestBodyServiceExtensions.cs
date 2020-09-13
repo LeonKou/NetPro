@@ -16,7 +16,7 @@ namespace NetPro.ShareRequestBody
         {
             //request的body通过中间件获取
             //Response的body通过过滤器获取
-            services.AddScoped(s => new ResponseCacheData());//用于各中间件共享响应body
+            services.AddScoped(s => new ResponseCacheData { ContentType = "application/json" });//用于各中间件共享响应body
             services.AddScoped(s => new RequestCacheData());//用于各中间件共享请求body
 
             return services;

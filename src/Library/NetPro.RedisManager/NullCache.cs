@@ -23,12 +23,12 @@ namespace NetPro.RedisManager
             return default;
         }
 
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1)
+        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
             return default;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, bool isLocalCache = false)
         {
             return default;
         }

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.ResponseCaching;
@@ -32,6 +33,14 @@ namespace NetPro.ResponseCache
         private ResponseCacheOption _responseCacheOption;
 
         private readonly IConfiguration _configuration;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="configuration"></param>
+        /// <param name="iLogger"></param>
+        /// <param name="memorycache"></param>
+        /// <param name="responseCacheOption"></param>
         public PostResponseCacheMiddleware(RequestDelegate next, IConfiguration configuration,
             ILogger<PostResponseCacheMiddleware> iLogger,
             IMemoryCache memorycache,
@@ -50,7 +59,7 @@ namespace NetPro.ResponseCache
         /// <param name="context"></param>
         /// <param name="responseCacheData">自定义对象不能ctor注入</param>
         /// <returns></returns>
-        public async Task InvokeAsync(HttpContext context, ResponseCacheData responseCacheData)
+        public async Task InvokeAsync(HttpContext context, ResponseCacheData responseCacheData, RequestCacheData requestCacheData)
         {
             context.Request.EnableBuffering();
             var token = context.RequestAborted.Register(async () =>
@@ -62,38 +71,37 @@ namespace NetPro.ResponseCache
                 return;
             });
 
-            if (context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase) || context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase)
+                || context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)
+                || _memorycache.TryGetValue($"PostResponseCache_{context.Request.Path}", out object _tempIgnoe)
+                || _memorycache.TryGetValue($"IgnorePostResponseCache_{context.Request.Path}", out object _temp))
             {
                 await _next(context);
             }
             else
             {
-                var convertedDictionatry = context.Request.Query.ToDictionary(s => s.Key, s => s.Value);
-                var queryDic = new Dictionary<string, string>();
-                foreach (var item in convertedDictionatry)
+                var convertedDictionatry = context.Request.Query.ToDictionary(s => s.Key.ToLower(), s => s.Value);
+
+                foreach (var item in _responseCacheOption?.IgnoreVaryQuery ?? new List<string>())
                 {
-                    queryDic.Add(item.Key.ToLower(), item.Value);
-                }
-                foreach (var item in _responseCacheOption?.ExcluedQuery ?? new List<string>())
-                {
-                    if (queryDic.ContainsKey(item))
-                        queryDic.Remove(item);
+                    if (convertedDictionatry.ContainsKey(item.ToLower()))
+                        convertedDictionatry.Remove(item.ToLower());
                 }
 
-                StringBuilder requestStrKey = new StringBuilder();
-                foreach (var item in queryDic)
+                StringBuilder requestStrKey = new StringBuilder(context.Request.Path);
+                foreach (var item in convertedDictionatry)
                 {
                     requestStrKey.Append($"{item.Key}{item.Value}");
                 }
 
                 string bodyValue;
-                if (responseCacheData == null || string.IsNullOrEmpty(responseCacheData.Body))
+                if (requestCacheData == null || string.IsNullOrEmpty(requestCacheData.Body))
                 {
                     bodyValue = await ReadAsString(context);
-                    responseCacheData = new ResponseCacheData { Body = bodyValue };
+                    requestCacheData = new RequestCacheData { Body = bodyValue };
                 }
                 else
-                    bodyValue = responseCacheData.Body;
+                    bodyValue = requestCacheData.Body;
                 if (!string.IsNullOrEmpty(bodyValue) && !"null".Equals(bodyValue))
                 {
                     //非Get请求body有值才被缓存，其他默认不缓存，防止body读取失败导致缓存异常
@@ -108,7 +116,7 @@ namespace NetPro.ResponseCache
                         context.Response.StatusCode = cacheResponseBody.StatusCode;
                         context.Response.ContentType = cacheResponseBody.ContentType;
                         await context.Response.WriteAsync(cacheResponseBody.Body);
-                        _iLogger.LogInformation($"触发本地缓存");
+                        _iLogger.LogInformation($"触发PostResponseCacheMiddleware本地缓存");
                     }
                     else if (!context.RequestAborted.IsCancellationRequested)
                     {
@@ -123,18 +131,25 @@ namespace NetPro.ResponseCache
 
                                 memStream.Position = 0;
                                 string responseBody = new StreamReader(memStream).ReadToEnd();
-
-                                memStream.Position = 0;
-                                await memStream.CopyToAsync(originalBody);
-                                var now = DateTime.Now;
-                                var expiredTimespan = now.AddSeconds(_responseCacheOption.Expired) - now;
-
-                                _memorycache.Set<ResponseCacheData>($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
+                                responseCacheData = new ResponseCacheData
                                 {
                                     Body = responseBody,
                                     ContentType = context.Response.ContentType,
                                     StatusCode = context.Response.StatusCode
-                                }, expiredTimespan);
+                                };
+                                memStream.Position = 0;
+                                await memStream.CopyToAsync(originalBody);
+
+                                _memorycache.GetOrCreate<ResponseCacheData>($"NetProPostResponse:{requestStrKey}", s =>
+                                {
+                                    s.AbsoluteExpirationRelativeToNow = new TimeSpan(_responseCacheOption.Duration);
+                                    return new ResponseCacheData
+                                    {
+                                        Body = responseBody,
+                                        ContentType = context.Response.ContentType,
+                                        StatusCode = context.Response.StatusCode
+                                    };
+                                });
                             }
                         }
                         finally
@@ -221,40 +236,46 @@ namespace NetPro.ResponseCache
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class PostResponseCacheMiddlewareExtensions
     {
         /// <summary>
         /// 签名在响应缓存之前
         /// </summary>
         /// <param name="builder"></param>
-        /// <returns></returns>
+        /// <returns></returns>  
+        /// <remarks>默认Get全局缓存</remarks>
         public static IApplicationBuilder UsePostResponseCache(
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
+            //全局Get响应缓存，遵守Http协议
+            builder.UseResponseCaching();
+            builder.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                {
+                    Public = true,
+                    MaxAge = TimeSpan.FromSeconds(responseCacheOption.Duration < 1 ? 1 : responseCacheOption.Duration)
+                };
 
+                var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
+
+                if (responseCachingFeature != null)//必须放于响应缓存之后
+                {
+                    responseCachingFeature.VaryByQueryKeys = new[] { "*" };
+                }
+                await next();
+            });
             if (responseCacheOption.Enabled)
             {
-                var responseCacheTime = responseCacheOption.Expired;//Configuration.GetValue<int>("ResponseCacheTime", 3); //默认响应缓存2秒       
+                if (responseCacheOption.Duration < 1)
+                    throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
+                //脱离Http协议的Post缓存
                 builder.UseMiddleware<PostResponseCacheMiddleware>();
-                builder.UseResponseCaching();
-                builder.Use(async (context, next) =>
-                {
-                    context.Response.GetTypedHeaders().CacheControl =
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        Public = true,
-                        MaxAge = TimeSpan.FromSeconds(responseCacheTime < 1 ? 1 : responseCacheTime)
-                    };
-
-                    var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
-
-                    if (responseCachingFeature != null)//必须放于响应缓存之后
-                    {
-                        responseCachingFeature.VaryByQueryKeys = new[] { "*" };
-                    }
-                    await next();
-                });
             }
 
             return builder;

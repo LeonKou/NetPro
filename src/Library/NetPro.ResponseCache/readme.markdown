@@ -11,7 +11,7 @@
 ```json
 "ResponseCacheOption": {
 "Enabled": "true",
-"Expired": 5,//响应过期时间
+"Duration": 5,//响应持续时间
 "ExcluedQuery": [ "sign,timestamp" ]
 }
 ```
@@ -25,9 +25,13 @@ public void ConfigureServices(IServiceCollection services)
 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
-     app.UsePostResponseCache();//响应缓存
+    app.UseShareRequestBody();//共享body流
+     app.UsePostResponseCache();//启动Post全局响应缓存，Get响应缓存默认开启
 }
 ```
+
+注意:优先级低于使用 [PostResponseCache(Duration = 10, Order = 1)]
+
 #### 使用
 ```csharp 
 
@@ -44,4 +48,23 @@ Get请求缓存配置
 [ProducesResponseType(200)]
 [ResponseCache(Duration = 10, VaryByQueryKeys = new[] { "account"})]
 public async Task IsExistAccount(string account,string sign)
+```
+
+````csharp 
+Post特性方式启用响应缓存配置
+
+/// <summary>
+/// 获取一个查询
+/// </summary>
+/// <param name="gg"></param>
+/// <returns></returns>
+[HttpPost]
+[Route("pay/post")]
+[ProducesResponseType(200)]
+[ProducesResponseType(200, Type = typeof(XXXAo))]
+[PostResponseCache(Duration = 10)]//响应缓存10秒
+public IActionResult Cache([FromBody]XXXInput gg)
+{
+    return BadRequest(new Result { Data = gg.Age, Code = 11 });
+}
 ```
