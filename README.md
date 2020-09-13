@@ -197,8 +197,8 @@ public class Startup
 	//响应缓存配置，建议不大于3秒
 	"ResponseCacheOption": {
 		"Enabled": true,
-		"Expired": 3,
-		"ExcluedQuery": [ "sign", "timestamp" ]
+		"Duration": 3,
+		"IgnoreVaryQuery": [ "sign", "timestamp" ]
 	},
 	//日志配置
 	"Serilog": {
@@ -490,4 +490,3 @@ var mvcBuilder = services.AddControllers(config =>
 ## Target
 # ...
 
-[文档持续更新中...]
