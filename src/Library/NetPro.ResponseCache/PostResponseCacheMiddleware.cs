@@ -250,6 +250,27 @@ namespace NetPro.ResponseCache
         public static IApplicationBuilder UsePostResponseCache(
             this IApplicationBuilder builder)
         {
+            var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;           
+            if (responseCacheOption.Enabled)
+            {
+                if (responseCacheOption.Duration < 1)
+                    throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
+                //脱离Http协议的Post缓存
+                builder.UseMiddleware<PostResponseCacheMiddleware>();
+            }
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Get缓存
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>  
+        /// <remarks>默认Get全局缓存</remarks>
+        public static IApplicationBuilder UseGetResponseCaching(
+            this IApplicationBuilder builder)
+        {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
             //全局Get响应缓存，遵守Http协议
             builder.UseResponseCaching();
@@ -270,13 +291,6 @@ namespace NetPro.ResponseCache
                 }
                 await next();
             });
-            if (responseCacheOption.Enabled)
-            {
-                if (responseCacheOption.Duration < 1)
-                    throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
-                //脱离Http协议的Post缓存
-                builder.UseMiddleware<PostResponseCacheMiddleware>();
-            }
 
             return builder;
         }
