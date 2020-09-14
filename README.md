@@ -32,26 +32,42 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 `exceptionless`
 
 ### 使用
-###### $\color{SlateBlue}{NetPro.Web.Api组件打包封装了其他所有组件，"开箱即用"，各组件已发布Nuget包，也可单独使用，建议直接使用NetPro.Web.Api省去各种初始化与避免配置有误导致的问题}$
+###### NetPro.Web.Api组件打包封装了其他所有组件，"开箱即用"，各组件已发布Nuget包，也可单独使用，建议直接使用NetPro.Web.Api省去各种初始化与避免配置有误导致的问题
 
 ##### 包含的内置组件
-$\color{RoyalBlue}{NetPro.Core}$（辅助NetPro.Core）
-$\color{Teal}{NetPro.Web.Core}$（辅助NetPro.Web.Api）
-$\color{Gold}{NetPro.Web.Api}$（包含所有常用组件）
-$\color{SkyBlue}{NetPro.TypeFinder}$（dll检索，反射）
-$\color{Turquoise}{NetPro.Utility}$（工具）
-$\color{GoldenRod}{NetPro.Authentication}$（认证）
-$\color{MediumTurquoise}{NetPro.Checker}$（组件健康检查）
-$\color{MediumSpringGreen}{NetPro.Dapper}$dapper封装，建议使用FreeSql
-$\color{MediumPurple}{NetPro.Log}$日志
-$\color{MediumSeaGreen}{NetPro.MongoDb}$（mongodb）
-$\color{LimeGreen}{NetPro.RabbitMQ}$（rabbitmq组件的封装，特性方式消费消息）
-$\color{LightSlateGray}{NetPro.RedisManager}$（Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
-$\color{LightSalmon}{NetPro.Swagger}$（Swagger，包含认证，文件上传，公共参，个性主题）
-$\color{YellowGreen}{NetPro.EFCore}$（EFCore批量注入DbSet,建议使用FreeSql）
-$\color{Gray}{NetPro.Sign}$（签名）
-$\color{DodgerBlue}{NetPro.ResponseCache}$（响应缓存）
-$\color{Fuchsia}{NetPro.NetProShareRequestBody}$（辅助）
+
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Core.svg)](https://nuget.org/packages/NetPro.Web.Core) [NetPro.Web.Core](https://github.com/LeonKou/NetPro.Web.Core)（辅助NetPro.Web.Api) 
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Core) [NetPro.Web.Api](https://github.com/LeonKou/NetPro.Web.Api) （包含所有常用组件）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.TypeFinder.svg)](https://nuget.org/packages/NetPro.TypeFinder) [NetPro.TypeFinder](https://github.com/LeonKou/NetPro.TypeFinder) （dll检索，反射）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Utility.svg)](https://nuget.org/packages/NetPro.Utility) [NetPro.Utility](https://github.com/LeonKou/NetPro.Utility) （包含常用帮助类）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Authentication.svg)](https://nuget.org/packages/NetPro.Authentication) [NetPro.Authentication](https://github.com/LeonKou/NetPro.Authentication) （包含常用帮助类）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Checker.svg)](https://nuget.org/packages/NetPro.Checker) [NetPro.Checker](https://github.com/LeonKou/NetPro.Checker) （组件健康检查）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Dapper.svg)](https://nuget.org/packages/NetPro.Dapper) [NetPro.Dapper](https://github.com/LeonKou/NetPro.Dapper) （dapper封装，建议使用FreeSql)
+
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Log.svg)](https://nuget.org/packages/NetPro.Log ) [NetPro.Log ](https://github.com/LeonKou/NetPro.Log ) （日志,废弃，已集成于NetPro.WebApi）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.MongoDb.svg)](https://nuget.org/packages/NetPro.MongoDb ) [NetPro.MongoDb ](https://github.com/LeonKou/NetPro.MongoDb ) （mongodbi）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.RabbitMQ.svg)](https://nuget.org/packages/NetPro.RabbitMQ ) [NetPro.RabbitMQ ](https://github.com/LeonKou/NetPro.RabbitMQ ) （rabbitmq组件的封装，特性方式消费消息）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.RedisManager.svg)](https://nuget.org/packages/NetPro.RedisManager ) [NetPro.RedisManager ](https://github.com/LeonKou/NetPro.RedisManager ) （Redis组件，包含CsRedis，StackExchangeRedis，分布式锁）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Swagger.svg)](https://nuget.org/packages/NetPro.Swagger ) [NetPro.Swagger ](https://github.com/LeonKou/NetPro.Swagger ) （Swagger，包含认证，文件上传，公共参，个性主题）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.EFCore.svg)](https://nuget.org/packages/NetPro.EFCore ) [NetPro.EFCore ](https://github.com/LeonKou/NetPro.EFCore ) （EFCore批量注入DbSet,建议使用FreeSql）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Sign.svg)](https://nuget.org/packages/NetPro.Sign ) [NetPro.Sign ](https://github.com/LeonKou/NetPro.Sign ) （签名）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.ResponseCache ) [NetPro.ResponseCache ](https://github.com/LeonKou/NetPro.ResponseCache ) （响应缓存）
+
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.NetProShareRequestBody.svg)](https://nuget.org/packages/NetPro.NetProShareRequestBody ) [NetPro.NetProShareRequestBody ](https://github.com/LeonKou/NetPro.NetProShareRequestBody ) （共享Body流，辅助其他中间件与过滤器）
 
 具体参考sample/Leon.XXXV2.Api项目
 
@@ -181,8 +197,8 @@ public class Startup
 	//响应缓存配置，建议不大于3秒
 	"ResponseCacheOption": {
 		"Enabled": true,
-		"Expired": 3,
-		"ExcluedQuery": [ "sign", "timestamp" ]
+		"Duration": 3,
+		"IgnoreVaryQuery": [ "sign", "timestamp" ]
 	},
 	//日志配置
 	"Serilog": {
@@ -474,4 +490,3 @@ var mvcBuilder = services.AddControllers(config =>
 ## Target
 # ...
 
-[文档持续更新中...]
