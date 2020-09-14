@@ -250,7 +250,7 @@ namespace NetPro.ResponseCache
         public static IApplicationBuilder UsePostResponseCache(
             this IApplicationBuilder builder)
         {
-            var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;           
+            var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
             if (responseCacheOption.Enabled)
             {
                 if (responseCacheOption.Duration < 1)
@@ -272,26 +272,28 @@ namespace NetPro.ResponseCache
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            //全局Get响应缓存，遵守Http协议
-            builder.UseResponseCaching();
-            builder.Use(async (context, next) =>
+            if (responseCacheOption.Enabled)
             {
-                context.Response.GetTypedHeaders().CacheControl =
-                new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                //全局Get响应缓存，遵守Http协议
+                builder.UseResponseCaching();
+                builder.Use(async (context, next) =>
                 {
-                    Public = true,
-                    MaxAge = TimeSpan.FromSeconds(responseCacheOption.Duration < 1 ? 1 : responseCacheOption.Duration)
-                };
+                    context.Response.GetTypedHeaders().CacheControl =
+                    new CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(responseCacheOption.Duration < 1 ? 1 : responseCacheOption.Duration)
+                    };
 
-                var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
+                    var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
 
-                if (responseCachingFeature != null)//必须放于响应缓存之后
-                {
-                    responseCachingFeature.VaryByQueryKeys = new[] { "*" };
-                }
-                await next();
-            });
-
+                    if (responseCachingFeature != null)//必须放于响应缓存之后
+                    {
+                        responseCachingFeature.VaryByQueryKeys = new[] { "*" };
+                    }
+                    await next();
+                });
+            }
             return builder;
         }
     }
