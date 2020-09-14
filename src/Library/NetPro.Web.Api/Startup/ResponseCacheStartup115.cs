@@ -36,6 +36,7 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
+            application.UseGetResponseCaching();
             application.UsePostResponseCache();//响应缓存
         }
 
