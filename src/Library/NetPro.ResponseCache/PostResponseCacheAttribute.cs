@@ -23,7 +23,8 @@ namespace NetPro.Web.Core.Filters
     /// Post响应缓存
     /// 优先级高于UsePostResponseCache全局Post缓存
     /// </summary>
-    /// <remarks>特性方式继承自动生效</remarks>
+    /// <remarks>特性方式继承自动生效
+    /// Order越小先执行</remarks>
     public class PostResponseCacheAttribute : ActionFilterAttribute
     {
         /// <summary>
