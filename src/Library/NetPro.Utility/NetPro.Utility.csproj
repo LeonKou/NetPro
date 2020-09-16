@@ -29,10 +29,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Helpers\AppSetting.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="DotNetCore.NPOI" Version="$(DotNetCoreNPOI)" />
 		<PackageReference Include="IdGen" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.8" />

@@ -70,13 +70,22 @@ namespace NetPro.ResponseCache
                 await Task.CompletedTask;
                 return;
             });
+            var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+            if (endpoint != null)
+            {
+                if (endpoint.Metadata
+                .Any(m => m is IgnorePostResponseCacheAttribute))
+                {
+                    goto gotoNext;
+                }
+            }
 
             if (context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase)
                 || context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase)
                 || _memorycache.TryGetValue($"PostResponseCache_{context.Request.Path}", out object _tempIgnoe)
                 || _memorycache.TryGetValue($"IgnorePostResponseCache_{context.Request.Path}", out object _temp))
             {
-                await _next(context);
+                goto gotoNext;
             }
             else
             {
@@ -151,6 +160,8 @@ namespace NetPro.ResponseCache
                                     };
                                 });
                             }
+                            await Task.CompletedTask;
+                            return;
                         }
                         finally
                         {
@@ -165,7 +176,7 @@ namespace NetPro.ResponseCache
                 }
                 else if (!context.RequestAborted.IsCancellationRequested)
                 {
-                    await _next(context);
+                    goto gotoNext;
                 }
                 else
                 {
@@ -173,6 +184,9 @@ namespace NetPro.ResponseCache
                     return;
                 }
             }
+
+            gotoNext:
+            await _next(context);
         }
 
         private async Task<string> ReadAsString(HttpContext context)
@@ -246,7 +260,7 @@ namespace NetPro.ResponseCache
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>  
-        /// <remarks>默认Get全局缓存</remarks>
+        /// <remarks></remarks>
         public static IApplicationBuilder UsePostResponseCache(
             this IApplicationBuilder builder)
         {

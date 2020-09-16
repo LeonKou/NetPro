@@ -6,7 +6,7 @@
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-	<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<PackageTags>NetPro,Api,MicroService,Swagger</PackageTags>
 		<AssemblyName>$(NetProWebApiAssemblyName)</AssemblyName>
@@ -18,8 +18,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Web.Api.xml</DocumentationFile>
 	</PropertyGroup>
+
 	<ItemGroup>
-	  <Compile Remove="Filters\ViewModelStateActionFilter.cs" />
+		<Compile Remove="Filters\ViewModelStateActionFilter.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
@@ -28,24 +29,16 @@
 		</None>
 	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
-  </PropertyGroup>
-	<ItemGroup><!--<PackageReference Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleAspNetCore)" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="$(SwashbuckleAspNetCoreSwagger)" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="$(SwashbuckleAspNetCoreFilters)" />-->
-	
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Infrastructure\Extensions\" />
-	  <Folder Include="Models\" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
-    <ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+		<ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />
 		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />
-  </ItemGroup>
+	</ItemGroup>
 
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
-  </Target>
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 
 </Project>

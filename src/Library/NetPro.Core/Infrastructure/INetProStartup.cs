@@ -16,7 +16,7 @@ namespace NetPro.Core.Infrastructure
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         /// <param name="typeFinder"></param>
-        void ConfigureServices(IServiceCollection services, IConfiguration configuration=null, ITypeFinder typeFinder=null);
+        void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null);
 
         /// <summary>
         /// 使用中间件
@@ -25,7 +25,7 @@ namespace NetPro.Core.Infrastructure
         void Configure(IApplicationBuilder application);
 
         /// <summary>
-        /// 依赖注入调用顺序 不要大于1000，1000是mvc 启动注入
+        /// 依赖注入调用顺序
         /// </summary>
         int Order { get; }
     }

@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
 using NetPro.Utility;
+using Console = Colorful.Console;
 
 namespace NetPro.Core.Infrastructure
 {
@@ -165,12 +167,16 @@ namespace NetPro.Core.Infrastructure
 
             //create and sort instances of startup configurations
             var instances = startupConfigurations
-                .Select(startup => (INetProStartup)Activator.CreateInstance(startup))
-                .OrderBy(startup => startup.Order);
+                .Select(startup => new { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Name = startup.Name })
+                .OrderBy(startup => startup.NetProStartupImplement.Order);
 
             //configure services
+            Console.WriteLine($"服务注入顺序：", System.Drawing.Color.FromArgb(244, 212, 255));
             foreach (var instance in instances)
-                instance.ConfigureServices(services, configuration, _typeFinder);
+            {
+                Console.WriteLine($@"{instance.NetProStartupImplement.Order}---> {instance.Name}", System.Drawing.Color.FromArgb(220, 212, 100));
+                instance.NetProStartupImplement.ConfigureServices(services, configuration, _typeFinder);
+            }
 
             //register mapper configurations
             AddAutoMapper(services, _typeFinder);

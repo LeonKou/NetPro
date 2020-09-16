@@ -8,6 +8,14 @@ namespace NetPro.RedisManager
 {
     public static class RedisServiceExtensions
     {
+        /// <summary>
+        /// Redis服务，支持Csredis与StackExchangeRedis
+        /// RedisCacheOption:RedisComponent=1>csredis;=2> StackExchangeRedis
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        /// <remarks>Csredis驱动下非集群模式Cluster必须为fasle，否则指定DataBase无效</remarks>
         public static IServiceCollection AddRedisManager(this IServiceCollection services, IConfiguration configuration)
         {
             var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
@@ -16,6 +24,12 @@ namespace NetPro.RedisManager
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="redisCacheOption"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRedisManager(this IServiceCollection services, RedisCacheOption redisCacheOption)
         {
             var redisCacheComponent = redisCacheOption?.RedisComponent ?? RedisCacheComponentEnum.NullRedis;
@@ -39,6 +53,12 @@ namespace NetPro.RedisManager
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
         public static IServiceCollection AddCsRedis(this IServiceCollection services, RedisCacheOption option)
         {
             services.AddSingleton(option);
@@ -83,6 +103,7 @@ namespace NetPro.RedisManager
                 SslHost = option.SslHost,
                 AbortOnConnectFail = false,
                 AsyncTimeout = option.ConnectionTimeout,
+                DefaultDatabase = option.Database,
             };
 
             foreach (var endpoint in option.Endpoints)
@@ -105,6 +126,12 @@ namespace NetPro.RedisManager
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static IServiceCollection AddCsRedis(this IServiceCollection services, IConfiguration config)
         {
             var option = new RedisCacheOption(config);
@@ -112,6 +139,12 @@ namespace NetPro.RedisManager
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static IServiceCollection AddStackExchangeRedis(this IServiceCollection services, IConfiguration config)
         {
             var redisOption = new RedisCacheOption(config);
@@ -120,6 +153,12 @@ namespace NetPro.RedisManager
             return services;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="redisOption"></param>
+        /// <returns></returns>
         public static IServiceCollection AddStackExchangeRedis(this IServiceCollection services, RedisCacheOption redisOption)
         {
             services.AddSingleton(redisOption);
@@ -132,6 +171,7 @@ namespace NetPro.RedisManager
                 SslHost = redisOption.SslHost,
                 AbortOnConnectFail = false,
                 AsyncTimeout = redisOption.ConnectionTimeout,
+                DefaultDatabase = redisOption.Database,
             };
 
             foreach (var endpoint in redisOption.Endpoints)

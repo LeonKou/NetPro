@@ -144,15 +144,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Register HttpContextAccessor
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        public static void AddHttpContextAccessor(this IServiceCollection services)
-        {
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        }
-
-        /// <summary>
         /// Add and configure MVC for the application
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>

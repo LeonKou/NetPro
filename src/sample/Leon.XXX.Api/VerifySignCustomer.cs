@@ -33,7 +33,7 @@ namespace Leon.XXX.Api
         /// <param name="secret"></param>
         /// <param name="signMethod"></param>
         /// <returns></returns>
-        public string GetSignhHash(string message, string secret, string signMethod)
+        public string GetSignhHash(string message, string secret, EncryptEnum signMethod = EncryptEnum.Default)
         {
             return "5555555";
         }

@@ -17,9 +17,13 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
 	</PropertyGroup>
+
 	<ItemGroup>
-	  <Compile Remove="FluentValidation\NetProValidatorFactory.cs" />
+	  <Compile Remove="FluentValidation\**" />
+	  <EmbeddedResource Remove="FluentValidation\**" />
+	  <None Remove="FluentValidation\**" />
 	</ItemGroup>
+	
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
@@ -27,50 +31,45 @@
 		</None>
 	</ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Core.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Core.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="$(AppMetricsAspNetCoreHealth)" />
-    <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.1.0" />
-    <PackageReference Include="App.Metrics.Health" Version="$(AppMetricsHealth)" />
-    <PackageReference Include="App.Metrics.Health.Checks.Http" Version="$(AppMetricsHealthChecksHttp)" />
-    <PackageReference Include="App.Metrics.Health.Checks.Network" Version="$(AppMetricsHealthChecksNetwork)" />
-    <PackageReference Include="App.Metrics.Health.Checks.Process" Version="$(AppMetricsHealthChecksProcess)" />
-    <PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
-    <PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
-    <PackageReference Include="AspNetCoreRateLimit" Version="$(AspNetCoreRateLimit)" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />    
-    <PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
-    <PackageReference Include="IdentityModel" Version="4.3.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.8" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
-    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
-    <PackageReference Include="SkyAPM.Agent.AspNetCore" Version="$(SkyAPMAgentAspNetCore)" />
-    <PackageReference Include="OpenTracing.Contrib.NetCore.Unofficial" Version="$(OpenTracingContribNetCoreUnofficial)" />
-    <PackageReference Include="WebApiClientCore" Version="1.0.9" />
-  </ItemGroup>                 
-
-
-  <ItemGroup>
-    <ProjectReference Include="..\NetPro.Authentication\NetPro.Authentication.csproj" />
-    <ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
-    <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-    <ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
-    <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
-    <ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
-    <ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />      
-    <ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
-  </ItemGroup>                 
+	<ItemGroup>
+		<PackageReference Include="App.Metrics.AspNetCore.Health" Version="$(AppMetricsAspNetCoreHealth)" />
+		<PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="4.1.0" />
+		<PackageReference Include="App.Metrics.Health" Version="$(AppMetricsHealth)" />
+		<PackageReference Include="App.Metrics.Health.Checks.Http" Version="$(AppMetricsHealthChecksHttp)" />
+		<PackageReference Include="App.Metrics.Health.Checks.Network" Version="$(AppMetricsHealthChecksNetwork)" />
+		<PackageReference Include="App.Metrics.Health.Checks.Process" Version="$(AppMetricsHealthChecksProcess)" />
+		<PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
+		<PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
+		<PackageReference Include="AspNetCoreRateLimit" Version="$(AspNetCoreRateLimit)" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
+		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+		<PackageReference Include="IdentityModel" Version="4.3.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.8" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
+		<PackageReference Include="SkyAPM.Agent.AspNetCore" Version="$(SkyAPMAgentAspNetCore)" />
+		<PackageReference Include="OpenTracing.Contrib.NetCore.Unofficial" Version="$(OpenTracingContribNetCoreUnofficial)" />
+		<PackageReference Include="WebApiClientCore" Version="1.0.9" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <Folder Include="FluentValidation\" />
-  </ItemGroup>
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
-  </Target>  
+	<ItemGroup>
+		<ProjectReference Include="..\NetPro.Authentication\NetPro.Authentication.csproj" />
+		<ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
+		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+		<ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
+		<ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
+		<ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />
+		<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
+	</ItemGroup>
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 
 </Project>

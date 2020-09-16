@@ -39,7 +39,7 @@ namespace NetPro.Swagger
             {
                 if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue))
                 {
-                    parameter.Extensions.Add("default", new OpenApiString(defaultValue.ToString()));
+                    parameter.Extensions.Add("default", new OpenApiString(defaultValue?.ToString()));
 
                 }
             }

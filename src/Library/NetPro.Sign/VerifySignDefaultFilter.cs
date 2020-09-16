@@ -37,25 +37,31 @@ namespace NetPro.Sign
         }
 
         /// <summary>
-        /// 
+        /// 签名算法；支持hmac-sha256；md5
         /// </summary>
         /// <param name="message"></param>
         /// <param name="secret"></param>
-        /// <param name="signMethod">签名算法；支持hmac-sha256；md5</param>
+        /// <param name="encrypt"></param>
         /// <returns>签名16进制</returns>
-        public virtual string GetSignhHash(string message, string secret, string signMethod)
+        public virtual string GetSignhHash(string message, string secret, EncryptEnum signMethod = EncryptEnum.Default)
         {
-            switch (signMethod)
+            if (signMethod.HasFlag(EncryptEnum.Default) || signMethod.HasFlag(EncryptEnum.SignHMACSHA256))
             {
-                case "hmac-sha256":
-                    return SignCommon.GetHMACSHA256Sign(message, secret);
-                case "md5":
-                    return SignCommon.CreateMD5(message, secret);
-                default:
-                    return SignCommon.GetHMACSHA256Sign(message, secret);
+                return SignCommon.GetHMACSHA256Sign(message, secret);
             }
-            
-        }
 
+            else if (signMethod.HasFlag(EncryptEnum.SignSHA256))
+            {
+                return SignCommon.GetSHA256Sign(message, secret);
+            }
+            else if (signMethod.HasFlag(EncryptEnum.SignMD5))
+            {
+                return SignCommon.CreateMD5(message, secret);
+            }
+            else
+            {
+                return SignCommon.GetHMACSHA256Sign(message, secret);
+            }
+        }
     }
 }

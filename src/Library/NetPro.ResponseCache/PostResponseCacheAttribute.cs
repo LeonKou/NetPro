@@ -49,11 +49,14 @@ namespace NetPro.Web.Core.Filters
         /// <returns></returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            context.HttpContext.Request.EnableBuffering();
-            if (Duration == 0)
-                goto gotoNext;
-
             IServiceProvider serviceProvider = context.HttpContext.RequestServices;
+            var responseCacheOption = serviceProvider.GetService<ResponseCacheOption>();
+
+            if (!responseCacheOption.Enabled || Duration == 0)
+            {
+                goto gotoNext;
+            }
+            context.HttpContext.Request.EnableBuffering();
             var _logger = serviceProvider.GetRequiredService<ILogger<PostResponseCacheAttribute>>();
             var _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var _memorycache = serviceProvider.GetService<IMemoryCache>();
@@ -68,9 +71,7 @@ namespace NetPro.Web.Core.Filters
             {
                 throw new ArgumentNullException(nameof(IMemoryCache), "Post响应缓存依赖ResponseCacheData，请调用services.AddShareRequestBody()注入后再使用[PostResponseCache]");
             }
-            var _responseCacheOption = serviceProvider.GetService<ResponseCacheOption>();
 
-            context.HttpContext.Request.EnableBuffering();
             var token = context.HttpContext.RequestAborted.Register(async () =>
             {
                 _logger.LogWarning($"[PostResponse]请求被取消{context.HttpContext.Request.Path}");

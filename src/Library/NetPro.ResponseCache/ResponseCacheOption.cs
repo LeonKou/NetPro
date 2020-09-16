@@ -25,7 +25,7 @@ namespace NetPro.ResponseCache
     /// <summary>
     /// 忽略缓存
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method,Inherited = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false)]
     public class IgnorePostResponseCacheAttribute : Attribute
     {
 

@@ -14,6 +14,7 @@ using NetPro.Utility;
 using NetPro.Web.Core.Models;
 using NetPro.Web.Core.Helpers;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -56,10 +57,11 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNetProExceptionHandler(this IApplicationBuilder application)
         {
-            var nopConfig = EngineContext.Current.Resolve<NetProOption>();
-            var hostingEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
-            //var useDetailedExceptionPage = nopConfig.DisplayFullErrorStack;
-            if (hostingEnvironment.IsDevelopment())
+            var nopConfig = application.ApplicationServices.GetService<NetProOption>();
+            var hostingEnvironment = application.ApplicationServices.GetService<IWebHostEnvironment>();
+            var requestIp = application.ApplicationServices.GetService<IWebHelper>();
+
+            if (!hostingEnvironment.IsDevelopment())
             {
                 //全局默认异常捕获(响应被处理，此处将不再处理)
                 application.UseExceptionHandler(handler =>
@@ -78,12 +80,11 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                                 if (!exceptionHandlerPathFeature.Error.Message.Contains("Unexpected end of request content"))
                                 {
                                     var url = string.Format("{0}{1}", context.Request.Host.Value, context.Request.Path.Value);
-                                    var requestIp = EngineContext.Current.Resolve<IWebHelper>().GetCurrentIpAddress();
                                     Serilog.Log.Error(exceptionHandlerPathFeature?.Error, $"系统异常, requestIp: {requestIp} url:  {url}");
                                 }
                             }
 
-                            await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"系统异常,请稍后再试" }, new JsonSerializerOptions
+                            await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"系统异常,请稍后再试", Result = "" }, new JsonSerializerOptions
                             {
                                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
