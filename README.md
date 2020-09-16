@@ -38,7 +38,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Core.svg)](https://nuget.org/packages/NetPro.Web.Core) [NetPro.Web.Core](https://github.com/LeonKou/NetPro.Web.Core)（辅助NetPro.Web.Api) 
-- [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Core) [NetPro.Web.Api](https://github.com/LeonKou/NetPro.Web.Api) （包含所有常用组件）
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api) [NetPro.Web.Api](https://github.com/LeonKou/NetPro.Web.Api) （包含所有常用组件）
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.TypeFinder.svg)](https://nuget.org/packages/NetPro.TypeFinder) [NetPro.TypeFinder](https://github.com/LeonKou/NetPro.TypeFinder) （dll检索，反射）
 
