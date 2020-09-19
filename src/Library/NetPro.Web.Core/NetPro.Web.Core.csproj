@@ -55,6 +55,7 @@
 		<PackageReference Include="SkyAPM.Agent.AspNetCore" Version="$(SkyAPMAgentAspNetCore)" />
 		<PackageReference Include="OpenTracing.Contrib.NetCore.Unofficial" Version="$(OpenTracingContribNetCoreUnofficial)" />
 		<PackageReference Include="WebApiClientCore" Version="1.0.9" />
+		<PackageReference Include="Figgle" Version="0.4.0" />
 	</ItemGroup>
 
 

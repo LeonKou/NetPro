@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
@@ -18,6 +19,7 @@ namespace NetPro.RedisManager
         private readonly RedisCacheOption _option;
         private readonly IDatabase _database;
         private IMemoryCache _memorycache;
+        private ILogger _logger;
 
         /// <summary>
         /// 自定义Key的前缀
@@ -25,13 +27,15 @@ namespace NetPro.RedisManager
         private string CustomPrefixKey { get; set; }
         public StackExchangeRedisManager(ConnectionMultiplexer connection,
             RedisCacheOption option,
-             IMemoryCache memorycache)
+             IMemoryCache memorycache,
+             ILogger logger)
         {
             _connection = connection;
             _option = option;
             CustomPrefixKey = option.DefaultCustomKey;
             _database = _connection.GetDatabase();
             _memorycache = memorycache;
+            _logger = logger;
         }
         public T Get<T>(string key)
         {
@@ -93,8 +97,8 @@ namespace NetPro.RedisManager
                 if (executeResult == null) return default(T);
                 var entryBytes = Common.Serialize(executeResult);
                 if (expiredTime == -1)
-                    Do(db => db.StringSet(key, entryBytes));
-                else Do(db => db.StringSet(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
+                    Do(db => db.StringSetAsync(key, entryBytes));
+                else Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
 
                 return executeResult;
             }
@@ -138,8 +142,8 @@ namespace NetPro.RedisManager
                 if (executeResult == null) return default(T);
                 var entryBytes = Common.Serialize(executeResult);
                 if (expiredTime == -1)
-                    await Do(db => db.StringSetAsync(key, entryBytes));
-                else await Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
+                    Do(db => db.StringSetAsync(key, entryBytes));
+                else Do(db => db.StringSetAsync(key, entryBytes, TimeSpan.FromSeconds(expiredTime)));
 
                 return executeResult;
             }
@@ -231,9 +235,7 @@ namespace NetPro.RedisManager
                         return result;
                     }
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
-                    Console.ResetColor();
+                    _logger.LogWarning($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
                     return default(T);
                 }
             else
@@ -245,9 +247,7 @@ namespace NetPro.RedisManager
                         return result;
                     }
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
-                    Console.ResetColor();
+                    _logger.LogWarning($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
                     return default(T);
                 }
         }

@@ -8,6 +8,8 @@ using Serilog;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using NetPro.ShareRequestBody;
+using System.Text;
 
 namespace NetPro.Web.Core.Filters
 {
@@ -20,13 +22,15 @@ namespace NetPro.Web.Core.Filters
         readonly NetProOption _config;
         readonly IWebHelper _webHelper;
         readonly IConfiguration _configuration;
+        readonly RequestCacheData _requestCacheData;
 
-        public BenchmarkActionFilter(ILogger logger, NetProOption config, IWebHelper webHelper,  IConfiguration configuration)
+        public BenchmarkActionFilter(ILogger logger, NetProOption config, IWebHelper webHelper, IConfiguration configuration, RequestCacheData requestCacheData)
         {
             _logger = logger;
             _config = config;
             _webHelper = webHelper;
             _configuration = configuration;
+            _requestCacheData = requestCacheData;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -49,11 +53,12 @@ namespace NetPro.Web.Core.Filters
                 var url = UriHelper.GetDisplayUrl(request);
                 var macName = Environment.MachineName;
                 var requestIp = _webHelper.GetCurrentIpAddress();
-                var bodyText = ActionFilterHelper.GetRequestBodyText(request, _configuration.GetValue<string>("AliyunLogRule:Regex"));
+
                 if (executeTime >= requestWarning)
                 {
+                    var bytes = Encoding.UTF8.GetBytes(_requestCacheData.Body);
                     _logger.Warning("请求时间超过阈值.执行时间:{0}秒.请求url:{1},请求Body:{2},请求IP:{3},服务器名称:{4}",
-                        stopWatch.ElapsedMilliseconds / 1000, url, bodyText, requestIp, macName);
+                        stopWatch.ElapsedMilliseconds / 1000, url, Convert.ToBase64String(bytes), requestIp, macName);//formate格式日志对{索引}有颜色支持
                 }
                 if (!context.HttpContext.Response.Headers.ContainsKey("x-time-elapsed"))
                 {

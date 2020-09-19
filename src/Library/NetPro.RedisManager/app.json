@@ -2,10 +2,10 @@
 	"RedisCacheOption": {
 		"Enabled": true,
 		"RedisComponent": 1,
-		"Password": "netpro",
+		"Password": "netpro", //redis服务密码模式下才可设置，否则不能设置此项，否则报未将对象引用
 		"IsSsl": false,
 		"Preheat": 20,
-		"Cluster": true, //集群模式
+		"Cluster": true, //集群模式只有非集群模式才可设置Database值
 		"ConnectionTimeout": 20,
 		"Endpoints": [
 			{
@@ -17,7 +17,7 @@
 				"Host": "192.16.8.91"
 			}
 		],
-		"Database": 0,
+		"Database": 0, //集群模式下此项只能0，其他值报异常
 		"DefaultCustomKey": "",
 		"PoolSize": 50
 	}

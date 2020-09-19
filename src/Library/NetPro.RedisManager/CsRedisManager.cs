@@ -8,6 +8,7 @@ using CSRedis;
 using Microsoft.Extensions.Configuration;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace NetPro.RedisManager
 {
@@ -16,13 +17,15 @@ namespace NetPro.RedisManager
         private readonly RedisCacheOption _option;
         private readonly ConnectionMultiplexer _connection;
         private IMemoryCache _memorycache;
+        private ILogger _logger;
         public CsRedisManager(RedisCacheOption option,
             ConnectionMultiplexer connection,
-               IMemoryCache memorycache)
+               IMemoryCache memorycache, ILogger<CsRedisManager> logger)
         {
             _connection = connection;
             _option = option;
             _memorycache = memorycache;
+            _logger = logger;
         }
         public T Get<T>(string key)
         {
@@ -78,7 +81,7 @@ namespace NetPro.RedisManager
                 var executeResult = func.Invoke();
                 if (executeResult == null) return default(T);
 
-                RedisHelper.Set(key, executeResult, expiredTime);
+                RedisHelper.SetAsync(key, executeResult, expiredTime);
 
                 return executeResult;
             }
@@ -118,7 +121,7 @@ namespace NetPro.RedisManager
                 var executeResult = await func.Invoke();
                 if (executeResult == null) return default(T);
 
-                await RedisHelper.SetAsync(key, executeResult, expiredTime);
+                RedisHelper.SetAsync(key, executeResult, expiredTime);
 
                 return executeResult;
             }
@@ -156,7 +159,7 @@ namespace NetPro.RedisManager
                 {
                     if (lockObject == null)
                     {
-                        Console.WriteLine($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
+                        _logger.LogWarning($"当前线程：{Thread.CurrentThread.ManagedThreadId}--未拿到锁!!");
                         return default;
                     }
                     var result = func();

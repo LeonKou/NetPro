@@ -4,18 +4,17 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using AutoMapper;
+using ConsoleTables;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
 using NetPro.Utility;
-using Console = Colorful.Console;
 
 namespace NetPro.Core.Infrastructure
 {
@@ -171,12 +170,15 @@ namespace NetPro.Core.Infrastructure
                 .OrderBy(startup => startup.NetProStartupImplement.Order);
 
             //configure services
-            Console.WriteLine($"服务注入顺序：", System.Drawing.Color.FromArgb(244, 212, 255));
+            Console.WriteLine($"服务注入顺序：", System.Drawing.Color.FromArgb(1, 212, 1));
+            var table = new ConsoleTable("Order", "StartUpName","Path");
             foreach (var instance in instances)
             {
-                Console.WriteLine($@"{instance.NetProStartupImplement.Order}---> {instance.Name}", System.Drawing.Color.FromArgb(220, 212, 100));
+                //Console.WriteLine($@"{instance.NetProStartupImplement.Order}---> {instance.Name}", System.Drawing.Color.FromArgb(220, 212, 100));
                 instance.NetProStartupImplement.ConfigureServices(services, configuration, _typeFinder);
+                table.AddRow(instance.NetProStartupImplement.Order, instance.Name, instance.NetProStartupImplement);
             }
+            Console.WriteLine(table.ToStringAlternative());
 
             //register mapper configurations
             AddAutoMapper(services, _typeFinder);

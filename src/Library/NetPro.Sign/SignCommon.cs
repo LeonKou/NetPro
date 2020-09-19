@@ -19,6 +19,9 @@ using System.Text.Encodings.Web;
 
 namespace NetPro.Sign
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class SignCommon
     {
         /// <summary>
@@ -33,7 +36,7 @@ namespace NetPro.Sign
         /// HMACSHA256摘要后转16进制小写
         /// </remarks>
         /// <returns></returns>
-        public static string CreateSign(string secret, NameValueCollection query, object body = null, string signMethod = "")
+        public static string CreateSign(string secret, NameValueCollection query, object body = null, EncryptEnum signMethod = EncryptEnum.Default)
         {
             IDictionary<string, string> queryDic = new Dictionary<string, string>();
             foreach (var k in query.AllKeys)
@@ -57,40 +60,34 @@ namespace NetPro.Sign
             var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 
             StringBuilder requestStr = new StringBuilder();
-            StringBuilder logString = new StringBuilder();
-
             for (int i = 0; i < dicOrder.Count(); i++)
             {
-                requestStr.Append($"{dicOrder[i].Key}{dicOrder[i].Value}");
-
                 if (i == dicOrder.Count() - 1)
-                {
-                    logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
-                }
-
+                    requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}");
                 else
-                {
-                    logString.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
-                }
+                    requestStr.Append($"{dicOrder[i].Key}={dicOrder[i].Value}&");
             }
 
             var utf8Request = GetUtf8(requestStr.ToString());
 
             string result;
-            switch (signMethod)
+            if (signMethod.HasFlag(EncryptEnum.Default) || signMethod.HasFlag(EncryptEnum.SignHMACSHA256))
             {
-                case "hmac-sha256":
-                    result = GetHMACSHA256Sign(utf8Request, secret);
-                    break;
-                case "md5":
-                    result = CreateMD5(utf8Request, secret);
-                    break;
-                default:
-                    result = GetHMACSHA256Sign(utf8Request, secret);
-                    break;
+                result = GetHMACSHA256Sign(utf8Request, secret);
             }
-
-            Console.WriteLine($"拼装排序后的值==>{logString};摘要计算后的值==>{result}");
+            else if (signMethod.HasFlag(EncryptEnum.SignSHA256))
+            {
+                result = GetSHA256Sign(utf8Request, secret);
+            }
+            else if (signMethod.HasFlag(EncryptEnum.SignMD5))
+            {
+                result = CreateMD5(utf8Request, secret);
+            }
+            else
+            {
+                result = GetHMACSHA256Sign(utf8Request, secret);
+            }
+            Console.WriteLine($"拼装排序后的值==>{utf8Request};摘要计算后的值==>{result}");
             return result;
         }
 
@@ -219,7 +216,7 @@ namespace NetPro.Sign
         /// 以json返回签名错误
         /// </summary>
         /// <param name="context"></param>
-        internal static void BuildErrorJson(ActionExecutingContext context,string msg="签名失败")
+        internal static void BuildErrorJson(ActionExecutingContext context, string msg = "签名失败")
         {
             context.HttpContext.Response.StatusCode = 400;
             context.HttpContext.Response.ContentType = "application/json";

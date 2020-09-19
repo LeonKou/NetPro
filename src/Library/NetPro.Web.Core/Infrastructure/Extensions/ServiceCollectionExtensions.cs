@@ -5,7 +5,6 @@ using NetPro.Web.Core.Filters;
 using NetPro.Web.Core.Providers;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
@@ -14,20 +13,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Threading;
 using System.Net;
-using NetPro.Core;
 using Microsoft.Extensions.Hosting;
 using NetPro.Checker;
 using System.Diagnostics;
-using System.Text.Json;
-using Console = Colorful.Console;
-using System.Drawing;
 using Serilog;
 using System.Text;
 using NetPro.Web.Core.Models;
 using NetPro.TypeFinder;
-using NetPro.ShareRequestBody;
 using NetPro.ResponseCache;
-using NetPro.Sign;
 using FluentValidation;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -56,7 +49,10 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
 
             if (hostEnvironment.EnvironmentName == Environments.Development)
             {
-                Console.WriteAscii("Hello NetPro", Color.FromArgb(244, 212, 255));
+                Console.Title = hostEnvironment.ApplicationName;
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(Figgle.FiggleFonts.Varsity.Render($"        NetPro       "));
+                Console.ResetColor();
                 //使用dotnet watch run  启动后可以调试此进程id
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss} {hostEnvironment.EnvironmentName}] dotnet process id:{Process.GetCurrentProcess().Id}");
             }
