@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FreeSql.Provider.MySql" Version="1.7.1" />
