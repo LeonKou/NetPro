@@ -213,14 +213,29 @@ namespace NetPro.RedisManager
             return RedisHelper.Exists(key);
         }
 
+        public async Task<bool> ExistsAsync(string key)
+        {
+            return await RedisHelper.ExistsAsync(key);
+        }
+
         public bool Remove(string key)
         {
             return RedisHelper.Del(key) > 0 ? true : false;
         }
 
+        public async Task<bool> RemoveAsync(string key)
+        {
+            return await RedisHelper.DelAsync(key) > 0 ? true : false;
+        }
+
         public bool Remove(string[] keys)
         {
             return RedisHelper.Del(keys) > 0 ? true : false;
+        }
+
+        public async Task<bool> RemoveAsync(string[] keys)
+        {
+            return await RedisHelper.DelAsync(keys) > 0 ? true : false;
         }
 
         public bool Set(string key, object data, int cacheTime = -1)
@@ -255,9 +270,8 @@ namespace NetPro.RedisManager
         /// <summary>
         /// 发布
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <param name="func"></param>
+        /// <param name="message"></param>
         public long Publish(string key, string message)
         {
             return RedisHelper.PublishNoneMessageId(key, message);

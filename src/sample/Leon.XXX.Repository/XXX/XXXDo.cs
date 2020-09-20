@@ -15,41 +15,42 @@ using FreeSql.DataAnnotations;
 namespace Leon.XXX.Repository
 {
 
-	/// <summary>
-	/// microservice示例表
-	/// </summary>
-	[JsonObject(MemberSerialization.OptIn), Table(Name = "xxx_demo")]
-	public partial class XXXDo
-	{
+    /// <summary>
+    /// microservice示例表
+    /// </summary>
+    [JsonObject(MemberSerialization.OptIn), Table(Name = "xxx_demo")]
+    public partial class XXXDo
+    {
 
-		/// <summary>
-		/// 主键
-		/// </summary>
-		[JsonProperty, Column(Name = "id", DbType = "int unsigned", IsPrimary = true)]
-		public uint Id { get; set; }
+        /// <summary>
+        /// 主键
+        /// </summary>
+        [JsonProperty, Column(Name = "id", DbType = "int unsigned", IsPrimary = true)]
+        public uint Id { get; set; }
 
-		/// <summary>
-		/// 创建时间
-		/// </summary>
-		[JsonProperty, Column(Name = "create_time", DbType = "bigint unsigned")]
-		public ulong CreateTime { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        /// <remarks>CanUpdate=false 不更新</remarks>
+        [JsonProperty, Column(Name = "create_time", DbType = "bigint unsigned", CanUpdate = false)]
+        public ulong CreateTime { get; set; }
 
-		/// <summary>
-		/// 用户id
-		/// </summary>
-		[JsonProperty, Column(Name = "user_id", DbType = "int unsigned")]
-		public uint UserId { get; set; }
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        [JsonProperty, Column(Name = "user_id", DbType = "int unsigned")]
+        public uint UserId { get; set; }
 
-		/// <summary>
-		/// 用户名称
-		/// </summary>
-		[JsonProperty, Column(Name = "user_name", DbType = "varchar(50)")]
-		public string UserName { get; set; }
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        [JsonProperty, Column(Name = "user_name", DbType = "varchar(50)")]
+        public string UserName { get; set; }
 
 
-		#region 外键 => 导航属性，ManyToMany
+        #region 外键 => 导航属性，ManyToMany
 
-		#endregion
-	}
+        #endregion
+    }
 
 }

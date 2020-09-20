@@ -145,5 +145,15 @@ namespace NetPro.RedisManager
         {
             return default;
         }
+
+        public Task<bool> RemoveAsync(string key)
+        {
+            return default;
+        }
+
+        public Task<bool> RemoveAsync(string[] keys)
+        {
+            return default;
+        }
     }
 }

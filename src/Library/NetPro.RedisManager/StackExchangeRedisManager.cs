@@ -184,6 +184,13 @@ namespace NetPro.RedisManager
             return Do(db => db.KeyExists(key));
         }
 
+        public async Task<bool> ExistsAsync(string key)
+        {
+            key = AddDefaultPrefixKey(key);
+            Common.CheckKey(key);
+            return await Do(async db => await db.KeyExistsAsync(key));
+        }
+
         public bool Remove(string key)
         {
             key = AddDefaultPrefixKey(key);
@@ -191,10 +198,23 @@ namespace NetPro.RedisManager
             return Do(db => db.KeyDelete(key));
         }
 
+        public async Task<bool> RemoveAsync(string key)
+        {
+            key = AddDefaultPrefixKey(key);
+            Common.CheckKey(key);
+            return await Do(async db => await db.KeyDeleteAsync(key));
+        }
+
         public bool Remove(string[] keys)
         {
             var redisKeys = keys.Select(a => (RedisKey)AddDefaultPrefixKey(Common.CheckKey(a))).ToArray();
             return Do(db => db.KeyDelete(redisKeys) > 0);
+        }
+
+        public async Task<bool> RemoveAsync(string[] keys)
+        {
+            var redisKeys = keys.Select(a => (RedisKey)AddDefaultPrefixKey(Common.CheckKey(a))).ToArray();
+            return await Do(async db => await db.KeyDeleteAsync(redisKeys) > 0);
         }
 
         public bool ZAdd<T>(string key, T obj, decimal score)

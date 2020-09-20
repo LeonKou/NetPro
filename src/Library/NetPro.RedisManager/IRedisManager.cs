@@ -82,11 +82,25 @@ namespace NetPro.RedisManager
         bool Remove(string key);
 
         /// <summary>
+        /// 移除key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<bool> RemoveAsync(string key);
+
+        /// <summary>
         /// 批量移除key
         /// </summary>
         /// <param name="keys"></param>
         /// <returns></returns>
         bool Remove(string[] keys);
+
+        /// <summary>
+        /// 批量移除key
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        Task<bool> RemoveAsync(string[] keys);
 
         /// <summary>
         /// 向有序集合添加一个或多个成员，或者更新已存在成员的分数
@@ -117,12 +131,44 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait = true);
 
+        /// <summary>
+        /// 设置或更新Hash
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="expirationMinute">单位分钟</param>
+        /// <returns></returns>
         bool HSet<T>(string key, string field, T value, int expirationMinute = 1);
 
+        /// <summary>
+        /// 获取Hash
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
         T HGet<T>(string key, string field);
 
+        /// <summary>
+        /// 设置或更新Hash
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="expirationMinute">单位分钟</param>
+        /// <returns></returns>
         Task<bool> HSetAsync<T>(string key, string field, T value, int expirationMinute = 1);
 
+        /// <summary>
+        /// 获取Hash
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
         Task<T> HGetAsync<T>(string key, string field);
 
         /// <summary>
@@ -147,6 +193,12 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         long Publish(string channel, string input);
 
+        /// <summary>
+        ///  发布消息
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
         Task<long> PublishAsync(string channel, string input);
 
         /// <summary>
@@ -156,6 +208,7 @@ namespace NetPro.RedisManager
         /// <returns>收到的消息</returns>
         string Subscriber(string channel);
 
+        /// <summary>
         /// 订阅消息
         /// </summary>
         /// <param name="channel">管道</param>

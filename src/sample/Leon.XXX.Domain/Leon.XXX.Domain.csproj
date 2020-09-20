@@ -7,7 +7,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\Leon.XXX.Domain.xml</DocumentationFile>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Repository\Leon.XXX.Repository.csproj" />

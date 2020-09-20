@@ -13,13 +13,14 @@ namespace Leon.XXX.Domain
     public class XXXInput
     {
         /// <summary>
-        /// 这是名称
+        /// 年龄
         /// </summary>
-        //[SwaggerDefaultValue(3)]
-        [Range(6,20)]
-        //[RegularExpression("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{4,20}$")]
+        [Range(6, 20)]
         public int Age { get; set; }
 
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name { get; set; }
     }
 
@@ -29,7 +30,7 @@ namespace Leon.XXX.Domain
     public class FileTestInput
     {
         /// <summary>
-        /// 这是名称注释
+        /// 名称
         /// </summary>
         [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 6)]
         public string Name { get; set; }
@@ -47,11 +48,10 @@ namespace Leon.XXX.Domain
             /// <summary>
             /// 验证
             /// </summary>
-            public XXXValidator(IXXXService xXXService)
+            public XXXValidator(IDataBaseOptionService xXXService)
             {
-                RuleFor(x => x.Name).Must(s => xXXService.GetFalse(s))
-                .WithMessage("这是false");
-                RuleFor(t => t.Name).NotEmpty().WithMessage("名称不能为空").Length(1, 20).WithMessage("名称长度在1-20个字符之间");
+                RuleFor(t => t.Name).NotEmpty().WithMessage("名称不能为空")
+                    .Length(1, 20).WithMessage("名称长度在1-20个字符之间");
             }
         }
     }

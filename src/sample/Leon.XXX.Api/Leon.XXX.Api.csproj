@@ -24,12 +24,10 @@
 
 	<ItemGroup>
 	  <PackageReference Include="MaxMind.Db" Version="2.6.1" />
-	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-		<ProjectReference Include="..\Leon.XXX.Aggregate\Leon.XXX.Aggregate.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Domain\Leon.XXX.Domain.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
 	</ItemGroup>

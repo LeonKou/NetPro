@@ -1,18 +1,17 @@
 <p align="center">
-  <img  src="docs/images/netpro.png">
+  <img  src="docs/images/netpro2.png">
 </p>
 
 # NetPro
 ![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
 
-# 👉[点击进入主页](https://leonkou.github.io/NetPro/) 
 
 ### 🕰️ 项目请参照 
 
 * 👉[*master* branch](https://github.com/LeonKou/NetPro)
 
 ## 简要
-NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进程,windwos服务提供基础模板
+NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进程,windwos服务提供基础模板,支持.NetCore3.1，支持.Net5 Preview
 
 #### 主要组件：
 
@@ -29,6 +28,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 `Swagger`,`WebApiClient.Core`,
 
 `TimeZoneConverter`,`healthcheck`
+
 `exceptionless`
 
 ### 使用
@@ -69,7 +69,7 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.NetProShareRequestBody.svg)](https://nuget.org/packages/NetPro.NetProShareRequestBody ) [NetPro.NetProShareRequestBody ](https://github.com/LeonKou/NetPro.NetProShareRequestBody ) （共享Body流，辅助其他中间件与过滤器）
 
-具体参考sample/Leon.XXXV2.Api项目
+具体参考sample/Leon.XXX.Api（分层)项目
 
 * webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)  引用最新nuget即可
 
@@ -418,46 +418,55 @@ dotnet publish -r linux-x64 -c release
 开发环境运行后效果如下：
 
 ```json
-  _   _      _ _           _   _      _
- | | | | ___| | | ___     | \ | | ___| |_ ___ ___  _ __ ___
- | |_| |/ _ \ | |/ _ \    |  \| |/ _ \ __/ __/ _ \| '__/ _ \
- |  _  |  __/ | | (_) |  _| |\  |  __/ || (_| (_) | | |  __/
- |_| |_|\___|_|_|\___/  (_)_| \_|\___|\__\___\___/|_|  \___|
 
-[13:00:00 Development] dotnet process id:15120
-[13:00:02 DBG] Hosting starting
-[13:00:02 DBG] Failed to locate the development https certificate at 'null'.
-[13:00:02 INF] Now listening on: http://localhost:5001
-[13:00:02 DBG] Loaded hosting startup assembly Leon.XXX.Api
-[13:00:02 INF] Application started. Press Ctrl+C to shut down.
-[13:00:02 INF] Hosting environment: Development
-[13:00:02 INF] Content root path: F:\自己代码库\NetPro\src\sample\Leon.XXX.Api
-[13:00:02 DBG] Hosting started
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" accepted.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" accepted.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" started.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" started.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" received FIN.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" received FIN.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" sending FIN because: "The client closed the connection."
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" sending FIN because: "The client closed the connection."
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" disconnecting.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" disconnecting.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6H" stopped.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6G" stopped.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" accepted.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" started.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6J" accepted.
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6J" started.
-[13:00:03 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.html
-[13:00:03 DBG] Wildcard detected, all requests with hosts will be allowed.
-[13:00:03 DBG] The request path /swagger/index.html does not match an existing file
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" completed keep alive response.
-[13:00:03 INF] Request finished in 113.6636ms 200 text/html;charset=utf-8
-[13:00:03 INF] Request starting HTTP/1.1 GET http://localhost:5001/docs/v1/docs.json
-[13:00:03 DBG] The request path /docs/v1/docs.json does not match an existing file
-[13:00:03 DBG] Connection id "0HM0SM9PEGG6I" completed keep alive response.
-[13:00:03 INF] Request finished in 113.9995ms 200 application/json;charset=utf-8
+          ____  _____        _   _______
+        |_   \|_   _|      / |_|_   __ \
+          |   \ | |  .---.`| |-' | |__) |_ .--.   .--.
+          | |\ \| | / /__\\| |   |  ___/[ `/'`\]/ .'`\ \
+         _| |_\   |_| \__.,| |, _| |_    | |    | \__. |
+        |_____|\____|'.__.'\__/|_____|  [___]    '.__.'
+
+
+[20:20:34 Development] dotnet process id:349824
+服务注入顺序：
++-------+------------------------+-------------------------------------------------------+
+| Order | StartUpName            | Path                                                  |
++-------+------------------------+-------------------------------------------------------+
+| 0     | ErrorHandlerStartup    | NetPro.Web.Core.Infrastructure.ErrorHandlerStartup    |
++-------+------------------------+-------------------------------------------------------+
+| 100   | NetProCommonStartup    | NetPro.Web.Core.Infrastructure.NetProCommonStartup    |
++-------+------------------------+-------------------------------------------------------+
+| 100   | NetProRateLimitStartup | NetPro.Web.Core.Infrastructure.NetProRateLimitStartup |
++-------+------------------------+-------------------------------------------------------+
+| 105   | ShareBodyStartup101    | NetPro.Web.Core.Infrastructure.ShareBodyStartup101    |
++-------+------------------------+-------------------------------------------------------+
+| 110   | SignStartup            | NetPro.Web.Core.Infrastructure.SignStartup            |
++-------+------------------------+-------------------------------------------------------+
+| 115   | ResponseCacheStartup   | NetPro.Web.Core.Infrastructure.ResponseCacheStartup   |
++-------+------------------------+-------------------------------------------------------+
+| 120   | NetProApiStartup       | NetPro.Web.Api.NetProApiStartup                       |
++-------+------------------------+-------------------------------------------------------+
+| 500   | AuthenticationStartup  | NetPro.Web.Core.Infrastructure.AuthenticationStartup  |
++-------+------------------------+-------------------------------------------------------+
+| 900   | ApiStartup             | Leon.XXX.Api.ApiStartup                               |
++-------+------------------------+-------------------------------------------------------+
+| 900   | XXXApiProxyStartup     | Leon.XXX.Proxy.XXXApiProxyStartup                     |
++-------+------------------------+-------------------------------------------------------+
+| 1000  | NetProCoreStartup      | NetPro.Web.Core.Infrastructure.NetProCoreStartup      |
++-------+------------------------+-------------------------------------------------------+
+| 2000  | ApiProxyStartup        | NetPro.Web.Api.ApiProxyStartup                        |
++-------+------------------------+-------------------------------------------------------+
+
+核心数为：8--默认线程最小为：40--Available:32767
+[20:20:51 DBG] Hosting starting
+[20:20:51 DBG] Failed to locate the development https certificate at 'null'.
+[20:20:51 INF] Now listening on: http://localhost:5001
+[20:20:51 DBG] Loaded hosting startup assembly Leon.XXX.Api
+[20:20:51 INF] Application started. Press Ctrl+C to shut down.
+[20:20:51 INF] Hosting environment: Development
+[20:20:51 INF] Content root path: G:\vsFile\netproFile\NetPro\src\sample\Leon.XXX.Api
+[20:20:51 DBG] Hosting started
+
 ```
 
 Swagger地址：[/swagger/index.html](ip:port/docs/index.html)

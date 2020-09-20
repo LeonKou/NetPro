@@ -17,21 +17,22 @@ namespace Leon.XXX.Api
         {
             var option = configuration.GetSection(nameof(VerifySignOption)).Get<VerifySignOption>();
 
-            //启用请求签名组件
+            //覆盖请求签名组件
             services.AddVerifySign(s =>
              {
-                 //自定义摘要逻辑
+                 //自定义签名摘要逻辑
                  s.OperationFilter<VerifySignCustomer>();
              });
+
             var connectionString = configuration.GetValue<string>("ConnectionStrings:MysqlConnection");
             Fsql = new FreeSql.FreeSqlBuilder()
-         .UseConnectionString(FreeSql.DataType.MySql, connectionString)
-         .UseAutoSyncStructure(false) //自动同步实体结构到数据库
-         .Build(); //请务必定义成 Singleton 单例模式
+            .UseConnectionString(FreeSql.DataType.MySql, connectionString)
+            .UseAutoSyncStructure(false) //自动同步实体结构到数据库
+            .Build(); //请务必定义成 Singleton 单例模式
             services.AddSingleton<IFreeSql>(Fsql);
 
             services.AddFreeRepository(null,
-           this.GetType().Assembly);
+           this.GetType().Assembly);//批量注入Repository
         }
 
         public void Configure(IApplicationBuilder application)
