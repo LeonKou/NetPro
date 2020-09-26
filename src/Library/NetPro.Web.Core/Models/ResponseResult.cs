@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace NetPro.Web.Core.Models
+﻿namespace NetPro.Web.Core.Models
 {
     /// <summary>
     /// 非Controller返回数据结构!!!

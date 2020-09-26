@@ -1,10 +1,10 @@
-﻿using System;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Claims;
 using System.Security.Principal;
-using IdentityModel;
-using Microsoft.AspNetCore.Http;
 
 namespace NetPro.Web.Core
 {
@@ -21,11 +21,11 @@ namespace NetPro.Web.Core
             }
             if (identity is ClaimsIdentity claimsIdentity)// 等价于 ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
             {
-                Claim claim = claimsIdentity.FindFirst(r=>r.Type== ClaimTypes.NameIdentifier);
+                Claim claim = claimsIdentity.FindFirst(r => r.Type == ClaimTypes.NameIdentifier);
                 string claimValue;
                 if (claim == null)
                 {
-                    claimValue= identity.GetClaimValue(JwtClaimTypes.Subject);
+                    claimValue = identity.GetClaimValue(JwtClaimTypes.Subject);
                 }
                 else
                 {

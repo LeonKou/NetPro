@@ -2,19 +2,18 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using NetPro.Core.Infrastructure;
-using NetPro.Core.Configuration;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using System.IO;
-using System.Text;
-using System.Net;
-using NetPro.Utility;
-using NetPro.Web.Core.Models;
-using NetPro.Web.Core.Helpers;
-using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NetPro.Core.Configuration;
+using NetPro.Core.Infrastructure;
+using NetPro.Utility;
+using NetPro.Web.Core.Helpers;
+using NetPro.Web.Core.Models;
+using Serilog;
+using System.Net;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -77,7 +76,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                    context.Features.Get<IExceptionHandlerPathFeature>();
                             if (exceptionHandlerPathFeature?.Error != null)
                             {
-                                if (!exceptionHandlerPathFeature.Error.Message.Contains("Unexpected end of request content"))
+                                if (!exceptionHandlerPathFeature.Error.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
                                 {
                                     var url = string.Format("{0}{1}", context.Request.Host.Value, context.Request.Path.Value);
                                     Serilog.Log.Error(exceptionHandlerPathFeature?.Error, $"系统异常, requestIp: {requestIp} url:  {url}");

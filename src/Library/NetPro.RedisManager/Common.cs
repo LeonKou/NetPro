@@ -2,7 +2,6 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace NetPro.RedisManager
@@ -68,21 +67,15 @@ namespace NetPro.RedisManager
             return jsonString;
         }
 
-        public static string CheckKey(string key)
+        public static void CheckAndProcess(ref string key, ref int expiredTime)
         {
-            //TODO check
-            //key="new key";
-            //string parentKey = string.Empty;
-            //var arr = key.Split(':');
-            //if (arr.Length > 2)
-            //{
-            //	parentKey = string.Join(":", arr.Take(2));
-            //}
-            //if (string.IsNullOrWhiteSpace(parentKey))
-            //{
-            //	throw new Exception("redis key不符合规则.key值必须满足规则:模块名:类名:业务方法名:参数(可选) 如:SystemApi:ProgramService:ProgramTable");
-            //}
+            //TODO 检查key规则 
+        }
+
+        public static string CheckAndProcess(ref string key)
+        {
             return key;
+            //TODO 检查key规则 
         }
 
         /// <summary>

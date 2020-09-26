@@ -1,9 +1,8 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Runtime;
+using System.Text;
 
 namespace NetPro.Dapper.Parameters
 {
@@ -411,14 +410,14 @@ namespace NetPro.Dapper.Parameters
                             break;
                         }
                         sb.AppendFormat(" {0} {1} LIKE {2} ", item.LogicType.ToString(), item.Name, "@p_" + index.ToString());
-                       
+
                         item.Value = item.Value.ToString().Replace("%", "");
                         if (item.Value.ToString().Length == 0)
                         {
                             dp.Add("@p_" + index.ToString(), $"{item.Value}");
                             break;
-                        }                       
-                       
+                        }
+
                         dp.Add("@p_" + index.ToString(), "%" + item.Value + "%");
                         break;
                     case OperateType.LeftLike:
@@ -428,7 +427,7 @@ namespace NetPro.Dapper.Parameters
                         }
                         sb.AppendFormat(" {0} {1} LIKE {2} ", item.LogicType.ToString(), item.Name, "@p_" + index.ToString());
                         item.Value = item.Value.ToString().Replace("%", "");
-                                                 
+
                         dp.Add("@p_" + index.ToString(), item.Value + "%");
                         break;
                     case OperateType.RightLike:
@@ -438,7 +437,7 @@ namespace NetPro.Dapper.Parameters
                         }
                         sb.AppendFormat(" {0} {1} LIKE {2} ", item.LogicType.ToString(), item.Name, "@p_" + index.ToString());
                         item.Value = item.Value.ToString().Replace("%", "");
-                       
+
                         dp.Add("@p_" + index.ToString(), "%" + item.Value);
                         break;
                     case OperateType.NotLike:

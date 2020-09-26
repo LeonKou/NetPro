@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using NetPro.Web.Core;
-using NetPro.Web.Core.Validators;
 using Microsoft.AspNetCore.Http;
+using NetPro.Web.Core.Validators;
 using System;
 using System.ComponentModel.DataAnnotations;
 

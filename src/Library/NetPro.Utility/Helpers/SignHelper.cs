@@ -47,7 +47,7 @@ namespace NetPro.Utility.Helpers
             {
                 var xarry = x.Key.Select(a => Convert.ToInt32(a)).ToArray();
                 var yarry = y.Key.Select(a => Convert.ToInt32(a)).ToArray();
-                if(xarry.Length > yarry.Length)
+                if (xarry.Length > yarry.Length)
                 {
                     var array = new int[xarry.Length];
                     yarry.CopyTo(array, 0);

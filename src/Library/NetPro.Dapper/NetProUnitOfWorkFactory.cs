@@ -1,9 +1,4 @@
-﻿using NetPro.Dapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Dapper
+﻿namespace NetPro.Dapper
 {
     public class NetProUnitOfWorkFactory<DapperDbContext> : IUnitOfWorkFactory<DapperDbContext> where DapperDbContext : DapperContext
     {

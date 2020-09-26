@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Utility.Helpers {
+namespace NetPro.Utility.Helpers
+{
     /// <summary>
     /// 常用公共操作
     /// </summary>
-    public static class CommonHelper {
+    public static class CommonHelper
+    {
 
         #region Fields
 
@@ -27,16 +28,18 @@ namespace NetPro.Utility.Helpers {
         /// 获取类型
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
-        public static Type GetType<T>() {
-            return GetType( typeof( T ) );
+        public static Type GetType<T>()
+        {
+            return GetType(typeof(T));
         }
 
         /// <summary>
         /// 获取类型
         /// </summary>
         /// <param name="type">类型</param>
-        public static Type GetType( Type type ) {
-            return Nullable.GetUnderlyingType( type ) ?? type;
+        public static Type GetType(Type type)
+        {
+            return Nullable.GetUnderlyingType(type) ?? type;
         }
 
         /// <summary>

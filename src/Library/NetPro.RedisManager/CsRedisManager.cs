@@ -1,14 +1,13 @@
-﻿using StackExchange.Redis;
+﻿using CSRedis;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using CSRedis;
-using Microsoft.Extensions.Configuration;
 using System.Threading;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace NetPro.RedisManager
 {
@@ -41,28 +40,34 @@ namespace NetPro.RedisManager
 
         /// <summary>
         ///获取或者创建缓存 
-        ///不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+        /// localExpiredTime参数大于0并且小于expiredTime数据将缓存到本地内存
+        /// 设置了本地缓存过期时间大于0并委托也为空，本地将保持5秒空值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="expiredTime"></param>
-        /// <param name="isLocalCache"></param>
+        /// <param name="localExpiredTime">本地过期时间</param>
         /// <returns></returns>
-        public T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1, bool isLocalCache = false)
+        public T GetOrSet<T>(string key, Func<T> func = null, int expiredTime = -1, int localExpiredTime = 0)
         {
-            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
+            if (localExpiredTime > 0 && localExpiredTime <= expiredTime)
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
                 {
-                    var resultTemp = _(key, func, expiredTime);
-                    if (resultTemp == null)
+                    if (func == null)
                     {
-                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
-                        return resultTemp;
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(1);
+                        return default(T);
                     }
-                    if (expiredTime > 3600)
-                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime / 3);
+
+                    var resultTemp = _(key, func, expiredTime);
+
+                    if (resultTemp == null)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+                    else
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(localExpiredTime);
+
                     return resultTemp;
                 });
                 return memoryResult;
@@ -72,7 +77,7 @@ namespace NetPro.RedisManager
 
         private T _<T>(string key, Func<T> func = null, int expiredTime = -1)
         {
-            Common.CheckKey(key);
+            Common.CheckAndProcess(ref key, ref expiredTime);
             var result = RedisHelper.Get<T>(key);
 
             if (result == null)
@@ -89,21 +94,25 @@ namespace NetPro.RedisManager
             return result;
         }
 
-        public async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, bool isLocalCache = false)
+        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, int localExpiredTime = 0)
         {
-            if (isLocalCache && (expiredTime == -1 || expiredTime > 3600))
+            if (localExpiredTime > 0 && localExpiredTime <= expiredTime)
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
                 {
-                    var resultTemp = await _Async(key, func, expiredTime);
-                    if (resultTemp == null)
+                    if (func == null)
                     {
-                        s.AbsoluteExpirationRelativeToNow = new TimeSpan(1);
-                        return resultTemp;
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(1);
+                        return default(T);
                     }
-                    if (expiredTime > 3600)
-                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expiredTime);
-                    return resultTemp;
+                    var executeResult = await _Async(key, func, expiredTime);
+
+                    if (executeResult == null)
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
+                    else
+                        s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(localExpiredTime);
+
+                    return executeResult;
                 });
                 return memoryResult;
             }
@@ -112,7 +121,7 @@ namespace NetPro.RedisManager
 
         private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
         {
-            Common.CheckKey(key);
+            Common.CheckAndProcess(ref key, ref expiredTime);
             var result = await RedisHelper.GetAsync<T>(key);
 
             if (result == null)
@@ -121,7 +130,7 @@ namespace NetPro.RedisManager
                 var executeResult = await func.Invoke();
                 if (executeResult == null) return default(T);
 
-                RedisHelper.SetAsync(key, executeResult, expiredTime);
+                await RedisHelper.SetAsync(key, executeResult, expiredTime);
 
                 return executeResult;
             }
@@ -142,9 +151,11 @@ namespace NetPro.RedisManager
                 throw new ArgumentException($"The timeout is not valid with a distributed lock object--key:{resource}--expiryTime--{timeoutSeconds}");
             }
 
+            resource = AddDefaultPrefixKey(resource);
+
             if (isAwait)
                 goto gotoNext;
-            using (var _lockObject = RedisHelper.Lock($"Lock:{resource?.Trim()}", 1))
+            using (var _lockObject = RedisHelper.Lock(resource, 1))
             {
                 if (_lockObject == null)
                 {
@@ -155,7 +166,7 @@ namespace NetPro.RedisManager
 
             gotoNext:
             {
-                using (var lockObject = RedisHelper.Lock($"Lock:{resource?.Trim()}", timeoutSeconds))
+                using (var lockObject = RedisHelper.Lock(resource, timeoutSeconds))
                 {
                     if (lockObject == null)
                     {
@@ -181,13 +192,13 @@ namespace NetPro.RedisManager
 
         public T HGet<T>(string key, string field)
         {
-            Common.CheckKey(key);
+            Common.CheckAndProcess(ref key);
             return RedisHelper.HGet<T>(key, field);
         }
 
         public async Task<T> HGetAsync<T>(string key, string field)
         {
-            Common.CheckKey(key);
+            Common.CheckAndProcess(ref key);
 
             return await RedisHelper.HGetAsync<T>(key, field);
         }
@@ -238,14 +249,16 @@ namespace NetPro.RedisManager
             return await RedisHelper.DelAsync(keys) > 0 ? true : false;
         }
 
-        public bool Set(string key, object data, int cacheTime = -1)
+        public bool Set(string key, object data, int expiredTime = -1)
         {
-            return RedisHelper.Set(key, data, cacheTime);
+            Common.CheckAndProcess(ref key, ref expiredTime);
+            return RedisHelper.Set(key, data, expiredTime);
         }
 
-        public async Task<bool> SetAsync(string key, object data, int cacheTime)
+        public async Task<bool> SetAsync(string key, object data, int expiredTime)
         {
-            return await RedisHelper.SetAsync(key, data, cacheTime);
+            Common.CheckAndProcess(ref key, ref expiredTime);
+            return await RedisHelper.SetAsync(key, data, expiredTime);
         }
 
         public bool ZAdd<T>(string key, T obj, decimal score)
@@ -256,6 +269,34 @@ namespace NetPro.RedisManager
         public List<T> ZRange<T>(string key)
         {
             return RedisHelper.ZRange<T>(key, 0, -1)?.ToList();
+        }
+
+        /// <summary>
+        /// value递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        public long StringIncrement(string key, long value = 1)
+        {
+            Common.CheckAndProcess(ref key);
+            key = AddDefaultPrefixKey(key);
+            return RedisHelper.IncrBy(key, value);
+        }
+
+        /// <summary>
+        /// value递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        public async Task<long> StringIncrementAsync(string key, long value = 1)
+        {
+            Common.CheckAndProcess(ref key);
+            key = AddDefaultPrefixKey(key);
+            return await RedisHelper.IncrByAsync(key, value);
         }
 
         /// <summary>
@@ -315,6 +356,12 @@ namespace NetPro.RedisManager
                 result = message;
             });
             return result;
+        }
+
+        private string AddDefaultPrefixKey(string key)
+        {
+            var build = new StringBuilder(_option?.DefaultCustomKey ?? string.Empty);
+            return build.Append(key).ToString();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 
 namespace NetPro.MongoDb.Models
 {

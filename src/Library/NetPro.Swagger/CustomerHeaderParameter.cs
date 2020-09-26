@@ -1,7 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 
 namespace NetPro.Swagger
 {

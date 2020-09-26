@@ -1,7 +1,5 @@
 ﻿using NetPro.Dapper.Parameters;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.Dapper.Expressions
 {

@@ -1,22 +1,29 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetPro.ShareRequestBody
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ShareRequestBodyMiddleware
     {
+        private readonly ILogger _logger;
         private readonly RequestDelegate _next;
 
-        public ShareRequestBodyMiddleware(RequestDelegate next)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="logger"></param>
+        public ShareRequestBodyMiddleware(RequestDelegate next
+            , ILogger<ShareRequestBodyMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         /// <summary>
@@ -31,8 +38,6 @@ namespace NetPro.ShareRequestBody
             context.Request.EnableBuffering();
             var token = context.RequestAborted.Register(async () =>
             {
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = context.Request.ContentType;
                 await Task.CompletedTask;
                 return;
             });
@@ -58,13 +63,17 @@ namespace NetPro.ShareRequestBody
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ShareRequestBodyMiddlewareExtensions
     {
         /// <summary>
         /// 使用共享请求体组件
         /// 建议尽量放于请求管道中的最上层
+        /// 实际压测数据显示，增加body共享的处理比每次解析body花费时间更久，再body解析不超过5次情况下，谨慎使用body共享组件
         /// </summary>
-        /// <param name="app"></param>
+        /// <param name="builder"></param>
         public static IApplicationBuilder UseShareRequestBody(
             this IApplicationBuilder builder)
         {

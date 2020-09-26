@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
-using Microsoft.IdentityModel.Tokens;
 using NetPro.Web.Core.Validators;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Leon.XXX.Domain
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using AutoMapper;
 using ConsoleTables;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +11,10 @@ using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
 using NetPro.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace NetPro.Core.Infrastructure
 {
@@ -49,8 +49,7 @@ namespace NetPro.Core.Infrastructure
             if (ServiceProvider == null)
                 return null;
             var accessor = ServiceProvider?.GetService<IHttpContextAccessor>();
-            var context = accessor?.HttpContext;
-            return context?.RequestServices ?? ServiceProvider;
+            return accessor?.HttpContext?.RequestServices ?? ServiceProvider;
         }
 
         /// <summary>

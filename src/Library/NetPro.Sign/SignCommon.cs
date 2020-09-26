@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
-using Microsoft.VisualBasic.CompilerServices;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NetPro.Sign
 {
@@ -159,34 +158,25 @@ namespace NetPro.Sign
                 {
                     EnableRewind(context.Request);
                     var encoding = GetRequestEncoding(context.Request);
-                    return await ReadStream(context, encoding);
+                    return await ReadStreamAsync(context.Request.Body, encoding);
                 }
                 return null;
 
             }
-            catch (Exception ex) when (ex.Message == "Unexpected end of request content.")
+            catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
             {
-                //_iLogger.LogError(ex, $"[ReadAsString] Post响应缓存出错,客户端取消请求");
+                Console.WriteLine($"[ReadAsString] sign签名读取body出错");
                 return null;
             }
         }
 
-        internal static async Task<string> ReadStream(HttpContext context, Encoding encoding)
+        private static async Task<string> ReadStreamAsync(Stream stream, Encoding encoding)
         {
-            try
+            using (StreamReader sr = new StreamReader(stream, encoding, true, 1024, true))
             {
-                using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
-                {
-                    if (context.RequestAborted.IsCancellationRequested)
-                        return null;
-                    var str = await sr.ReadToEndAsync();
-                    context.Request.Body.Seek(0, SeekOrigin.Begin);
-                    return str;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
+                var str = await sr.ReadToEndAsync();
+                stream.Seek(0, SeekOrigin.Begin);
+                return str;
             }
         }
 
@@ -207,7 +197,16 @@ namespace NetPro.Sign
             if (!request.Body.CanSeek)
             {
                 request.EnableBuffering();
-                Task.WaitAll(request.Body.DrainAsync(CancellationToken.None));
+                try
+                {
+                    Task.WaitAll(request.Body.DrainAsync(CancellationToken.None));
+                }
+                catch (TaskCanceledException ex)
+                {
+                    Console.WriteLine($"[EnableRewind]Sign签名用户取消{request.Path}请求;exeptionMessage:{ex.Message}");
+                    return;
+                }
+
             }
             request.Body.Seek(0L, SeekOrigin.Begin);
         }
@@ -218,8 +217,12 @@ namespace NetPro.Sign
         /// <param name="context"></param>
         internal static void BuildErrorJson(ActionExecutingContext context, string msg = "签名失败")
         {
-            context.HttpContext.Response.StatusCode = 400;
-            context.HttpContext.Response.ContentType = "application/json";
+            if (!context.HttpContext?.Response.HasStarted ?? false)
+            {
+                context.HttpContext.Response.StatusCode = 400;
+                context.HttpContext.Response.ContentType = "application/json";
+            }
+
             context.Result = new BadRequestObjectResult(new { Code = -1, Msg = msg });
         }
 

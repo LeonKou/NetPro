@@ -1,0 +1,19 @@
+﻿{
+	"RequestAnalysisOption": {
+		"Enabled": true, //是否开启流量分析
+		"PolicyOption": [
+			{
+				"Enabled": true,
+				"Path": "/api/v1/test/pay/post",
+				"MaxSucceedLimit": 1000000, //当前path地址同ip一天内最大访问次数
+				"MaxErrorLimit": 1000000
+			},
+			{
+				"Enabled": true,
+				"Path": "/api/sdk/v2/accounts/action/register/account", //注册账号
+				"MaxSucceedLimit": 100,
+				"MaxErrorLimit": 50
+			}
+		]
+	}
+}

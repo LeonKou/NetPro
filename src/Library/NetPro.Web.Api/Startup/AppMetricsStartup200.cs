@@ -1,24 +1,14 @@
-﻿using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
-using App.Metrics;
+﻿using App.Metrics;
 using App.Metrics.Extensions.Configuration;
-using App.Metrics.Filtering;
-using App.Metrics.Formatters.Json;
-using App.Metrics.Health;
 using App.Metrics.Health.Extensions.Configuration;
-using App.Metrics.Health.Formatters.Ascii;
 using App.Metrics.Reporting.InfluxDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using App.Metrics.Health.Checks.Sql;
-using NetPro.Utility.Helpers;
-using NetPro.Core.Consts;
-using App.Metrics.Builder;
+using NetPro.Core.Configuration;
+using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
+using System;
 
 namespace NetPro.Web.Core.Infrastructure
 {

@@ -1,7 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using NetPro.MongoDb.Models;
-using System;
 
 namespace NetPro.MongoDb
 {

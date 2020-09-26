@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Core.Configuration
+﻿namespace NetPro.Core.Configuration
 {
     /// <summary>
     /// token 认证参数

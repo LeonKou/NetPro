@@ -1,6 +1,6 @@
 using System;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace MQMiddleware.AuthUtil
 {
@@ -30,8 +30,9 @@ namespace MQMiddleware.AuthUtil
             long timestamp = Convert.ToInt64(ts.TotalMilliseconds);
 
             KeyedHashAlgorithm algorithm = KeyedHashAlgorithm.Create("HMACSHA1");
-            if (null == algorithm) {
-               throw new InvalidOperationException("HMACSHA1 not exist!");
+            if (null == algorithm)
+            {
+                throw new InvalidOperationException("HMACSHA1 not exist!");
             }
 
             try
@@ -40,11 +41,11 @@ namespace MQMiddleware.AuthUtil
                 byte[] bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(sk));
                 string signature = byteArrayToUpperString(bytes);
 
-              //  Console.WriteLine(signature);
+                //  Console.WriteLine(signature);
                 StringBuilder data = new StringBuilder(64);
                 data.Append(signature).Append(COLON).Append(timestamp);
                 return Convert.ToBase64String(Encoding.UTF8.GetBytes(data.ToString()));
-            } 
+            }
             finally
             {
                 algorithm.Clear();
@@ -52,16 +53,17 @@ namespace MQMiddleware.AuthUtil
         }
 
         private static string byteArrayToUpperString(byte[] bytes)
-	{
-            if(bytes == null) {
+        {
+            if (bytes == null)
+            {
                 throw new ArgumentNullException("bytes array null");
             }
-  	    StringBuilder hex = new StringBuilder(bytes.Length * 2);
-  	    foreach (byte b in bytes) 
+            StringBuilder hex = new StringBuilder(bytes.Length * 2);
+            foreach (byte b in bytes)
             {
                 hex.AppendFormat("{0:x2}", b);
             }
-  	    return hex.ToString().ToUpper();
-	}
+            return hex.ToString().ToUpper();
+        }
     }
 }

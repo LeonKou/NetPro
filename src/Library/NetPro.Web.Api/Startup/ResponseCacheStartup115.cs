@@ -2,16 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.Web.Core.Infrastructure.Extensions;
-using NetPro.TypeFinder;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
-using NetPro.Authentication;
-using NetPro.ShareRequestBody;
-using NetPro.Sign;
 using NetPro.ResponseCache;
+using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {

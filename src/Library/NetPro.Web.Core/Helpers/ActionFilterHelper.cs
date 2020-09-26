@@ -80,7 +80,7 @@ namespace NetPro.Web.Core.Helpers
                 //    return json;
                 //}
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -123,7 +123,7 @@ namespace NetPro.Web.Core.Helpers
                 }
                 return requestBodyText;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return requestBodyText;
             }

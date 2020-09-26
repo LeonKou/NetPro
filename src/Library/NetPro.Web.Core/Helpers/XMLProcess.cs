@@ -1,9 +1,7 @@
 ﻿using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Xml;
 
 namespace NetPro.Web.Core.Helpers
@@ -46,7 +44,7 @@ namespace NetPro.Web.Core.Helpers
 
                 if (System.IO.File.Exists(filename)) xmldoc.Load(filename);
             }
-            catch (Exception e)
+            catch (Exception)
             { }
             return xmldoc;
         }
@@ -66,7 +64,7 @@ namespace NetPro.Web.Core.Helpers
 
                 if (System.IO.File.Exists(filename)) xmldoc.Load(filename);
             }
-            catch (Exception e)
+            catch (Exception)
             { }
             return xmldoc;
         }

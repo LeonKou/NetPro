@@ -45,7 +45,8 @@ namespace NetPro.Core.Infrastructure
                     Create();
                 }
 
-                return Singleton<IEngine>.Instance; }
+                return Singleton<IEngine>.Instance;
+            }
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -77,7 +75,7 @@ namespace NetPro.Web.Core.Filters
 
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
-                    _logger.LogError("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
+                    _logger.LogWarning("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
                     return Tuple.Create<bool, string>(false, "签名参数缺失");
                 }
 
@@ -89,14 +87,14 @@ namespace NetPro.Web.Core.Filters
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp, _verifySignOption))
                 {
-                    _logger.LogError($"{timestampStr}时间戳已过期");
+                    _logger.LogWarning($"{timestampStr}时间戳已过期");
                     return Tuple.Create<bool, string>(false, "请校准客户端时间后再试");
                 }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
                 {
-                    _logger.LogError(@"The request parameter is missing the Ak/Sk appID parameter
+                    _logger.LogWarning(@"The request parameter is missing the Ak/Sk appID parameter
                                           VerifySign:{
                                             AppSecret:{
                                             [AppId]:[Secret]

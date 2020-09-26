@@ -1,7 +1,6 @@
 ﻿using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetPro.RedisManager
@@ -28,44 +27,44 @@ namespace NetPro.RedisManager
         Task<T> GetAsync<T>(string key);
 
         /// <summary>
-        /// 获取缓存，没有则新增缓存
-        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+        ///获取或者创建缓存 
+        /// localExpiredTime参数大于0并且小于expiredTime数据将缓存到本地内存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="expiredTime"></param>
-        /// <param name="isLocalCache">是否缓存本地</param>
+        /// <param name="localExpiredTime">本地过期时间</param>
         /// <returns></returns>
-        T GetOrCreate<T>(string key, Func<T> func = null, int expiredTime = -1, bool isLocalCache = false);
+        T GetOrSet<T>(string key, Func<T> func = null, int expiredTime = -1, int localExpiredTime = 0);
 
         /// <summary>
-        /// 获取缓存没有则新增缓存
-        /// 不过期或者过期时间时间大于一小时，数据将缓存到本地内存
+        ///获取或者创建缓存 
+        /// localExpiredTime参数大于0并且小于expiredTime数据将缓存到本地内存
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="func"></param>
         /// <param name="expiredTime"></param>
-        /// <param name="isLocalCache">是否缓存本地</param>
+        /// <param name="localExpiredTime">本地过期时间</param>
         /// <returns></returns>
-        Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, bool isLocalCache = false);
+        Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, int localExpiredTime = 0);
 
         /// <summary>
         ///新增缓存
         /// </summary>
         /// <param name="key">缓存key值,key值必须满足规则：模块名:类名:业务方法名:参数.不满足规则将不会被缓存</param>
         /// <param name="data">Value for caching</param>
-        /// <param name="cacheTime">Cache time in minutes</param>
-        bool Set(string key, object data, int cacheTime = -1);
+        /// <param name="expiredTime">Cache time in minutes</param>
+        bool Set(string key, object data, int expiredTime = -1);
 
         /// <summary>
         ///新增缓存
         /// </summary>
         /// <param name="key">缓存key值,key值必须满足规则：模块名:类名:业务方法名:参数.不满足规则将不会被缓存</param>
         /// <param name="data">Value for caching</param>
-        /// <param name="cacheTime">Cache time in minutes</param>
-        Task<bool> SetAsync(string key, object data, int cacheTime);
+        /// <param name="expiredTime">Cache time in minutes</param>
+        Task<bool> SetAsync(string key, object data, int expiredTime);
 
         /// <summary>
         /// 是否存在
@@ -121,15 +120,15 @@ namespace NetPro.RedisManager
         List<T> ZRange<T>(string key);
 
         /// <summary>
-        /// 获取一个分布式锁
+        /// 获取一个分布式锁,不支持嵌套锁
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="resource"></param>
-        /// <param name="timeoutSeconds"></param>
+        /// <param name="expiredTime">超时过期事件，单位秒</param>
         /// <param name="func"></param>
         /// <param name="isAwait">是否等待</param>
         /// <returns></returns>
-        T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait = true);
+        T GetDistributedLock<T>(string resource, int expiredTime, Func<T> func, bool isAwait = true);
 
         /// <summary>
         /// 设置或更新Hash
@@ -214,5 +213,21 @@ namespace NetPro.RedisManager
         /// <param name="channel">管道</param>
         /// <returns>收到的消息</returns>
         Task<string> SubscriberAsync(string channel);
+
+        /// <summary>
+        /// value递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value">递增值</param>
+        /// <returns></returns>
+        long StringIncrement(string key, long value = 1);
+
+        /// <summary>
+        /// value递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<long> StringIncrementAsync(string key, long value = 1);
     }
 }

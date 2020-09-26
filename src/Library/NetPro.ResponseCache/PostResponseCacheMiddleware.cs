@@ -1,27 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.ResponseCaching;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using NetPro.ShareRequestBody;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace NetPro.ResponseCache
 {
@@ -64,12 +57,10 @@ namespace NetPro.ResponseCache
             context.Request.EnableBuffering();
             var token = context.RequestAborted.Register(async () =>
             {
-                _iLogger.LogWarning($"[PostResponse]请求被取消{context.Request.Path}");
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = context.Request.ContentType;
                 await Task.CompletedTask;
                 return;
             });
+
             var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
             if (endpoint != null)
             {
@@ -122,10 +113,20 @@ namespace NetPro.ResponseCache
                     var cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     if (cacheResponseBody != null && !context.RequestAborted.IsCancellationRequested)
                     {
-                        context.Response.StatusCode = cacheResponseBody.StatusCode;
-                        context.Response.ContentType = cacheResponseBody.ContentType;
-                        await context.Response.WriteAsync(cacheResponseBody.Body);
-                        _iLogger.LogInformation($"触发PostResponseCacheMiddleware本地缓存");
+                        //https://stackoverflow.com/questions/45675102/asp-net-core-middleware-cannot-set-status-code-on-exception-because-response-ha
+                        if (!context.Response.HasStarted)
+                        {
+                            context.Response.StatusCode = cacheResponseBody.StatusCode;
+                            context.Response.ContentType = cacheResponseBody.ContentType;
+                            await context.Response.WriteAsync(cacheResponseBody.Body);
+                            _iLogger.LogInformation($"触发PostResponseCacheMiddleware本地缓存");
+                        }
+                        else
+                        {
+                            _iLogger.LogError($"StatusCode无法设置，因为响应已经启动,位置为:触发本地缓存开始赋值[responsecache2]");
+                            await Task.CompletedTask;
+                            return;
+                        }
                     }
                     else if (!context.RequestAborted.IsCancellationRequested)
                     {
@@ -202,29 +203,22 @@ namespace NetPro.ResponseCache
                 return null;
 
             }
-            catch (Exception ex) when (ex.Message == "Unexpected end of request content.")
+            catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
             {
-                //_iLogger.LogError(ex, $"[ReadAsString] Post响应缓存出错,客户端取消请求");
+                _iLogger.LogError(ex, $"[ReadAsString] Post响应缓存读取body出错");
                 return null;
             }
         }
 
         private async Task<string> ReadStream(HttpContext context, Encoding encoding)
         {
-            try
+            using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
             {
-                using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
-                {
-                    if (context.RequestAborted.IsCancellationRequested)
-                        return null;
-                    var str = await sr.ReadToEndAsync();
-                    context.Request.Body.Seek(0, SeekOrigin.Begin);
-                    return str;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
+                if (context?.RequestAborted.IsCancellationRequested ?? true)
+                    return null;
+                var str = await sr.ReadToEndAsync();
+                context.Request.Body.Seek(0, SeekOrigin.Begin);
+                return str;
             }
         }
 

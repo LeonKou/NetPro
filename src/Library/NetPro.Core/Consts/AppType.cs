@@ -8,10 +8,10 @@
         /// <summary>
         /// api
         /// </summary>
-        Api=1,
+        Api = 1,
         /// <summary>
         /// mvc
         /// </summary>
-        Mvc=2,
+        Mvc = 2,
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Caching.Memory;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using NetPro.ResponseCache;
 using NetPro.ShareRequestBody;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -52,7 +50,7 @@ namespace NetPro.Web.Core.Filters
             IServiceProvider serviceProvider = context.HttpContext.RequestServices;
             var responseCacheOption = serviceProvider.GetService<ResponseCacheOption>();
 
-            if (!responseCacheOption.Enabled || Duration == 0)
+            if (responseCacheOption == null || Duration == 0 || !responseCacheOption.Enabled)
             {
                 goto gotoNext;
             }
@@ -74,9 +72,6 @@ namespace NetPro.Web.Core.Filters
 
             var token = context.HttpContext.RequestAborted.Register(async () =>
             {
-                _logger.LogWarning($"[PostResponse]请求被取消{context.HttpContext.Request.Path}");
-                context.HttpContext.Response.StatusCode = 400;
-                context.HttpContext.Response.ContentType = context.HttpContext.Request.ContentType;
                 await Task.CompletedTask;
                 return;
             });
@@ -113,7 +108,7 @@ namespace NetPro.Web.Core.Filters
                 string bodyValue;
                 if (_requestCacheData == null || string.IsNullOrEmpty(_requestCacheData.Body))
                 {
-                    bodyValue = await ReadAsString(context.HttpContext);
+                    bodyValue = await ReadAsString(context.HttpContext, _logger);
                     _requestCacheData = new RequestCacheData { Body = bodyValue };
                 }
                 else
@@ -129,12 +124,21 @@ namespace NetPro.Web.Core.Filters
                     var cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     if (cacheResponseBody != null && !context.HttpContext.RequestAborted.IsCancellationRequested)
                     {
-                        context.HttpContext.Response.StatusCode = cacheResponseBody.StatusCode;
-                        context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
-                        await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
-                        _logger.LogInformation($"触发PostResponseCacheAttribute本地缓存");
-                        await Task.CompletedTask;
-                        return;
+                        if (!context.HttpContext.Response.HasStarted)
+                        {
+                            _logger.LogInformation($"触发PostResponseCacheAttribute本地缓存");
+                            context.HttpContext.Response.StatusCode = cacheResponseBody.StatusCode;
+                            context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
+                            await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
+                            await Task.CompletedTask;
+                            return;
+                        }
+                        else
+                        {
+                            _logger.LogError($"StatusCode无法设置，因为响应已经启动,位置为:触发本地缓存开始赋值[responsecache2]");
+                            await Task.CompletedTask;
+                            return;
+                        }
                     }
                     else if (!context.HttpContext.RequestAborted.IsCancellationRequested)
                     {
@@ -165,7 +169,7 @@ namespace NetPro.Web.Core.Filters
                                 StatusCode = responseResult.StatusCode
                             }, TimeSpan.FromSeconds(Duration));
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             await Task.CompletedTask;
                             return;
@@ -194,7 +198,7 @@ namespace NetPro.Web.Core.Filters
             await next();
         }
 
-        private async Task<string> ReadAsString(HttpContext context)
+        private async Task<string> ReadAsString(HttpContext context, ILogger<PostResponseCacheAttribute> _iLogger)
         {
             try
             {
@@ -207,9 +211,9 @@ namespace NetPro.Web.Core.Filters
                 return null;
 
             }
-            catch (Exception ex) when (ex.Message == "Unexpected end of request content.")
+            catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
             {
-                //_iLogger.LogError(ex, $"[ReadAsString] Post响应缓存出错,客户端取消请求");
+                _iLogger.LogError(ex, $"[ReadAsString] Post响应缓存读取body出错");
                 return null;
             }
         }
@@ -227,7 +231,7 @@ namespace NetPro.Web.Core.Filters
                     return str;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

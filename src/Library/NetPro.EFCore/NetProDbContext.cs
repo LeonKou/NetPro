@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace NetPro.EFCore
 {
@@ -8,6 +7,6 @@ namespace NetPro.EFCore
         public NetProDbContext(DbContextOptions options)
             : base(options)
         {
-        }         
+        }
     }
 }

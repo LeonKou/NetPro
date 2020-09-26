@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.Web.Core.Compression;
 using NetPro.RedisManager;
-using System.Linq;
 using NetPro.TypeFinder;
+using NetPro.Web.Core.Compression;
+using System.Linq;
 
 namespace NetPro.Web.Core.Infrastructure
 {

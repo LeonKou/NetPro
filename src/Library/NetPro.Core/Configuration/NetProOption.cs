@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Hosting;
 using NetPro.Core.Consts;
-using NetPro.Core.Infrastructure;
 
 namespace NetPro.Core.Configuration
 {

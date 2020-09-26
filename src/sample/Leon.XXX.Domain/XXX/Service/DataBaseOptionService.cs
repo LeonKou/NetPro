@@ -3,7 +3,6 @@ using FreeSql.Internal.Model;
 using Leon.XXX.Repository;
 using NetPro.Web.Core.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Leon.XXX.Domain

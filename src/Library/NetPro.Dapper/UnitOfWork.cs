@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace NetPro.Dapper
 {
-    public class UnitOfWork:IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private IDbTransaction _transaction;
         private readonly Action<UnitOfWork> _onCommit;
@@ -71,7 +69,7 @@ namespace NetPro.Dapper
         /// </summary>
         public void Dispose()
         {
-            if (_transaction == null||(_transaction?.Connection==null)) return;
+            if (_transaction == null || (_transaction?.Connection == null)) return;
 
             try
             {

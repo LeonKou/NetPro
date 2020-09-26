@@ -1,10 +1,10 @@
-﻿using NetPro.Core.Consts;
+﻿using Microsoft.AspNetCore.Mvc;
+using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure;
-using NetPro.Web.Core.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System;
 using NetPro.Web.Core.Helpers;
+using NetPro.Web.Core.Models;
+using System;
+using System.Linq;
 
 namespace NetPro.Web.Api.Controllers
 {

@@ -22,9 +22,9 @@ namespace NetPro.ShareRequestBody
                 return null;
 
             }
-            catch (Exception ex) when (ex.Message == "Unexpected end of request content.")
+            catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
             {
-                //_iLogger.LogError(ex, $"[ReadAsString] Post响应缓存出错,客户端取消请求");
+                Console.WriteLine($"[ReadAsString] 共享请求body读取body出错");
                 return null;
             }
         }
@@ -42,7 +42,7 @@ namespace NetPro.ShareRequestBody
                     return str;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -61,7 +61,7 @@ namespace NetPro.ShareRequestBody
                     return str;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

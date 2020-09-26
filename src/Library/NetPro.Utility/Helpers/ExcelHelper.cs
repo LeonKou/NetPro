@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
+﻿using Microsoft.AspNetCore.Http;
 using NetPro.Utility.Extenisons;
-using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
 
 namespace NetPro.Utility.Helpers
 {
@@ -95,7 +95,7 @@ namespace NetPro.Utility.Helpers
             }
             if (wk == null)
                 throw new FileNotFoundException("The excel file do not exist！");
-            
+
             return ConvertExcelWbToDataTable(wk);
         }
 
@@ -108,7 +108,7 @@ namespace NetPro.Utility.Helpers
         {
             if (file == null || file.Length == 0)
                 throw new FileNotFoundException("The excel file do not exist");
-            
+
             IWorkbook wk = null;
             using (MemoryStream stream = new MemoryStream())
             {

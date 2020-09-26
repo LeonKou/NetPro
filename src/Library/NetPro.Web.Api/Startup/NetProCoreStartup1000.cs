@@ -1,17 +1,16 @@
-﻿using NetPro.Core.Infrastructure;
+﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Web.Core.Infrastructure.Extensions;
-using NetPro.Core.Configuration;
-using NetPro.Web.Core.Middlewares;
 using NetPro.Checker;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using NetPro.Core.Configuration;
+using NetPro.Core.Infrastructure;
 using NetPro.RedisManager;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 using NetPro.TypeFinder;
-using HealthChecks.UI.Client;
+using NetPro.Web.Core.Infrastructure.Extensions;
+using System.Collections.Generic;
 
 namespace NetPro.Web.Core.Infrastructure
 {

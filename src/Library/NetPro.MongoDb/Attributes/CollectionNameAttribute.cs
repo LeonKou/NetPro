@@ -10,8 +10,8 @@ namespace NetPro.MongoDb.Attributes
     /// The attribute takes precedence of course, and if not present the library will fall back to your Pluralize method.
     /// </summary>
 	[AttributeUsage(AttributeTargets.Class)]
-	public class CollectionNameAttribute : Attribute
-	{
+    public class CollectionNameAttribute : Attribute
+    {
         /// <summary>
         /// The name of the collection in which your documents are stored.
         /// </summary>
@@ -22,8 +22,8 @@ namespace NetPro.MongoDb.Attributes
         /// </summary>
         /// <param name="name">The name of the collection.</param>
 		public CollectionNameAttribute(string name)
-		{
-			this.Name = name;
-		}
-	}
+        {
+            this.Name = name;
+        }
+    }
 }

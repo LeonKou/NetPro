@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Dapper.Parameters
+﻿namespace NetPro.Dapper.Parameters
 {
     /// <summary>
     /// sql条件操作类型

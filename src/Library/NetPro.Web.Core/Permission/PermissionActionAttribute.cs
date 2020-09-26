@@ -5,7 +5,7 @@ namespace NetPro.Web.Core.Permission
     /// <summary>
     /// action权限特征
     /// </summary>
-    public class PermissionActionAttribute:Attribute
+    public class PermissionActionAttribute : Attribute
     {
         /// <summary>
         /// 
@@ -13,7 +13,7 @@ namespace NetPro.Web.Core.Permission
         /// <param name="ignore">是否忽略权限验证,登录用户都可以访问</param>
         /// <param name="programCode"></param>
         /// <param name="redirectUrl"></param>
-        public PermissionActionAttribute(bool ignore,string programCode="",string redirectUrl = "")
+        public PermissionActionAttribute(bool ignore, string programCode = "", string redirectUrl = "")
         {
             this.Ignore = ignore;
             this.ProgramCode = programCode;

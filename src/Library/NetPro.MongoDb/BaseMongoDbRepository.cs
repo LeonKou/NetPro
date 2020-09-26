@@ -1,11 +1,11 @@
 ﻿using MongoDB.Driver;
+using NetPro.MongoDb.Models;
+using NetPro.MongoDb.Utils;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using NetPro.MongoDb.Models;
 using System.Linq;
-using NetPro.MongoDb.Utils;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NetPro.MongoDb
 {

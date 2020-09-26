@@ -1,13 +1,12 @@
-﻿using NetPro.Core;
+﻿using EnumsNET;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure.Attributes;
 using NetPro.Utility;
 using NetPro.Web.Core.Helpers;
-using EnumsNET;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -25,7 +24,7 @@ namespace NetPro.Web.Core.Filters
         readonly IWebHelper _webHelper;
         readonly NetProOption _config;
 
-        public NetProExceptionFilter(ILogger logger,IWebHelper webHelper, NetProOption config)
+        public NetProExceptionFilter(ILogger logger, IWebHelper webHelper, NetProOption config)
         {
             _logger = logger;
             _webHelper = webHelper;

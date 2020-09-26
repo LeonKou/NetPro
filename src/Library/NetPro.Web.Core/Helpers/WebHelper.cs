@@ -1,19 +1,18 @@
-﻿using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
-using NetPro.Utility;
-using NetPro.Utility.Helpers;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using NetPro.Core.Configuration;
+using NetPro.TypeFinder;
+using NetPro.Utility;
+using NetPro.Utility.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Helpers
 {

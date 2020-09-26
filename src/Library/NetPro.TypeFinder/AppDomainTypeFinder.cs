@@ -20,7 +20,7 @@ namespace NetPro.TypeFinder
 
         #region Ctor
 
-        public AppDomainTypeFinder(INetProFileProvider fileProvider=null)
+        public AppDomainTypeFinder(INetProFileProvider fileProvider = null)
         {
             _fileProvider = fileProvider ?? CoreHelper.DefaultFileProvider;
         }

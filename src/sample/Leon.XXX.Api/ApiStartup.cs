@@ -1,5 +1,4 @@
-﻿using Leon.XXX.Repository;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;

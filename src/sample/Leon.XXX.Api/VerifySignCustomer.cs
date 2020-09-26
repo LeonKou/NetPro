@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NetPro.Sign;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Leon.XXX.Api
 {

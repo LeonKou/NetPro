@@ -1,8 +1,10 @@
-﻿namespace NetPro.Utility.Helpers {
+﻿namespace NetPro.Utility.Helpers
+{
     /// <summary>
     /// 常量
     /// </summary>
-    internal static class Const {
+    internal static class Const
+    {
         /// <summary>
         /// 汉字及拼音首字母
         /// </summary>

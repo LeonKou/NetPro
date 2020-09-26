@@ -1,16 +1,15 @@
-using System.Linq;
-using NetPro.Core.Configuration;
-using NetPro.Core.Consts;
-using NetPro.Core.Infrastructure;
-using NetPro.Core.Infrastructure.DependencyManagement;
-using NetPro.Utility.Helpers;
-using NetPro.Web.Core.Permission;
 using Autofac;
 using AutofacSerilogIntegration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using NetPro.Web.Core.Helpers;
+using NetPro.Core.Configuration;
+using NetPro.Core.Consts;
+using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.TypeFinder;
+using NetPro.Utility.Helpers;
+using NetPro.Web.Core.Helpers;
+using NetPro.Web.Core.Permission;
+using System.Linq;
 
 namespace NetPro.Web.Core.Infrastructure
 {

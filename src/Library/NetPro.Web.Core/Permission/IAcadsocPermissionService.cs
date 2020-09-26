@@ -20,7 +20,7 @@
         /// <param name="controllerName">controller名称</param>
         /// <param name="actionName">action名称</param>
         /// <returns></returns>
-        bool HasPermission(string controllerName,string actionName);
+        bool HasPermission(string controllerName, string actionName);
 
         /// <summary>
         /// 根据权限id判断用户是否有权限

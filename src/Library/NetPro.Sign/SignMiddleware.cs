@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using NetPro.ShareRequestBody;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -56,7 +55,7 @@ namespace NetPro.Sign
         ///  <param name="responseCacheData"></param>
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData, VerifySignOption verifySignOption)
-        {                               
+        {
             if (!context.Request.Path.Value.StartsWith("/api"))
             {
                 await _next(context);
@@ -79,10 +78,13 @@ namespace NetPro.Sign
             var result = await GetSignValue(context, requestCacheData, verifySignOption);
             if (verifySignOption.IsForce && !result.Item1)
             {
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "application/json";
+                if (!context?.Response.HasStarted ?? false)
+                {
+                    context.Response.StatusCode = 400;
+                    context.Response.ContentType = "application/json";
+                }
 
-                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new { Code = -1, Msg = $"{result.Item2}", Result = string.Empty }, new JsonSerializerOptions
+                await context.Response.WriteAsync(JsonSerializer.Serialize(new { Code = -1, Msg = $"{result.Item2}", Result = string.Empty }, new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                     Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
@@ -113,7 +115,7 @@ namespace NetPro.Sign
 
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
-                    _logger.LogError("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
+                    _logger.LogWarning("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
                     return Tuple.Create<bool, string>(false, "签名参数缺失");
                 }
 
@@ -125,14 +127,14 @@ namespace NetPro.Sign
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !SignCommon.CheckTime(timestamp, verifySignOption.ExpireSeconds))
                 {
-                    _logger.LogError($"{timestampStr}时间戳已过期");
+                    _logger.LogWarning($"{timestampStr}时间戳已过期");
                     return Tuple.Create<bool, string>(false, "请校准客户端时间后再试");
                 }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
                 {
-                    _logger.LogError(@"The request parameter is missing the Ak/Sk appID parameter
+                    _logger.LogWarning(@"The request parameter is missing the Ak/Sk appID parameter
                                           VerifySign:{
                                             AppSecret:{
                                             [AppId]:[Secret]

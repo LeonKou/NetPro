@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace NetPro.Utility.Extenisons
 {
@@ -18,7 +17,7 @@ namespace NetPro.Utility.Extenisons
         /// <param name="totalRowNum">总行数</param>
         /// <param name="orderExpression">排序条件</param>
         /// <returns></returns>
-        public static IQueryable<TSource> TakeByRowNum<TSource>(this IQueryable<TSource> source,int pageIndex,int pageSize,int totalRowNum, Expression<Func<TSource, long>> orderExpression)
+        public static IQueryable<TSource> TakeByRowNum<TSource>(this IQueryable<TSource> source, int pageIndex, int pageSize, int totalRowNum, Expression<Func<TSource, long>> orderExpression)
         {
             var skipRowNum = pageIndex * pageSize;
             if (skipRowNum > totalRowNum / 2)
@@ -88,10 +87,11 @@ namespace NetPro.Utility.Extenisons
         public static IQueryable<TSource> WhereIfNotNull<TSource>(this IQueryable<TSource> source, object judgement, Expression<Func<TSource, bool>> whereExpression)
         {
             bool isNull = false;
-            if(judgement is string)
+            if (judgement is string)
             {
                 isNull = string.IsNullOrWhiteSpace(judgement as string);
-            } else
+            }
+            else
             {
                 isNull = judgement == null;
             }

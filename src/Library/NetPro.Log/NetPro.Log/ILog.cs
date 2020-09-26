@@ -14,7 +14,7 @@ namespace NetPro.Logging
         /// 普通信息 日志
         /// </summary>
         /// <param name="msg"></param>
-         void Information(string msg);
+        void Information(string msg);
         /// <summary>
         ///警告
         /// </summary>
@@ -37,6 +37,6 @@ namespace NetPro.Logging
         /// </summary>
         /// <param name="msg"></param>
         void Fatal(string msg);
-       
+
     }
 }

@@ -42,7 +42,7 @@ namespace NetPro.Core.Infrastructure
         /// <summary>
         /// The singleton instance for the specified type T. Only one instance (at the time) of this list for each type of T.
         /// </summary>
-        public new static IList<T> Instance
+        public static new IList<T> Instance
         {
             get { return Singleton<IList<T>>.Instance; }
         }
@@ -63,7 +63,7 @@ namespace NetPro.Core.Infrastructure
         /// <summary>
         /// The singleton instance for the specified type T. Only one instance (at the time) of this dictionary for each type of T.
         /// </summary>
-        public new static IDictionary<TKey, TValue> Instance
+        public static new IDictionary<TKey, TValue> Instance
         {
             get { return Singleton<Dictionary<TKey, TValue>>.Instance; }
         }

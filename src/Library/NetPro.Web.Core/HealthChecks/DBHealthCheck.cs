@@ -8,7 +8,7 @@ namespace NetPro.Web.Core.HealthChecks
     /// <summary>
     /// 数据库健康检查
     /// </summary>
-   public class DBHealthCheck : HealthCheck
+    public class DBHealthCheck : HealthCheck
     {
         public DBHealthCheck() : base("Custom health checks")
         {

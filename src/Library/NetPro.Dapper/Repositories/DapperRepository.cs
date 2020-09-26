@@ -1,6 +1,6 @@
-﻿using NetPro.Dapper.Expressions;
+﻿using Dapper;
+using NetPro.Dapper.Expressions;
 using NetPro.Dapper.Parameters;
-using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Data;

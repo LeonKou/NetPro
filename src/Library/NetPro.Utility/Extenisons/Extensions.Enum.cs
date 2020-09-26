@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NetPro.Core
 {
@@ -73,7 +72,7 @@ namespace NetPro.Core
         {
             var type = typeof(TEnum);
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static)
-                             .Where(predict == null? f=> true : predict);
+                             .Where(predict == null ? f => true : predict);
             foreach (var f in fields)
             {
                 var attrs = f.GetCustomAttributes(typeof(TAttr), false).FirstOrDefault() as TAttr;

@@ -19,8 +19,7 @@ namespace NetPro.Sign
             if (ServiceProvider == null)
                 return null;
             var accessor = ServiceProvider?.GetService<IHttpContextAccessor>();
-            var context = accessor?.HttpContext;
-            return context?.RequestServices ?? ServiceProvider;
+            return accessor?.HttpContext?.RequestServices ?? ServiceProvider;
         }
 
         internal static T Resolve<T>()

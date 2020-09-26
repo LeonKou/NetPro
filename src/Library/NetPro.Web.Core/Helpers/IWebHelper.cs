@@ -30,7 +30,7 @@ namespace NetPro.Web.Core.Helpers
         /// <returns>True if it's secured, otherwise false</returns>
         bool IsCurrentConnectionSecured();
 
-       
+
 
         /// <summary>
         /// 当前请求资源是否为静态文件

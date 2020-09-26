@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using AspNetCoreRateLimit;
-using StackExchange.Redis;
 using NetPro.RedisManager;
 using NetPro.TypeFinder;
+using StackExchange.Redis;
 
 namespace NetPro.Web.Core.Infrastructure
 {

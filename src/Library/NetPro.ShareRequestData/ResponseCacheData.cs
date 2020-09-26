@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetPro.ShareRequestBody
+﻿namespace NetPro.ShareRequestBody
 {
     public class ResponseCacheData
     {

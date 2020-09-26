@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.ShareRequestBody;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.ResponseCache
 {
@@ -25,8 +22,8 @@ namespace NetPro.ResponseCache
 
             var option = services.BuildServiceProvider().GetRequiredService<IConfiguration>()
                 .GetSection(nameof(ResponseCacheOption)).Get<ResponseCacheOption>();
-            if (option != null)   
-            services.AddSingleton(option);
+            if (option != null)
+                services.AddSingleton(option);
             return services;
         }
 

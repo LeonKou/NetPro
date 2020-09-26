@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac;
-using NetPro.Core.Configuration;
+﻿using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetPro.Core.Configuration;
+using System;
+using System.Collections.Generic;
 
 namespace NetPro.Core.Infrastructure
 {

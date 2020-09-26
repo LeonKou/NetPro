@@ -1,9 +1,9 @@
-﻿using NetPro.Core.Infrastructure;
+﻿using FluentValidation;
+using NetPro.Core.Infrastructure;
+using NetPro.Web.Core.PagedList;
 using NetPro.Web.Core.Validators;
-using FluentValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
-using NetPro.Web.Core.PagedList;
 
 namespace NetPro.Web.Core.Models
 {

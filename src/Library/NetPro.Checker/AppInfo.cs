@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 
 namespace NetPro.Checker
 {
@@ -17,7 +17,7 @@ namespace NetPro.Checker
             var info = new AppInfo();
 
             foreach (var provider in ((IConfigurationRoot)configuration).Providers.ToList())
-            { 
+            {
                 info.ConfigProviders.Add(provider.ToString());
             }
 

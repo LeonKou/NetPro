@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.Web.Core.Infrastructure.Extensions;
 using NetPro.TypeFinder;
+using NetPro.Web.Core.Infrastructure.Extensions;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -26,7 +26,7 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
-        {    
+        {
             //异常处理
             application.UseNetProExceptionHandler();
             //400处理

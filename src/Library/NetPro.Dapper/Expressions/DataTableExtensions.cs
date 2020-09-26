@@ -34,7 +34,7 @@ namespace NetPro.Dapper.Expressions
                 if (oProps == null)
                 {
                     //得到公有属性
-                    oProps = ((Type)rec.GetType()).GetProperties();
+                    oProps = rec.GetType().GetProperties();
                     //遍历属性中的数据
                     foreach (PropertyInfo pi in oProps)
                     {
@@ -81,10 +81,10 @@ namespace NetPro.Dapper.Expressions
         }
 
 
-        public static DataTable ToDateTableNew<T>(this IEnumerable<T> modeList, string tableName, SqlConnection conn,SqlTransaction tran=null)
+        public static DataTable ToDateTableNew<T>(this IEnumerable<T> modeList, string tableName, SqlConnection conn, SqlTransaction tran = null)
         {
             string sql = string.Format("select syscolumns.[name],syscolumns.colorder from syscolumns inner join sysobjects on syscolumns.id=sysobjects.id where sysobjects.xtype='U' and sysobjects.name='{0}' order by syscolumns.colid asc", tableName);
-            var list = conn.Query<TableCoumns>(sql:sql,transaction: tran);
+            var list = conn.Query<TableCoumns>(sql: sql, transaction: tran);
 
             DataTable dt = new DataTable();
             Type modelType = typeof(T);
@@ -109,7 +109,7 @@ namespace NetPro.Dapper.Expressions
             }
             foreach (var model in modeList)
             {
-                var oProps = ((Type)model.GetType()).GetProperties();
+                var oProps = model.GetType().GetProperties();
                 DataRow dr = dt.NewRow();
                 foreach (var column in list)
                 {

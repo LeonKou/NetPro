@@ -1,9 +1,5 @@
-﻿using Leon.XXX.Repository;
-using NetPro.RedisManager;
+﻿using NetPro.RedisManager;
 using NetPro.Web.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Leon.XXX.Domain.XXX.Service
@@ -52,7 +48,7 @@ namespace Leon.XXX.Domain.XXX.Service
         /// <returns></returns>
         public async Task<ResponseResult<XXXAo>> GetOrCreateAsync(uint id)
         {
-            var result = await _redisManager.GetOrCreateAsync<XXXAo>($"RedisOption:Id{id}", async () =>
+            var result = await _redisManager.GetOrSetAsync<XXXAo>($"RedisOption:Id{id}", async () =>
             {
                 var @result = await _dataBaseOptionService.FindAsync(id);
                 return @result.Result;

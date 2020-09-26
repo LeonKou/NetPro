@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Core.Lifetime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using Autofac.Core.Lifetime;
 
 namespace NetPro.Core.Infrastructure.DependencyManagement
 {
@@ -40,7 +40,7 @@ namespace NetPro.Core.Infrastructure.DependencyManagement
         /// <param name="serviceKey">key</param>
         /// <param name="scope">Scope; pass null to automatically resolve the current scope</param>
         /// <returns>Resolved service</returns>
-        public virtual T ResolveKeyed<T>(string serviceKey , ILifetimeScope scope = null) where T : class
+        public virtual T ResolveKeyed<T>(string serviceKey, ILifetimeScope scope = null) where T : class
         {
             if (scope == null)
             {
@@ -106,7 +106,7 @@ namespace NetPro.Core.Infrastructure.DependencyManagement
         }
 
 
-        
+
         /// <summary>
         /// Try to resolve srevice
         /// </summary>
@@ -155,7 +155,7 @@ namespace NetPro.Core.Infrastructure.DependencyManagement
             }
             return scope.ResolveOptional(serviceType);
         }
-        
+
         /// <summary>
         /// Get current scope
         /// </summary>

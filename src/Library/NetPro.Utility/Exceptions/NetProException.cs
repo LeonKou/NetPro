@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace NetPro.Utility
 {
@@ -30,7 +28,7 @@ namespace NetPro.Utility
         /// <param name="message">消息内容</param>
         /// <param name="errorCode">异常代码</param>
         /// <param name="requestId">请求Id</param>
-        public NetProException(string message,int errorCode=1,string requestId="")
+        public NetProException(string message, int errorCode = 1, string requestId = "")
             : base(message)
         {
             this.ErrorCode = errorCode;
@@ -42,7 +40,7 @@ namespace NetPro.Utility
         /// </summary>
 		/// <param name="messageFormat">消息格式化内容</param>
 		/// <param name="args">异常消息参数</param>
-        public NetProException(string messageFormat,  params object[] args)
+        public NetProException(string messageFormat, params object[] args)
             : base(string.Format(messageFormat, args))
         {
         }
@@ -53,7 +51,7 @@ namespace NetPro.Utility
         /// <param name="errorCode">错误代码</param>
 		/// <param name="messageFormat">消息格式化内容</param>
 		/// <param name="args">异常消息参数</param>
-        public NetProException(int errorCode ,string messageFormat, params object[] args)
+        public NetProException(int errorCode, string messageFormat, params object[] args)
             : base(string.Format(messageFormat, args))
         {
             this.ErrorCode = errorCode;
@@ -77,7 +75,7 @@ namespace NetPro.Utility
         /// <param name="innerException">异常对象</param>
         /// <param name="errorCode">异常代码</param>
         /// <param name="requestId">请求Id</param>
-        public NetProException(string message, Exception innerException,int errorCode=1,string requestId="")
+        public NetProException(string message, Exception innerException, int errorCode = 1, string requestId = "")
             : base(message, innerException)
         {
             this.ErrorCode = errorCode;

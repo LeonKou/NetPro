@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NetPro.ShareRequestBody
@@ -34,7 +32,7 @@ namespace NetPro.ShareRequestBody
             if (_responseCacheData == null || string.IsNullOrEmpty(_responseCacheData.Body))
             {
                 var responseHeadersText = await CommonTools.FormatResponseBody(context.HttpContext.Response);
-                _responseCacheData = new ResponseCacheData {Body = responseHeadersText };
+                _responseCacheData = new ResponseCacheData { Body = responseHeadersText };
             }
             await next();
         }

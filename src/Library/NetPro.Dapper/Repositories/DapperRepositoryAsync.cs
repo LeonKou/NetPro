@@ -1,5 +1,5 @@
-﻿using NetPro.Dapper.Expressions;
-using Dapper;
+﻿using Dapper;
+using NetPro.Dapper.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Data;

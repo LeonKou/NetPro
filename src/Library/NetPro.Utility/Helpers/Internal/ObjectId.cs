@@ -6,21 +6,24 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 
-namespace NetPro.Utility.Helpers.Internal {
+namespace NetPro.Utility.Helpers.Internal
+{
     /// <summary>
     /// Id生成器，代码出自：https://github.com/tangxuehua/ecommon/blob/master/src/ECommon/Utilities/ObjectId.cs
     /// </summary>
-    internal struct ObjectId : IComparable<ObjectId>, IEquatable<ObjectId>{
+    internal struct ObjectId : IComparable<ObjectId>, IEquatable<ObjectId>
+    {
         // private static fields
         private static readonly DateTime UnixEpoch;
         private static readonly ObjectId EmptyInstance = default;
         private static readonly int StaticMachine;
         private static readonly short StaticPid;
         private static int _staticIncrement; // high byte will be masked out when generating new ObjectId
-        private static readonly uint[] Lookup32 = Enumerable.Range( 0, 256 ).Select( i => {
-            string s = i.ToString( "x2" );
-            return ( (uint)s[0] ) + ( (uint)s[1] << 16 );
-        } ).ToArray();
+        private static readonly uint[] Lookup32 = Enumerable.Range(0, 256).Select(i =>
+        {
+            string s = i.ToString("x2");
+            return s[0] + ((uint)s[1] << 16);
+        }).ToArray();
 
         // we're using 14 bytes instead of 12 to hold the ObjectId in memory but unlike a byte[] there is no additional object on the heap
         // the extra two bytes are not visible to anyone outside of this class and they buy us considerable simplification
@@ -31,10 +34,11 @@ namespace NetPro.Utility.Helpers.Internal {
         private readonly int _increment;
 
         // static constructor
-        static ObjectId() {
-            UnixEpoch = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Utc );
+        static ObjectId()
+        {
+            UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             StaticMachine = GetMachineHash();
-            _staticIncrement = ( new Random() ).Next();
+            _staticIncrement = (new Random()).Next();
             StaticPid = (short)GetCurrentProcessId();
         }
 
@@ -43,11 +47,13 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Initializes a new instance of the ObjectId class.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        public ObjectId( byte[] bytes ) {
-            if( bytes == null ) {
-                throw new ArgumentNullException( "bytes" );
+        public ObjectId(byte[] bytes)
+        {
+            if (bytes == null)
+            {
+                throw new ArgumentNullException("bytes");
             }
-            Unpack( bytes, out _timestamp, out _machine, out _pid, out _increment );
+            Unpack(bytes, out _timestamp, out _machine, out _pid, out _increment);
         }
 
         /// <summary>
@@ -57,8 +63,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="machine">The machine hash.</param>
         /// <param name="pid">The PID.</param>
         /// <param name="increment">The increment.</param>
-        public ObjectId( DateTime timestamp, int machine, short pid, int increment )
-            : this( GetTimestampFromDateTime( timestamp ), machine, pid, increment ) {
+        public ObjectId(DateTime timestamp, int machine, short pid, int increment)
+            : this(GetTimestampFromDateTime(timestamp), machine, pid, increment)
+        {
         }
 
         /// <summary>
@@ -68,12 +75,15 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="machine">The machine hash.</param>
         /// <param name="pid">The PID.</param>
         /// <param name="increment">The increment.</param>
-        public ObjectId( int timestamp, int machine, short pid, int increment ) {
-            if( ( machine & 0xff000000 ) != 0 ) {
-                throw new ArgumentOutOfRangeException( "machine", "The machine value must be between 0 and 16777215 (it must fit in 3 bytes)." );
+        public ObjectId(int timestamp, int machine, short pid, int increment)
+        {
+            if ((machine & 0xff000000) != 0)
+            {
+                throw new ArgumentOutOfRangeException("machine", "The machine value must be between 0 and 16777215 (it must fit in 3 bytes).");
             }
-            if( ( increment & 0xff000000 ) != 0 ) {
-                throw new ArgumentOutOfRangeException( "increment", "The increment value must be between 0 and 16777215 (it must fit in 3 bytes)." );
+            if ((increment & 0xff000000) != 0)
+            {
+                throw new ArgumentOutOfRangeException("increment", "The increment value must be between 0 and 16777215 (it must fit in 3 bytes).");
             }
 
             _timestamp = timestamp;
@@ -86,18 +96,21 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Initializes a new instance of the ObjectId class.
         /// </summary>
         /// <param name="value">The value.</param>
-        public ObjectId( string value ) {
-            if( value == null ) {
-                throw new ArgumentNullException( "value" );
+        public ObjectId(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
             }
-            Unpack( ParseHexString( value ), out _timestamp, out _machine, out _pid, out _increment );
+            Unpack(ParseHexString(value), out _timestamp, out _machine, out _pid, out _increment);
         }
 
         // public static properties
         /// <summary>
         /// Gets an instance of ObjectId where the value is empty.
         /// </summary>
-        public static ObjectId Empty {
+        public static ObjectId Empty
+        {
             get { return EmptyInstance; }
         }
 
@@ -105,36 +118,41 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <summary>
         /// Gets the timestamp.
         /// </summary>
-        public int Timestamp {
+        public int Timestamp
+        {
             get { return _timestamp; }
         }
 
         /// <summary>
         /// Gets the machine.
         /// </summary>
-        public int Machine {
+        public int Machine
+        {
             get { return _machine; }
         }
 
         /// <summary>
         /// Gets the PID.
         /// </summary>
-        public short Pid {
+        public short Pid
+        {
             get { return _pid; }
         }
 
         /// <summary>
         /// Gets the increment.
         /// </summary>
-        public int Increment {
+        public int Increment
+        {
             get { return _increment; }
         }
 
         /// <summary>
         /// Gets the creation time (derived from the timestamp).
         /// </summary>
-        public DateTime CreationTime {
-            get { return UnixEpoch.AddSeconds( _timestamp ); }
+        public DateTime CreationTime
+        {
+            get { return UnixEpoch.AddSeconds(_timestamp); }
         }
 
         // public operators
@@ -144,8 +162,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId</param>
         /// <returns>True if the first ObjectId is less than the second ObjectId.</returns>
-        public static bool operator <( ObjectId lhs, ObjectId rhs ) {
-            return lhs.CompareTo( rhs ) < 0;
+        public static bool operator <(ObjectId lhs, ObjectId rhs)
+        {
+            return lhs.CompareTo(rhs) < 0;
         }
 
         /// <summary>
@@ -154,8 +173,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId</param>
         /// <returns>True if the first ObjectId is less than or equal to the second ObjectId.</returns>
-        public static bool operator <=( ObjectId lhs, ObjectId rhs ) {
-            return lhs.CompareTo( rhs ) <= 0;
+        public static bool operator <=(ObjectId lhs, ObjectId rhs)
+        {
+            return lhs.CompareTo(rhs) <= 0;
         }
 
         /// <summary>
@@ -164,8 +184,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId.</param>
         /// <returns>True if the two ObjectIds are equal.</returns>
-        public static bool operator ==( ObjectId lhs, ObjectId rhs ) {
-            return lhs.Equals( rhs );
+        public static bool operator ==(ObjectId lhs, ObjectId rhs)
+        {
+            return lhs.Equals(rhs);
         }
 
         /// <summary>
@@ -174,8 +195,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId.</param>
         /// <returns>True if the two ObjectIds are not equal.</returns>
-        public static bool operator !=( ObjectId lhs, ObjectId rhs ) {
-            return !( lhs == rhs );
+        public static bool operator !=(ObjectId lhs, ObjectId rhs)
+        {
+            return !(lhs == rhs);
         }
 
         /// <summary>
@@ -184,8 +206,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId</param>
         /// <returns>True if the first ObjectId is greather than or equal to the second ObjectId.</returns>
-        public static bool operator >=( ObjectId lhs, ObjectId rhs ) {
-            return lhs.CompareTo( rhs ) >= 0;
+        public static bool operator >=(ObjectId lhs, ObjectId rhs)
+        {
+            return lhs.CompareTo(rhs) >= 0;
         }
 
         /// <summary>
@@ -194,8 +217,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="lhs">The first ObjectId.</param>
         /// <param name="rhs">The other ObjectId</param>
         /// <returns>True if the first ObjectId is greather than the second ObjectId.</returns>
-        public static bool operator >( ObjectId lhs, ObjectId rhs ) {
-            return lhs.CompareTo( rhs ) > 0;
+        public static bool operator >(ObjectId lhs, ObjectId rhs)
+        {
+            return lhs.CompareTo(rhs) > 0;
         }
 
         // public static methods
@@ -203,8 +227,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Generates a new ObjectId with a unique value.
         /// </summary>
         /// <returns>An ObjectId.</returns>
-        public static ObjectId GenerateNewId() {
-            return GenerateNewId( GetTimestampFromDateTime( DateTime.UtcNow ) );
+        public static ObjectId GenerateNewId()
+        {
+            return GenerateNewId(GetTimestampFromDateTime(DateTime.UtcNow));
         }
 
         /// <summary>
@@ -212,8 +237,9 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="timestamp">The timestamp component (expressed as a DateTime).</param>
         /// <returns>An ObjectId.</returns>
-        public static ObjectId GenerateNewId( DateTime timestamp ) {
-            return GenerateNewId( GetTimestampFromDateTime( timestamp ) );
+        public static ObjectId GenerateNewId(DateTime timestamp)
+        {
+            return GenerateNewId(GetTimestampFromDateTime(timestamp));
         }
 
         /// <summary>
@@ -221,16 +247,18 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="timestamp">The timestamp component.</param>
         /// <returns>An ObjectId.</returns>
-        public static ObjectId GenerateNewId( int timestamp ) {
-            int increment = Interlocked.Increment( ref _staticIncrement ) & 0x00ffffff; // only use low order 3 bytes
-            return new ObjectId( timestamp, StaticMachine, StaticPid, increment );
+        public static ObjectId GenerateNewId(int timestamp)
+        {
+            int increment = Interlocked.Increment(ref _staticIncrement) & 0x00ffffff; // only use low order 3 bytes
+            return new ObjectId(timestamp, StaticMachine, StaticPid, increment);
         }
 
         /// <summary>
         /// Generates a new ObjectId string with a unique value.
         /// </summary>
         /// <returns>The string value of the new generated ObjectId.</returns>
-        public static string GenerateNewStringId() {
+        public static string GenerateNewStringId()
+        {
             return GenerateNewId().ToString();
         }
 
@@ -242,27 +270,30 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="pid">The PID.</param>
         /// <param name="increment">The increment.</param>
         /// <returns>A byte array.</returns>
-        public static byte[] Pack( int timestamp, int machine, short pid, int increment ) {
-            if( ( machine & 0xff000000 ) != 0 ) {
-                throw new ArgumentOutOfRangeException( "machine", "The machine value must be between 0 and 16777215 (it must fit in 3 bytes)." );
+        public static byte[] Pack(int timestamp, int machine, short pid, int increment)
+        {
+            if ((machine & 0xff000000) != 0)
+            {
+                throw new ArgumentOutOfRangeException("machine", "The machine value must be between 0 and 16777215 (it must fit in 3 bytes).");
             }
-            if( ( increment & 0xff000000 ) != 0 ) {
-                throw new ArgumentOutOfRangeException( "increment", "The increment value must be between 0 and 16777215 (it must fit in 3 bytes)." );
+            if ((increment & 0xff000000) != 0)
+            {
+                throw new ArgumentOutOfRangeException("increment", "The increment value must be between 0 and 16777215 (it must fit in 3 bytes).");
             }
 
             byte[] bytes = new byte[12];
-            bytes[0] = (byte)( timestamp >> 24 );
-            bytes[1] = (byte)( timestamp >> 16 );
-            bytes[2] = (byte)( timestamp >> 8 );
-            bytes[3] = (byte)( timestamp );
-            bytes[4] = (byte)( machine >> 16 );
-            bytes[5] = (byte)( machine >> 8 );
-            bytes[6] = (byte)( machine );
-            bytes[7] = (byte)( pid >> 8 );
-            bytes[8] = (byte)( pid );
-            bytes[9] = (byte)( increment >> 16 );
-            bytes[10] = (byte)( increment >> 8 );
-            bytes[11] = (byte)( increment );
+            bytes[0] = (byte)(timestamp >> 24);
+            bytes[1] = (byte)(timestamp >> 16);
+            bytes[2] = (byte)(timestamp >> 8);
+            bytes[3] = (byte)(timestamp);
+            bytes[4] = (byte)(machine >> 16);
+            bytes[5] = (byte)(machine >> 8);
+            bytes[6] = (byte)(machine);
+            bytes[7] = (byte)(pid >> 8);
+            bytes[8] = (byte)(pid);
+            bytes[9] = (byte)(increment >> 16);
+            bytes[10] = (byte)(increment >> 8);
+            bytes[11] = (byte)(increment);
             return bytes;
         }
 
@@ -271,14 +302,17 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="s">The string value.</param>
         /// <returns>A ObjectId.</returns>
-        public static ObjectId Parse( string s ) {
-            if( s == null ) {
-                throw new ArgumentNullException( "s" );
+        public static ObjectId Parse(string s)
+        {
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
             }
-            if( s.Length != 24 ) {
-                throw new ArgumentOutOfRangeException( "s", "ObjectId string value must be 24 characters." );
+            if (s.Length != 24)
+            {
+                throw new ArgumentOutOfRangeException("s", "ObjectId string value must be 24 characters.");
             }
-            return new ObjectId( ParseHexString( s ) );
+            return new ObjectId(ParseHexString(s));
         }
 
         /// <summary>
@@ -289,17 +323,20 @@ namespace NetPro.Utility.Helpers.Internal {
         /// <param name="machine">The machine hash.</param>
         /// <param name="pid">The PID.</param>
         /// <param name="increment">The increment.</param>
-        public static void Unpack( byte[] bytes, out int timestamp, out int machine, out short pid, out int increment ) {
-            if( bytes == null ) {
-                throw new ArgumentNullException( "bytes" );
+        public static void Unpack(byte[] bytes, out int timestamp, out int machine, out short pid, out int increment)
+        {
+            if (bytes == null)
+            {
+                throw new ArgumentNullException("bytes");
             }
-            if( bytes.Length != 12 ) {
-                throw new ArgumentOutOfRangeException( "bytes", "Byte array must be 12 bytes long." );
+            if (bytes.Length != 12)
+            {
+                throw new ArgumentOutOfRangeException("bytes", "Byte array must be 12 bytes long.");
             }
-            timestamp = ( bytes[0] << 24 ) + ( bytes[1] << 16 ) + ( bytes[2] << 8 ) + bytes[3];
-            machine = ( bytes[4] << 16 ) + ( bytes[5] << 8 ) + bytes[6];
-            pid = (short)( ( bytes[7] << 8 ) + bytes[8] );
-            increment = ( bytes[9] << 16 ) + ( bytes[10] << 8 ) + bytes[11];
+            timestamp = (bytes[0] << 24) + (bytes[1] << 16) + (bytes[2] << 8) + bytes[3];
+            machine = (bytes[4] << 16) + (bytes[5] << 8) + bytes[6];
+            pid = (short)((bytes[7] << 8) + bytes[8]);
+            increment = (bytes[9] << 16) + (bytes[10] << 8) + bytes[11];
         }
 
         // private static methods
@@ -308,20 +345,23 @@ namespace NetPro.Utility.Helpers.Internal {
         /// for permissions before executing the method.  Hence, if we inlined this call, the calling method would not execute
         /// before throwing an exception requiring the try/catch at an even higher level that we don't necessarily control.
         /// </summary>
-        [MethodImpl( MethodImplOptions.NoInlining )]
-        private static int GetCurrentProcessId() {
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static int GetCurrentProcessId()
+        {
             return Process.GetCurrentProcess().Id;
         }
 
-        private static int GetMachineHash() {
+        private static int GetMachineHash()
+        {
             var hostName = Environment.MachineName; // use instead of Dns.HostName so it will work offline
             var md5 = MD5.Create();
-            var hash = md5.ComputeHash( Encoding.UTF8.GetBytes( hostName ) );
-            return ( hash[0] << 16 ) + ( hash[1] << 8 ) + hash[2]; // use first 3 bytes of hash
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(hostName));
+            return (hash[0] << 16) + (hash[1] << 8) + hash[2]; // use first 3 bytes of hash
         }
 
-        private static int GetTimestampFromDateTime( DateTime timestamp ) {
-            return (int)Math.Floor( ( ToUniversalTime( timestamp ) - UnixEpoch ).TotalSeconds );
+        private static int GetTimestampFromDateTime(DateTime timestamp)
+        {
+            return (int)Math.Floor((ToUniversalTime(timestamp) - UnixEpoch).TotalSeconds);
         }
 
         // public methods
@@ -330,14 +370,15 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="other">The other ObjectId.</param>
         /// <returns>A 32-bit signed integer that indicates whether this ObjectId is less than, equal to, or greather than the other.</returns>
-        public int CompareTo( ObjectId other ) {
-            int r = _timestamp.CompareTo( other._timestamp );
-            if( r != 0 ) { return r; }
-            r = _machine.CompareTo( other._machine );
-            if( r != 0 ) { return r; }
-            r = _pid.CompareTo( other._pid );
-            if( r != 0 ) { return r; }
-            return _increment.CompareTo( other._increment );
+        public int CompareTo(ObjectId other)
+        {
+            int r = _timestamp.CompareTo(other._timestamp);
+            if (r != 0) { return r; }
+            r = _machine.CompareTo(other._machine);
+            if (r != 0) { return r; }
+            r = _pid.CompareTo(other._pid);
+            if (r != 0) { return r; }
+            return _increment.CompareTo(other._increment);
         }
 
         /// <summary>
@@ -345,7 +386,8 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="rhs">The other ObjectId.</param>
         /// <returns>True if the two ObjectIds are equal.</returns>
-        public bool Equals( ObjectId rhs ) {
+        public bool Equals(ObjectId rhs)
+        {
             return
                 _timestamp == rhs._timestamp &&
                 _machine == rhs._machine &&
@@ -358,11 +400,14 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="obj">The other object.</param>
         /// <returns>True if the other object is an ObjectId and equal to this one.</returns>
-        public override bool Equals( object obj ) {
-            if( obj is ObjectId ) {
-                return Equals( (ObjectId)obj );
+        public override bool Equals(object obj)
+        {
+            if (obj is ObjectId)
+            {
+                return Equals((ObjectId)obj);
             }
-            else {
+            else
+            {
                 return false;
             }
         }
@@ -371,7 +416,8 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Gets the hash code.
         /// </summary>
         /// <returns>The hash code.</returns>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             int hash = 17;
             hash = 37 * hash + _timestamp.GetHashCode();
             hash = 37 * hash + _machine.GetHashCode();
@@ -384,16 +430,18 @@ namespace NetPro.Utility.Helpers.Internal {
         /// Converts the ObjectId to a byte array.
         /// </summary>
         /// <returns>A byte array.</returns>
-        public byte[] ToByteArray() {
-            return Pack( _timestamp, _machine, _pid, _increment );
+        public byte[] ToByteArray()
+        {
+            return Pack(_timestamp, _machine, _pid, _increment);
         }
 
         /// <summary>
         /// Returns a string representation of the value.
         /// </summary>
         /// <returns>A string representation of the value.</returns>
-        public override string ToString() {
-            return ToHexString( ToByteArray() );
+        public override string ToString()
+        {
+            return ToHexString(ToByteArray());
         }
 
         /// <summary>
@@ -401,19 +449,23 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="s">The hex string to parse.</param>
         /// <returns>The byte equivalent of the hex string.</returns>
-        public static byte[] ParseHexString( string s ) {
-            if( s == null ) {
-                throw new ArgumentNullException( "s" );
+        public static byte[] ParseHexString(string s)
+        {
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
             }
 
-            if( s.Length % 2 == 1 ) {
-                throw new Exception( "The binary key cannot have an odd number of digits" );
+            if (s.Length % 2 == 1)
+            {
+                throw new Exception("The binary key cannot have an odd number of digits");
             }
 
             byte[] arr = new byte[s.Length >> 1];
 
-            for( int i = 0; i < s.Length >> 1; ++i ) {
-                arr[i] = (byte)( ( GetHexVal( s[i << 1] ) << 4 ) + ( GetHexVal( s[( i << 1 ) + 1] ) ) );
+            for (int i = 0; i < s.Length >> 1; ++i)
+            {
+                arr[i] = (byte)((GetHexVal(s[i << 1]) << 4) + (GetHexVal(s[(i << 1) + 1])));
             }
 
             return arr;
@@ -423,52 +475,61 @@ namespace NetPro.Utility.Helpers.Internal {
         /// </summary>
         /// <param name="bytes">The byte array.</param>
         /// <returns>A hex string.</returns>
-        public static string ToHexString( byte[] bytes ) {
-            if( bytes == null ) {
-                throw new ArgumentNullException( "bytes" );
+        public static string ToHexString(byte[] bytes)
+        {
+            if (bytes == null)
+            {
+                throw new ArgumentNullException("bytes");
             }
             var result = new char[bytes.Length * 2];
-            for( int i = 0; i < bytes.Length; i++ ) {
+            for (int i = 0; i < bytes.Length; i++)
+            {
                 var val = Lookup32[bytes[i]];
                 result[2 * i] = (char)val;
-                result[2 * i + 1] = (char)( val >> 16 );
+                result[2 * i + 1] = (char)(val >> 16);
             }
-            return new string( result );
+            return new string(result);
         }
         /// <summary>
         /// Converts a DateTime to number of milliseconds since Unix epoch.
         /// </summary>
         /// <param name="dateTime">A DateTime.</param>
         /// <returns>Number of seconds since Unix epoch.</returns>
-        public static long ToMillisecondsSinceEpoch( DateTime dateTime ) {
-            var utcDateTime = ToUniversalTime( dateTime );
-            return ( utcDateTime - UnixEpoch ).Ticks / 10000;
+        public static long ToMillisecondsSinceEpoch(DateTime dateTime)
+        {
+            var utcDateTime = ToUniversalTime(dateTime);
+            return (utcDateTime - UnixEpoch).Ticks / 10000;
         }
         /// <summary>
         /// Converts a DateTime to UTC (with special handling for MinValue and MaxValue).
         /// </summary>
         /// <param name="dateTime">A DateTime.</param>
         /// <returns>The DateTime in UTC.</returns>
-        public static DateTime ToUniversalTime( DateTime dateTime ) {
-            if( dateTime == DateTime.MinValue ) {
-                return DateTime.SpecifyKind( DateTime.MinValue, DateTimeKind.Utc );
+        public static DateTime ToUniversalTime(DateTime dateTime)
+        {
+            if (dateTime == DateTime.MinValue)
+            {
+                return DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
             }
-            else if( dateTime == DateTime.MaxValue ) {
-                return DateTime.SpecifyKind( DateTime.MaxValue, DateTimeKind.Utc );
+            else if (dateTime == DateTime.MaxValue)
+            {
+                return DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
             }
-            else {
+            else
+            {
                 return dateTime.ToUniversalTime();
             }
         }
 
-        private static int GetHexVal( char hex ) {
+        private static int GetHexVal(char hex)
+        {
             int val = hex;
             //For uppercase A-F letters:
             //return val - (val < 58 ? 48 : 55);
             //For lowercase a-f letters:
             //return val - (val < 58 ? 48 : 87);
             //Or the two combined, but a bit slower:
-            return val - ( val < 58 ? 48 : ( val < 97 ? 55 : 87 ) );
+            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
     }
 }

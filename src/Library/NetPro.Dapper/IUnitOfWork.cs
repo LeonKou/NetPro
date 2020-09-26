@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace NetPro.Dapper
 {
@@ -18,6 +16,6 @@ namespace NetPro.Dapper
         /// <summary>
         /// 获取当前事务(用于自定义控制事务，不推荐！)
         /// </summary>
-        IDbTransaction Transaction { get; }       
+        IDbTransaction Transaction { get; }
     }
 }

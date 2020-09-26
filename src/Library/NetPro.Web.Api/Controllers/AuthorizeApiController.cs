@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Authorization;
 using NetPro.Web.Core;
-using Microsoft.AspNetCore.Authorization;
 
 namespace NetPro.Web.Api.Controllers
 {
@@ -10,7 +7,7 @@ namespace NetPro.Web.Api.Controllers
     /// 需要认证api基类
     /// </summary>
     [Authorize]
-     public abstract class AuthorizeApiController : ApiControllerBase
+    public abstract class AuthorizeApiController : ApiControllerBase
     {
         /// <summary>
         /// 登陆用户名

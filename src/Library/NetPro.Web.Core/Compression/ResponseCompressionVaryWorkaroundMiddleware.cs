@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using NetPro.Web.Core.Helpers;
+using System.Threading.Tasks;
 
 namespace NetPro.Web.Core.Compression
 {

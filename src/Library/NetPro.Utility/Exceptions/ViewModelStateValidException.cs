@@ -3,7 +3,7 @@
     /// <summary>
     /// viewModel Data validation failed exception
     /// </summary>
-    public class ViewModelStateValidException: NetProException
+    public class ViewModelStateValidException : NetProException
     {
         public string BindModelText { get; set; }
 
@@ -13,7 +13,7 @@
         /// <param name="errorMsg">错误信息</param>
         /// <param name="bindModelText">bindmodel字符串</param>
         /// <param name="errorCode">错误代码</param>
-        public ViewModelStateValidException(string errorMsg,string bindModelText,int errorCode):base(errorMsg, errorCode)
+        public ViewModelStateValidException(string errorMsg, string bindModelText, int errorCode) : base(errorMsg, errorCode)
         {
             BindModelText = bindModelText;
         }

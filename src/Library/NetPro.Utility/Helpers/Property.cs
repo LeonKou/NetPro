@@ -40,7 +40,7 @@ namespace NetPro.Utility.Helpers
         }
 
         public void ReadXml(XmlReader reader)
-        {         
+        {
             if (reader.IsEmptyElement || !reader.Read())
             {
                 return;

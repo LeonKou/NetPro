@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NetPro.RedisManager
 {
@@ -47,7 +46,7 @@ namespace NetPro.RedisManager
         /// 规范以:结尾
         /// :结尾可自动分组
         /// </summary>
-        public string DefaultCustomKey { get; set; }
+        public string DefaultCustomKey { get; set; } = "";
 
         /// <summary>
         /// 线程池数量
