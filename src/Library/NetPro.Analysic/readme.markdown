@@ -1,8 +1,8 @@
 
-## ANetPro.Analysic使用
+## NetPro.Analysic使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic)
 
-精确到同ip下对请求流量的精确控制，可控制1天 或者1小时内的错误数正确数
+请求分析控制，可精细配置同ip一定时间的错误数和正确数，超过阈值拦截熔断访问
 
 ### 使用
 
@@ -20,7 +20,7 @@
 			},
 			{
 				"Enabled": true,
-				"Path": "/api/sdk/v2/accounts/action/register/account", //注册账号
+				"Path": "/api/test/add", 
 				"MaxSucceedLimit": 100,
 				"MaxErrorLimit": 50
 			}
