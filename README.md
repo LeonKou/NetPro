@@ -69,6 +69,8 @@ NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进�
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.NetProShareRequestBody.svg)](https://nuget.org/packages/NetPro.NetProShareRequestBody ) [NetPro.NetProShareRequestBody ](https://github.com/LeonKou/NetPro.NetProShareRequestBody ) （共享Body流，辅助其他中间件与过滤器）
 
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic) [NetPro.Analysic](https://github.com/LeonKou/NetPro.Analysic)(请求分析控制，可精细配置同ip一定时间的错误数和正确数，超过阈值拦截熔断访问)
+
 具体参考sample/Leon.XXX.Api（分层)项目
 
 * webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)  引用最新nuget即可

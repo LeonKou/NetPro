@@ -5,8 +5,7 @@
 		<Version>$(NetProAnalysic)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
-		<Description>
-		</Description>
+		<Description>请求流量分析，控制ip错误数</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProAnalysicAssemblyName)</AssemblyName>
@@ -18,7 +17,14 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Analysic.xml</DocumentationFile>
 	</PropertyGroup>
-
+	
+	<ItemGroup>
+		<None Include="$(PackageIconPath)">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+	
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
