@@ -17,6 +17,9 @@
 		<NetProAuthentication>3.1.6</NetProAuthentication>
 		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
 
+		<NetProAnalysic>3.1.0</NetProAnalysic>
+		<NetProAnalysicAssemblyName>NetPro.Analysic</NetProAnalysicAssemblyName>
+
 		<NetProChecker>3.1.6</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
@@ -48,11 +51,11 @@
 		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
 
 		<NetProShareRequestBody>3.1.6</NetProShareRequestBody>
-		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>		
+		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>
 
 		<NetProResponseCache>3.1.6</NetProResponseCache>
-		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>		
-		
+		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
+
 		<NetProWebApi>3.1.6</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
@@ -64,6 +67,7 @@
 
 		<NetProSign>3.1.6</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
+
 
 	</PropertyGroup>
 
