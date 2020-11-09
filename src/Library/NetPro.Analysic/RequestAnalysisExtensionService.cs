@@ -21,15 +21,18 @@ namespace NetPro.Analysic
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             try
             {
+                var option = configuration.GetSection(nameof(RequestAnalysisOption)).Get<RequestAnalysisOption>();
+                if (option == null || !option.Enabled)
+                    return services;
+                services.AddHttpContextAccessor();
+                services.AddSingleton(option);
                 services.AddRedisManager(configuration);
             }
             catch (Exception ex)
             {
                 throw new ArgumentNullException("流量分析依赖NetPro.RedisManager 组件,请检查是否遗漏RedisCacheOption配置节点", ex);
             }
-            services.AddHttpContextAccessor();
-            var option = configuration.GetSection(nameof(RequestAnalysisOption)).Get<RequestAnalysisOption>();
-            services.AddSingleton(option);
+
             return services;
         }
 
