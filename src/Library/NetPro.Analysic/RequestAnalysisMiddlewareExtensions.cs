@@ -174,10 +174,10 @@ namespace NetPro.Analysic
             }
             limitByIpError = _redisManager.Get<int>(keyError);
 
-            if (maxLimit > 0 && limitByIp > maxLimit)
+            if (maxLimit > 0 && limitByIp >= maxLimit)
                 return Tuple.Create<bool, int, int>(false, limitByIp, limitByIpError);
 
-            if (maxErrorLimit > 0 && limitByIpError > maxErrorLimit)
+            if (maxErrorLimit > 0 && limitByIpError >= maxErrorLimit)
                 return Tuple.Create<bool, int, int>(false, limitByIp, limitByIpError);
 
             return Tuple.Create<bool, int, int>(true, limitByIp, limitByIpError);
