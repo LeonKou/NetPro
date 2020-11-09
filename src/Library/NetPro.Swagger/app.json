@@ -1,6 +1,6 @@
 ﻿{
 	"SwaggerOption": {
-		"Enable": true,
+		"Enabled": true,
 		"IsDarkTheme": true,
 		"MiniProfilerEnabled": false,
 		"XmlComments": [ "", "" ],

@@ -14,7 +14,7 @@ namespace NetPro.Sign
 
         public bool IsForce { get; set; }
 
-        public bool Enable { get; set; }
+        public bool Enabled { get; set; }
 
         public int ExpireSeconds { get; set; } = 5;
 

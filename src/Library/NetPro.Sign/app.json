@@ -1,6 +1,6 @@
 ﻿{
 	"VerifySignOption": {
-		"Enable": false,
+		"Enabled": false,
 		"IsDebug": true,
 		"IsForce": false, //是否强制签名
 		"ExpireSeconds": 60,

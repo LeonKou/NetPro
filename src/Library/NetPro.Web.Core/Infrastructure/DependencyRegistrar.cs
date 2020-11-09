@@ -34,10 +34,12 @@ namespace NetPro.Web.Core.Infrastructure
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(typeFinder.GetAssemblies()
-                .Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Service)$")).ToArray())
+            var services = typeFinder.GetAssemblies()
+              .Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Service)$")).ToArray();
+            builder.RegisterAssemblyTypes(services)
              .Where(t => t.Name.EndsWith("Service"))
            .AsImplementedInterfaces().InstancePerLifetimeScope();
+
             //builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Repository)$")).ToArray())
             //.Where(t => t.Name.EndsWith("Repository"))
             //.AsImplementedInterfaces().InstancePerLifetimeScope();

@@ -133,7 +133,7 @@ namespace NetPro.Sign
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
-                byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(secret + message + secret));
+                byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(message + secret));
 
                 var hexString = hashBytes.Aggregate(new StringBuilder(),
                                (sb, v) => sb.Append(v.ToString("x2"))
@@ -197,15 +197,15 @@ namespace NetPro.Sign
             if (!request.Body.CanSeek)
             {
                 request.EnableBuffering();
-                try
-                {
-                    Task.WaitAll(request.Body.DrainAsync(CancellationToken.None));
-                }
-                catch (TaskCanceledException ex)
-                {
-                    Console.WriteLine($"[EnableRewind]Sign签名用户取消{request.Path}请求;exeptionMessage:{ex.Message}");
-                    return;
-                }
+                //try
+                //{
+                //    Task.WaitAll(request.Body.DrainAsync(CancellationToken.None)); //DrainAsync 导致内存飙升
+                //}
+                //catch (TaskCanceledException ex)
+                //{
+                //    Console.WriteLine($"[EnableRewind]Sign签名用户取消{request.Path}请求;exeptionMessage:{ex.Message}");
+                //    return;
+                //}
 
             }
             request.Body.Seek(0L, SeekOrigin.Begin);
@@ -215,15 +215,16 @@ namespace NetPro.Sign
         /// 以json返回签名错误
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="msg"></param>
         internal static void BuildErrorJson(ActionExecutingContext context, string msg = "签名失败")
         {
             if (!context.HttpContext?.Response.HasStarted ?? false)
             {
-                context.HttpContext.Response.StatusCode = 400;
+                context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
                 context.HttpContext.Response.ContentType = "application/json";
             }
 
-            context.Result = new BadRequestObjectResult(new { Code = -1, Msg = msg });
+            context.Result = new BadRequestObjectResult(msg);
         }
 
         /// <summary>

@@ -7,6 +7,8 @@ namespace NetPro.RedisManager
 {
     internal class NullCache : IRedisManager
     {
+        public IDatabase Database => throw new NotSupportedException();
+
         public NullCache()
         {
             Console.WriteLine("redis drive is null");
@@ -14,6 +16,16 @@ namespace NetPro.RedisManager
         public T Get<T>(string key)
         {
             return default(T);
+        }
+
+        public bool Set(string key, string data, int expiredTime = -1)
+        {
+            return false;
+        }
+
+        public async Task<bool> SetAsync(string key, string data, int expiredTime = -1)
+        {
+            return default;
         }
 
         public async Task<T> GetAsync<T>(string key)
@@ -80,12 +92,7 @@ namespace NetPro.RedisManager
             return false;
         }
 
-        public bool Remove(string key)
-        {
-            return false;
-        }
-
-        public bool Remove(string[] keys)
+        public async Task<bool> ExistsAsync(string key)
         {
             return false;
         }
@@ -184,6 +191,141 @@ namespace NetPro.RedisManager
         public async Task<long> StringIncrementAsync(string key, long value = 1)
         {
             return 0;
+        }
+
+        public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
+        {
+            return default;
+        }
+
+        public Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
+        {
+            return default;
+        }
+
+        public bool Set(string key, object data, TimeSpan? expiredTime = null)
+        {
+            return false;
+        }
+
+        public Task<bool> SetAsync(string key, object data, TimeSpan? expiredTime = null)
+        {
+            return default;
+        }
+
+        public bool SortedSetAdd<T>(string key, T obj, decimal score)
+        {
+            return false;
+        }
+
+        public Task<bool> SortedSetAddAsync<T>(string key, T obj, decimal score)
+        {
+            return default;
+        }
+
+        public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1)
+        {
+            return null;
+        }
+
+        public Task<List<T>> SortedSetRangeByRankAsync<T>(string key, long start = 0, long stop = -1)
+        {
+            return default;
+        }
+
+        public long HashDelete(string key, IEnumerable<string> field)
+        {
+            return 0;
+        }
+
+        public long HashDelete(string key, string[] field)
+        {
+            return 0;
+        }
+
+        public Task<long> HashDeleteAsync(string key, IEnumerable<string> field)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> HashDeleteAsync(string key, string[] field)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> HashExistsAsync(string key, string hashField)
+        {
+            return default;
+        }
+
+        public bool HashExists(string key, string hashField)
+        {
+            return false;
+        }
+
+        public bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null)
+        {
+            return false;
+        }
+
+        public T HashGet<T>(string key, string field)
+        {
+            return default;
+        }
+
+        public Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null)
+        {
+            return default;
+        }
+
+        public Task<T> HashGetAsync<T>(string key, string field)
+        {
+            return default;
+        }
+
+        public long StringIncrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return 0;
+        }
+
+        public Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return default;
+        }
+
+        public Task<long> KeyTimeToLiveAsync(string key)
+        {
+            return default;
+        }
+
+        public long KeyTimeToLive(string key)
+        {
+            return 0;
+        }
+
+        public Task<bool> KeyExpireAsync(string key, TimeSpan expiry)
+        {
+            return default;
+        }
+
+        public bool KeyExpire(string key, TimeSpan expiry)
+        {
+            return false;
+        }
+
+        public long Remove(string[] keys)
+        {
+            return 0;
+        }
+
+        public bool Remove(string key)
+        {
+            return false;
+        }
+
+        Task<long> IRedisManager.RemoveAsync(string[] keys)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -29,10 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="$(Dapper)" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="$(MicrosoftDataSqlClient)" />
-		<PackageReference Include="MiniProfiler.Shared" Version="$(MiniProfilerShared)" />
-		<PackageReference Include="MySql.Data" Version="$(MySqlData)" />
+		<PackageReference Include="Dapper" Version="2.0.35" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
+		<PackageReference Include="MiniProfiler.Shared" Version="4.2.1" />
+		<PackageReference Include="MySql.Data" Version="8.0.22" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

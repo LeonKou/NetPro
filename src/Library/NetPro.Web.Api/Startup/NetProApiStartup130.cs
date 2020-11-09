@@ -49,7 +49,7 @@ namespace NetPro.Web.Api
         public int Order
         {
             //MVC should be loaded last
-            get { return 120; }
+            get { return 130; }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace NetPro.Web.Core.Filters
             var _verifySignCommon = serviceProvider.GetService<IOperationFilter>();
             var _verifySignOption = serviceProvider.GetService<VerifySignOption>();
 
-            if (!_verifySignOption.Enable)
+            if (!_verifySignOption.Enabled)
             {
                 goto gotoNext;
             }

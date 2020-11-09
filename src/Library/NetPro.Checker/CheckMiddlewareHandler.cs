@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace NetPro.Checker
@@ -30,9 +31,18 @@ namespace NetPro.Checker
             {
                 s.Run(async context =>
                 {
-                    var env = AppEnvironment.GetAppEnvironment();
-                    context.Response.ContentType = DEFAULT_CONTENT_TYPE;
-                    await context.Response.WriteAsync(Serialize(env));
+                    var remoteIp = context.Connection.RemoteIpAddress;
+                    if (!IPAddress.IsLoopback(remoteIp))
+                    {
+                        context.Response.StatusCode = 403;
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
+                    }
+                    else
+                    {
+                        var env = AppEnvironment.GetAppEnvironment();
+                        context.Response.ContentType = DEFAULT_CONTENT_TYPE;
+                        await context.Response.WriteAsync(Serialize(env));
+                    }
                 });
             });
         }
@@ -43,12 +53,21 @@ namespace NetPro.Checker
             {
                 s.Run(async context =>
                 {
-                    var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
-                    var info = AppInfo.GetAppInfo(configuration);
-                    info.RequestHeaders = context.Request.Headers.ToDictionary(kv => kv.Key, kv => kv.Value.First());
-                    //context.Response.Headers["Content-Type"] = "application/json";
-                    context.Response.ContentType = DEFAULT_CONTENT_TYPE;
-                    await context.Response.WriteAsync(Serialize(info));
+                    var remoteIp = context.Connection.RemoteIpAddress;
+                    if (!IPAddress.IsLoopback(remoteIp))
+                    {
+                        context.Response.StatusCode = 403;
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
+                    }
+                    else
+                    {
+                        var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
+                        var info = AppInfo.GetAppInfo(configuration);
+                        info.RequestHeaders = context.Request.Headers.ToDictionary(kv => kv.Key, kv => kv.Value.First());
+                        //context.Response.Headers["Content-Type"] = "application/json";
+                        context.Response.ContentType = DEFAULT_CONTENT_TYPE;
+                        await context.Response.WriteAsync(Serialize(info));
+                    }
                 });
             });
         }

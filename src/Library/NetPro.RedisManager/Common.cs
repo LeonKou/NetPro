@@ -2,6 +2,8 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics.SymbolStore;
 using System.Text;
 
 namespace NetPro.RedisManager
@@ -32,15 +34,12 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         public static T ConvertObj<T>(string value)
         {
-            try
+            value = value.TrimStart('\"').TrimEnd('\"');
+            if (typeof(T) == typeof(string) || typeof(T).IsValueType)
             {
-                return JsonConvert.DeserializeObject<T>(value);
+                return (T)Convert.ChangeType(value, typeof(T));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Redis反序列化失败，错误：{e}");
-                return default;
-            }
+            return JsonConvert.DeserializeObject<T>(value);
         }
 
         /// <summary>
@@ -49,9 +48,10 @@ namespace NetPro.RedisManager
         /// <typeparam name="T"></typeparam>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static byte[] Serialize<T>(T item)
+        public static byte[] Serialize(object item)
         {
             var jsonString = JsonConvert.SerializeObject(item);
+            jsonString = jsonString.TrimStart('\"').TrimEnd('\"');
             return Encoding.UTF8.GetBytes(jsonString);
         }
 
@@ -63,6 +63,11 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         public static string SerializeToString<T>(T item)
         {
+            if (typeof(T) == typeof(string) || typeof(T).IsValueType)
+            {
+                return Convert.ToString(item);
+            }
+
             var jsonString = JsonConvert.SerializeObject(item);
             return jsonString;
         }
@@ -93,6 +98,17 @@ namespace NetPro.RedisManager
                 result.Add(model);
             }
             return result;
+        }
+
+        public static object GetDefault(this Type type)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                var valueProperty = type.GetProperty("Value");
+                type = valueProperty.PropertyType;
+            }
+
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
     }
 }

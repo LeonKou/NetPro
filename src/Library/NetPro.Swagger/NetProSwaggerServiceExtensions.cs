@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
@@ -21,8 +22,19 @@ namespace NetPro.Swagger
         public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddFileProcessService();
-            if (!configuration.GetValue<bool>("SwaggerOption:Enable", false))
+            var loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
+            ILogger logger = null;
+            if (loggerFactory != null)
+            {
+                logger = loggerFactory.CreateLogger($"{nameof(NetProSwaggerServiceExtensions)}");
+            }
+            if (!configuration.GetValue<bool>("SwaggerOption:Enabled", false))
+            {
+                logger?.LogInformation($"NetPro Swagger 已关闭");
                 return services;
+            }
+            else
+                logger?.LogInformation($"NetPro Swagger 已启用");
 
             services
                 .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));
@@ -121,7 +133,7 @@ namespace NetPro.Swagger
         {
             var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
 
-            if (configuration.GetValue<bool>("SwaggerOption:Enable", false))
+            if (configuration.GetValue<bool>("SwaggerOption:Enabled", false))
             {
                 var openApiInfo = configuration.GetSection("SwaggerOption").Get<OpenApiInfo>();
 

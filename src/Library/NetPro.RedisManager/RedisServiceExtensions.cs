@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SNetPro.RedisManager;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace NetPro.RedisManager
         /// <param name="configuration"></param>
         /// <returns></returns>
         /// <remarks>Csredis驱动下非集群模式Cluster必须为fasle，否则指定DataBase无效</remarks>
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddRedisManager(this IServiceCollection services, IConfiguration configuration)
         {
             var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
@@ -30,6 +32,7 @@ namespace NetPro.RedisManager
         /// <param name="services"></param>
         /// <param name="redisCacheOption"></param>
         /// <returns></returns>
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddRedisManager(this IServiceCollection services, RedisCacheOption redisCacheOption)
         {
             var redisCacheComponent = redisCacheOption?.RedisComponent ?? RedisCacheComponentEnum.NullRedis;
@@ -59,8 +62,11 @@ namespace NetPro.RedisManager
         /// <param name="services"></param>
         /// <param name="option"></param>
         /// <returns></returns>
+
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddCsRedis(this IServiceCollection services, RedisCacheOption option)
         {
+            services.AddSingleton<ISerializer, NewtonsoftSerializer>();
             services.AddSingleton(option);
             List<string> csredisConns = new List<string>();
             string password = option.Password;
@@ -119,8 +125,8 @@ namespace NetPro.RedisManager
             connect.ConfigurationChanged += MuxerConfigurationChanged;
             connect.HashSlotMoved += MuxerHashSlotMoved;
             connect.InternalError += MuxerInternalError;
-
-            services.Add(ServiceDescriptor.Singleton(connect));
+            services.AddSingleton(connect);
+            //services.Add(ServiceDescriptor.Singleton(connect));
             #endregion
 
             return services;
@@ -132,6 +138,7 @@ namespace NetPro.RedisManager
         /// <param name="services"></param>
         /// <param name="config"></param>
         /// <returns></returns>
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddCsRedis(this IServiceCollection services, IConfiguration config)
         {
             var option = new RedisCacheOption(config);
@@ -145,6 +152,7 @@ namespace NetPro.RedisManager
         /// <param name="services"></param>
         /// <param name="config"></param>
         /// <returns></returns>
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddStackExchangeRedis(this IServiceCollection services, IConfiguration config)
         {
             var redisOption = new RedisCacheOption(config);
@@ -159,8 +167,10 @@ namespace NetPro.RedisManager
         /// <param name="services"></param>
         /// <param name="redisOption"></param>
         /// <returns></returns>
+        [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
         public static IServiceCollection AddStackExchangeRedis(this IServiceCollection services, RedisCacheOption redisOption)
         {
+            services.AddSingleton<ISerializer, NewtonsoftSerializer>();
             services.AddSingleton(redisOption);
             var configurationOptions = new ConfigurationOptions
             {
@@ -188,7 +198,8 @@ namespace NetPro.RedisManager
             connect.HashSlotMoved += MuxerHashSlotMoved;
             connect.InternalError += MuxerInternalError;
 
-            services.Add(ServiceDescriptor.Singleton(connect));
+            //services.Add(ServiceDescriptor.Singleton(connect));
+            services.AddSingleton(connect);
             services.AddSingleton<IRedisManager, StackExchangeRedisManager>();
 
             /*注入CSRedis驱动，防止Stackexchange驱动下获取执行RedisHelper异常*/

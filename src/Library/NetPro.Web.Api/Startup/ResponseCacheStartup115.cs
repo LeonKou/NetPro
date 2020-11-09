@@ -29,7 +29,7 @@ namespace NetPro.Web.Core.Infrastructure
         public void Configure(IApplicationBuilder application)
         {
             application.UseGetResponseCaching();
-            application.UsePostResponseCache();//响应缓存
+            //application.UsePostResponseCache();//响应缓存
         }
 
         /// <summary>

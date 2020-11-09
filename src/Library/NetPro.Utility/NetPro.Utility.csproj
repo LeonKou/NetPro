@@ -31,11 +31,11 @@
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.NPOI" Version="$(DotNetCoreNPOI)" />
 		<PackageReference Include="IdGen" Version="3.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.9" />
 		<PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
 		<PackageReference Include="PinYinConverterCore" Version="$(PinYinConverterCore)" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="$(SystemComponentModelAnnotations)" />
-		<PackageReference Include="TimeZoneConverter" Version="$(TimeZoneConverter)" />
+		<PackageReference Include="TimeZoneConverter" Version="3.3.0" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

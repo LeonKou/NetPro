@@ -20,7 +20,7 @@ namespace NetPro.Web.Core.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             //签名
-            if (configuration.GetValue<bool>("VerifySignOption:Enable", false))
+            if (configuration.GetValue<bool>("VerifySignOption:Enabled", false))
             {
                 services.AddVerifySign();
             }
@@ -32,7 +32,7 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            if (application.ApplicationServices.GetRequiredService<IConfiguration>().GetValue<bool>("VerifySignOption:Enable", false))
+            if (application.ApplicationServices.GetRequiredService<IConfiguration>().GetValue<bool>("VerifySignOption:Enabled", false))
             {
                 application.UseGlobalSign();//签名
             }

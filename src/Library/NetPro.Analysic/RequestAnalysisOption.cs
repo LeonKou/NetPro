@@ -26,6 +26,12 @@ namespace NetPro.Analysic
         /// 最大失败次数
         /// </summary>
         public int MaxErrorLimit { get; set; }
+
+        /// <summary>
+        /// 命中持续时长
+        /// m:分钟;d:天;h:小时;s:秒;f:毫秒
+        /// </summary>
+        public string HitDuration { get; set; } = "1d";
     }
 
     /// <summary>

@@ -10,7 +10,7 @@
 
 ```json
 "SwaggerOption": {
- "Enable": true,
+ "Enabled": true,
  "MiniProfilerEnabled": false,
  "XmlComments": [ "", "" ],
  "RoutePrefix": "swagger",

@@ -82,7 +82,7 @@ namespace Leon.XXX.Domain.XXX.Service
         /// <returns></returns>
         public async Task<ResponseResult<bool>> SetAsync(uint id, XXXAo xXXAo)
         {
-            var result = await _redisManager.SetAsync($"RedisOption:Id{id}", xXXAo, 60);
+            var result = await _redisManager.SetAsync($"RedisOption:Id{id}", xXXAo);
             return new ResponseResult<bool>
             {
                 Result = result,

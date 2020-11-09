@@ -68,6 +68,7 @@ namespace NetPro.Analysic
             });
 
             var analysisConfigListTemp = _requestAnalysisOption.PolicyOption;
+            _iLogger.LogDebug($"流量分析获取的请求路径:{context.Request.Path.Value}");
             var analysisConfigTemp = analysisConfigListTemp?.Where(s => s.Enabled == true && s.Path.Equals(context.Request.Path.Value, StringComparison.OrdinalIgnoreCase))?.FirstOrDefault();
 
             int maxLimitTemp = 0;
@@ -102,12 +103,12 @@ namespace NetPro.Analysic
                 if (context.Response.StatusCode == 200)
                 {
                     string keySucceed = $"{RedisKeys.Key_Request_Limit_IP_Succ}{currentIp}";
-                    RecordRequest($"{keySucceed}{path}", CheckIpValidResultByConfig.Item2);
+                    RecordRequest(keySucceed: $"{keySucceed}{path}", hitDuration: analysisConfigTemp.HitDuration);
                 }
                 else
                 {
                     string keyError = $"{RedisKeys.Key_Request_Limit_IP_Error}{currentIp}";
-                    RecordRequest(keyError: $"{keyError}{path}", limitByIpError: CheckIpValidResultByConfig.Item3);
+                    RecordRequest(keyError: $"{keyError}{path}", hitDuration: analysisConfigTemp.HitDuration);
                 }
 
                 await Task.CompletedTask;
@@ -151,7 +152,7 @@ namespace NetPro.Analysic
             //同ip请求次数限制
             //同用户请求次数限制
             //TODO 同IP 每小时关联的用户数
-            //TODO 同IP每小时关联的UUID数
+            //TODO 同IP每小时关联的UUID数             
             var currentIp = GetRequestIp();
             int limitByIp = 0;
             int limitByIpError = 0;
@@ -165,9 +166,6 @@ namespace NetPro.Analysic
 
             limitByIp = _redisManager.Get<int>(keySucceed);
 
-            if (maxLimit > 0 && limitByIp > maxLimit)
-                return Tuple.Create<bool, int, int>(false, limitByIp, limitByIpError);
-
             //校验失败请求次数
             string keyError = $"{RedisKeys.Key_Request_Limit_IP_Error}{currentIp}";
             if (!string.IsNullOrEmpty(path))
@@ -175,6 +173,9 @@ namespace NetPro.Analysic
                 keyError = $"{keyError}{path}";
             }
             limitByIpError = _redisManager.Get<int>(keyError);
+
+            if (maxLimit > 0 && limitByIp > maxLimit)
+                return Tuple.Create<bool, int, int>(false, limitByIp, limitByIpError);
 
             if (maxErrorLimit > 0 && limitByIpError > maxErrorLimit)
                 return Tuple.Create<bool, int, int>(false, limitByIp, limitByIpError);
@@ -213,52 +214,50 @@ namespace NetPro.Analysic
         /// 
         /// </summary>
         /// <param name="keySucceed"></param>
-        /// <param name="limitByIp"></param>
         /// <param name="keyError"></param>
-        /// <param name="limitByIpError"></param>
-        private void RecordRequest(string keySucceed = null, int limitByIp = 0, string keyError = null, int limitByIpError = 0)
+        /// <param name="hitDuration"></param>
+        private void RecordRequest(string keySucceed = null, string keyError = null, string hitDuration = "1d")
         {
-            var exchangedb = _redisManager.GetIDatabase();
-
-            List<Task<bool>> tasklist = new List<Task<bool>>();
-            IBatch batch = exchangedb.CreateBatch();
-
             if (!string.IsNullOrEmpty(keySucceed))
             {
-                keySucceed = $"{_redisCacheOption.DefaultCustomKey}{keySucceed}";
-                //成功
-                var expiredTime = RedisHelper.PTtl(keySucceed);
-                if (expiredTime <= 0)
+                if (!_redisManager.Exists(keySucceed))
                 {
-                    expiredTime = 60 * 60 * 24;
+                    _redisManager.StringIncrement(keySucceed, expiry: _ConvertToTimeSpan(hitDuration));
                 }
                 else
                 {
-                    expiredTime = expiredTime / 1000;
+                    _redisManager.StringIncrement(keySucceed);
                 }
-                var succeedIP = batch.StringSetAsync(keySucceed, limitByIp + 1, TimeSpan.FromSeconds(expiredTime));
-                tasklist.Add(succeedIP);
             }
             else
             {
-                keyError = $"{_redisCacheOption.DefaultCustomKey}{keyError}";
-                //失败
-                var keyErrorExpiredTime = RedisHelper.PTtl(keyError);
-                if (keyErrorExpiredTime <= 0)
+                if (!_redisManager.Exists(keyError))
                 {
-                    keyErrorExpiredTime = 60 * 60 * 24;
+                    _redisManager.StringIncrement(keyError, expiry: _ConvertToTimeSpan(hitDuration));
                 }
                 else
                 {
-                    keyErrorExpiredTime = keyErrorExpiredTime / 1000;
+                    _redisManager.StringIncrement(keyError);
                 }
-                var errorIp = batch.StringSetAsync(keyError, limitByIpError + 1, TimeSpan.FromSeconds(keyErrorExpiredTime));
-                tasklist.Add(errorIp);
             }
 
-            batch.Execute();
-            _iLogger.LogInformation("exchange驱动执行set");
-            Task.WhenAll(tasklist.ToArray());
+            TimeSpan _ConvertToTimeSpan(string timeSpan)
+            {
+                var l = timeSpan.Length - 1;
+                var value = timeSpan.Substring(0, l);
+                var type = timeSpan.Substring(l, 1);
+
+                switch (type)
+                {
+                    case "d": return TimeSpan.FromDays(double.Parse(value));
+                    case "h": return TimeSpan.FromHours(double.Parse(value));
+                    case "m": return TimeSpan.FromMinutes(double.Parse(value));
+                    case "s": return TimeSpan.FromSeconds(double.Parse(value));
+                    case "f": return TimeSpan.FromMilliseconds(double.Parse(value));
+                    case "z": return TimeSpan.FromTicks(long.Parse(value));
+                    default: return TimeSpan.FromDays(double.Parse(value));
+                }
+            }
         }
     }
 

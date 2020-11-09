@@ -1,0 +1,24 @@
+{
+	"RedisCacheOption": {
+		"Enabled": true,
+		"Password": "netpro", 
+		"IsSsl": false,
+		"Preheat": 20,
+		"Cluster": true, 
+		"ConnectionTimeout": 20,
+		"Endpoints": [
+			{
+				"Port": 666,
+				"Host": "192.16.8.90"
+			},
+			{
+				"Port": 2333,
+				"Host": "192.16.8.91"
+			}
+		],
+		"Database": 0,
+		"DefaultCustomKey": "",
+		"PoolSize": 50
+	}
+}
+

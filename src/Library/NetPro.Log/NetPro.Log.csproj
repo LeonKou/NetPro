@@ -34,7 +34,7 @@
 		<PackageReference Include="Serilog.Sinks.Async" Version="$(SerilogSinksAsync)" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
 		<PackageReference Include="Serilog.Sinks.Debug" Version="$(SerilogSinksDebug)" />
-		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.2.0" />
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.2" />
 		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
 		<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />

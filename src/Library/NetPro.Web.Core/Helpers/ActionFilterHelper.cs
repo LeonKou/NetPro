@@ -32,7 +32,7 @@ namespace NetPro.Web.Core.Helpers
             if (!request.Body.CanSeek)
             {
                 request.EnableBuffering();
-                Task.WaitAll(request.Body.DrainAsync(CancellationToken.None));
+                //Task.WaitAll(request.Body.DrainAsync(CancellationToken.None)); //DrainAsync 导致内存飙升
             }
             request.Body.Seek(0L, SeekOrigin.Begin);
         }

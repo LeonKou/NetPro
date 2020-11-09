@@ -41,7 +41,7 @@ namespace NetPro.Sign
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
             var option = configuration.GetSection(nameof(VerifySignOption)).Get<VerifySignOption>();
-            if (option.Enable)
+            if (option.Enabled)
             {
                 if (setupAction != null) services.ConfigureSign(setupAction);
 

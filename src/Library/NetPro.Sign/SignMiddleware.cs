@@ -22,7 +22,7 @@ namespace NetPro.Sign
         {
             var configuration = builder.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
 
-            if (configuration.GetValue<bool>("VerifySignOption:Enable", false))
+            if (configuration.GetValue<bool>("VerifySignOption:Enabled", false))
                 return builder.UseMiddleware<SignMiddleware>();
             return builder;
         }
@@ -56,7 +56,7 @@ namespace NetPro.Sign
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData, VerifySignOption verifySignOption)
         {
-            if (!context.Request.Path.Value.StartsWith("/api"))
+            if (!context.Request.Path.Value.ToLower().StartsWith("/api"))
             {
                 await _next(context);
                 return;
@@ -80,15 +80,16 @@ namespace NetPro.Sign
             {
                 if (!context?.Response.HasStarted ?? false)
                 {
-                    context.Response.StatusCode = 400;
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
                     context.Response.ContentType = "application/json";
                 }
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(new { Code = -1, Msg = $"{result.Item2}", Result = string.Empty }, new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-                }));
+                await context.Response.WriteAsync(result.Item2);
+                //await context.Response.WriteAsync(JsonSerializer.Serialize(new { Code = -1, Msg = $"{result.Item2}", Result = string.Empty }, new JsonSerializerOptions
+                //{
+                //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                //    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                //}));
                 return;
             }
             else

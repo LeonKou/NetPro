@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
+using StackExchange.Redis.KeyspaceIsolation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,13 +31,13 @@ namespace NetPro.RedisManager
         }
         public T Get<T>(string key)
         {
-            var result = _<T>(key);
+            var result = RedisHelper.Get<T>(key);
             return result;
         }
 
         public async Task<T> GetAsync<T>(string key)
         {
-            var result = await _Async<T>(key);
+            var result = await RedisHelper.GetAsync<T>(key);
             return result;
         }
 
@@ -49,9 +52,9 @@ namespace NetPro.RedisManager
         /// <param name="expiredTime"></param>
         /// <param name="localExpiredTime">本地过期时间</param>
         /// <returns></returns>
-        public T GetOrSet<T>(string key, Func<T> func = null, int expiredTime = -1, int localExpiredTime = 0)
+        public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
         {
-            if (localExpiredTime > 0 && localExpiredTime <= expiredTime)
+            if (localExpiredTime > 0 && TimeSpan.FromSeconds(localExpiredTime) <= expiredTime && _memorycache != null)
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
                 {
@@ -75,28 +78,72 @@ namespace NetPro.RedisManager
             return _(key, func, expiredTime);
         }
 
-        private T _<T>(string key, Func<T> func = null, int expiredTime = -1)
+        private T _<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null)
         {
-            Common.CheckAndProcess(ref key, ref expiredTime);
             var result = RedisHelper.Get<T>(key);
 
-            if (result == null)
+            //引用类型
+            if (typeof(T).IsClass && result == null)
             {
                 if (func == null) return default(T);
                 var executeResult = func.Invoke();
                 if (executeResult == null) return default(T);
 
-                RedisHelper.SetAsync(key, executeResult, expiredTime);
+                if (expiredTime.HasValue)
+                    RedisHelper.Set(key, executeResult, expiredTime.Value);
+                else
+                    RedisHelper.Set(key, executeResult);
 
                 return executeResult;
+            }
+            //值类型
+            else if (typeof(T).IsValueType)
+            {
+                if (typeof(T).Name.StartsWith("Nullable`1"))//可空类型
+                {
+                    if (result == null)
+                    {
+                        if (func == null) return default(T);
+                        var executeResult = func.Invoke();
+                        if (executeResult == null) return default(T);
+
+                        if (expiredTime.HasValue)
+                            RedisHelper.Set(key, executeResult, expiredTime.Value);
+                        else
+                            RedisHelper.Set(key, executeResult);
+                        return executeResult;
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
+                else//不可空
+                {
+                    if (result.ToString() == typeof(T).GetDefault().ToString())
+                    {
+                        if (func == null) return default(T);
+                        var executeResult = func.Invoke();
+                        if (executeResult == null) return default(T);
+                        if (expiredTime.HasValue)
+                            RedisHelper.Set(key, executeResult, expiredTime.Value);
+                        else
+                            RedisHelper.Set(key, executeResult);
+                        return executeResult;
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
             }
 
             return result;
         }
 
-        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, int expiredTime = -1, int localExpiredTime = 0)
+        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
         {
-            if (localExpiredTime > 0 && localExpiredTime <= expiredTime)
+            if (localExpiredTime > 0 && TimeSpan.FromSeconds(localExpiredTime) <= expiredTime && _memorycache != null)
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
                 {
@@ -119,20 +166,63 @@ namespace NetPro.RedisManager
             return await _Async(key, func, expiredTime);
         }
 
-        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, int expiredTime = -1)
+        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null)
         {
-            Common.CheckAndProcess(ref key, ref expiredTime);
             var result = await RedisHelper.GetAsync<T>(key);
 
-            if (result == null)
+            //引用类型
+            if (typeof(T).IsClass && result == null)
             {
                 if (func == null) return default(T);
                 var executeResult = await func.Invoke();
                 if (executeResult == null) return default(T);
 
-                await RedisHelper.SetAsync(key, executeResult, expiredTime);
-
+                if (expiredTime.HasValue)
+                    await RedisHelper.SetAsync(key, executeResult, expiredTime.Value);
+                else
+                    await RedisHelper.SetAsync(key, executeResult);
                 return executeResult;
+            }
+            //值类型
+            else if (typeof(T).IsValueType)
+            {
+                if (typeof(T).Name.StartsWith("Nullable`1"))//可空类型
+                {
+                    if (result == null)
+                    {
+                        if (func == null) return default(T);
+                        var executeResult = await func.Invoke();
+                        if (executeResult == null) return default(T);
+
+                        if (expiredTime.HasValue)
+                            await RedisHelper.SetAsync(key, executeResult, expiredTime.Value);
+                        else
+                            await RedisHelper.SetAsync(key, executeResult);
+                        return executeResult;
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
+                else//不可空
+                {
+                    if (result.ToString() == typeof(T).GetDefault().ToString())
+                    {
+                        if (func == null) return default(T);
+                        var executeResult = await func.Invoke();
+                        if (executeResult == null) return default(T);
+                        if (expiredTime.HasValue)
+                            await RedisHelper.SetAsync(key, executeResult, expiredTime.Value);
+                        else
+                            await RedisHelper.SetAsync(key, executeResult);
+                        return executeResult;
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
             }
 
             return result;
@@ -181,42 +271,69 @@ namespace NetPro.RedisManager
             }
         }
 
-        /// <summary>
-        /// 获得使用原生stackexchange.redis的能力，用于pipeline (stackExchange.redis专用)
-        /// </summary>
-        /// <returns></returns>
-        public IDatabase GetIDatabase()
+        public long HashDelete(string key, IEnumerable<string> field)
         {
-            return _connection.GetDatabase();
+            return RedisHelper.HDel(key, field.ToArray());
+        }
+        public async Task<long> HashDeleteAsync(string key, IEnumerable<string> field)
+        {
+            return await RedisHelper.HDelAsync(key, field.ToArray());
         }
 
-        public T HGet<T>(string key, string field)
+        public long HashDelete(string key, string[] field)
         {
-            Common.CheckAndProcess(ref key);
+            return RedisHelper.HDel(key, field);
+        }
+
+        public async Task<long> HashDeleteAsync(string key, string[] field)
+        {
+            return await RedisHelper.HDelAsync(key, field);
+        }
+
+        public async Task<bool> HashExistsAsync(string key, string hashField)
+        {
+            return await RedisHelper.HExistsAsync(key, hashField);
+        }
+
+        public bool HashExists(string key, string hashField)
+        {
+            return RedisHelper.HExists(key, hashField);
+        }
+
+        public T HashGet<T>(string key, string field)
+        {
             return RedisHelper.HGet<T>(key, field);
         }
 
-        public async Task<T> HGetAsync<T>(string key, string field)
+        public async Task<T> HashGetAsync<T>(string key, string field)
         {
-            Common.CheckAndProcess(ref key);
-
             return await RedisHelper.HGetAsync<T>(key, field);
         }
 
-        public bool HSet<T>(string key, string field, T value, int expirationMinute = 1)
+        public bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null)
         {
             bool isSet = RedisHelper.HSet(key, field, value);
-            if (isSet && expirationMinute > 0)
-                RedisHelper.Expire(key, TimeSpan.FromMinutes(expirationMinute));
+            if (isSet && expiredTime.HasValue)
+                RedisHelper.Expire(key, expiredTime.Value);
             return isSet;
         }
 
-        public async Task<bool> HSetAsync<T>(string key, string field, T value, int expirationMinute = 1)
+        public async Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null)
         {
             bool isSet = await RedisHelper.HSetAsync(key, field, value);
-            if (isSet && expirationMinute > 0)
-                await RedisHelper.ExpireAsync(key, TimeSpan.FromMinutes(expirationMinute));
+            if (isSet && expiredTime.HasValue)
+                await RedisHelper.ExpireAsync(key, expiredTime.Value);
             return isSet;
+        }
+
+        public bool KeyExpire(string key, TimeSpan expiration)
+        {
+            return RedisHelper.Expire(key, expiration);
+        }
+
+        public async Task<bool> KeyExpireAsync(string key, TimeSpan expiration)
+        {
+            return await RedisHelper.ExpireAsync(key, expiration);
         }
 
         public bool Exists(string key)
@@ -229,60 +346,63 @@ namespace NetPro.RedisManager
             return await RedisHelper.ExistsAsync(key);
         }
 
-        public bool Remove(string key)
-        {
-            return RedisHelper.Del(key) > 0 ? true : false;
-        }
-
         public async Task<bool> RemoveAsync(string key)
         {
-            return await RedisHelper.DelAsync(key) > 0 ? true : false;
+            var result = await RedisHelper.DelAsync(key);
+            return result > 0 ? true : false;
         }
 
-        public bool Remove(string[] keys)
+        public bool Remove(string key)
         {
-            return RedisHelper.Del(keys) > 0 ? true : false;
+            return RedisHelper.Del(key)>0?true:false;
         }
 
-        public async Task<bool> RemoveAsync(string[] keys)
+        public long Remove(string[] keys)
         {
-            return await RedisHelper.DelAsync(keys) > 0 ? true : false;
+            return RedisHelper.Del(keys);
         }
 
-        public bool Set(string key, object data, int expiredTime = -1)
+        public async Task<long> RemoveAsync(string[] keys)
         {
-            Common.CheckAndProcess(ref key, ref expiredTime);
-            return RedisHelper.Set(key, data, expiredTime);
+            return await RedisHelper.DelAsync(keys);
         }
 
-        public async Task<bool> SetAsync(string key, object data, int expiredTime)
+        public bool Set(string key, object data, TimeSpan? expiredTime)
         {
-            Common.CheckAndProcess(ref key, ref expiredTime);
-            return await RedisHelper.SetAsync(key, data, expiredTime);
+            if (expiredTime.HasValue)
+                return RedisHelper.Set(key, data, expiredTime.Value);
+            else
+                return RedisHelper.Set(key, data);
         }
 
-        public bool ZAdd<T>(string key, T obj, decimal score)
+        public async Task<bool> SetAsync(string key, object data, TimeSpan? expiredTime)
+        {
+            if (expiredTime.HasValue)
+                return await RedisHelper.SetAsync(key, data, expiredTime.Value);
+            else
+                return await RedisHelper.SetAsync(key, data);
+        }
+
+        public bool SortedSetAdd<T>(string key, T obj, decimal score)
         {
             return RedisHelper.ZAdd(key, (score, obj)) > 0 ? true : false;
         }
 
-        public List<T> ZRange<T>(string key)
+        public async Task<bool> SortedSetAddAsync<T>(string key, T obj, decimal score)
+        {
+            var result = await RedisHelper.ZAddAsync(key, (score, obj));
+            return result > 0 ? true : false;
+        }
+
+        public List<T> SortedSetRangeByRank<T>(string key)
         {
             return RedisHelper.ZRange<T>(key, 0, -1)?.ToList();
         }
 
-        /// <summary>
-        /// value递增
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public long StringIncrement(string key, long value = 1)
+        public async Task<List<T>> SortedSetRangeByRankAsync<T>(string key)
         {
-            Common.CheckAndProcess(ref key);
-            key = AddDefaultPrefixKey(key);
-            return RedisHelper.IncrBy(key, value);
+            var result = await RedisHelper.ZRangeAsync<T>(key, 0, -1);
+            return result.ToList();
         }
 
         /// <summary>
@@ -290,13 +410,52 @@ namespace NetPro.RedisManager
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public async Task<long> StringIncrementAsync(string key, long value = 1)
+        public long StringIncrement(string key, long value = 1, TimeSpan? expiry = null)
         {
-            Common.CheckAndProcess(ref key);
-            key = AddDefaultPrefixKey(key);
-            return await RedisHelper.IncrByAsync(key, value);
+            var result = RedisHelper.IncrBy(key, value);
+            if (expiry.HasValue)
+                RedisHelper.Expire(key, expiry.Value);
+            return result;
+        }
+
+        /// <summary>
+        /// value递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        public async Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = await RedisHelper.IncrByAsync(key, value);
+            if (expiry.HasValue)
+                await RedisHelper.ExpireAsync(key, expiry.Value);
+            return result;
+        }
+
+        public long KeyTimeToLive(string key)
+        {
+            var time = RedisHelper.Ttl(key);
+            return time;
+        }
+
+        public async Task<long> KeyTimeToLiveAsync(string key)
+        {
+            var time = await RedisHelper.TtlAsync(key);
+            return time;
+        }
+
+        /// <summary>
+        /// 获得使用原生stackexchange.redis的能力，用于pipeline (stackExchange.redis专用)
+        /// </summary>
+        /// <returns></returns>
+        public IDatabase GetIDatabase()
+        {
+            return _connection.GetDatabase();
         }
 
         /// <summary>
@@ -362,6 +521,30 @@ namespace NetPro.RedisManager
         {
             var build = new StringBuilder(_option?.DefaultCustomKey ?? string.Empty);
             return build.Append(key).ToString();
+        }
+
+        public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1)
+        {
+            return RedisHelper.ZRange<T>(key, start, stop)?.ToList();
+        }
+
+        public async Task<List<T>> SortedSetRangeByRankAsync<T>(string key, long start = 0, long stop = -1)
+        {
+            var result = await RedisHelper.ZRangeAsync<T>(key, start, stop);
+            return result.ToList();
+        }
+
+        public IDatabase Database
+        {
+            get
+            {
+                var db = _connection.GetDatabase(_option.Database);
+
+                if (!string.IsNullOrWhiteSpace(_option.DefaultCustomKey))
+                    return db.WithKeyPrefix(_option.DefaultCustomKey);
+
+                return db;
+            }
         }
     }
 }
