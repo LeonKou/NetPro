@@ -276,7 +276,7 @@ namespace NetPro.Analysic
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(RequestAnalysisOption)) as RequestAnalysisOption;
-            if (responseCacheOption.Enabled)
+            if (responseCacheOption?.Enabled ?? false)
             {
                 builder.UseMiddleware<RequestAnalysisMiddleware>();
             }
