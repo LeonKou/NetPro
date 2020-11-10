@@ -12,11 +12,11 @@ namespace NetPro.Utility.Extenisons
     public static partial class Extensions
     {
         /// <summary>
-        /// IEnumerable<T>数据转为DataTable
+        /// 数据转为DataTable
         /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="collection">数据源</param>
-        /// <returns>DataTable数据</returns>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> collection) where T : class, new()
         {
             var tb = new DataTable(typeof(T).Name);
@@ -45,11 +45,11 @@ namespace NetPro.Utility.Extenisons
         }
 
         /// <summary>
-        /// DataTable数据转为List<T>
+        /// DataTable数据转为List
         /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="source">数据源</param>
-        /// <returns>List<T>数据</returns>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static List<T> ToList<T>(this DataTable source) where T : class, new()
         {
             List<T> list = new List<T>();

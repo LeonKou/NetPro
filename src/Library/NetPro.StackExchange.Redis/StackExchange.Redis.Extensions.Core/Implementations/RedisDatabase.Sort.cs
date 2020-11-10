@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace StackExchange.Redis.Extensions.Core.Implementations
@@ -36,9 +35,10 @@ namespace StackExchange.Redis.Extensions.Core.Implementations
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="score"></param>
-        /// <param name="commandFlags"></param>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <param name="order"></param>
+        /// <param name="flags"></param>
         /// <returns></returns>
         public async Task<IEnumerable<T>> SortedSetRangeByRankAsync<T>(
                                     string key,
@@ -54,9 +54,10 @@ namespace StackExchange.Redis.Extensions.Core.Implementations
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="score"></param>
-        /// <param name="commandFlags"></param>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
+        /// <param name="order"></param>
+        /// <param name="flags"></param>
         /// <returns></returns>
         public IEnumerable<T> SortedSetRangeByRank<T>(
                                     string key,

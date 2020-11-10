@@ -34,7 +34,6 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 批量插入数据，返回成功的条数（未启用事物）
         /// </summary>
-        /// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
         /// <param name="tableName">数据库表名</param>
         /// <param name="fields">数据库表的所有字段，用【,】分隔（主键自增时应排除主键字段）</param>
         /// <param name="list">数据库表对应的实体集合</param>
@@ -52,7 +51,6 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 根据主键删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
         int Delete(object id);
@@ -69,31 +67,28 @@ namespace NetPro.Dapper.Repositories
         /// 查询所有数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         IList<T> QueryAll<T>(bool withNoLock = false);
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>(new { Age = 10 })
+        /// <![CDATA[  例如：QueryList<User>(new { Age = 10 })]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         IList<T> QueryList<T>(object whereConditions, bool withNoLock = false);
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+        ///  <![CDATA[  例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         IList<T> QueryList<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
 
         /// <summary>
         /// 分页
-        /// 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+        ///  <![CDATA[ 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")]]>  
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -148,9 +143,6 @@ namespace NetPro.Dapper.Repositories
         /// sql查询返回第一条实体
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="primaryKeyName"></param>
-        /// <param name="primaryKeyValue"></param>
-        /// <param name="tableName">参数</param>
         /// <returns></returns>
         T QueryFirstOrDefault<T>(string sqlText, DynamicParameters parameters = null);
 
@@ -250,7 +242,6 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 批量插入数据，返回成功的条数（未启用事物）
         /// </summary>
-        /// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
         /// <param name="tableName">数据库表名</param>
         /// <param name="fields">数据库表的所有字段，用【,】分隔（主键自增时应排除主键字段）</param>
         /// <param name="list">数据库表对应的实体集合</param>
@@ -287,31 +278,28 @@ namespace NetPro.Dapper.Repositories
         /// 查询所有数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         Task<IList<T>> QueryAllAsync<T>(bool withNoLock = false);
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryListAsync<User>(new { Age = 10 })
+        ///  <![CDATA[例如：QueryListAsync<User>(new { Age = 10 })]]>  
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         Task<IList<T>> QueryListAsync<T>(object whereConditions, bool withNoLock = false);
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryListAsync<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+        ///  <![CDATA[ 例如：QueryListAsync<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})]]>  
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         Task<IList<T>> QueryListAsync<T>(string conditions, DynamicParameters parame, bool withNoLock = false);
 
         /// <summary>
         /// 分页
-        /// 例如：QueryListPagedAsync<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+        ///  <![CDATA[ 例如：QueryListPagedAsync<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")]]>  
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -366,9 +354,6 @@ namespace NetPro.Dapper.Repositories
         /// sql查询返回第一条实体
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="primaryKeyName"></param>
-        /// <param name="primaryKeyValue"></param>
-        /// <param name="tableName">参数</param>
         /// <returns></returns>
         Task<T> QueryFirstOrDefaultAsync<T>(string sqlText, DynamicParameters parameters = null);
 
@@ -377,8 +362,6 @@ namespace NetPro.Dapper.Repositories
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="param"></param>
-        /// <param name="transaction"></param>
-        /// <param name="commandTimeout"></param>
         /// <param name="commandType"></param>
         /// <returns></returns>
         Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, CommandType? commandType = null);

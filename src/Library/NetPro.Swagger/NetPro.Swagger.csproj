@@ -10,6 +10,7 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProSwaggerAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Swagger.xml</DocumentationFile>
@@ -19,7 +20,7 @@
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Swagger.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <EmbeddedResource Include="IndexDark.html" />
+		<EmbeddedResource Include="IndexDark.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,18 +30,18 @@
 		</None>
 	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
+	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>

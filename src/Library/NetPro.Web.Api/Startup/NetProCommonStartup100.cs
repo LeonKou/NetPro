@@ -22,6 +22,7 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
+        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             //compression

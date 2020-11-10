@@ -59,7 +59,7 @@ namespace NetPro.Dapper.Repositories
         //    return await _dapperRepository.QueryFirstOrDefaultAsync<Table>("where ", parame);
         //}
 
-        public IList<Table> QueryList<Table>(string conditions, DynamicParameters parame)
+        public IList<Table> QueryList(string conditions, DynamicParameters parame)
         {
             return _dapperRepository.QueryList<Table>(conditions, parame);
         }

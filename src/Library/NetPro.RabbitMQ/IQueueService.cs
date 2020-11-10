@@ -63,7 +63,6 @@ namespace MQMiddleware
         /// Send a message.
         /// </summary>
         /// <param name="message">Message.</param>
-        /// <param name="properties">Message properties.</param>
         /// <param name="exchangeName">Exchange name.</param>
         void SendString(string message, string exchangeName, string routingKey);
 

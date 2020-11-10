@@ -151,7 +151,6 @@ namespace NetPro.Dapper.Repositories
         /// 查询所有数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         public async Task<IList<T>> QueryAllAsync<T>(bool withNoLock = false)
         {
@@ -167,7 +166,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>(new { Age = 10 })
+        ///  <![CDATA[ 例如：QueryList<User>(new { Age = 10 })]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="whereConditions"></param>
@@ -186,7 +185,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+        ///  <![CDATA[ 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="conditions"></param>
@@ -209,7 +208,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 分页
-        /// 例如：QueryListPaged<User>(1,10," age = 10 or Name like '%Smith%'","Name desc")
+        ///  <![CDATA[  例如：QueryListPaged<User>(1,10," age = 10 or Name like '%Smith%'","Name desc")]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -308,9 +307,6 @@ namespace NetPro.Dapper.Repositories
         /// sql查询返回第一条实体
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="primaryKeyName"></param>
-        /// <param name="primaryKeyValue"></param>
-        /// <param name="tableName">参数</param>
         /// <returns></returns>
         public async Task<T> QueryFirstOrDefaultAsync<T>(string sqlText, DynamicParameters parameters = null)
         {
@@ -322,8 +318,6 @@ namespace NetPro.Dapper.Repositories
         /// </summary>
         /// <param name="sql">sql语句或者存储过程名称</param>
         /// <param name="param"></param>
-        /// <param name="transaction"></param>
-        /// <param name="commandTimeout"></param>
         /// <param name="commandType">查询类型(sql,存储过程)</param>
         /// <returns></returns>
         public async Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, CommandType? commandType = null)
@@ -379,7 +373,6 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 执行存储过程，返回list集合
         /// </summary>
-        /// <typeparam name="TAny"></typeparam>
         /// <param name="StoredProcedure"></param>
         /// <param name="parms"></param>
         /// <returns></returns>

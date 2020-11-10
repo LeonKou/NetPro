@@ -16,9 +16,10 @@ using System.Threading.Tasks;
 namespace NetPro.Web.Core.Filters
 {
     /// <summary>
-    /// 全局异常捕获过滤器
+    /// 全局异常捕获过滤器,异常由中间件完成
     /// </summary>
-    public class NetProExceptionFilter : IAsyncExceptionFilter
+    [Obsolete]
+    public class NetProExceptionFilter : IExceptionFilter
     {
         private readonly ILogger _logger;
         readonly IWebHelper _webHelper;
@@ -36,7 +37,7 @@ namespace NetPro.Web.Core.Filters
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task OnExceptionAsync(ExceptionContext context)
+        public void OnException(ExceptionContext context)
         {
             string requestBodyText = string.Empty;
             var request = context.HttpContext.Request;

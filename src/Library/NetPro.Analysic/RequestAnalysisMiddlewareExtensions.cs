@@ -23,7 +23,9 @@ namespace NetPro.Analysic
         private readonly RequestAnalysisOption _requestAnalysisOption;
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _memorycache;
+#pragma warning disable CS0618 // Type or member is obsolete
         private readonly IRedisManager _redisManager;
+#pragma warning restore CS0618 // Type or member is obsolete
         private readonly RedisCacheOption _redisCacheOption;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -41,7 +43,9 @@ namespace NetPro.Analysic
             ILogger<RequestAnalysisMiddleware> iLogger,
             RequestAnalysisOption requestAnalysisOption,
             IMemoryCache memorycache,
+#pragma warning disable CS0618 // Type or member is obsolete
             IRedisManager redisManager,
+#pragma warning restore CS0618 // Type or member is obsolete
             RedisCacheOption redisCacheOption,
             IHttpContextAccessor httpContextAccessor)
         {

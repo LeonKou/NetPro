@@ -460,8 +460,9 @@ namespace NetPro.CsRedis
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="message"></param>
+        /// <param name="channel"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<long> PublishAsync(string channel, string input)
         {
             var result = await RedisHelper.PublishNoneMessageIdAsync(channel, input);
@@ -473,7 +474,7 @@ namespace NetPro.CsRedis
         /// 订阅，根据分区规则返回SubscribeObject，Subscribe(("chan1", msg => Console.WriteLine(msg.Body)),
         /// ("chan2", msg => Console.WriteLine(msg.Body)))
         /// </summary>
-        /// <param name="channel">管道</param>
+        /// <param name="channels">管道</param>
         /// <returns>收到的消息</returns>
         public void Subscribe(params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels)
         {
@@ -481,12 +482,19 @@ namespace NetPro.CsRedis
             result.Dispose();
         }
 
-        /// <summary>
-        /// 订阅消息
-        /// 使用lpush + blpop订阅端（多端非争抢模式），都可以收到消息
-        /// </summary>
-        /// <param name="channel">管道</param>
-        /// <returns>收到的消息</returns>
+        //
+        // Summary:
+        //     使用lpush + blpop订阅端（多端非争抢模式），都可以收到消息
+        //
+        // Parameters:
+        //   listKey:
+        //     list key（不含prefix前辍）
+        //
+        //   clientId:
+        //     订阅端标识，若重复则争抢，若唯一必然收到消息
+        //
+        //   onMessage:
+        //     接收消息委托
         public void SubscribeListBroadcast(string listKey, string clientId, Action<string> onMessage)
         {
             var result = RedisHelper.SubscribeListBroadcast(listKey, clientId, onMessage);

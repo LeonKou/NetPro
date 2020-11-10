@@ -526,7 +526,7 @@ namespace NetPro.MongoDb
         /// <typeparam name="TDocument">The document type.</typeparam>
         /// <typeparam name="TKey">The type of the primary key.</typeparam>
         /// <param name="filter">A LINQ expression filter.</param>
-        /// <param name="orderByAscending">A property selector to order by ascending.</param>
+        /// <param name="maxValueSelector">A property selector to order by ascending.</param>
         /// <param name="partitionKey">An optional partitionKey.</param>
         public async Task<TValue> GetMaxValueAsync<TDocument, TKey, TValue>(Expression<Func<TDocument, bool>> filter, Expression<Func<TDocument, TValue>> maxValueSelector, string partitionKey = null)
             where TDocument : IDocument<TKey>

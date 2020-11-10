@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace NetPro.RedisManager
 {
+    [Obsolete]
     internal partial class StackExchangeRedisManager : IRedisManager
     {
         private readonly ConnectionMultiplexer _connection;

@@ -18,11 +18,6 @@ namespace NetPro.Core.Configuration
         public string ProjectSuffix { get; set; }
 
         /// <summary>
-        /// 是否显示完整异常内容.(当为开发环境时忽略此参数)
-        /// </summary>
-        //public bool DisplayFullErrorStack { get; set; }
-
-        /// <summary>
         ///请求头参数"Cache-Control" 
         /// </summary>
         public string StaticFilesCacheControl { get; set; } = "Cache-Control";
@@ -47,9 +42,9 @@ namespace NetPro.Core.Configuration
         ///// </summary>
         //public bool PermissionEnabled { get; set; }
 
-        /// <summary>
-        /// 是否启用miniprofiler 监控
-        /// </summary>
+        ///// <summary>
+        ///// 是否启用miniprofiler 监控
+        ///// </summary>
         //public bool MiniProfilerEnabled { get; set; }
 
         /// <summary>

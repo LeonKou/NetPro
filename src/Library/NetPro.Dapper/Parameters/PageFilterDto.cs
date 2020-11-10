@@ -62,7 +62,7 @@ namespace NetPro.Dapper
 
                 /// <summary>
                 /// 小于等于 
-                /// <=
+                /// <![CDATA[ <=]]>
                 /// </summary>
                 Less = 3,
 
@@ -88,9 +88,9 @@ namespace NetPro.Dapper
                 /// </summary>
                 NotIn = 7,
 
-                /// <summary>
-                /// 或
-                /// </summary>
+                ///// <summary>
+                ///// 或
+                ///// </summary>
                 //Or = 9
             }
         }

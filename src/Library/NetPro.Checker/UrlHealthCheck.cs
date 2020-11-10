@@ -62,7 +62,7 @@ namespace NetPro.Checker
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="urls"></param>
-        /// <param name="statusCodes">default is HttpStatusCode.OK </param>
+        /// <param name="succeedtatusCodes">default is HttpStatusCode.OK </param>
         /// <param name="name"></param>
         /// <param name="failureStatus"></param>
         /// <param name="tags"></param>

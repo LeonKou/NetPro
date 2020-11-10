@@ -9,6 +9,7 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProWebCoreAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
@@ -19,11 +20,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="FluentValidation\**" />
-	  <EmbeddedResource Remove="FluentValidation\**" />
-	  <None Remove="FluentValidation\**" />
+		<Compile Remove="FluentValidation\**" />
+		<EmbeddedResource Remove="FluentValidation\**" />
+		<None Remove="FluentValidation\**" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>

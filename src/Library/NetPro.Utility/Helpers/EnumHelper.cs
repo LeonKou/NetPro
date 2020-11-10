@@ -204,11 +204,12 @@ namespace NetPro.Utility.Helpers
             return result;
         }
 
-        // <summary>
+        /// <summary>
         /// 获取指定属性类的实例
         /// </summary>
         /// <param name="enumSubitem">枚举类子项</param>
         /// <param name="attributeType">DescriptionAttribute属性类或其自定义属性类 类型，例如：typeof(DescriptionAttribute)</param>
+        /// <returns></returns>
         private static Object GetAttributeClass(Enum enumSubitem, Type attributeType)
         {
             FieldInfo fieldinfo = enumSubitem.GetType().GetField(enumSubitem.ToString());

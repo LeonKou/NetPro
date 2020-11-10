@@ -9,6 +9,7 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 	  <PackageIcon>$(PackageIcon)</PackageIcon>
 	  <AssemblyName>$(NetProLogAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

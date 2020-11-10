@@ -12,7 +12,7 @@ namespace NetPro.CsRedis
         /// 增加StackExchange.Redis服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="config"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
         public static IServiceCollection AddCsRedis<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
         {
@@ -25,7 +25,7 @@ namespace NetPro.CsRedis
         /// 增加StackExchange.Redis服务
         /// </summary>
         /// <param name="services">The service collection.</param>
-        /// <param name="redisConfiguration">The redis configration.</param>
+        /// <param name="RedisCacheOption">The redis configration.</param>
         /// <typeparam name="T">The typof of serializer. <see cref="ISerializer" />.</typeparam>
         public static IServiceCollection AddCsRedis<T>(
             this IServiceCollection services,
@@ -40,7 +40,7 @@ namespace NetPro.CsRedis
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="option"></param>
+        /// <param name="redisCacheOption"></param>
         /// <returns></returns>
         public static IServiceCollection AddCsRedis(this IServiceCollection services, Func<IServiceProvider, RedisCacheOption> redisCacheOption)
         {

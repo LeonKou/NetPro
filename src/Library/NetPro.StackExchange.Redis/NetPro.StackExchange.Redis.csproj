@@ -10,15 +10,16 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProStackExchangeRedisAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Remove="docs\markdown" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\StackExchange.Redis.xml</DocumentationFile>
+	</PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Include="docs\markdown" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netcoreapp3.1\StackExchange.Redis.xml</DocumentationFile>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

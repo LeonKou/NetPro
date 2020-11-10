@@ -17,9 +17,9 @@ namespace NetPro.CsRedis
         }
 
 
-        public async Task<T> GetAsync<T>(string key)
+        public Task<T> GetAsync<T>(string key)
         {
-            return default(T);
+            return Task.FromResult(default(T));
         }
 
         public T GetOrSet<T>(string key, Func<T> func = null, int expiredTime = -1, int localExpiredTime = 0)
@@ -53,9 +53,9 @@ namespace NetPro.CsRedis
             return default;
         }
 
-        public async Task<T> HGetAsync<T>(string key, string field)
+        public  Task<T> HGetAsync<T>(string key, string field)
         {
-            return default(T);
+            return default;
         }
 
         public bool HSet<T>(string key, string field, T value, int expirationMinute = 1)
@@ -73,9 +73,9 @@ namespace NetPro.CsRedis
             return false;
         }
 
-        public async Task<bool> ExistsAsync(string key)
+        public Task<bool> ExistsAsync(string key)
         {
-            return false;
+            return default;
         }
 
         public long Remove(string key)
@@ -102,9 +102,9 @@ namespace NetPro.CsRedis
         {
             return 0;
         }
-        public async Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score)
+        public  Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score)
         {
-            return 0;
+            return default;
         }
         public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1)
         {
@@ -163,9 +163,9 @@ namespace NetPro.CsRedis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public async Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        public  Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
         {
-            return 0;
+            return default;
         }
 
         public void SubscribeListBroadcast(string listKey, string clientId, Action<string> onMessage)
@@ -175,7 +175,7 @@ namespace NetPro.CsRedis
         public bool Set(string key, object data, TimeSpan expiredTime)
         {
             return false;
-        }                      
+        }
 
         public Task<bool> SetAsync(string key, object data, TimeSpan expiredTime)
         {
@@ -234,7 +234,7 @@ namespace NetPro.CsRedis
 
         public void Subscribe(params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels)
         {
-           
+
         }
 
         public long HashDelete(string key, IEnumerable<string> field)

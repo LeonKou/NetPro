@@ -57,7 +57,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 增加StackExchange.Redis服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="config"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
         public static IServiceCollection AddStackExchangeRedisExtensions<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
         {

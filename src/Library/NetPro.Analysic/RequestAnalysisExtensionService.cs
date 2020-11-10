@@ -16,6 +16,7 @@ namespace NetPro.Analysic
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
+        [Obsolete]
         public static IServiceCollection AddRequestAnalysic(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();

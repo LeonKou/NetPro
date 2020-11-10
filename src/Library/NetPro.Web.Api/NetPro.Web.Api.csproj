@@ -10,7 +10,9 @@
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<PackageTags>NetPro,Api,MicroService,Swagger</PackageTags>
 		<AssemblyName>$(NetProWebApiAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Web.Api.xml</DocumentationFile>
 	</PropertyGroup>

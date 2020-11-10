@@ -9,7 +9,9 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProUtilityAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Utility.xml</DocumentationFile>
 	</PropertyGroup>
@@ -17,6 +19,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Utility.xml</DocumentationFile>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>

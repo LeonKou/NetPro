@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-				<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
+		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProMongoDb)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
@@ -9,7 +9,9 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProMongoDbAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.MongoDb.xml</DocumentationFile>
 	</PropertyGroup>
@@ -36,7 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
+		<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

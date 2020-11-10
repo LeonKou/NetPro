@@ -52,7 +52,7 @@ namespace NetPro.Sign
         /// Post:（从头排序后+body json整体 ）hash
         /// </summary>
         /// <param name="context"></param>
-        ///  <param name="responseCacheData"></param>
+        ///  <param name="requestCacheData"></param>
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData, VerifySignOption verifySignOption)
         {
@@ -81,7 +81,7 @@ namespace NetPro.Sign
                 if (!context?.Response.HasStarted ?? false)
                 {
                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                    context.Response.ContentType = "application/json";
+                    context.Response.ContentType = "application/text";
                 }
 
                 await context.Response.WriteAsync(result.Item2);

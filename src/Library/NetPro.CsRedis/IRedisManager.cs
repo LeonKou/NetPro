@@ -137,11 +137,13 @@ namespace NetPro.CsRedis
         /// <returns></returns>
         List<T> SortedSetRangeByRank<T>(string key,long start= 0, long stop = -1);
 
-        //// <summary>
+        /// <summary>
         /// 通过索引区间返回有序集合成指定区间内的成员
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
+        /// <param name="start"></param>
+        /// <param name="stop"></param>
         /// <returns></returns>
         Task<List<T>> SortedSetRangeByRankAsync<T>(string key, long start = 0, long stop = -1);
 
@@ -211,7 +213,7 @@ namespace NetPro.CsRedis
         /// <param name="key"></param>
         /// <param name="field"></param>
         /// <param name="value"></param>
-        /// <param name="expirationMinute">单位分钟</param>
+        /// <param name="expiredTime">过期时间</param>
         /// <returns></returns>
         bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null);
 
@@ -231,7 +233,7 @@ namespace NetPro.CsRedis
         /// <param name="key"></param>
         /// <param name="field"></param>
         /// <param name="value"></param>
-        /// <param name="expirationMinute">单位分钟</param>
+        /// <param name="expiredTime">过期时间</param>
         /// <returns></returns>
         Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null);
 
@@ -287,7 +289,6 @@ namespace NetPro.CsRedis
         /// </summary>
         /// <param name="key"></param>
         /// <param name="expiry"></param>
-        /// <param name="flags"></param>
         /// <returns>true:设置成功，false：设置失败</returns>
         Task<bool> KeyExpireAsync(string key, TimeSpan expiry);
 
@@ -295,8 +296,7 @@ namespace NetPro.CsRedis
         /// 设置一个超时键
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="expiry"></param>
-        /// <param name="flags"></param>
+        /// <param name="expiration">过期时间</param>
         /// <returns>true:设置成功，false：设置失败</returns>
         bool KeyExpire(string key, TimeSpan expiration);
 
@@ -309,8 +309,8 @@ namespace NetPro.CsRedis
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="message"></param>
+        /// <param name="channel"></param>
+        /// <param name="input"></param>
         Task<long> PublishAsync(string channel, string input);
 
         /// <summary>
@@ -318,16 +318,23 @@ namespace NetPro.CsRedis
         /// 订阅，根据分区规则返回SubscribeObject，Subscribe(("chan1", msg => Console.WriteLine(msg.Body)),
         /// ("chan2", msg => Console.WriteLine(msg.Body)))
         /// </summary>
-        /// <param name="channel">管道</param>
+        /// <param name="channels">管道</param>
         /// <returns>收到的消息</returns>
         void Subscribe(params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels);
 
-        /// <summary>
-        /// 订阅消息
-        /// 使用lpush + blpop订阅端（多端非争抢模式），都可以收到消息
-        /// </summary>
-        /// <param name="channel">管道</param>
-        /// <returns>收到的消息</returns>
+        //
+        // Summary:
+        //     使用lpush + blpop订阅端（多端非争抢模式），都可以收到消息
+        //
+        // Parameters:
+        //   listKey:
+        //     list key（不含prefix前辍）
+        //
+        //   clientId:
+        //     订阅端标识，若重复则争抢，若唯一必然收到消息
+        //
+        //   onMessage:
+        //     接收消息委托
         void SubscribeListBroadcast(string listKey, string clientId, Action<string> onMessage);
     }
 }

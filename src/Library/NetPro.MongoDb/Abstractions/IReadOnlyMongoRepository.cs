@@ -288,7 +288,7 @@ namespace NetPro.MongoDb
         /// <typeparam name="TDocument">The document type.</typeparam>
         /// <typeparam name="TKey">The type of the primary key.</typeparam>
         /// <param name="filter">A LINQ expression filter.</param>
-        /// <param name="orderByAscending">A property selector to order by descending.</param>
+        /// <param name="orderByDescending">A property selector to order by descending.</param>
         /// <param name="partitionKey">An optional partitionKey.</param>
         Task<TDocument> GetByMaxAsync<TDocument, TKey>(Expression<Func<TDocument, bool>> filter, Expression<Func<TDocument, object>> orderByDescending, string partitionKey = null)
             where TDocument : IDocument<TKey>
@@ -300,7 +300,7 @@ namespace NetPro.MongoDb
         /// <typeparam name="TDocument">The document type.</typeparam>
         /// <typeparam name="TKey">The type of the primary key.</typeparam>
         /// <param name="filter">A LINQ expression filter.</param>
-        /// <param name="orderByAscending">A property selector to order by descending.</param>
+        /// <param name="orderByDescending">A property selector to order by descending.</param>
         /// <param name="partitionKey">An optional partitionKey.</param>
         TDocument GetByMax<TDocument, TKey>(Expression<Func<TDocument, bool>> filter, Expression<Func<TDocument, object>> orderByDescending, string partitionKey = null)
             where TDocument : IDocument<TKey>
@@ -347,7 +347,7 @@ namespace NetPro.MongoDb
         /// <typeparam name="TDocument">The document type.</typeparam>
         /// <typeparam name="TKey">The type of the primary key.</typeparam>
         /// <param name="filter">A LINQ expression filter.</param>
-        /// <param name="orderByAscending">A property selector to order by ascending.</param>
+        /// <param name="maxValueSelector">A property selector to order by ascending.</param>
         /// <param name="partitionKey">An optional partitionKey.</param>
         Task<TValue> GetMaxValueAsync<TDocument, TKey, TValue>(Expression<Func<TDocument, bool>> filter, Expression<Func<TDocument, TValue>> maxValueSelector, string partitionKey = null)
             where TDocument : IDocument<TKey>
@@ -370,7 +370,7 @@ namespace NetPro.MongoDb
         /// <typeparam name="TDocument">The document type.</typeparam>
         /// <typeparam name="TKey">The type of the primary key.</typeparam>
         /// <param name="filter">A LINQ expression filter.</param>
-        /// <param name="orderByAscending">A property selector to order by ascending.</param>
+        /// <param name="orderByDescending">A property selector to order by ascending.</param>
         /// <param name="partitionKey">An optional partitionKey.</param>
         TValue GetMaxValue<TDocument, TKey, TValue>(Expression<Func<TDocument, bool>> filter, Expression<Func<TDocument, TValue>> orderByDescending, string partitionKey = null)
             where TDocument : IDocument<TKey>

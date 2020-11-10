@@ -27,10 +27,10 @@ namespace NetPro.Sign
         /// 通用生成签名
         /// </summary>
         /// <param name="secret"></param>
-        /// <param name="queryDic">url参数,参数名统一小写；参数中不能包含时间戳，时间戳已内部处理，参数名为：timestamp</param>
+        /// <param name="query">url参数,参数名统一小写；参数中不能包含时间戳，时间戳已内部处理，参数名为：timestamp</param>
         /// <param name="body">body参数</param>
         /// <param name="signMethod">算法名称:hmac-sha256；md5</param>
-        /// <remarks>将url参数与body参数以&分割
+        /// <remarks><![CDATA[ 将url参数与body参数以'&'分割]]>
         /// 拼装新字符串utf-8编码后
         /// HMACSHA256摘要后转16进制小写
         /// </remarks>

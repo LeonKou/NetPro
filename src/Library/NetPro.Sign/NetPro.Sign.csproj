@@ -10,6 +10,7 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProSignAssemblyName)</AssemblyName>
+	<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Sign.xml</DocumentationFile>
@@ -18,6 +19,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Sign.xml</DocumentationFile>
 	</PropertyGroup>
+	
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>

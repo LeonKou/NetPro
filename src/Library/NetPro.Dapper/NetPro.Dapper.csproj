@@ -10,19 +10,25 @@
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProDapperAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Dapper.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Dapper.xml</DocumentationFile>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Dapper.xml</DocumentationFile>
-	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<Compile Remove="Expressions\DapperExpressionExtensions.cs" />
 		<Compile Remove="Expressions\DapperExpressionVisitor.cs" />

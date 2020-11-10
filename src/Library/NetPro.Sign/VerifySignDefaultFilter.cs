@@ -12,9 +12,9 @@ namespace NetPro.Sign
         }
 
         /// <summary>
-        /// 获取游戏secret
+        /// 获取appid对应的secret
         /// </summary>
-        /// <param name="gameId"></param>
+        /// <param name="appid"></param>
         /// <returns></returns>
         public virtual string GetSignSecret(string appid)
         {
@@ -28,7 +28,7 @@ namespace NetPro.Sign
         /// </summary>
         /// <param name="message"></param>
         /// <param name="secret"></param>
-        /// <param name="encrypt"></param>
+        /// <param name="signMethod">哈希算法，默认HMACSHA256</param>
         /// <returns>签名16进制</returns>
         public virtual string GetSignhHash(string message, string secret, EncryptEnum signMethod = EncryptEnum.Default)
         {

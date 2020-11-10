@@ -346,7 +346,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// </summary>
         /// <typeparam name="T">期望对象的类型</typeparam>
         /// <param name="key">缓存key</param>
-        /// <param name="item">成员名称</param>
+        /// <param name="items">成员名称</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
         Task<long> SetAddAllAsync<T>(string key, CommandFlags flag = CommandFlags.None, params T[] items)
             where T : class;
@@ -357,7 +357,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// </summary>
         /// <typeparam name="T">期望对象的类型</typeparam>
         /// <param name="key">缓存key</param>
-        /// <param name="item">成员名称</param>
+        /// <param name="items">成员名称</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
         long SetAddAll<T>(string key, CommandFlags flag = CommandFlags.None, params T[] items)
             where T : class;
@@ -469,7 +469,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <typeparam name="T">期望对象的类型.</typeparam>
         /// <param name="key">成员的key名称.</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
-        /// <returns集合中的对象数组</returns>
+        /// <returns>集合中的对象数组</returns>
         Task<IEnumerable<T>> SetMembersAsync<T>(string key, CommandFlags flag = CommandFlags.None);
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <typeparam name="T">期望对象的类型.</typeparam>
         /// <param name="key">成员的key名称.</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
-        /// <returns集合中的对象数组</returns>
+        /// <returns>集合中的对象数组</returns>
         IEnumerable<T> SetMembers<T>(string key, CommandFlags flag = CommandFlags.None);
 
         /// <summary>
@@ -580,7 +580,6 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <param name="resource">被锁的资源</param>
         /// <param name="timeoutSeconds">超时时间</param>
         /// <param name="func">待执行的操作</param>
-        /// <param name="isAwait">是否等待</param>
         /// <param name="waitTime">等待时间</param>
         /// <param name="retryTime">重试时间</param>
         /// <returns>是否拿到锁并执行成功
@@ -595,7 +594,6 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <param name="resource">被锁的资源</param>
         /// <param name="timeoutSeconds">超时时间</param>
         /// <param name="func">待执行的操作</param>
-        /// <param name="isAwait">是否等待</param>
         /// <param name="waitTime">等待时间</param>
         /// <param name="retryTime">重试时间</param>
         /// <returns>是否拿到锁并执行成功
@@ -610,9 +608,6 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <param name="resource">被锁的资源</param>
         /// <param name="timeoutSeconds">超时时间</param>
         /// <param name="func">待执行的操作</param>
-        /// <param name="isAwait">是否等待</param>
-        /// <param name="waitTime">等待时间</param>
-        /// <param name="retryTime">重试时间</param>
         /// <returns>是否拿到锁并执行成功
         /// true:拿到锁，并成功执行委托
         /// false:未拿到锁</returns>
@@ -625,9 +620,6 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <param name="resource">被锁的资源</param>
         /// <param name="timeoutSeconds">超时时间</param>
         /// <param name="func">待执行的操作</param>
-        /// <param name="isAwait">是否等待</param>
-        /// <param name="waitTime">等待时间</param>
-        /// <param name="retryTime">重试时间</param>
         /// <returns>是否拿到锁并执行成功
         /// true:拿到锁，并成功执行委托
         /// false:未拿到锁</returns>

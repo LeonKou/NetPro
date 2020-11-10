@@ -33,7 +33,6 @@
     /// Controller返回专用结构!!!
     /// </summary>
     /// <remarks>默认成功 Code=0;Msg="",Result=null</remarks>
-    /// <typeparam name="T">泛型 Result返回类型</typeparam>
     public class ResponseResult : ResponseResult<dynamic>
     {
         /// <summary>

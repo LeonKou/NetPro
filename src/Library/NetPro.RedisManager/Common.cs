@@ -45,7 +45,6 @@ namespace NetPro.RedisManager
         /// <summary>
         /// 序列化为字节
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="item"></param>
         /// <returns></returns>
         public static byte[] Serialize(object item)

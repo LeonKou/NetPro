@@ -42,10 +42,9 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// <summary>
         ///  注册一个回调处理程序来处理发布到通道的消息。
         /// </summary>
-        /// <typeparam name="T">The type of the expected object.</typeparam>
         /// <param name="channel">发布订阅的管道名称</param>
         /// <param name="handler">当收到消息时要运行的函数</param>
-        /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
+        /// <param name="flags">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
         void Subscribe(string channel, Action<RedisChannel, RedisValue> handler, CommandFlags flags = CommandFlags.None);
 
         /// <summary>

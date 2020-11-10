@@ -17,6 +17,7 @@ namespace NetPro.Web.Core.Filters
     /// 验签特性
     /// </summary>
     /// <remarks>特性方式继承自动生效</remarks>
+    [Obsolete("过时的特性,签名只适合于中间件方式,用特新方式可能会导致其他中间件提前拦截导致无法命中签名")]
     public class VerifySignAttribute : ActionFilterAttribute
     {
         public VerifySignAttribute()

@@ -18,7 +18,9 @@ namespace NetPro.Web.Api.Startup
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             services.AddRequestAnalysic();
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         public void Configure(IApplicationBuilder application)

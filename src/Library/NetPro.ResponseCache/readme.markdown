@@ -26,7 +26,8 @@ public void ConfigureServices(IServiceCollection services)
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     app.UseShareRequestBody();//共享body流，UseShareRequestBody必须在UsePostResponseCache中间件之上，而且必须启用，否则响应缓存失效
-    app.UsePostResponseCache();//启动Post全局响应缓存，Get响应缓存默认开启
+    app.UsePostResponseCache();//启动Post全局响应缓存,建议不使用全局Post缓存,改用特新方式[PostResponseCacheAttribute],除非在查询条件繁多情况下为了快速组装条件用Post提交条件方式进行查询可使用全局缓存,
+    app.UseGetResponseCaching();//启动Get全局响应缓存,也可直接使用[ResponseCache]特性对指定接口启用Get响应缓存
 }
 ```
 

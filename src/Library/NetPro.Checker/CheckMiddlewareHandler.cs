@@ -35,6 +35,7 @@ namespace NetPro.Checker
                     if (!IPAddress.IsLoopback(remoteIp))
                     {
                         context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
                         await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
                     }
                     else
@@ -57,6 +58,7 @@ namespace NetPro.Checker
                     if (!IPAddress.IsLoopback(remoteIp))
                     {
                         context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
                         await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
                     }
                     else

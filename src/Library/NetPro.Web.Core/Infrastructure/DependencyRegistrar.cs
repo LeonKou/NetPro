@@ -24,7 +24,6 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="builder">Container builder</param>
         /// <param name="typeFinder">Type finder</param>
         /// <param name="config">Config</param>
-        /// <param name="configuration"></param>
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NetProOption config)
         {
             //file provider

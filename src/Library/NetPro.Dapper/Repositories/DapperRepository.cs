@@ -99,7 +99,7 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 批量插入数据，返回成功的条数（未启用事物）
         /// </summary>
-        /// <typeparam name="TEntity">数据库表对应的实体类型</typeparam>
+        /// <typeparam name="T">数据库表对应的实体类型</typeparam>
         /// <param name="tableName">数据库表名</param>
         /// <param name="fields">数据库表的所有字段，用【,】分隔（主键自增时应排除主键字段）</param>
         /// <param name="list">数据库表对应的实体集合</param>
@@ -173,7 +173,6 @@ namespace NetPro.Dapper.Repositories
         /// 查询所有数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
         /// <returns>受影响的行数</returns>
         public IList<T> QueryAll<T>(bool withNoLock = false)
         {
@@ -189,11 +188,12 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>(new { Age = 10 })
+        ///  <![CDATA[  例如：QueryList<User>(new { Age = 10 })]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <returns>受影响的行数</returns>
+        /// <param name="whereConditions"></param>
+        /// <param name="withNoLock"></param>
+        /// <returns></returns>
         public IList<T> QueryList<T>(object whereConditions, bool withNoLock = false)
         {
             Func<IList<T>> acquire = (() =>
@@ -207,11 +207,13 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 依据条件查询数据
-        /// 例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})
+        /// <![CDATA[例如：QueryList<User>("age = @Age or Name like @Name", new {Age = 10, Name = likename})]]>
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <returns>受影响的行数</returns>
+        /// <param name="conditions"></param>
+        /// <param name="parame"></param>
+        /// <param name="withNoLock"></param>
+        /// <returns></returns>
         public IList<T> QueryList<T>(string conditions, DynamicParameters parame, bool withNoLock = false)
         {
             Func<IList<T>> acquire = (() =>
@@ -228,7 +230,7 @@ namespace NetPro.Dapper.Repositories
 
         /// <summary>
         /// 分页
-        /// 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")
+        ///  <![CDATA[ 例如：QueryListPaged<User>(1,10,"where age = 10 or Name like '%Smith%'","Name desc")]]> 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="pageIndex"></param>
@@ -325,9 +327,8 @@ namespace NetPro.Dapper.Repositories
         /// sql查询返回第一条实体
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="primaryKeyName"></param>
-        /// <param name="primaryKeyValue"></param>
-        /// <param name="tableName">参数</param>
+        /// <param name="sqlText"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         public T QueryFirstOrDefault<T>(string sqlText, DynamicParameters parameters = null)
         {
@@ -401,7 +402,7 @@ namespace NetPro.Dapper.Repositories
         /// <summary>
         /// 执行存储过程，返回list集合
         /// </summary>
-        /// <typeparam name="TAny"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="StoredProcedure"></param>
         /// <param name="parms"></param>
         /// <returns></returns>

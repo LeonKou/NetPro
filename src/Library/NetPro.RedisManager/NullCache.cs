@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetPro.RedisManager
 {
+    [Obsolete]
     internal class NullCache : IRedisManager
     {
         public IDatabase Database => throw new NotSupportedException();
@@ -23,14 +24,14 @@ namespace NetPro.RedisManager
             return false;
         }
 
-        public async Task<bool> SetAsync(string key, string data, int expiredTime = -1)
+        public Task<bool> SetAsync(string key, string data, int expiredTime = -1)
         {
             return default;
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public Task<T> GetAsync<T>(string key)
         {
-            return default(T);
+            return default;
         }
 
         public T GetOrSet<T>(string key, Func<T> func = null, int expiredTime = -1, int localExpiredTime = 0)
@@ -72,9 +73,9 @@ namespace NetPro.RedisManager
             return default;
         }
 
-        public async Task<T> HGetAsync<T>(string key, string field)
+        public Task<T> HGetAsync<T>(string key, string field)
         {
-            return default(T);
+            return default;
         }
 
         public bool HSet<T>(string key, string field, T value, int expirationMinute = 1)
@@ -92,9 +93,9 @@ namespace NetPro.RedisManager
             return false;
         }
 
-        public async Task<bool> ExistsAsync(string key)
+        public Task<bool> ExistsAsync(string key)
         {
-            return false;
+            return default;
         }
 
         public bool Set(string key, object data, int cacheTime = -1)
@@ -188,9 +189,9 @@ namespace NetPro.RedisManager
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public async Task<long> StringIncrementAsync(string key, long value = 1)
+        public Task<long> StringIncrementAsync(string key, long value = 1)
         {
-            return 0;
+            return default;
         }
 
         public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)

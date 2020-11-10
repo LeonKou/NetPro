@@ -144,7 +144,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// 给hash散列集合中的hashfield 递增，默认递增1
         /// </summary>
         /// <param name="key">redis  key</param>
-        /// <param name="hashFields">要从散列中检索的键</param>
+        /// <param name="hashField">要从散列中检索的键</param>
         /// <param name="value">递增值</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
         Task<long> HashIncerementByAsync(string key, string hashField, long value = 1, CommandFlags flag = CommandFlags.None);
@@ -153,7 +153,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         /// 给hash散列集合中的hashfield 递增，默认递增1
         /// </summary>
         /// <param name="key">redis  key</param>
-        /// <param name="hashFields">要从散列中检索的键</param>
+        /// <param name="hashField">要从散列中检索的键</param>
         /// <param name="value">递增值</param>
         /// <param name="flag">行为标记,默认None=PreferMaster:尝试主服务器上执行</param>
         long HashIncerement(string key, string hashField, long value = 1, CommandFlags flag = CommandFlags.None);

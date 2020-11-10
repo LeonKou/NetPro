@@ -33,7 +33,7 @@ namespace NetPro.Dapper
             _connection = _connectionFactory.Create();
         }
         /// <summary>
-        /// Creates a new <see cref="NewUnitOfWork"/>.
+        /// Creates a new 
         /// </summary>
         /// <param name="isolationLevel">The <see cref="IsolationLevel"/> used for the transaction inside this unit of work. Default value: <see cref="IsolationLevel.ReadCommitted"/></param>
         /// <returns></returns>

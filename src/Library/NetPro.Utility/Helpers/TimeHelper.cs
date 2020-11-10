@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.HSSF.Record.AutoFilter;
+using System;
 using System.Runtime.InteropServices;
 using TimeZoneConverter;
 
@@ -304,14 +305,35 @@ namespace NetPro.Utility.Helpers
         #endregion
 
         /// <summary>
-        /// 得到 1970.1.1 到现在的所有秒
+        /// 得到当前时区 1970.1.1 到现在的所有秒
         /// </summary>
         /// <returns></returns>
         public static long GetUnixSeconds()
         {
-            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 0, 0, 0, 0));
-            var totalSeconds = new TimeSpan(DateTime.Now.Ticks - startTime.Ticks).TotalSeconds;
-            return (long)totalSeconds;
+            return DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+
+        /// <summary>
+        /// 得到指定时区 1970.1.1 到现在的所有秒
+        /// </summary>
+        /// <returns></returns>
+        public static long GetUnixSeconds(TimeZoneInfo zoneInfo)
+        {
+            DateTime specifiedTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.Now, zoneInfo);
+            DateTimeOffset timeoffset = new DateTimeOffset(specifiedTime);
+            return timeoffset.ToUnixTimeSeconds();
+        }
+
+        /// <summary>
+        /// 当前时间转换为指定时区的时间
+        /// </summary>
+        /// <param name="localTime"></param>
+        /// <param name="zoneInfo"></param>
+        /// <returns></returns>
+        public static DateTime ZoneTime(DateTime localTime, TimeZoneInfo zoneInfo)
+        {
+            DateTime specifiedTime = TimeZoneInfo.ConvertTimeFromUtc(localTime, zoneInfo);
+            return specifiedTime;
         }
     }
 }

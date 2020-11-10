@@ -30,7 +30,6 @@ namespace NetPro.Web.Core.Helpers
         /// <summary>
         /// 导入XML文件
         /// </summary>
-        /// <param name="XMLPath">XML文件路径</param>
         private XmlDocument XMLLoad()
         {
             string XMLFile = XMLPath;
@@ -52,7 +51,7 @@ namespace NetPro.Web.Core.Helpers
         /// <summary>
         /// 导入XML文件
         /// </summary>
-        /// <param name="XMLPath">XML文件路径</param>
+        /// <param name="strPath">XML文件路径</param>
         private static XmlDocument XMLLoad(string strPath)
         {
             XmlDocument xmldoc = new XmlDocument();
@@ -112,7 +111,6 @@ namespace NetPro.Web.Core.Helpers
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
-        /// <param name="attribute">属性名，非空时返回该属性值，否则返回串联值</param>
         /// 使用示列:
         /// XMLProsess.Read(path, "/Node", "")
         /// XMLProsess.Read(path, "/Node/Element[@Attribute='Name']")
@@ -493,8 +491,6 @@ namespace NetPro.Web.Core.Helpers
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
-        /// <param name="attribute">属性名，非空时删除该节点属性值，否则删除节点值</param>
-        /// <param name="value">值</param>
         /// 使用示列:
         /// XMLProsess.Delete(path, "/Node", "")
         /// XMLProsess.Delete(path, "/Node", "Attribute")
@@ -516,7 +512,6 @@ namespace NetPro.Web.Core.Helpers
         /// <param name="path">路径</param>
         /// <param name="node">节点</param>
         /// <param name="attribute">属性名，非空时删除该节点属性值，否则删除节点值</param>
-        /// <param name="value">值</param>
         /// 使用示列:
         /// XMLProsess.Delete(path, "/Node", "")
         /// XMLProsess.Delete(path, "/Node", "Attribute")

@@ -21,16 +21,16 @@ namespace NetPro.Web.Core.Helpers
         public static bool HasPermission(long userId, string controllerName, string actionName, string roleName = "")
         {
             return true;
-            if (userId <= 0 || string.IsNullOrWhiteSpace(controllerName) || string.IsNullOrWhiteSpace(actionName))
-            {
-                return false;
-            }
-            if (IsSuperRole(roleName))
-            {
-                return true;
-            }
-            //TODO 根据controllerName,actionName判断该用户是否有权限
-            return true;
+            //if (userId <= 0 || string.IsNullOrWhiteSpace(controllerName) || string.IsNullOrWhiteSpace(actionName))
+            //{
+            //    return false;
+            //}
+            //if (IsSuperRole(roleName))
+            //{
+            //    return true;
+            //}
+            ////TODO 根据controllerName,actionName判断该用户是否有权限
+            //return true;
         }
 
         /// <summary>

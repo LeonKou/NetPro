@@ -26,6 +26,7 @@ namespace NetPro.MongoDb
         /// Sets the Guid representation of the MongoDb Driver.
         /// </summary>
         /// <param name="guidRepresentation">The new value of the GuidRepresentation</param>
+        [System.Obsolete]
         public virtual void SetGuidRepresentation(GuidRepresentation guidRepresentation)
         {
             MongoDefaults.GuidRepresentation = guidRepresentation;
@@ -38,7 +39,9 @@ namespace NetPro.MongoDb
         protected virtual void InitializeGuidRepresentation()
         {
             // by default, avoid lefacy UUID representation: use Binary 0x04 subtype.
+#pragma warning disable CS0618 // Type or member is obsolete
             MongoDefaults.GuidRepresentation = GuidRepresentation.Standard;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>

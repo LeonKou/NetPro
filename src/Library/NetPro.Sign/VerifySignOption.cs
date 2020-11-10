@@ -59,33 +59,37 @@ namespace NetPro.Sign
 
         /// <summary>
         /// 签名MD5算法
-        /// <remarks>1<<1</remarks>
+        /// <remarks>
+        /// </remarks>
         /// </summary>
+        /// <remarks>
+        /// <![CDATA[ 1<<1]]>
+        /// </remarks>
         SignMD5 = 2,
 
         /// <summary>
         /// 脱敏AES
         /// <remarks></remarks>
         /// </summary>
-        /// <remarks>1<<2</remarks>
+        /// <remarks> <![CDATA[ 1<<2]]></remarks>
         SymmetricAES = 4,
 
         /// <summary>
         /// 脱敏DES
-        /// <remarks>1<<3</remarks>
+        /// <remarks> <![CDATA[ 1<<3]]></remarks>
         /// </summary>
         SymmetricDES = 8,
 
         /// <summary>
         /// 脱敏Base64
-        /// <remarks>1<<4</remarks>
+        /// <remarks> <![CDATA[ 1<<4]]></remarks>
         /// </summary>
         /// <remarks>2^2;2^3</remarks>
         SymmetricBase64 = 16,
 
         /// <summary>
         /// 签名HMACSHA256算法
-        /// <remark>1<<5</remark>
+        /// <remarks> <![CDATA[ 1<<5]]></remarks>
         /// </summary>
         SignHMACSHA256 = 32,
     }

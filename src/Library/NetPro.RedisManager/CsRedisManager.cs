@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 
 namespace NetPro.RedisManager
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [Obsolete]
     internal class CsRedisManager : IRedisManager
     {
         private readonly RedisCacheOption _option;

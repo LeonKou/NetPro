@@ -999,9 +999,6 @@ namespace StackExchange.Redis.Extensions.Core.Implementations
         /// <param name="resource"></param>
         /// <param name="timeoutSeconds">超时时间;当你想锁定一个资源时（如果锁不可用就立即放弃）</param>
         /// <param name="func"></param>
-        /// <param name="waitTime"></param>
-        /// <param name="retryTime"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> GetDistributedLockAsync<T>(string resource, Action func, int timeoutSeconds)
         {

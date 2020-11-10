@@ -22,7 +22,7 @@ namespace NetPro.Dapper
         /// <summary>
         /// Creates a new instance of <see cref="IDbConnection"/>.
         /// </summary>
-        /// <exception cref="ConfigurationErrorsException">Thrown if the connectionstring entry in the app/web.config file is missing information, contains errors or is missing entirely.</exception>
+        ///Thrown if the connectionstring entry in the app/web.config file is missing information, contains errors or is missing entirely
         /// <returns></returns>
         public IDbConnection Create()
         {

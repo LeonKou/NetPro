@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace NetPro.RedisManager
 {
     /// <summary>
-    /// Cache manager interface
+    /// 同时支持CsRedis与StackExchagne.Redis
     /// </summary>
-    [Obsolete("废弃，请单独使用Csredis驱动或 StackExchange.Redis")]
+    [Obsolete("过时驱动,建议单独使用Csredis驱动或 StackExchange.Redis")]
     public interface IRedisManager
     {
         /// <summary>
@@ -137,7 +137,7 @@ namespace NetPro.RedisManager
         /// <returns></returns>
         List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1);
 
-        //// <summary>
+        /// <summary>
         /// 通过索引区间返回有序集合成指定区间内的成员
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -200,7 +200,7 @@ namespace NetPro.RedisManager
         /// <param name="key"></param>
         /// <param name="field"></param>
         /// <param name="value"></param>
-        /// <param name="expirationMinute">单位分钟</param>
+        /// <param name="expiredTime">过期时间</param>
         /// <returns></returns>
         bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null);
 
@@ -220,7 +220,7 @@ namespace NetPro.RedisManager
         /// <param name="key"></param>
         /// <param name="field"></param>
         /// <param name="value"></param>
-        /// <param name="expirationMinute">单位分钟</param>
+        /// <param name="expiredTime">过期时间</param>
         /// <returns></returns>
         Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null);
 
@@ -276,7 +276,6 @@ namespace NetPro.RedisManager
         /// </summary>
         /// <param name="key"></param>
         /// <param name="expiry"></param>
-        /// <param name="flags"></param>
         /// <returns>true:设置成功，false：设置失败</returns>
         Task<bool> KeyExpireAsync(string key, TimeSpan expiry);
 
