@@ -28,7 +28,7 @@ public interface IExampleProxy : IHttpApi
 		ITask<dynamic> GetAsync(string account);
 
 		[HttpPost("api/v1/NetProgoods/list")]
-		ITask<dynamic> GetGoodsList(int gameId, string gameVersion);
+		ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
 		// POST api/user 
 		[HttpPost("api/user")]

@@ -14,7 +14,7 @@ namespace Leon.XXX.Proxy
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
         [WebApiClientFilter]
-        ITask<dynamic> GetGoodsList(int gameId, string gameVersion);
+        ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
         // POST api/user 
         [HttpPost("api/user")]

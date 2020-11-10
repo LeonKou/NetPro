@@ -54,7 +54,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         /// <summary>
         /// 根据appid获取secret
         /// </summary>
-        /// <param name="gameId"></param>
+        /// <param name="appid"></param>
         /// <returns></returns>
         public string GetSignSecret(string appid)
         {
