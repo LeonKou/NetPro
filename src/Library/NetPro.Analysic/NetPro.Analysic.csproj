@@ -6,12 +6,19 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
+			NetProAnalysic
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<!--<PackageIcon>$(PackageIcon)</PackageIcon>-->
+		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProAnalysicAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="$(PackageIconPath)">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Analysic.xml</DocumentationFile>
 	</PropertyGroup>

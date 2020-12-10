@@ -15,64 +15,64 @@
 
 	<PropertyGroup Label="NetPro SDK Versions">		 
 		
-		<NetProAuthentication>3.1.7</NetProAuthentication>
+		<NetProAuthentication>3.1.8</NetProAuthentication>
 		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
 
-		<NetProAnalysic>3.1.7</NetProAnalysic>
+		<NetProAnalysic>3.1.8</NetProAnalysic>
 		<NetProAnalysicAssemblyName>NetPro.Analysicn</NetProAnalysicAssemblyName>
 
-		<NetProChecker>3.1.7</NetProChecker>
+		<NetProChecker>3.1.8</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>3.1.7</NetProCore>
+		<NetProCore>3.1.8</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.7</NetProDapper>
+		<NetProDapper>3.1.8</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
-		<NetProLog>3.1.7</NetProLog>
+		<NetProLog>3.1.8</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>3.1.7</NetProMongoDb>
+		<NetProMongoDb>3.1.8</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>3.1.7</NetProRabbitMQ>
+		<NetProRabbitMQ>3.1.8</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.7</NetProRedisManager>
+		<NetProRedisManager>3.1.8</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProStackExchangeRedis>3.1.7</NetProStackExchangeRedis>
+		<NetProStackExchangeRedis>3.1.8</NetProStackExchangeRedis>
 		<NetProStackExchangeRedisAssemblyName>NetPro.StackExchange.Redis</NetProStackExchangeRedisAssemblyName>
 
-		<NetProCsRedis>3.1.7</NetProCsRedis>
+		<NetProCsRedis>3.1.8</NetProCsRedis>
 		<NetProCsRedisAssemblyName>NetPro.CsRedis</NetProCsRedisAssemblyName>
 
-		<NetProUtility>3.1.7</NetProUtility>
+		<NetProUtility>3.1.8</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProTypeFinder>3.1.7</NetProTypeFinder>
+		<NetProTypeFinder>3.1.8</NetProTypeFinder>
 		<NetProTypeFinderAssemblyName>NetPro.TypeFinder</NetProTypeFinderAssemblyName>
 
-		<NetProSwagger>3.1.7</NetProSwagger>
+		<NetProSwagger>3.1.8</NetProSwagger>
 		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
 
-		<NetProShareRequestBody>3.1.7</NetProShareRequestBody>
+		<NetProShareRequestBody>3.1.8</NetProShareRequestBody>
 		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>
 
-		<NetProResponseCache>3.1.7</NetProResponseCache>
+		<NetProResponseCache>3.1.8</NetProResponseCache>
 		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
 
-		<NetProWebApi>3.1.7</NetProWebApi>
+		<NetProWebApi>3.1.8</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.7</NetProWebCore>
+		<NetProWebCore>3.1.8</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
-		<NetProEFCore>3.1.7</NetProEFCore>
+		<NetProEFCore>3.1.8</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 
-		<NetProSign>3.1.7</NetProSign>
+		<NetProSign>3.1.8</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
 
 
