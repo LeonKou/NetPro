@@ -9,6 +9,9 @@ using NetPro.Web.Core.Infrastructure.Extensions;
 
 namespace Leon.XXXV2.Api
 {
+    /// <summary>
+    /// ²»·Ö²ã°æ±¾
+    /// </summary>
     public class Startup
     {
         #region Fields

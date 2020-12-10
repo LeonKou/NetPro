@@ -10,7 +10,7 @@ using NetPro.Web.Core.Infrastructure.Extensions;
 namespace Leon.XXX.Api
 {
     /// <summary>
-    /// 
+    /// ·ÖDomain²ã°æ±¾
     /// </summary>
     public class Startup
     {
@@ -38,9 +38,8 @@ namespace Leon.XXX.Api
 
         #endregion
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         /// <summary>
-        /// 
+        /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
@@ -57,9 +56,9 @@ namespace Leon.XXX.Api
             _engine.RegisterDependencies(builder, _LeonConfig);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // 
         /// <summary>
-        /// 
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>

@@ -26,10 +26,6 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="config">Config</param>
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NetProOption config)
         {
-            //file provider
-            //builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().InstancePerLifetimeScope();
-            //builder.RegisterType<NetProFileProvider>().As<INetProFileProvider>().PropertiesAutowired();//属性注入；TODO 保留，可能用到，实际注入在NetPro.TypeFinder
-            //web helper
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
@@ -39,9 +35,6 @@ namespace NetPro.Web.Core.Infrastructure
              .Where(t => t.Name.EndsWith("Service"))
            .AsImplementedInterfaces().InstancePerLifetimeScope();
 
-            //builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Repository)$")).ToArray())
-            //.Where(t => t.Name.EndsWith("Repository"))
-            //.AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().Where(r => RegexHelper.IsMatch(r.GetName().Name, $"^{config.ProjectPrefix}.*({config.ProjectSuffix}|Aggregate)$")).ToArray())
             .Where(t => t.Name.EndsWith("Aggregate"))
             .AsImplementedInterfaces().InstancePerLifetimeScope();
@@ -66,7 +59,4 @@ namespace NetPro.Web.Core.Infrastructure
             get { return -99; }
         }
     }
-
-
-
 }

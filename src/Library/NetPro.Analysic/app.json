@@ -7,11 +7,11 @@
 				"Path": "/api/v1/test/pay/post",
 				"MaxSucceedLimit": 1000000, //当前path地址同ip一天内最大访问次数
 				"MaxErrorLimit": 1000000,
-				"HitDuration": "2d"//持续的时长;d:天;m:分钟;h:小时;s:秒
+				"HitDuration": "2d" //持续的时长;d:天;m:分钟;h:小时;s:秒
 			},
 			{
 				"Enabled": true,
-				"Path": "/api/sdk/v2/accounts/action/register/account", //注册账号
+				"Path": "/api/test/v2/account",
 				"MaxSucceedLimit": 100,
 				"MaxErrorLimit": 50,
 				"HitDuration": "2h"

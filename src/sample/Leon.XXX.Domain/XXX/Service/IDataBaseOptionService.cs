@@ -16,7 +16,7 @@ namespace Leon.XXX.Domain
         /// 增加实体
         /// </summary>
         /// <returns></returns>
-        Task<ResponseResult<XXXAo>> AddAsync(XXXDo xXXDo);
+        Task<ResponseResult<XXXDo>> AddAsync(XXXDo xXXDo);
 
         /// <summary>
         /// 根据主键id删除，也可根据复杂条件删除

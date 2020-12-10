@@ -33,9 +33,10 @@ namespace Leon.XXX.Domain
         /// </summary>
         /// <param name="xXXDo"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<XXXAo>> AddAsync(XXXDo xXXDo)
+        public async Task<ResponseResult<XXXDo>> AddAsync(XXXDo xXXDo)
         {
-            throw new System.NotImplementedException();
+            var result = await Task.FromResult(new ResponseResult<XXXDo> { Result = _xxxRepository.Get(1) });
+            return result;
         }
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult> DeleteAsync(uint id)
         {
-            throw new System.NotImplementedException();
+            var resutl = await _xxxRepository.GetAsync(1);
+            return new ResponseResult { Result = resutl };
         }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult<IList<XXXAo>>> DynamicQueryAsync(DynamicFilterInfo dynamicFilter)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult<IList<XXXAo>> { });
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult<XXXAo>> FindAsync(uint id)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult<XXXAo> { });
         }
 
         /// <summary>
@@ -74,7 +76,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult<XXXAo>> FindByRedisAsync(uint id)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult<XXXAo> { });
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult> InsertOrUpdateAsync(XXXAo xXXAo)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult { });
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult> UpdateAsync(XXXAo xXXAo)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult { });
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace Leon.XXX.Domain
         /// <returns></returns>
         public async Task<ResponseResult> UpdateSetAsync(string singleValue)
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new ResponseResult { });
         }
     }
 }

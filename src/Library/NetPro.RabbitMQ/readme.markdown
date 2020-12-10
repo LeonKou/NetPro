@@ -83,15 +83,23 @@ namespace ReceiveB.Service
     //继承IMessageHandler，即可作为消费者消费消息
     public class CustomMessageHandler : IMessageHandler
     {
-        public CustomMessageHandler()
+         private readonly IServiceScopeFactory _serviceScopeFactory;
+        readonly ILogger<CustomMessageHandler> _logger;
+        public CustomMessageHandler(ILogger<CustomMessageHandler> logger,
+          IServiceScopeFactory serviceScopeFactory)
         {
+            //由于消费者在BuildServiceProvider()之前就执行导致对象还没注入，所以此处不支持自定义类型的实例注入，只能通过IServiceScopeFactory来获取servcie实例
+            _logger = logger;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public void Handle(string message, string routingKey)
         {
-            // 消费消息
-            Console.WriteLine($"这是B--------------信息为{message}routekey为{ routingKey}");
-            _logger.LogInformation("Ho-ho-hoooo");
+            using var scope = _serviceScopeFactory.CreateScope();
+            var _redisOptionService = scope.ServiceProvider.GetRequiredService<IRedisOptionService>();
+
+            Console.WriteLine($"正在消费消息");
+            _logger.LogInformation("");
         }
     }
 }

@@ -21,21 +21,21 @@
 			},
 			{
 				"Enabled": true,
-				"Path": "/api/sdk/v2/accounts/action/register/account", //注册账号
+				"Path": "/api/v1/test/pay/post/account",
 				"MaxSucceedLimit": 100,
 				"MaxErrorLimit": 50,
 				"HitDuration": "2h"  //锁定持续2小时
 			},
 			{
 				"Enabled": true,
-				"Path": "/api/sdk/v2/accounts/action/register/getname", //getname
+				"Path": "/api/v1/test/pay/post/getname", //getname
 				"MaxSucceedLimit": 100,
 				"MaxErrorLimit": 50,
 				"HitDuration": "10m"  //锁定持续10分钟
 			},
 			{
 				"Enabled": true,
-				"Path": "/api/sdk/v2/accounts/action/register/gatage", //gatage
+				"Path": "/api/v1/test/pay/post/gatage", //gatage
 				"MaxSucceedLimit": 100,
 				"MaxErrorLimit": 50,
 				"HitDuration": "10s"  //锁定持续10秒

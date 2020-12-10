@@ -35,30 +35,12 @@ namespace NetPro.Web.Core.Infrastructure
             if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
                 services.AddRedisManager(configuration);
 
-            //MongoDb 连接配置文件
-            //if (configuration.GetValue<bool>("MongoDbOptions:Enabled", false))
-            //{
-            //    services.ConfigureStartupConfig<MongoDbOptions>(configuration.GetSection("MongoDbOptions"));
-            //    var mongoDbOptions = services.BuildServiceProvider().GetRequiredService<MongoDbOptions>();
-            //    if (string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-            //    {
-            //        return;
-            //    }
-
-            //    services.AddMongoDb(options =>
-            //    {
-            //        options = mongoDbOptions;
-            //    });
-            //}
-
-            //services = services.AddDapperRepository();
             services.Scan(scan => scan
-               .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("Repository")).ToArray()
-                   .Where(s => s.GetName().Name.EndsWith("Repository")))
-               .AddClasses()
-               .AsImplementedInterfaces()
-               .WithScopedLifetime());
-
+           .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
+                 s.GetName().Name.EndsWith("Repository")).ToArray()) //搜索Repository程序集
+           .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))//搜索Repository结尾的类
+           .AsImplementedInterfaces()
+           .WithScopedLifetime());
         }
         /// <summary>
         /// Configure the using of added middleware
