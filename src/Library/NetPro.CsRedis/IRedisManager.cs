@@ -271,6 +271,25 @@ namespace NetPro.CsRedis
         Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null);
 
         /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        long StringDecrement(string key, long value = 1, TimeSpan? expiry = null);
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null);
+
+        /// <summary>
         /// 返回具有超时的键的剩余生存时间
         /// </summary>
         /// <param name="key"></param>

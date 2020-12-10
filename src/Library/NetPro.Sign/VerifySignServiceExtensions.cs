@@ -38,10 +38,10 @@ namespace NetPro.Sign
         /// <returns></returns>
         public static IServiceCollection AddVerifySign(this IServiceCollection services, Action<VerifySignOption> setupAction = null)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+            var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
 
             var option = configuration.GetSection(nameof(VerifySignOption)).Get<VerifySignOption>();
-            if (option.Enabled)
+            if (option?.Enabled??false)
             {
                 if (setupAction != null) services.ConfigureSign(setupAction);
 
@@ -77,6 +77,7 @@ namespace NetPro.Sign
 
     /// <summary>
     /// 签名摘要自定义实现
+    /// TODO 根据接口单一原则实现两个接口
     /// </summary>
     public interface IOperationFilter
     {

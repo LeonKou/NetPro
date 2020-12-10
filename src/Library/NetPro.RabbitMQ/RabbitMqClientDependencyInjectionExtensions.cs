@@ -147,7 +147,10 @@ namespace MQMiddleware
                               && x.Lifetime == ServiceLifetime.Singleton
                               && string.Equals(((ExchangeServiceDescriptor)x).ExchangeName, exchangeName, StringComparison.OrdinalIgnoreCase));
             if (exchangeExists)
-                throw new ArgumentException($"Exchange {exchangeName} has been added already!");
+            {
+                Console.WriteLine($"Exchange {exchangeName} has been added already!");
+            }
+            //    throw new ArgumentException($"Exchange {exchangeName} has been added already!");
         }
 
         /// <summary>
@@ -227,7 +230,7 @@ namespace MQMiddleware
         /// <param name="services">Service collection.</param>
         /// <param name="routingKeys">Routing keys.</param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddAsyncMessageHandlerSingleton<T>(this IServiceCollection services, IEnumerable<string> routingKeys) where T : class, IAsyncMessageHandler =>
+        public static IServiceCollection AddAsyncMessageHandlerSingleton<T>(this IServiceCollection services, IEnumerable<string> routingKeys)  where T : class, IAsyncMessageHandler =>
             services.AddInstanceSingleton<IAsyncMessageHandler, T>(routingKeys.ToList());
 
         /// <summary>

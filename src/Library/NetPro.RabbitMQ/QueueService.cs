@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MQMiddleware.AuthUtil;
 using MQMiddleware.Configuration;
+using MQMiddleware.AuthUtil;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -87,7 +87,7 @@ namespace MQMiddleware
             };
 
             // configuration that the Cloud platform maybe require,this is an example of aliyun
-            factory.AuthMechanisms = new List<AuthMechanismFactory>() { new AliyunMechanismFactory() };
+            //factory.AuthMechanisms = new List<AuthMechanismFactory>() { new AliyunMechanismFactory() };//兼容阿里云,非阿里云不需要
 
             _connection = factory.CreateConnection();
             // Event handling.
@@ -513,7 +513,8 @@ namespace MQMiddleware
             }
             if (string.IsNullOrEmpty(routingKey))
             {
-                throw new ArgumentException($"Argument {nameof(routingKey)} is null or empty.", nameof(routingKey));
+                _logger.LogWarning($"Argument {nameof(routingKey)} is null or empty,{ nameof(routingKey)} ");
+                //throw new ArgumentException($"Argument {nameof(routingKey)} is null or empty.", nameof(routingKey));
             }
 
             var deadLetterExchanges = _exchanges.Select(x => x.Options.DeadLetterExchange).Distinct();

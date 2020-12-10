@@ -522,6 +522,16 @@ namespace NetPro.StackExchange.Redis.StackExchange.Redis.Extensions.Core.Impleme
             return Task.FromResult(false);
         }
 
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return default;
+        }
+
+        public Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return Task.FromResult((long)0);
+        }
+
         public long StringIncrement(string key, long value = 1)
         {
             return 0;

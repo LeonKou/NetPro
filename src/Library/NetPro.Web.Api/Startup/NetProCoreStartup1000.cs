@@ -38,7 +38,7 @@ namespace NetPro.Web.Core.Infrastructure
 
 
             //健康检查
-            if (!netproOption.EnabledHealthCheck)
+            if (!netproOption?.EnabledHealthCheck??true)
                 return;
 
             var healthbuild = services.AddHealthChecks();

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -127,7 +128,7 @@ namespace NetPro.Analysic
             if (!context?.Response.HasStarted ?? false)
             {
                 _iLogger.LogWarning($"[HighRiskIP]IP高危：{GetRequestIp()} 请求警告");
-                context.Response.StatusCode = 400;
+                context.Response.StatusCode = (int)HttpStatusCode.Conflict;
                 context.Response.ContentType = "application/json";
                 context.Response.Headers["WARNING"] = "NetPro.Analysic";
 

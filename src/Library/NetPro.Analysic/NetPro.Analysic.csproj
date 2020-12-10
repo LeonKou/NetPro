@@ -3,12 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProAnalysic)</Version>
-		<!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<!--<PackageIcon>$(PackageIcon)</PackageIcon>-->
 		<AssemblyName>$(NetProAnalysicAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>

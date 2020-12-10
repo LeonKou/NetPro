@@ -376,6 +376,36 @@ namespace StackExchange.Redis.Extensions.Core.Implementations
             return result;
         }
 
+        /// <summary>
+        /// 递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = Database.StringDecrement(key, value);
+            if (expiry.HasValue)
+                Database.KeyExpire(key, expiry);
+            return result;
+        }
+
+        /// <summary>
+        /// 递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = await Database.StringDecrementAsync(key, value);
+            if (expiry.HasValue)
+                await Database.KeyExpireAsync(key, expiry);
+            return result;
+        }
+
         private Task<bool> ReplaceAsync<T>(string key, T value, When when = When.Always, CommandFlags flag = CommandFlags.None)
         {
             return SetAsync(key, value, when, flag);

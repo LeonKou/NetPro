@@ -8,7 +8,7 @@ namespace NetPro.RedisManager
     /// <summary>
     /// 同时支持CsRedis与StackExchagne.Redis
     /// </summary>
-    [Obsolete("过时驱动,建议单独使用Csredis驱动或 StackExchange.Redis")]
+    //[Obsolete("过时驱动,建议单独使用Csredis驱动或 StackExchange.Redis")]
     public interface IRedisManager
     {
         /// <summary>
@@ -240,6 +240,25 @@ namespace NetPro.RedisManager
         /// <param name="script"></param>
         /// <param name="obj"></param>
         object GetByLuaScript(string script, object obj);
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        long StringDecrement(string key, long value = 1, TimeSpan? expiry = null);
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null);
 
         /// <summary>
         /// value递增

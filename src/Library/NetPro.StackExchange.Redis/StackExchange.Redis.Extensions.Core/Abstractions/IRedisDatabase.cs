@@ -235,6 +235,25 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         long StringIncrement(string key, long value = 1, TimeSpan? expiry = null);
 
         /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        long StringDecrement(string key, long value = 1, TimeSpan? expiry = null);
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null);
+
+        /// <summary>
         ///  查询指定缓存key集合的对象
         /// </summary>
         /// <typeparam name="T">key对应的对象的类型</typeparam>

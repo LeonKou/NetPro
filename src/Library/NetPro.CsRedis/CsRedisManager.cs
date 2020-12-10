@@ -435,6 +435,37 @@ namespace NetPro.CsRedis
             return result;
         }
 
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = RedisHelper.IncrBy(key, -value);
+            if (expiry.HasValue)
+                RedisHelper.Expire(key, expiry.Value);
+            return result;
+        }
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = await RedisHelper.IncrByAsync(key, -value);
+            if (expiry.HasValue)
+                await RedisHelper.ExpireAsync(key, expiry.Value);
+            return result;
+        }
+
         public long KeyTimeToLive(string key)
         {
             var time = RedisHelper.Ttl(key);

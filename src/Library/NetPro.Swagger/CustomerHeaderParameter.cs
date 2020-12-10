@@ -25,7 +25,7 @@ namespace NetPro.Swagger
             foreach (var header in headers)
             {
                 operation.Parameters.Add(new OpenApiParameter
-                {
+                {     
                     Name = header.Name,
                     In = ParameterLocation.Header,
                     Required = false,

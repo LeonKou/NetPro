@@ -62,6 +62,8 @@ namespace NetPro.RedisManager
         /// 
         /// </summary>
         public bool Cluster { get; set; }
+
+        public bool Enabled { get; set; }
     }
 
     public class BaseRedisOptions

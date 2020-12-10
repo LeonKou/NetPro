@@ -10,7 +10,8 @@
 
 ```json
 "ResponseCacheOption": {
-"Enabled": "true",
+"Enabled": true,
+"Cluster":false,
 "Duration": 5,//响应持续时间
 "ExcluedQuery": [ "sign,timestamp" ]
 }
@@ -63,9 +64,11 @@ Post特性方式启用响应缓存配置
 [Route("pay/post")]
 [ProducesResponseType(200)]
 [ProducesResponseType(200, Type = typeof(XXXAo))]
-[PostResponseCache(Duration = 10)]//响应缓存10秒
+[PostResponseCache(Duration = 10,ResponseMode =ResponseMode.Error,Message="请求频繁,稍后再试")]//响应缓存10秒
 public IActionResult Cache([FromBody]XXXInput gg)
 {
     return BadRequest(new Result { Data = gg.Age, Code = 11 });
 }
 ```
+
+响应StatusCode为1001时为报错模式触发响应缓存

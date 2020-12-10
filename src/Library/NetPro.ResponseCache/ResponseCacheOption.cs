@@ -19,6 +19,11 @@ namespace NetPro.ResponseCache
         /// 
         /// </summary>
         public List<string> IgnoreVaryQuery { get; set; }
+
+        /// <summary>
+        /// 是否集群
+        /// </summary>
+        public bool Cluster { get; set; }
     }
 
     /// <summary>

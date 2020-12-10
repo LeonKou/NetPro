@@ -24,6 +24,7 @@ namespace NetPro.Swagger
             if (queryArray == null) return;
             foreach (var query in queryArray)
             {
+                //localhost无法显示自定义header，query
                 operation.Parameters.Add(new OpenApiParameter
                 {
                     Name = query.Name,

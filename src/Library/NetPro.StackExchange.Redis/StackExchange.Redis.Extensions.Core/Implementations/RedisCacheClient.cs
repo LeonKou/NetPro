@@ -74,6 +74,7 @@ namespace StackExchange.Redis.Extensions.Core.Abstractions
         {
             if (redisConfiguration.Enabled.HasValue && !redisConfiguration.Enabled.Value)
             {
+                _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
                 return new NullCache();
             }
 

@@ -17,7 +17,7 @@ namespace NetPro.RedisManager
     /// <summary>
     /// 
     /// </summary>
-    [Obsolete]
+    //[Obsolete]
     internal class CsRedisManager : IRedisManager
     {
         private readonly RedisCacheOption _option;
@@ -358,7 +358,7 @@ namespace NetPro.RedisManager
 
         public bool Remove(string key)
         {
-            return RedisHelper.Del(key)>0?true:false;
+            return RedisHelper.Del(key) > 0 ? true : false;
         }
 
         public long Remove(string[] keys)
@@ -407,6 +407,37 @@ namespace NetPro.RedisManager
         {
             var result = await RedisHelper.ZRangeAsync<T>(key, 0, -1);
             return result.ToList();
+        }
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = RedisHelper.IncrBy(key, -value);
+            if (expiry.HasValue)
+                RedisHelper.Expire(key, expiry.Value);
+            return result;
+        }
+
+        /// <summary>
+        /// value递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry">过期时间</param>
+        /// <returns></returns>
+        /// <remarks>TODO 待优化为脚本批量操作</remarks>
+        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = await RedisHelper.IncrByAsync(key, -value);
+            if (expiry.HasValue)
+                await RedisHelper.ExpireAsync(key, expiry.Value);
+            return result;
         }
 
         /// <summary>

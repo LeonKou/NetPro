@@ -401,6 +401,13 @@ namespace NetPro.RedisManager
             return Database.ScriptEvaluate(prepared, obj);
         }
 
+        /// <summary>
+        /// 递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
         public long StringIncrement(string key, long value = 1, TimeSpan? expiry = null)
         {
             var result = Database.StringIncrement(key, value);
@@ -409,9 +416,46 @@ namespace NetPro.RedisManager
             return result;
         }
 
+        /// <summary>
+        /// 递增
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
         public async Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
         {
             var result = await Database.StringIncrementAsync(key, value);
+            if (expiry.HasValue)
+                await Database.KeyExpireAsync(key, expiry);
+            return result;
+        }
+
+        /// <summary>
+        /// 递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = Database.StringDecrement(key, value);
+            if (expiry.HasValue)
+                Database.KeyExpire(key, expiry);
+            return result;
+        }
+
+        /// <summary>
+        /// 递减
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <returns></returns>
+        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            var result = await Database.StringDecrementAsync(key, value);
             if (expiry.HasValue)
                 await Database.KeyExpireAsync(key, expiry);
             return result;

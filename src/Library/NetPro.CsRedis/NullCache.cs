@@ -286,5 +286,15 @@ namespace NetPro.CsRedis
         {
             return Task.FromResult(default(T));
         }
+
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return default;
+        }
+
+        public Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return Task.FromResult((long)0);
+        }
     }
 }

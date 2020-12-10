@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
 using System;
 using System.Collections.Generic;
@@ -75,10 +76,15 @@ namespace NetPro.CsRedis
             }
 
             RedisHelper.Initialization(csredis);
-            if (option.Enabled)
+            if (option?.Enabled ?? false)
                 services.AddSingleton<IRedisManager, CsRedisManager>();
             else
+            {
+                var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
+                _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
                 services.AddSingleton<IRedisManager, NullCache>();
+            }
+
             return services;
         }
     }

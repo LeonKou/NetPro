@@ -165,9 +165,9 @@ namespace NetPro.RedisManager
             return Task.FromResult(false);
         }
 
-        public Task<bool> RemoveAsync(string[] keys)
+        public Task<long> RemoveAsync(string[] keys)
         {
-            return Task.FromResult(false);
+            return Task.FromResult((long)0);
         }
 
         /// <summary>
@@ -324,9 +324,14 @@ namespace NetPro.RedisManager
             return false;
         }
 
-        Task<long> IRedisManager.RemoveAsync(string[] keys)
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
         {
-            throw new NotImplementedException();
+            return 0;
+        }
+
+        public Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        {
+            return Task.FromResult((long)0);
         }
     }
 }

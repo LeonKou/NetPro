@@ -88,6 +88,8 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
                             }), Encoding.UTF8);
+                            await Task.CompletedTask;
+                            return;
                         }
                     });
                 });

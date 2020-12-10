@@ -90,6 +90,7 @@ namespace NetPro.Sign
                 //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 //    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
                 //}));
+                await Task.CompletedTask;
                 return;
             }
             else

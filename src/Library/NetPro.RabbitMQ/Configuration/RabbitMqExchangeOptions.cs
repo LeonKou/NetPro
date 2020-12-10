@@ -9,7 +9,7 @@ namespace MQMiddleware.Configuration
     {
         /// <summary>
         /// Exchange type.
-        /// Direct;Fanout ;Topic 
+        /// direct;fanout ;topic 
         /// </summary>
         public string Type { get; set; } = "direct";
 

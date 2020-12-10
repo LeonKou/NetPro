@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using NetPro.RedisManager;
 using NetPro.ShareRequestBody;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetPro.ResponseCache
 {
@@ -109,8 +112,18 @@ namespace NetPro.ResponseCache
                     bodyValue = bodyValue.Replace("\r\n", "").Replace(" : ", ":").Replace("\n  ", "").Replace("\n", "").Replace(": ", ":").Replace(", ", ",");
 
                     requestStrKey.Append($"body{bodyValue}");
+                    ResponseCacheData cacheResponseBody = null;
+                    IRedisManager _redisManager = null;
+                    if (_responseCacheOption.Cluster)
+                    {
+                        _redisManager = context.RequestServices.GetService<IRedisManager>();
+                        cacheResponseBody = _redisManager.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
+                    }
+                    else
+                    {
+                        cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
+                    }
 
-                    var cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     if (cacheResponseBody != null && !context.RequestAborted.IsCancellationRequested)
                     {
                         //https://stackoverflow.com/questions/45675102/asp-net-core-middleware-cannot-set-status-code-on-exception-because-response-ha
@@ -120,6 +133,9 @@ namespace NetPro.ResponseCache
                             context.Response.ContentType = cacheResponseBody.ContentType;
                             await context.Response.WriteAsync(cacheResponseBody.Body);
                             _iLogger.LogInformation($"触发PostResponseCacheMiddleware本地缓存");
+                            //直接return可避免此错误 ：OnStarting cannot be set because the response has already started.
+                            await Task.CompletedTask;
+                            return;
                         }
                         else
                         {
@@ -149,17 +165,24 @@ namespace NetPro.ResponseCache
                                 };
                                 memStream.Position = 0;
                                 await memStream.CopyToAsync(originalBody);
-
-                                _memorycache.GetOrCreate<ResponseCacheData>($"NetProPostResponse:{requestStrKey}", s =>
+                                if (_responseCacheOption.Cluster)
                                 {
-                                    s.AbsoluteExpirationRelativeToNow = new TimeSpan(_responseCacheOption.Duration);
-                                    return new ResponseCacheData
+                                    _redisManager.Set($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
                                     {
                                         Body = responseBody,
                                         ContentType = context.Response.ContentType,
                                         StatusCode = context.Response.StatusCode
-                                    };
-                                });
+                                    }, TimeSpan.FromSeconds(_responseCacheOption.Duration));
+                                }
+                                else
+                                {
+                                    _memorycache.Set<ResponseCacheData>($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
+                                    {
+                                        Body = responseBody,
+                                        ContentType = context.Response.ContentType,
+                                        StatusCode = context.Response.StatusCode
+                                    }, TimeSpan.FromSeconds(_responseCacheOption.Duration));
+                                }
                             }
                             await Task.CompletedTask;
                             return;
@@ -259,7 +282,7 @@ namespace NetPro.ResponseCache
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            if (responseCacheOption.Enabled)
+            if (responseCacheOption?.Enabled ?? false)
             {
                 if (responseCacheOption.Duration < 1)
                     throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
@@ -280,7 +303,7 @@ namespace NetPro.ResponseCache
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            if (responseCacheOption.Enabled)
+            if (responseCacheOption?.Enabled ?? false)
             {
                 //全局Get响应缓存，遵守Http协议
                 builder.UseResponseCaching();

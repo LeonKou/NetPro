@@ -19,11 +19,11 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.ResponseCache.xml</DocumentationFile>
 	</PropertyGroup>
-	<ItemGroup>
+	<ItemGroup>																						  
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
-		</None>
+		</None>																																							 
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
@@ -31,6 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
 		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

@@ -62,6 +62,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddStackExchangeRedisExtensions<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
         {
             var option = configuration.GetSection(nameof(RedisConfiguration)).Get<RedisConfiguration>();
+            if (option == null)
+                return services;
             option.AbortOnConnectFail = false;
             option.ServerEnumerationStrategy = new ServerEnumerationStrategy()
             {

@@ -5,11 +5,13 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetPro.RedisManager;
 using NetPro.ResponseCache;
 using NetPro.ShareRequestBody;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -17,6 +19,19 @@ using System.Threading.Tasks;
 
 namespace NetPro.Web.Core.Filters
 {
+    public enum ResponseMode
+    {
+        /// <summary>
+        /// 缓存,默认
+        /// </summary>
+        Cache = 0,
+
+        /// <summary>
+        /// 报错,触发响应缓存返回400状态码。可用于请求频率的限制，例如一秒中只能请求一次
+        /// </summary>
+        Error = 1,
+    }
+
     /// <summary>
     /// Post响应缓存
     /// 优先级高于UsePostResponseCache全局Post缓存
@@ -25,6 +40,18 @@ namespace NetPro.Web.Core.Filters
     /// Order越小先执行;attribute方式在中间件之后运行</remarks>
     public class PostResponseCacheAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// 是否集群模式，启用分布式Redis功能
+        /// </summary>
+        public bool Cluster { get; set; }
+
+        public ResponseMode ResponseMode { get; set; } = ResponseMode.Cache;
+
+        /// <summary>
+        /// 配合ResponseMode.Error模式使用，当触发缓存时的提示信息
+        /// </summary>
+        public string Message { get; set; } = "The request has been cached";
+
         /// <summary>
         /// 缓存持续时长
         /// </summary>
@@ -39,6 +66,7 @@ namespace NetPro.Web.Core.Filters
         /// 忽略变化的query参数
         /// </summary>
         public string[] IgnoreVaryByQueryKeys { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -50,7 +78,8 @@ namespace NetPro.Web.Core.Filters
             IServiceProvider serviceProvider = context.HttpContext.RequestServices;
             var responseCacheOption = serviceProvider.GetService<ResponseCacheOption>();
 
-            if (responseCacheOption == null || Duration == 0 || !responseCacheOption.Enabled)
+            //配置存在且配置关闭或者持续时长等于0，即忽略响应缓存
+            if ((responseCacheOption != null && !responseCacheOption.Enabled) || Duration == 0)
             {
                 goto gotoNext;
             }
@@ -58,11 +87,21 @@ namespace NetPro.Web.Core.Filters
             var _logger = serviceProvider.GetRequiredService<ILogger<PostResponseCacheAttribute>>();
             var _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var _memorycache = serviceProvider.GetService<IMemoryCache>();
+            IRedisManager _redisManager = null;
+            if ((responseCacheOption != null && responseCacheOption.Cluster) || Cluster)
+            {
+                _redisManager = serviceProvider.GetService<IRedisManager>();
+                if (_redisManager == null)
+                {
+                    throw new ArgumentNullException(nameof(IMemoryCache), "Post响应已启用集群模式，缓存依赖IRedisManager，请services.AddRedisManager()注入IRedisManager后再使用[PostResponseCache]");
+                }
+            }
             if (_memorycache == null)
             {
                 throw new ArgumentNullException(nameof(IMemoryCache), "Post响应缓存依赖IMemoryCache，请services.AddMemoryCache()注入IMemoryCache后再使用[PostResponseCache]");
             }
-            _memorycache.Set($"PostResponseCache_{context.HttpContext.Request.Path}", true);
+            //标识已触发过响应缓存，防止中间件再次触发
+            _memorycache.Set($"PostResponseCache_{context.HttpContext.Request.Path}", "标识已触发过响应缓存，防止中间件再次触发", new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) });
 
             var _requestCacheData = serviceProvider.GetService<RequestCacheData>();
             if (_requestCacheData == null)
@@ -81,7 +120,8 @@ namespace NetPro.Web.Core.Filters
             var attribute = (IgnorePostResponseCacheAttribute)descriptor.MethodInfo.GetCustomAttributes(typeof(IgnorePostResponseCacheAttribute), true).FirstOrDefault();
             if (attribute != null)
             {
-                _memorycache.Set($"IgnorePostResponseCache_{context.HttpContext.Request.Path}", true);
+                //记录忽略的路由，中间件跳过
+                _memorycache.Set($"IgnorePostResponseCache_{context.HttpContext.Request.Path}", true, new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5) });
                 goto gotoNext;
             }
 
@@ -120,18 +160,57 @@ namespace NetPro.Web.Core.Filters
                     bodyValue = bodyValue.Replace("\r\n", "").Replace(" : ", ":").Replace("\n  ", "").Replace("\n", "").Replace(": ", ":").Replace(", ", ",");
 
                     requestStrKey.Append($"body{bodyValue}");
+                    ResponseCacheData cacheResponseBody = null;
+                    if (Cluster)
+                    {
+                        cacheResponseBody = _redisManager.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
+                    }
+                    else
+                    {
+                        cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
+                    }
 
-                    var cacheResponseBody = _memorycache.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     if (cacheResponseBody != null && !context.HttpContext.RequestAborted.IsCancellationRequested)
                     {
                         if (!context.HttpContext.Response.HasStarted)
                         {
                             _logger.LogInformation($"触发PostResponseCacheAttribute本地缓存");
-                            context.HttpContext.Response.StatusCode = cacheResponseBody.StatusCode;
-                            context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
-                            await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
-                            await Task.CompletedTask;
-                            return;
+                            switch (ResponseMode)
+                            {
+                                case ResponseMode.Cache:
+                                    context.HttpContext.Response.StatusCode = cacheResponseBody.StatusCode;
+                                    context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
+                                    await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
+                                    await Task.CompletedTask;
+                                    return; ;
+                                case ResponseMode.Error:
+                                    if (cacheResponseBody.StatusCode == 200)
+                                    {
+                                        //TODO确定StatusCode与Headers响应的先后顺序
+                                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
+                                        context.HttpContext.Response.Headers.Add("Kestrel-ResponseMode", $"{ResponseMode}");
+                                        context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
+                                        await context.HttpContext.Response.WriteAsync(JsonSerializer.Serialize(new
+                                        {
+                                            Code = -1,
+                                            Msg = $"{Message}"
+                                        }, new JsonSerializerOptions
+                                        {
+                                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                                            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                                        }), Encoding.UTF8);
+                                        await Task.CompletedTask;
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        context.HttpContext.Response.StatusCode = cacheResponseBody.StatusCode;
+                                        context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
+                                        await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
+                                        await Task.CompletedTask;
+                                        return; ;
+                                    }
+                            }
                         }
                         else
                         {
@@ -157,19 +236,37 @@ namespace NetPro.Web.Core.Filters
                                 await Task.CompletedTask;
                                 return;
                             }
-                            var body = JsonSerializer.Serialize(responseResult.Value, new JsonSerializerOptions
+                            string body;
+                            if (responseResult.GetType().Name == "EmptyResult")
+                            {
+                                await Task.CompletedTask;
+                                return;
+                            }
+                            body = JsonSerializer.Serialize(responseResult.Value, new JsonSerializerOptions
                             {
                                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
                             });
-                            _memorycache.Set($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
+                            if (Cluster)
                             {
-                                Body = body,
-                                ContentType = "application/json",
-                                StatusCode = responseResult.StatusCode
-                            }, TimeSpan.FromSeconds(Duration));
+                                _redisManager.Set($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
+                                {
+                                    Body = body,
+                                    ContentType = "application/json",
+                                    StatusCode = responseResult.StatusCode ?? 200,
+                                }, TimeSpan.FromSeconds(Duration));
+                            }
+                            else
+                            {
+                                _memorycache.Set($"NetProPostResponse:{requestStrKey}", new ResponseCacheData
+                                {
+                                    Body = body,
+                                    ContentType = "application/json",
+                                    StatusCode = responseResult.StatusCode ?? 200,
+                                }, TimeSpan.FromSeconds(Duration));
+                            }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             await Task.CompletedTask;
                             return;
