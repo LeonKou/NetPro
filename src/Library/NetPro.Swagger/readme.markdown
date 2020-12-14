@@ -58,3 +58,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
       app.UseNetProSwagger();
 }
 ```
+
+### 注意
+webapi项目中不能包含Web相关组件，例如
+Microsoft.VisualStudio.Web.CodeGeneration.Design
+否则会导致swagger异常
