@@ -63,7 +63,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var option = configuration.GetSection(nameof(RedisConfiguration)).Get<RedisConfiguration>();
             if (option == null)
-                return services;
+            {
+                throw new ArgumentNullException(nameof(RedisConfiguration), $"未检测到NetPro.StackExchange.Redis配置节点{nameof(RedisConfiguration)}");
+            }
             option.AbortOnConnectFail = false;
             option.ServerEnumerationStrategy = new ServerEnumerationStrategy()
             {

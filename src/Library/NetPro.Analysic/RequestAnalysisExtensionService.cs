@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.RedisManager;
 using System;
-
 namespace NetPro.Analysic
 {
     /// <summary>
@@ -27,11 +26,15 @@ namespace NetPro.Analysic
                     return services;
                 services.AddHttpContextAccessor();
                 services.AddSingleton(option);
-                services.AddRedisManager(configuration);
+                var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
+                if (redisCacheOption != null)
+                {
+                    services.AddRedisManager(configuration);
+                }
             }
             catch (Exception ex)
             {
-                throw new ArgumentNullException("流量分析依赖NetPro.RedisManager 组件,请检查是否遗漏RedisCacheOption配置节点", ex);
+                throw new ArgumentNullException("流量分析依赖NetPro.RedisManager组件,请检查是否遗漏RedisCacheOption配置节点", ex);
             }
 
             return services;

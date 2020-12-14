@@ -24,7 +24,7 @@ namespace NetPro.Swagger
             if (queryArray == null) return;
             foreach (var query in queryArray)
             {
-                //localhost无法显示自定义header，query
+                //本地localhost会导致自定义query或header无法显示，出现Could not render this component, see the console.错误，用网卡地址显示即可正常
                 operation.Parameters.Add(new OpenApiParameter
                 {
                     Name = query.Name,

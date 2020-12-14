@@ -10,7 +10,7 @@ namespace NetPro.Web.Core.Infrastructure
     /// <summary>
     /// 共享body
     /// </summary>
-    public class ShareBodyStartup101 : INetProStartup
+    public class ShareBodyStartup105 : INetProStartup
     {
         /// <summary>
         /// 添加 

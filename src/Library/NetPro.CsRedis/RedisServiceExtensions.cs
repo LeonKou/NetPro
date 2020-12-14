@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NetPro.CsRedis
 {
@@ -18,6 +19,11 @@ namespace NetPro.CsRedis
         public static IServiceCollection AddCsRedis<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
         {
             var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
+
+            if (option == null)
+            {
+                throw new ArgumentNullException(nameof(RedisCacheOption),$"未检测到NetPro.CsRedis配置节点{nameof(RedisCacheOption)}");
+            }
 
             return services.AddCsRedis<T>(sp => option);
         }

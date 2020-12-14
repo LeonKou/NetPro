@@ -21,7 +21,10 @@ namespace NetPro.RedisManager
         public static IServiceCollection AddRedisManager(this IServiceCollection services, IConfiguration configuration)
         {
             var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
-
+            if (option == null)
+            {
+                throw new ArgumentNullException(nameof(RedisCacheOption), $"未检测到NetPro.RedisManager配置节点{nameof(RedisCacheOption)}");
+            }
             services.AddRedisManager(option);
             return services;
         }
@@ -68,11 +71,6 @@ namespace NetPro.RedisManager
         {
             services.AddSingleton<ISerializer, NewtonsoftSerializer>();
             services.AddSingleton(option);
-            if (!option.Enabled)
-            {
-                services.AddSingleton<IRedisManager, NullCache>();
-                return services;
-            }
             List<string> csredisConns = new List<string>();
             string password = option.Password;
             int defaultDb = option.Database;
@@ -177,11 +175,6 @@ namespace NetPro.RedisManager
         {
             services.AddSingleton<ISerializer, NewtonsoftSerializer>();
             services.AddSingleton(redisOption);
-            if (!redisOption.Enabled)
-            {
-                services.AddSingleton<IRedisManager, NullCache>();
-                return services;
-            }
             var configurationOptions = new ConfigurationOptions
             {
                 KeepAlive = 180,

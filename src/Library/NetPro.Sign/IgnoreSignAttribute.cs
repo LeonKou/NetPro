@@ -9,9 +9,4 @@ namespace NetPro.Sign
     {
 
     }
-
-    //public class VerifySignAttribute : Attribute
-    //{
-
-    //}
 }

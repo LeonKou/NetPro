@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetPro.Analysic
 {
@@ -73,7 +74,7 @@ namespace NetPro.Analysic
             });
 
             var analysisConfigListTemp = _requestAnalysisOption.PolicyOption;
-            _iLogger.LogDebug($"流量分析获取的请求路径:{context.Request.Path.Value}");
+            _iLogger.LogDebug($"流量分析获取的请求路径:{context.Request.Path.Value}"); //TODO 支持包含{id}此类路径
             var analysisConfigTemp = analysisConfigListTemp?.Where(s => s.Enabled == true && s.Path.Equals(context.Request.Path.Value, StringComparison.OrdinalIgnoreCase))?.FirstOrDefault();
 
             int maxLimitTemp = 0;
@@ -280,9 +281,11 @@ namespace NetPro.Analysic
         public static IApplicationBuilder UseRequestAnalysis(
             this IApplicationBuilder builder)
         {
-            var responseCacheOption = builder.ApplicationServices.GetService(typeof(RequestAnalysisOption)) as RequestAnalysisOption;
+            var responseCacheOption = builder.ApplicationServices.GetService<RequestAnalysisOption>();
             if (responseCacheOption?.Enabled ?? false)
             {
+                if (builder.ApplicationServices.GetService<IRedisManager>() == null || builder.ApplicationServices.GetService<IMemoryCache>() == null)
+                    return builder;
                 builder.UseMiddleware<RequestAnalysisMiddleware>();
             }
 

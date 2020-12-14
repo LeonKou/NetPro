@@ -17,7 +17,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace NetPro.Web.Core.Filters
+namespace NetPro.ResponseCache
 {
     public enum ResponseMode
     {
@@ -148,7 +148,7 @@ namespace NetPro.Web.Core.Filters
                 string bodyValue;
                 if (_requestCacheData == null || string.IsNullOrEmpty(_requestCacheData.Body))
                 {
-                    bodyValue = await ReadAsString(context.HttpContext, _logger);
+                    bodyValue = await Common.ReadAsString(context.HttpContext);
                     _requestCacheData = new RequestCacheData { Body = bodyValue };
                 }
                 else

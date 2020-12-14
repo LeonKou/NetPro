@@ -4,6 +4,7 @@ using Leon.XXX.Domain;
 using Leon.XXX.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetPro.ResponseCache;
 using NetPro.Sign;
 using NetPro.Web.Core.Filters;
 using NetPro.Web.Core.Models;

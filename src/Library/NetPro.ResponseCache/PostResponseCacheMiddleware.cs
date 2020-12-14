@@ -100,7 +100,7 @@ namespace NetPro.ResponseCache
                 string bodyValue;
                 if (requestCacheData == null || string.IsNullOrEmpty(requestCacheData.Body))
                 {
-                    bodyValue = await ReadAsString(context);
+                    bodyValue = await Common.ReadAsString(context);
                     requestCacheData = new RequestCacheData { Body = bodyValue };
                 }
                 else
@@ -117,6 +117,10 @@ namespace NetPro.ResponseCache
                     if (_responseCacheOption.Cluster)
                     {
                         _redisManager = context.RequestServices.GetService<IRedisManager>();
+                        if (_redisManager == null)
+                        {
+                            throw new ArgumentNullException(nameof(RedisCacheOption), $"PostResponseCache组件在集群模式下未检测到NetPro.RedisManager配置节点{nameof(RedisCacheOption)}");
+                        }
                         cacheResponseBody = _redisManager.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     }
                     else
@@ -213,58 +217,58 @@ namespace NetPro.ResponseCache
             await _next(context);
         }
 
-        private async Task<string> ReadAsString(HttpContext context)
-        {
-            try
-            {
-                if (context.Request.ContentLength > 0)
-                {
-                    EnableRewind(context.Request);
-                    var encoding = GetRequestEncoding(context.Request);
-                    return await ReadStream(context, encoding);
-                }
-                return null;
+        //private async Task<string> ReadAsString(HttpContext context)
+        //{
+        //    try
+        //    {
+        //        if (context.Request.ContentLength > 0)
+        //        {
+        //            EnableRewind(context.Request);
+        //            var encoding = GetRequestEncoding(context.Request);
+        //            return await ReadStream(context, encoding);
+        //        }
+        //        return null;
 
-            }
-            catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
-            {
-                _iLogger.LogError(ex, $"[ReadAsString] Post响应缓存读取body出错");
-                return null;
-            }
-        }
+        //    }
+        //    catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
+        //    {
+        //        _iLogger.LogError(ex, $"[ReadAsString] Post响应缓存读取body出错");
+        //        return null;
+        //    }
+        //}
 
-        private async Task<string> ReadStream(HttpContext context, Encoding encoding)
-        {
-            using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
-            {
-                if (context?.RequestAborted.IsCancellationRequested ?? true)
-                    return null;
-                var str = await sr.ReadToEndAsync();
-                context.Request.Body.Seek(0, SeekOrigin.Begin);
-                return str;
-            }
-        }
+        //private async Task<string> ReadStream(HttpContext context, Encoding encoding)
+        //{
+        //    using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
+        //    {
+        //        if (context?.RequestAborted.IsCancellationRequested ?? true)
+        //            return null;
+        //        var str = await sr.ReadToEndAsync();
+        //        context.Request.Body.Seek(0, SeekOrigin.Begin);
+        //        return str;
+        //    }
+        //}
 
-        private Encoding GetRequestEncoding(HttpRequest request)
-        {
-            var requestContentType = request.ContentType;
-            var requestMediaType = requestContentType == null ? default(MediaType) : new MediaType(requestContentType);
-            var requestEncoding = requestMediaType.Encoding;
-            if (requestEncoding == null)
-            {
-                requestEncoding = Encoding.UTF8;
-            }
-            return requestEncoding;
-        }
+        //private Encoding GetRequestEncoding(HttpRequest request)
+        //{
+        //    var requestContentType = request.ContentType;
+        //    var requestMediaType = requestContentType == null ? default(MediaType) : new MediaType(requestContentType);
+        //    var requestEncoding = requestMediaType.Encoding;
+        //    if (requestEncoding == null)
+        //    {
+        //        requestEncoding = Encoding.UTF8;
+        //    }
+        //    return requestEncoding;
+        //}
 
-        private void EnableRewind(HttpRequest request)
-        {
-            if (!request.Body.CanSeek)
-            {
-                request.EnableBuffering();
-            }
-            request.Body.Seek(0L, SeekOrigin.Begin);
-        }
+        //private void EnableRewind(HttpRequest request)
+        //{
+        //    if (!request.Body.CanSeek)
+        //    {
+        //        request.EnableBuffering();
+        //    }
+        //    request.Body.Seek(0L, SeekOrigin.Begin);
+        //}
     }
 
     /// <summary>
