@@ -9,7 +9,7 @@
 ```csharp
  services.AddRabbitMqClient(new RabbitMqClientOptions
  {
-     HostName = "172.16.127.229",
+     HostName = "192.168.7.66",
      Port = 5672,
      Password = "guest",
      UserName = "guest",
