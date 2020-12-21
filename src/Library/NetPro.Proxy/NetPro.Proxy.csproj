@@ -1,46 +1,41 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-		<Version>$(NetProAnalysic)</Version>
+		<Version>$(NetProProxy)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
-		<AssemblyName>$(NetProAnalysicAssemblyName)</AssemblyName>
+		<AssemblyName>$(NetProProxyAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Proxy.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Proxy.xml</DocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Analysic.xml</DocumentationFile>
-	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Analysic.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	<ItemGroup>
+		<PackageReference Include="WebApiClientCore" Version="1.1.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>
-
 </Project>

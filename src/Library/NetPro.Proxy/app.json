@@ -1,0 +1,7 @@
+﻿{
+	"MicroServicesEndpoint": {
+		"Assembly": null,
+		"Example": "http://localhost:5000",
+		"Baidu": "http://baidu.com"
+	}
+}
