@@ -316,19 +316,15 @@ public class Startup
 	"RedisCacheOption": {
 		"Enabled": true,
 		"RedisComponent": 1,
-		"Password": "szgla.com",
+		"Password": "netpro",
 		"IsSsl": false,
 		"Preheat": 20,
 		"Cluster": true, //集群模式
 		"ConnectionTimeout": 20,
 		"Endpoints": [
 			{
-				"Port": 7000,
-				"Host": "172.16.127.13"
-			},
-			{
-				"Port": 7000,
-				"Host": "172.16.127.15"
+				"Port": 6379,
+				"Host": "192.168.7.66"
 			}
 		],
 		"Database": 0,
