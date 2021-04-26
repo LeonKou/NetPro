@@ -1,35 +1,34 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.ResponseCache;
+using NetPro.Swagger;
 using NetPro.TypeFinder;
+using NetPro.Utility.Helpers;
+using NetPro.Web.Api.Filters;
+using Serilog;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
     /// <summary>
-    /// 响应缓存
+    /// 配置应用程序启动时MVC需要的中间件
     /// </summary>
-    public class ResponseCacheStartup : INetProStartup
+    public class NetProApiStartup900 : INetProStartup
     {
         /// <summary>
-        /// 添加 
+        /// Add and configure any of the middleware
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            services.AddResponseCachingExtension();
         }
 
-        /// <summary>
-        /// 添加要使用的中间件
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            application.UseGetResponseCaching();
-            //application.UsePostResponseCache();//响应缓存
+            //TODO流量分析等其他中间件 
+            application.UseAuthorization();
         }
 
         /// <summary>
@@ -37,8 +36,8 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         public int Order
         {
-            //authentication should be loaded before MVC
-            get { return 115; }
+            //MVC should be loaded last
+            get { return 900; }
         }
     }
 }

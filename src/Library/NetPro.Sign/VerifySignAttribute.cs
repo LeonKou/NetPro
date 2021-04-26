@@ -76,7 +76,7 @@ namespace NetPro.Web.Core.Filters
 
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
-                    _logger.LogWarning("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
+                    _logger.LogWarning("方式：[VerifySign] url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
                     return Tuple.Create<bool, string>(false, "签名参数缺失");
                 }
 
@@ -88,14 +88,14 @@ namespace NetPro.Web.Core.Filters
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !CheckTime(timestamp, _verifySignOption))
                 {
-                    _logger.LogWarning($"{timestampStr}时间戳已过期");
+                    _logger.LogWarning($"方式：[VerifySign] {timestampStr}时间戳已过期");
                     return Tuple.Create<bool, string>(false, "请校准客户端时间后再试");
                 }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
                 {
-                    _logger.LogWarning(@"The request parameter is missing the Ak/Sk appID parameter
+                    _logger.LogWarning(@"方式：[VerifySign] The request parameter is missing the Ak/Sk appID parameter
                                           VerifySign:{
                                             AppSecret:{
                                             [AppId]:[Secret]
@@ -132,24 +132,24 @@ namespace NetPro.Web.Core.Filters
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), encryptEnum);
                 if (_verifySignOption.IsDebug)
                 {
-                    _logger.LogInformation($"请求接口地址：{request.Request.Path}");
-                    _logger.LogInformation($"拼装排序后的值{Convert.ToBase64String(Encoding.Default.GetBytes(utf8Request))}");
-                    _logger.LogInformation($"摘要比对： {result}----{signvalue }");
+                    _logger.LogInformation($"方式：[VerifySign] 请求接口地址：{request.Request.Path}");
+                    _logger.LogInformation($"方式：[VerifySign] 服务器签名前重新排序后的值{Convert.ToBase64String(Encoding.Default.GetBytes(utf8Request))}");
+                    _logger.LogInformation($"方式：[VerifySign] 摘要比对： 服务器签名结果={result}   客户端签名结果={signvalue };equal={signvalue == result}");
+                    _logger.LogInformation($"方式：[VerifySign] encryptEnum={encryptEnum}密钥={_verifySignCommon.GetSignSecret(appIdString)}");
                 }
                 else if (signvalue != result)
                 {
-                    _logger.LogWarning(@$"摘要被篡改：[iphide]----{signvalue }
+                    _logger.LogWarning(@$"方式：[VerifySign] 摘要被篡改：[iphide]----{signvalue }
                                             查看详情，请设置VerifySignOption节点的IsDebug为true");
+
+                    return Tuple.Create<bool, string>(false, "签名异常,请求非法");
                 }
-                if (signvalue == result)
-                {
-                    return Tuple.Create<bool, string>(true, "签名通过");
-                }
-                return Tuple.Create<bool, string>(false, "签名异常,请求非法");
+
+                return Tuple.Create<bool, string>(true, "签名通过");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "签名异常");
+                _logger.LogError(ex, "方式：[VerifySign] 签名异常");
                 return Tuple.Create<bool, string>(false, "签名异常");
             }
         }

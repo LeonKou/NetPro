@@ -1,28 +1,14 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using NetPro.Checker;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.ResponseCache;
 using NetPro.TypeFinder;
-using NetPro.Utility.Helpers;
-using NetPro.Web.Core.Filters;
-using NetPro.Web.Core.Models;
-using NetPro.Web.Core.Providers;
 using Serilog;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
@@ -51,7 +37,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             {
                 Console.Title = hostEnvironment.ApplicationName;
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine(Figgle.FiggleFonts.Varsity.Render($"        NetPro       "));
+                Console.WriteLine(Figgle.FiggleFonts.Varsity.Render(new string(new char[] { 'N', 'e', 't', 'P', 'r', 'o' })));
                 Console.ResetColor();
                 //使用dotnet watch run  启动后可以调试此进程id
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss} {hostEnvironment.EnvironmentName}] dotnet process id:{Process.GetCurrentProcess().Id}");
@@ -77,14 +63,17 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                 {
                     ThreadPool.GetMinThreads(out int work, out int comple);
                     ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
-                    Console.WriteLine($"核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
+                    Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
                 }
                 else
-                    Console.WriteLine("最小线程数设置大于系统提供，设置失效！！");
+                    Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 最小线程数设置大于系统提供，设置失效！！");
             }
 
-            if (!configuration.GetValue<bool>("Apollo:Enabled", false))
+            if (configuration.GetValue<bool>("Apollo:Enabled", false))
             {
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已开启");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo MetaServer={configuration.GetValue<string>("Apollo:MetaServer")}");
+
                 HealthCheckRegistry.RegisterHealthCheck("apollo", () =>
               {
                   var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
@@ -92,13 +81,17 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                   {
                       if (tcpClient.Connected)
                       {
-                          Console.WriteLine($"pollo:Env：{configuration.GetValue<string>("Apollo:Env")}");
-                          Console.WriteLine($"Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
-                          return HealthResponse.Healthy($"{uri.Host}:{uri.Port}连接正常--pollo:Env：{configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster：{configuration.GetValue<string>("Apollo:Cluster")}");
+                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={configuration.GetValue<string>("Apollo:Env")}");
+                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
+                          return HealthResponse.Healthy($"{uri.Host}:{uri.Port}connection successful; pollo:Env={configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
                       }
-                      return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port}连接不正常");
+                      return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port} connection failed");
                   }
               });
+            }
+            else
+            {
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已关闭");
             }
             return (engine, netProOption);
         }
@@ -139,111 +132,9 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
               .CreateLogger();
         }
 
-        /// <summary>
-        /// Add and configure MVC for the application
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <returns>A builder for configuring MVC services</returns>
-        public static IMvcBuilder AddNetProCore(this IServiceCollection services, NetProOption netProOption)
-        {
-            //TODO 流量分析
+       
 
-            //响应缓存
-            services.AddResponseCachingExtension();
-
-            var NetProOption = services.GetNetProConfig();
-
-            //支持IIS
-            services.Configure<IISOptions>(options =>
-            {
-                options.ForwardClientCertificate = false;
-            });
-            //替换控制器所有者
-            services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
-            //add basic MVC feature
-            //AddMvc
-            var mvcBuilder = services.AddControllers(config =>
-            {
-                //config.Filters.Add(typeof(ShareResponseBodyFilter));//请求响应body
-                //config.Filters.Add(typeof(NetProExceptionFilter));//自定义全局异常过滤器
-                config.Filters.Add(typeof(BenchmarkActionFilter));//接口性能监控过滤器
-
-                //if (NetProOption.PermissionEnabled)
-                //{
-                //    config.Filters.Add(typeof(PermissionActionFilter));//用户权限验证过滤器
-                //}
-
-                //config.Filters.Add(typeof(ReqeustBodyFilter));//请求数据过滤器
-
-            }).ConfigureApiBehaviorOptions(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    foreach (var keyModelStatePair in context.ModelState)
-                    {
-                        var key = keyModelStatePair.Key;
-                        var errors = keyModelStatePair.Value.Errors;
-                        if (errors != null && errors.Count > 0)
-                        {
-                            stringBuilder.Append(errors[0].ErrorMessage);
-                        }
-                    }
-                    return new BadRequestObjectResult(new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" })
-                    {
-                        ContentTypes = { "application/problem+json", "application/problem+xml" }
-                    };
-                };
-            });
-            //mvc binder对象转换支持空字符串.如果传入空字符串为转成空字符串，默认会转成null
-            mvcBuilder.AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new CustomMetadataProvider()));
-
-            //MVC now serializes JSON with camel case names by default, use this code to avoid it
-            //mvcBuilder.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
-            //add fluent validation
-            mvcBuilder.AddFluentValidation(configuration =>
-            {
-                //register all available validators from netpro assemblies               
-
-                var assemblies = mvcBuilder.PartManager.ApplicationParts
-                    .OfType<AssemblyPart>()
-                    .Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))
-                    .Select(part => part.Assembly);
-                configuration.RegisterValidatorsFromAssemblies(assemblies);
-
-                //implicit/automatic validation of child properties 复合对象是否验证
-                configuration.ImplicitlyValidateChildProperties = true;
-            });
-
-            var corsOrigins = ConvertHelper.ToList<string>(NetProOption.CorsOrigins).ToArray();
-            //支持跨域访问
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", (builder) =>
-                {
-                    if (!string.IsNullOrEmpty(NetProOption.CorsOrigins) && NetProOption.CorsOrigins == "*")//所有域名都可跨域
-                    {
-                        builder = builder.SetIsOriginAllowed((host) => true);
-                    }
-                    else
-                    {
-                        builder = builder.WithOrigins(corsOrigins);
-                    }
-
-                    builder.AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials();
-                });
-
-            });
-
-            //if (NetProOption.APMEnabled)
-            //{
-            //    mvcBuilder.AddMetrics();
-            //}
-            return mvcBuilder;
-        }
+        
 
         ///// <summary>
         ///// 新增EFCore性能监控

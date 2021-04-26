@@ -20,8 +20,14 @@ namespace NetPro.Core
             if (!builder.Build().GetValue<bool>("Apollo:Enabled", false)) return;
 
             var apolloSection = builder.Build().GetSection("Apollo");
-            var apolloBuilder = builder.AddApollo(apolloSection).AddDefault();
-            var apolloNamespaces = apolloSection.GetValue<string>("Namespaces");
+            var apolloBuilder = builder.AddApollo(apolloSection);
+            //local config
+            var appsettingNamespace = apolloSection.GetValue<string>("Namespaces");
+            apolloBuilder.AddNamespace(appsettingNamespace);
+            apolloBuilder.AddDefault();
+
+            //remote config
+            var apolloNamespaces = apolloBuilder.Build().GetValue<string>("Namespaces");
 
             if (string.IsNullOrWhiteSpace(apolloNamespaces)) return;
             var namespaces = apolloNamespaces.Split(',');

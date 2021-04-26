@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.RedisManager;
+using NetPro.CsRedis;
 using NetPro.TypeFinder;
 using StackExchange.Redis;
 
@@ -12,7 +12,7 @@ namespace NetPro.Web.Core.Infrastructure
     /// <summary>
     /// 限流中间件
     /// </summary>
-    public class NetProRateLimitStartup : INetProStartup
+    public class NetProRateLimitStartup200 : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware
@@ -107,7 +107,7 @@ namespace NetPro.Web.Core.Infrastructure
         public int Order
         {
             //common services should be loaded after error handlers
-            get { return 100; }
+            get { return 200; }
         }
     }
 }

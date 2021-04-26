@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using NetPro.RedisManager;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using NetPro.CsRedis;
 
 namespace NetPro.Analysic
 {
@@ -25,9 +24,7 @@ namespace NetPro.Analysic
         private readonly RequestAnalysisOption _requestAnalysisOption;
         private readonly RequestDelegate _next;
         private readonly IMemoryCache _memorycache;
-#pragma warning disable CS0618 // Type or member is obsolete
         private readonly IRedisManager _redisManager;
-#pragma warning restore CS0618 // Type or member is obsolete
         private readonly RedisCacheOption _redisCacheOption;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -45,9 +42,7 @@ namespace NetPro.Analysic
             ILogger<RequestAnalysisMiddleware> iLogger,
             RequestAnalysisOption requestAnalysisOption,
             IMemoryCache memorycache,
-#pragma warning disable CS0618 // Type or member is obsolete
             IRedisManager redisManager,
-#pragma warning restore CS0618 // Type or member is obsolete
             RedisCacheOption redisCacheOption,
             IHttpContextAccessor httpContextAccessor)
         {
@@ -91,10 +86,34 @@ namespace NetPro.Analysic
             {
                 maxErrorLimitTemp = analysisConfigTemp.MaxErrorLimit;
             }
+            string path = context.Request.Path.Value.Replace('/', ':');
 
+            string limitkey = $"{RedisKeys.Key_Request_Limit_IP_Lock}{GetRequestIp()}";
+            if (!analysisConfigTemp.IsGlobalLock)
+            {
+                limitkey = limitkey + path;
+            }
+
+            if (_redisManager.Exists(limitkey))
+            {
+                _iLogger.LogWarning($"[Analysic] 触发请求锁定 IsGlobalLock：{analysisConfigTemp.IsGlobalLock}  时长：{analysisConfigTemp.LockDuration} ");
+                await BuildErrorJson(context);
+                await Task.CompletedTask;
+                return;
+            }
             var CheckIpValidResultByConfig = CheckIpValid(maxLimitTemp, maxErrorLimitTemp, context.Request.Path.Value.Replace('/', ':'));
             if (!CheckIpValidResultByConfig.Item1)
             {
+                //触发限制
+                if (!string.IsNullOrWhiteSpace(analysisConfigTemp.LockDuration))
+                {
+                    _redisManager.GetOrSet($"{limitkey}", () =>
+                    {
+                        return context.Request.QueryString.Value;
+                    }, _ConvertToTimeSpan(analysisConfigTemp.LockDuration), (int)_ConvertToTimeSpan(analysisConfigTemp.LockDuration).TotalSeconds - 1);
+                }
+
+                _iLogger.LogWarning($"[Analysic] 触发请求限制 时长：{analysisConfigTemp.HitDuration} ");
                 await BuildErrorJson(context);
                 await Task.CompletedTask;
                 return;
@@ -104,8 +123,6 @@ namespace NetPro.Analysic
                 await _next(context);
 
                 var currentIp = GetRequestIp();
-                string path = context.Request.Path.Value.Replace('/', ':');
-
                 if (context.Response.StatusCode == 200)
                 {
                     string keySucceed = $"{RedisKeys.Key_Request_Limit_IP_Succ}{currentIp}";
@@ -246,23 +263,23 @@ namespace NetPro.Analysic
                     _redisManager.StringIncrement(keyError);
                 }
             }
+        }
 
-            TimeSpan _ConvertToTimeSpan(string timeSpan)
+        private TimeSpan _ConvertToTimeSpan(string timeSpan)
+        {
+            var l = timeSpan.Length - 1;
+            var value = timeSpan.Substring(0, l);
+            var type = timeSpan.Substring(l, 1);
+
+            switch (type)
             {
-                var l = timeSpan.Length - 1;
-                var value = timeSpan.Substring(0, l);
-                var type = timeSpan.Substring(l, 1);
-
-                switch (type)
-                {
-                    case "d": return TimeSpan.FromDays(double.Parse(value));
-                    case "h": return TimeSpan.FromHours(double.Parse(value));
-                    case "m": return TimeSpan.FromMinutes(double.Parse(value));
-                    case "s": return TimeSpan.FromSeconds(double.Parse(value));
-                    case "f": return TimeSpan.FromMilliseconds(double.Parse(value));
-                    case "z": return TimeSpan.FromTicks(long.Parse(value));
-                    default: return TimeSpan.FromDays(double.Parse(value));
-                }
+                case "d": return TimeSpan.FromDays(double.Parse(value));
+                case "h": return TimeSpan.FromHours(double.Parse(value));
+                case "m": return TimeSpan.FromMinutes(double.Parse(value));
+                case "s": return TimeSpan.FromSeconds(double.Parse(value));
+                case "f": return TimeSpan.FromMilliseconds(double.Parse(value));
+                case "z": return TimeSpan.FromTicks(long.Parse(value));
+                default: return TimeSpan.FromDays(double.Parse(value));
             }
         }
     }

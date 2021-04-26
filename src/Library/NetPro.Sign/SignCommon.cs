@@ -35,7 +35,7 @@ namespace NetPro.Sign
         /// HMACSHA256摘要后转16进制小写
         /// </remarks>
         /// <returns></returns>
-        public static string CreateSign(string secret, NameValueCollection query, object body = null, EncryptEnum signMethod = EncryptEnum.Default)
+        public static string CreateSign(string secret, NameValueCollection query, object body = null, EncryptEnum signMethod = EncryptEnum.Default, bool prinftLog = false)
         {
             IDictionary<string, string> queryDic = new Dictionary<string, string>();
             foreach (var k in query.AllKeys)
@@ -86,7 +86,12 @@ namespace NetPro.Sign
             {
                 result = GetHMACSHA256Sign(utf8Request, secret);
             }
-            Console.WriteLine($"拼装排序后的值==>{utf8Request};摘要计算后的值==>{result}");
+
+            if (prinftLog)
+            {
+                Console.WriteLine($"拼装排序后的值==>{utf8Request};摘要计算后的值==>{result}");
+            }
+
             return result;
         }
 
@@ -110,7 +115,7 @@ namespace NetPro.Sign
         internal static string GetHMACSHA256Sign(string message, string secret)
         {
             secret = secret ?? "";
-            var encoding = new ASCIIEncoding();
+            var encoding = new UTF8Encoding();
             byte[] keyByte = encoding.GetBytes(secret);
             byte[] messageBytes = encoding.GetBytes(message);
             using (var hmacsha256 = new HMACSHA256(keyByte))
@@ -251,8 +256,14 @@ namespace NetPro.Sign
         internal static bool CheckTime(long requestTime, long expireSeconds)
         {
             long unixSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
+            // 毫秒单位
+            if (requestTime.ToString().Length >= 1265337794000.ToString().Length)
+            {
+                unixSeconds = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                expireSeconds = expireSeconds * 1000;
+            }
 
-            if (requestTime + expireSeconds - unixSeconds < 0)
+            if (unixSeconds + expireSeconds - requestTime < 0)
             {
                 return false;
             }

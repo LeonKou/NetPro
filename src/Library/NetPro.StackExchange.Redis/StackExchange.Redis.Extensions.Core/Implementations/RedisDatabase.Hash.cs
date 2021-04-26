@@ -15,6 +15,42 @@ namespace StackExchange.Redis.Extensions.Core.Implementations
             return Database.HashDeleteAsync(key, hashField, commandFlags);
         }
 
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        {
+            var dic = new Dictionary<string, T>();
+            var result = await Database.HashGetAllAsync(key);
+            foreach (var item in result)
+            {
+                dic.Add(item.Name, Serializer.Deserialize<T>(item.Value));
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Dictionary<string, T> HashGetAll<T>(string key)
+        {
+            var dic = new Dictionary<string, T>();
+            var result = Database.HashGetAll(key);
+            foreach (var item in result)
+            {
+                dic.Add(item.Name, Serializer.Deserialize<T>(item.Value));
+            }
+
+            return dic;
+        }
+
         public bool HashDelete(string key, string hashField, CommandFlags commandFlags = CommandFlags.None)
         {
             return Database.HashDelete(key, hashField, commandFlags);

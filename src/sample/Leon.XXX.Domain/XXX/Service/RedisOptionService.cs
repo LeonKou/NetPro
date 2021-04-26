@@ -1,4 +1,4 @@
-﻿using NetPro.RedisManager;
+﻿using NetPro.CsRedis;
 using NetPro.Web.Core.Models;
 using System.Threading.Tasks;
 
@@ -65,10 +65,10 @@ namespace Leon.XXX.Domain.XXX.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ResponseResult<bool>> RemoveAsync(uint id)
+        public async Task<ResponseResult<long>> RemoveAsync(uint id)
         {
             var result = await _redisManager.RemoveAsync($"RedisOption:Id{id}");
-            return new ResponseResult<bool>
+            return new ResponseResult<long>
             {
                 Result = result,
             };
@@ -111,7 +111,7 @@ namespace Leon.XXX.Domain.XXX.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ResponseResult<bool>> RemoveAsync(uint id);
+        Task<ResponseResult<long>> RemoveAsync(uint id);
 
         /// <summary>
         ///  根据key查询redis，不存在返回null

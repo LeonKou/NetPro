@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 namespace NetPro.Web.Api.Filters
 {
     /// <summary>
-    /// 自定义认证过滤器 重写401 403返回值
+    /// 自定义认证过滤器
     /// </summary>
     public class CustomAuthorizeFilter : IAuthorizationFilter
     {
         private readonly NetProOption _config;
-        //private readonly AuthorizationPolicy _policy;
 
         public CustomAuthorizeFilter(NetProOption config)
         {

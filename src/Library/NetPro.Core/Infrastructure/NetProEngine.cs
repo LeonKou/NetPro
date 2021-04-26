@@ -187,6 +187,7 @@ namespace NetPro.Core.Infrastructure
             RunStartupTasks(_typeFinder);
 
             //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
+            //load the plug-in assembly 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 

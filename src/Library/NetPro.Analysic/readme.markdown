@@ -17,7 +17,9 @@
 				"Path": "/api/v1/test/pay/post",
 				"MaxSucceedLimit": 1000000, //当前path地址同ip一天内最大访问次数
 				"MaxErrorLimit": 1000000,
-				"HitDuration": "2d"  //锁定持续2天
+				"HitDuration": "2d"  //触发限制的时间周期
+				"LockDuration":"1d"//被锁定的持续时间
+				"IsGlobalLock":true,
 			},
 			{
 				"Enabled": true,

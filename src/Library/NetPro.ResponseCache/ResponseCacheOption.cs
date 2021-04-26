@@ -5,6 +5,10 @@ namespace NetPro.ResponseCache
 {
     public class ResponseCacheOption
     {
+        public ResponseCacheOption()
+        {
+            IgnoreVaryByQueryKeys = new List<string>();
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -16,9 +20,9 @@ namespace NetPro.ResponseCache
         public int Duration { get; set; }
 
         /// <summary>
-        /// 
+        /// 全局忽略缓存的值
         /// </summary>
-        public List<string> IgnoreVaryQuery { get; set; }
+        public List<string> IgnoreVaryByQueryKeys { get; set; }
 
         /// <summary>
         /// 是否集群

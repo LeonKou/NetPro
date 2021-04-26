@@ -138,28 +138,11 @@ namespace NetPro.Swagger
                 var openApiInfo = configuration.GetSection("SwaggerOption").Get<OpenApiInfo>();
 
                 application.UseSwagger(c =>
-                {
-                    c.RouteTemplate = "docs/{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
+                {   
+                    c.RouteTemplate = $"{configuration.GetValue<string>("SwaggerOption:DescEndpoint", "")}docs/"+"{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
                     c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Info.Description = httpReq.Path);//请求过滤处理
                 });
 
-                //application.UseReDoc(c =>
-                //{
-                //c.SpecUrl("/docs/v1/docs.json");//此处配置要和UseSwagger的RouteTemplate匹配
-                ////c.EnableUntrustedSpec();
-                //c.ScrollYOffset(10);
-                ////c.HideHostname();
-                ////c.HideDownloadButton();
-                //c.RequiredPropsFirst();
-                ////c.NoAutoAuth();
-                //c.PathInMiddlePanel();
-                ////c.HideLoading();
-                //c.NativeScrollbars();
-                ////c.DisableSearch();
-                ////c.OnlyRequiredInSamples();
-                ////c.SortPropsAlphabetically();
-                //c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix", "swagger")}";//设置文档首页根路径
-                // });
                 application.UseSwaggerUI(c =>
                 {
                     c.DocExpansion(DocExpansion.List);
@@ -172,7 +155,7 @@ namespace NetPro.Swagger
                     //c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head);
 
                     c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix", "swagger")}";//设置文档首页根路径
-                    c.SwaggerEndpoint("/docs/v1/docs.json", $"{openApiInfo.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
+                    c.SwaggerEndpoint($"/{configuration.GetValue<string>("SwaggerOption:DescEndpoint", "")}docs/v1/docs.json", $"{openApiInfo.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
                     c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例   
 
                     #region
@@ -180,6 +163,9 @@ namespace NetPro.Swagger
                     #endregion
                     if (configuration.GetValue<bool>("SwaggerOption:IsDarkTheme", false))
                         c.IndexStream = () => typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.IndexDark.html");
+                    else
+                        c.IndexStream = () => typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.Index.html");
+
                 });
             }
 

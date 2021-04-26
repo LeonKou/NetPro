@@ -13,7 +13,7 @@ using NetPro.Proxy;
 
 namespace NetPro.Web.Api
 {
-    public class ApiProxyStartup : INetProStartup
+    public class ApiProxyStartup2000 : INetProStartup
     {
         public int Order => 2000;
 

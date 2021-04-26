@@ -1,29 +1,25 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetPro.Authentication;
 using NetPro.Core.Infrastructure;
-using NetPro.Sign;
 using NetPro.TypeFinder;
 
 namespace NetPro.Web.Core.Infrastructure
 {
     /// <summary>
-    /// 签名
+    ///配置应用程序启动时身份验证中间件
     /// </summary>
-    public class SignStartup : INetProStartup
+    public class AuthenticationStartup700 : INetProStartup
     {
         /// <summary>
-        /// 添加 
+        /// 添加 处理身份认证服务相关的中间件实现
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            //签名
-            if (configuration.GetValue<bool>("VerifySignOption:Enabled", false))
-            {
-                services.AddVerifySign();
-            }
+            services.AddNetProAuthentication(configuration);
         }
 
         /// <summary>
@@ -32,10 +28,7 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            if (application.ApplicationServices.GetRequiredService<IConfiguration>().GetValue<bool>("VerifySignOption:Enabled", false))
-            {
-                application.UseGlobalSign();//签名
-            }
+            application.UseNetProAuthentication();
         }
 
         /// <summary>
@@ -44,7 +37,7 @@ namespace NetPro.Web.Core.Infrastructure
         public int Order
         {
             //authentication should be loaded before MVC
-            get { return 110; }
+            get { return 700; }
         }
     }
 }

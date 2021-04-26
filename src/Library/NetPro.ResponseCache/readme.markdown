@@ -13,7 +13,7 @@
 "Enabled": true,
 "Cluster":false,
 "Duration": 5,//响应持续时间
-"ExcluedQuery": [ "sign,timestamp" ]
+"IgnoreVaryByQueryKeys": [ "sign,timestamp" ]
 }
 ```
 #### 启用服务

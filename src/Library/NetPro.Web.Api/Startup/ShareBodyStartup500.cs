@@ -1,31 +1,34 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Analysic;
 using NetPro.Core.Infrastructure;
-using NetPro.Swagger;
+using NetPro.ShareRequestBody;
 using NetPro.TypeFinder;
-using NetPro.Web.Api.Filters;
 
-namespace NetPro.Web.Api.Startup
+namespace NetPro.Web.Core.Infrastructure
 {
-    public class NetProAnalysicStartup120 : INetProStartup
+    /// <summary>
+    /// 共享body
+    /// </summary>
+    public class ShareBodyStartup500 : INetProStartup
     {
         /// <summary>
-        /// Add and configure any of the middleware
+        /// 添加 
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-#pragma warning disable CS0612 // Type or member is obsolete
-            services.AddRequestAnalysic();
-#pragma warning restore CS0612 // Type or member is obsolete
+            services.AddShareRequestBody();
         }
 
+        /// <summary>
+        /// 添加要使用的中间件
+        /// </summary>
+        /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            application.UseRequestAnalysis();
+            application.UseShareRequestBody();
         }
 
         /// <summary>
@@ -33,7 +36,8 @@ namespace NetPro.Web.Api.Startup
         /// </summary>
         public int Order
         {
-            get { return 120; }
+            //authentication should be loaded before MVC
+            get { return 500; }
         }
     }
 }

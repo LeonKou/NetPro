@@ -33,19 +33,16 @@ namespace NetPro.Sign
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
         private IMemoryCache _memorycache;
-        private readonly IOperationFilter _verifySignCommon;
 
         private readonly IConfiguration _configuration;
         public SignMiddleware(RequestDelegate next, IConfiguration configuration,
             ILogger<SignMiddleware> iLogger,
-            IMemoryCache memorycache,
-            IOperationFilter verifySignCommon)
+            IMemoryCache memorycache)
         {
             _next = next;
             _configuration = configuration;
             _logger = iLogger;
             _memorycache = memorycache;
-            _verifySignCommon = verifySignCommon;
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace NetPro.Sign
         /// <param name="context"></param>
         ///  <param name="requestCacheData"></param>
         /// <returns></returns>
-        public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData, VerifySignOption verifySignOption)
+        public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData, VerifySignOption verifySignOption, IOperationFilter _verifySignCommon)
         {
             if (!context.Request.Path.Value.ToLower().StartsWith("/api"))
             {
@@ -67,7 +64,7 @@ namespace NetPro.Sign
                 if (endpoint.Metadata
                 .Any(m => m is IgnoreSignAttribute))
                 {
-                    _logger.LogInformation($"{context.Request.Path.Value}路径已绕过签名");
+                    _logger.LogInformation($"{context.Request.Path.Value}路径已绕过签名;如设置了必须签名依旧没命中,请检查HTTP method是否匹配;Method={context.Request.Method}");
                     await _next(context);
                     return;
                 }
@@ -75,7 +72,7 @@ namespace NetPro.Sign
 
             context.Request.EnableBuffering();
 
-            var result = await GetSignValue(context, requestCacheData, verifySignOption);
+            var result = await GetSignValue(context, requestCacheData, verifySignOption, _verifySignCommon);
             if (verifySignOption.IsForce && !result.Item1)
             {
                 if (!context?.Response.HasStarted ?? false)
@@ -85,11 +82,6 @@ namespace NetPro.Sign
                 }
 
                 await context.Response.WriteAsync(result.Item2);
-                //await context.Response.WriteAsync(JsonSerializer.Serialize(new { Code = -1, Msg = $"{result.Item2}", Result = string.Empty }, new JsonSerializerOptions
-                //{
-                //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                //    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-                //}));
                 await Task.CompletedTask;
                 return;
             }
@@ -100,7 +92,7 @@ namespace NetPro.Sign
             await _next(context);
         }
 
-        private async Task<Tuple<bool, string>> GetSignValue(HttpContext request, RequestCacheData requestCacheData, VerifySignOption verifySignOption)
+        private async Task<Tuple<bool, string>> GetSignValue(HttpContext request, RequestCacheData requestCacheData, VerifySignOption verifySignOption, IOperationFilter _verifySignCommon)
         {
             try
             {
@@ -117,7 +109,7 @@ namespace NetPro.Sign
 
                 if (!queryDic.ContainsKey(commonParameters.TimestampName) || !queryDic.ContainsKey(commonParameters.AppIdName) || !queryDic.ContainsKey(commonParameters.SignName))
                 {
-                    _logger.LogWarning("url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
+                    _logger.LogWarning("方式：[Middleware] url参数中未找到签名所需参数[timestamp];[appid];[EncryptFlag]或[sign]");
                     return Tuple.Create<bool, string>(false, "签名参数缺失");
                 }
 
@@ -125,18 +117,23 @@ namespace NetPro.Sign
                 {
                     encryptEnum = (EncryptEnum)encryptint;
                 }
+                //认证token也参与签名
+                if (!string.IsNullOrWhiteSpace(request.Request.Headers["Authorization"]))
+                {
+                    queryDic.Add("authorization", request.Request.Headers["Authorization"]);
+                }
 
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !SignCommon.CheckTime(timestamp, verifySignOption.ExpireSeconds))
                 {
-                    _logger.LogWarning($"{timestampStr}时间戳已过期");
+                    _logger.LogWarning($"方式：[Middleware] {timestampStr}时间戳已过期");
                     return Tuple.Create<bool, string>(false, "请校准客户端时间后再试");
                 }
 
                 var appIdString = queryDic[commonParameters.AppIdName].ToString();
                 if (string.IsNullOrEmpty(appIdString))
                 {
-                    _logger.LogWarning(@"The request parameter is missing the Ak/Sk appID parameter
+                    _logger.LogWarning(@"方式：[Middleware] The request parameter is missing the Ak/Sk appID parameter
                                           VerifySign:{
                                             AppSecret:{
                                             [AppId]:[Secret]
@@ -165,6 +162,7 @@ namespace NetPro.Sign
                     queryDic.Add("body", bodyValue);
 
                 }
+
                 var dicOrder = queryDic.OrderBy(s => s.Key, StringComparer.Ordinal).ToList();
 
                 StringBuilder requestStr = new StringBuilder();
@@ -178,27 +176,27 @@ namespace NetPro.Sign
 
                 var utf8Request = SignCommon.GetUtf8(requestStr.ToString());
 
+
+
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), encryptEnum);
                 if (verifySignOption.IsDebug)
                 {
-                    _logger.LogInformation($"请求接口地址：{request.Request.Path}");
-                    _logger.LogInformation($"拼装排序后的值{Convert.ToBase64String(Encoding.Default.GetBytes(utf8Request))}");
-                    _logger.LogInformation($"摘要比对： {result}----{signvalue }");
+                    _logger.LogInformation($"方式：[Middleware] 请求接口地址：{request.Request.Path}");
+                    _logger.LogInformation($"方式：[Middleware] 服务器签名前重新排序后的值={Convert.ToBase64String(Encoding.Default.GetBytes(utf8Request))}");
+                    _logger.LogInformation($"方式：[Middleware] 摘要比对： 服务器签名结果={result}   客户端签名结果={signvalue };equal={signvalue == result}");
+                    _logger.LogInformation($"方式：[Middleware] encryptEnum={encryptEnum}密钥={_verifySignCommon.GetSignSecret(appIdString)}");
                 }
                 else if (signvalue != result)
                 {
-                    _logger.LogWarning(@$"摘要被篡改：[iphide]----{signvalue }
+                    _logger.LogWarning(@$"方式：[Middleware] 摘要被篡改：[iphide]----{signvalue }
                                             查看详情，请设置VerifySignOption节点的IsDebug为true");
+                    return Tuple.Create<bool, string>(false, "签名异常,请求非法");
                 }
-                if (signvalue == result)
-                {
-                    return Tuple.Create<bool, string>(true, "签名通过");
-                }
-                return Tuple.Create<bool, string>(false, "签名异常,请求非法");
+                return Tuple.Create<bool, string>(true, "签名通过");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "签名异常");
+                _logger.LogError(ex, "方式：[Middleware] 签名异常");
                 return Tuple.Create<bool, string>(false, "签名异常");
             }
         }

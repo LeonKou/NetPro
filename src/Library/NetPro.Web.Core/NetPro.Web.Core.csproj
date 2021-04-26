@@ -64,7 +64,6 @@
 		<ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
-		<ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
 		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />
 		<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />

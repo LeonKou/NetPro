@@ -31,7 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+		<ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
 		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

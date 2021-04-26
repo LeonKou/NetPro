@@ -275,6 +275,29 @@ namespace NetPro.RedisManager
             }
         }
 
+
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Dictionary<string, T> HashGetAll<T>(string key)
+        {
+            return RedisHelper.HGetAll<T>(key);
+        }
+
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        {
+            return await RedisHelper.HGetAllAsync<T>(key);
+        }
+
         public long HashDelete(string key, IEnumerable<string> field)
         {
             return RedisHelper.HDel(key, field.ToArray());

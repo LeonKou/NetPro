@@ -159,6 +159,22 @@ namespace NetPro.CsRedis
         T GetDistributedLock<T>(string resource, int expiredTime, Func<T> func, bool isAwait = true);
 
         /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Dictionary<string, T> HashGetAll<T>(string key);
+
+        /// <summary>
+        ///   获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<Dictionary<string, T>> HashGetAllAsync<T>(string key);
+
+        /// <summary>
         /// 删除hash中的字段
         /// </summary>
         /// <param name="key"></param>

@@ -16,7 +16,7 @@ namespace NetPro.Web.Core.Infrastructure
     /// 应用性能监控
     /// </summary>
     [Obsolete("停用")]
-    public class AppMetricsStartup //: INetProStartup
+    public class AppMetricsStartup200 //: INetProStartup
     {
         public int Order => 200;
 

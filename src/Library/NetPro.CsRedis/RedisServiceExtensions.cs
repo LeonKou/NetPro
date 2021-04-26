@@ -11,7 +11,7 @@ namespace NetPro.CsRedis
     public static class RedisServiceExtensions
     {
         /// <summary>
-        /// 增加StackExchange.Redis服务
+        /// 增加Cs.Redis服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
@@ -29,7 +29,7 @@ namespace NetPro.CsRedis
         }
 
         /// <summary>
-        /// 增加StackExchange.Redis服务
+        /// 增加Cs.Redis服务
         /// </summary>
         /// <param name="services">The service collection.</param>
         /// <param name="RedisCacheOption">The redis configration.</param>

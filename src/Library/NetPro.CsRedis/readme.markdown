@@ -9,7 +9,6 @@
 
 "RedisCacheOption": {
    "Enabled": true,//是否开启
-   "RedisComponent": -1,//-1：NullRedis;1:CSRedis;2:StackExchangeRedis
    "Password": "netpro",
    "IsSsl": false,
    "Preheat": 20,//预热

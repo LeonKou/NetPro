@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.RedisManager;
+using NetPro.CsRedis;
 using NetPro.TypeFinder;
 using NetPro.Web.Core.Compression;
 using System.Linq;
@@ -13,9 +13,9 @@ using System.Linq;
 namespace NetPro.Web.Core.Infrastructure
 {
     /// <summary>
-    /// 配置应用程序启动时常用的中间件
+    /// 文件中间件
     /// </summary>
-    public class NetProCommonStartup : INetProStartup
+    public class NetProStaticFilesStartup100 : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware
@@ -33,7 +33,7 @@ namespace NetPro.Web.Core.Infrastructure
 
             //新增redis缓存注入
             if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
-                services.AddRedisManager(configuration);
+                services.AddCsRedis<SystemTextJsonSerializer>(configuration);
 
             services.Scan(scan => scan
            .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
@@ -42,6 +42,7 @@ namespace NetPro.Web.Core.Infrastructure
            .AsImplementedInterfaces()
            .WithScopedLifetime());
         }
+
         /// <summary>
         /// Configure the using of added middleware
         /// </summary>
@@ -49,7 +50,7 @@ namespace NetPro.Web.Core.Infrastructure
         public void Configure(IApplicationBuilder application)
         {
             var config = EngineContext.Current.Resolve<NetProOption>();
-
+            //UseRouting之前的中间件
             //compression
             if (config.UseResponseCompression)
             {

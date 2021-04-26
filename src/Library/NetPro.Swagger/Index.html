@@ -1,4 +1,4 @@
-﻿<!--<script async="async" id="mini-profiler" src="/profiler/includes.min.js?v=4.0.138+gcc91adf599" data-version="4.0.138+gcc91adf599" data-path="/profiler/" data-current-id="4ec7c742-49d4-4eaf-8281-3c1e0efa748a" data-ids="" data-position="Left" data-authorized="true" data-max-traces="15" data-toggle-shortcut="Alt+P" data-trivial-milliseconds="2.0" data-ignored-duplicate-execute-types="Open,OpenAsync,Close,CloseAsync"></script>-->
+﻿<script async="async" id="mini-profiler" src="/profiler/includes.min.js?v=4.0.138+gcc91adf599" data-version="4.0.138+gcc91adf599" data-path="/profiler/" data-current-id="4ec7c742-49d4-4eaf-8281-3c1e0efa748a" data-ids="" data-position="Left" data-authorized="true" data-max-traces="15" data-toggle-shortcut="Alt+P" data-trivial-milliseconds="2.0" data-ignored-duplicate-execute-types="Open,OpenAsync,Close,CloseAsync"></script>
 <!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
@@ -28,97 +28,11 @@
 			background: #fafafa;
 		}
 	</style>
-
-	<style>
-		.swagger-ui .topbar {
-			background-color: #111;
-			border-bottom: 3px solid #547f00;
-		}
-
-		#header {
-			background: #222 !important;
-		}
-
-		#select_document {
-			background: #666 !important;
-		}
-
-		input[name=baseUrl] {
-			display: none !important;
-		}
-
-		.logo__title {
-			display: none !important;
-		}
-
-		#api_info a {
-			color: #007bff !important;
-			text-decoration: none !important;
-		}
-
-			#api_info a:hover,
-			#api_info a:focus,
-			#api_info a:active {
-				color: #0056b3 !important;
-				text-decoration: underline !important;
-			}
-		/*
-		  Parts of this code is inspired from the following:
-		  [1] https://userstyles.org/styles/105000/smart-dark
-		*/
-
-		html {
-			background-color: #222 !important;
-		}
-
-
-		body {
-			background-color: #FFF !important;
-			filter: invert(90%) grayscale(10%) hue-rotate(180deg) !important;
-			-webkit-filter: invert(90%) grayscale(10%) hue-rotate(180deg) !important;
-		}
-
-		em,
-		img,
-		svg,
-		form,
-		image,
-		video,
-		audio,
-		embed,
-		object,
-		button,
-		canvas,
-		figure:empty {
-			filter: invert(100%) !important;
-			-webkit-filter: invert(100%) !important;
-		}
-
-			form em,
-			form img,
-			form svg,
-			form image,
-			form video,
-			form embed,
-			form object,
-			form button,
-			form canvas,
-			form figure:empty {
-				filter: invert(0) !important;
-				-webkit-filter: invert(0) !important;
-			}
-
-		[style*='background:url']:not(html):not(body):not(input),
-		[style*='background: url']:not(html):not(body):not(input),
-		[style*='background-image']:not(html):not(body):not(input) {
-			filter: invert(100%) !important;
-			-webkit-filter: invert(100%) !important;
-		}
-	</style>
 	%(HeadContent)
 </head>
 
 <body>
+
 	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position:absolute;width:0;height:0">
 		<defs>
 			<symbol viewBox="0 0 20 20" id="unlocked">
@@ -182,7 +96,6 @@
 			ui.initOAuth(oauthConfigObject);
 		}
 
-
 		function addEvent(parent, targetCls, fn) {
 			parent.addEventListener('click', (ev) => {
 
@@ -200,7 +113,6 @@
 				}
 			})
 		}
-
 
 		addEvent(document.body, 'authorize unlocked', () => {
 			setTimeout(() => {

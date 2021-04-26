@@ -96,5 +96,11 @@ namespace NetPro.Core.Configuration
         /// </summary>
         public bool EnabledHealthCheck { get; set; }
 
+        /// <summary>
+        /// 全局路由前缀
+        /// </summary>
+        /// <remarks>例如：/api/admin/xxx/controller/action </remarks>
+        public string RoutePrefix { get; set; }
+
     }
 }

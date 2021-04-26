@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Swagger;
 using NetPro.TypeFinder;
 using NetPro.Web.Api.Filters;
+using Serilog;
 
-namespace NetPro.Web.Api
+namespace NetPro.Web.Api.Startup
 {
-    /// <summary>
-    /// 配置应用程序启动时MVC需要的中间件
-    /// </summary>
-    public class NetProApiStartup : INetProStartup
+    class NetProRoutingStartup300 : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware
@@ -32,15 +31,14 @@ namespace NetPro.Web.Api
 
         public void Configure(IApplicationBuilder application)
         {
+            application.Use(async (context, next) => {
+                context.Request.EnableBuffering();
+                await next();
+            });
+
+            application.UseNetProSwagger();
             //TODO流量分析等其他中间件            
             application.UseRouting();
-            application.UseCors("CorsPolicy");
-            application.UseAuthorization();
-            application.UseNetProSwagger();
-            application.UseEndpoints(s =>
-            {
-                s.MapControllers();
-            });
         }
 
         /// <summary>
@@ -49,7 +47,7 @@ namespace NetPro.Web.Api
         public int Order
         {
             //MVC should be loaded last
-            get { return 130; }
+            get { return 300; }
         }
     }
 }

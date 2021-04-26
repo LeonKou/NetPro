@@ -17,6 +17,7 @@ namespace NetPro.CsRedis
         }
 
 
+
         public Task<T> GetAsync<T>(string key)
         {
             return Task.FromResult(default(T));
@@ -53,7 +54,7 @@ namespace NetPro.CsRedis
             return default;
         }
 
-        public  Task<T> HGetAsync<T>(string key, string field)
+        public Task<T> HGetAsync<T>(string key, string field)
         {
             return default;
         }
@@ -102,7 +103,7 @@ namespace NetPro.CsRedis
         {
             return 0;
         }
-        public  Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score)
+        public Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score)
         {
             return default;
         }
@@ -163,7 +164,7 @@ namespace NetPro.CsRedis
         /// <param name="value"></param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public  Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        public Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
         {
             return default;
         }
@@ -214,12 +215,18 @@ namespace NetPro.CsRedis
 
         public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
         {
-            return default(T);
+            if (func == null)
+                return default(T);
+            var executeResult = func.Invoke();
+            return executeResult;
         }
 
-        public Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
+        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
         {
-            return Task.FromResult(default(T));
+            if (func == null)
+                return default(T);
+            var executeResult = await func.Invoke();
+            return executeResult;
         }
 
         public bool Set(string key, object data, TimeSpan? expiredTime)
@@ -295,6 +302,16 @@ namespace NetPro.CsRedis
         public Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
         {
             return Task.FromResult((long)0);
+        }
+
+        public Dictionary<string, T> HashGetAll<T>(string key)
+        {
+            return default;
+        }
+
+        public Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        {
+            return default;
         }
     }
 }

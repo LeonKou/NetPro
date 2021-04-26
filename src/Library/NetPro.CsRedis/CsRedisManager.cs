@@ -305,6 +305,28 @@ namespace NetPro.CsRedis
             return RedisHelper.HGet<T>(key, field);
         }
 
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Dictionary<string, T> HashGetAll<T>(string key)
+        {
+            return RedisHelper.HGetAll<T>(key);
+        }
+
+        /// <summary>
+        ///  获取在哈希表中指定 key 的所有字段和值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        {
+            return await RedisHelper.HGetAllAsync<T>(key);
+        }
+
         public async Task<T> HashGetAsync<T>(string key, string field)
         {
             return await RedisHelper.HGetAsync<T>(key, field);
@@ -392,7 +414,7 @@ namespace NetPro.CsRedis
             return await RedisHelper.ZAddAsync(key, (score, obj));
         }
 
-        public List<T> SortedSetRangeByRank<T>(string key,long start=0,long stop=-1)
+        public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1)
         {
             return RedisHelper.ZRange<T>(key, start, stop)?.ToList();
         }

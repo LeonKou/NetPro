@@ -2,39 +2,34 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
+using NetPro.ResponseCache;
 using NetPro.TypeFinder;
-using NetPro.Web.Core.Infrastructure.Extensions;
-using Serilog;
 
 namespace NetPro.Web.Core.Infrastructure
 {
     /// <summary>
-    /// 配置应用程序启动时异常处理中间件
+    /// 响应缓存
     /// </summary>
-    public class ErrorHandlerStartup : INetProStartup
+    public class ResponseCacheStartup800 : INetProStartup
     {
         /// <summary>
-        /// Add and configure any of the middleware
+        /// 添加 
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
+            services.AddResponseCachingExtension();
         }
 
         /// <summary>
-        /// Configure the using of added middleware
+        /// 添加要使用的中间件
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            application.UseSerilogRequestLogging();
-            //异常处理
-            application.UseNetProExceptionHandler();
-            //404处理
-            application.UsePageNotFound();
-            //400处理
-            application.UseBadRequestResult();               
+            application.UseGetResponseCaching();
+            //application.UsePostResponseCache();//响应缓存,Post响应缓存不适用于全局，故废弃，推荐使用特性方式
         }
 
         /// <summary>
@@ -42,8 +37,8 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         public int Order
         {
-            //error handlers should be loaded first
-            get { return 0; }
+            //authentication should be loaded before MVC
+            get { return 800; }
         }
     }
 }

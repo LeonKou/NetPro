@@ -18,13 +18,17 @@ namespace NetPro.Sign
 
         public int ExpireSeconds { get; set; } = 5;
 
-        public DeclareCommonParameters CommonParameters { get; set; }
+        public DeclareCommonParameters CommonParameters { get; set; } = new DeclareCommonParameters();
 
         public List<Type> OperationFilterDescriptors { get; set; } = new List<Type>();
     }
 
     public class DeclareCommonParameters
     {
+        public DeclareCommonParameters()
+        {
+
+        }
         public string TimestampName { get; set; } = "timestamp";
         public string AppIdName { get; set; } = "appid";
         public string SignName { get; set; } = "sign";

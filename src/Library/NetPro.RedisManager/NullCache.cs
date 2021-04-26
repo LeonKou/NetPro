@@ -333,5 +333,15 @@ namespace NetPro.RedisManager
         {
             return Task.FromResult((long)0);
         }
+
+        public Dictionary<string, T> HashGetAll<T>(string key)
+        {
+            return default;
+        }
+
+        public Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        {
+            return default;
+        }
     }
 }

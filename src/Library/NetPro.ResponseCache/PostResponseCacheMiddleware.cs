@@ -7,7 +7,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
-using NetPro.RedisManager;
 using NetPro.ShareRequestBody;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using NetPro.CsRedis;
 
 namespace NetPro.ResponseCache
 {
@@ -64,7 +63,7 @@ namespace NetPro.ResponseCache
                 return;
             });
 
-            var endpoint = context.Features.Get<IEndpointFeature>()?.Endpoint;
+            var endpoint = context.GetEndpoint();
             if (endpoint != null)
             {
                 if (endpoint.Metadata
@@ -85,7 +84,7 @@ namespace NetPro.ResponseCache
             {
                 var convertedDictionatry = context.Request.Query.ToDictionary(s => s.Key.ToLower(), s => s.Value);
 
-                foreach (var item in _responseCacheOption?.IgnoreVaryQuery ?? new List<string>())
+                foreach (var item in _responseCacheOption?.IgnoreVaryByQueryKeys ?? new List<string>())
                 {
                     if (convertedDictionatry.ContainsKey(item.ToLower()))
                         convertedDictionatry.Remove(item.ToLower());
@@ -119,7 +118,7 @@ namespace NetPro.ResponseCache
                         _redisManager = context.RequestServices.GetService<IRedisManager>();
                         if (_redisManager == null)
                         {
-                            throw new ArgumentNullException(nameof(RedisCacheOption), $"PostResponseCache组件在集群模式下未检测到NetPro.RedisManager配置节点{nameof(RedisCacheOption)}");
+                            throw new ArgumentNullException(nameof(RedisCacheOption), $"PostResponseCache组件在集群模式下未检测到注入NetPro.CsRedis组件,请检查是否遗漏{nameof(RedisCacheOption)}配置节点");
                         }
                         cacheResponseBody = _redisManager.Get<ResponseCacheData>($"NetProPostResponse:{requestStrKey}");
                     }
@@ -216,59 +215,6 @@ namespace NetPro.ResponseCache
             gotoNext:
             await _next(context);
         }
-
-        //private async Task<string> ReadAsString(HttpContext context)
-        //{
-        //    try
-        //    {
-        //        if (context.Request.ContentLength > 0)
-        //        {
-        //            EnableRewind(context.Request);
-        //            var encoding = GetRequestEncoding(context.Request);
-        //            return await ReadStream(context, encoding);
-        //        }
-        //        return null;
-
-        //    }
-        //    catch (Exception ex) when (!ex.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
-        //    {
-        //        _iLogger.LogError(ex, $"[ReadAsString] Post响应缓存读取body出错");
-        //        return null;
-        //    }
-        //}
-
-        //private async Task<string> ReadStream(HttpContext context, Encoding encoding)
-        //{
-        //    using (StreamReader sr = new StreamReader(context.Request.Body, encoding, true, 1024, true))
-        //    {
-        //        if (context?.RequestAborted.IsCancellationRequested ?? true)
-        //            return null;
-        //        var str = await sr.ReadToEndAsync();
-        //        context.Request.Body.Seek(0, SeekOrigin.Begin);
-        //        return str;
-        //    }
-        //}
-
-        //private Encoding GetRequestEncoding(HttpRequest request)
-        //{
-        //    var requestContentType = request.ContentType;
-        //    var requestMediaType = requestContentType == null ? default(MediaType) : new MediaType(requestContentType);
-        //    var requestEncoding = requestMediaType.Encoding;
-        //    if (requestEncoding == null)
-        //    {
-        //        requestEncoding = Encoding.UTF8;
-        //    }
-        //    return requestEncoding;
-        //}
-
-        //private void EnableRewind(HttpRequest request)
-        //{
-        //    if (!request.Body.CanSeek)
-        //    {
-        //        request.EnableBuffering();
-        //    }
-        //    request.Body.Seek(0L, SeekOrigin.Begin);
-        //}
     }
 
     /// <summary>

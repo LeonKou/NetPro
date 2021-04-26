@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetPro.RedisManager;
+using NetPro.CsRedis;
 using NetPro.ResponseCache;
 using NetPro.ShareRequestBody;
 using System;
@@ -133,6 +133,14 @@ namespace NetPro.ResponseCache
             {
                 var convertedDictionatry = context.HttpContext.Request.Query.ToDictionary(s => s.Key.ToLower(), s => s.Value);
 
+                if (IgnoreVaryByQueryKeys == null || !IgnoreVaryByQueryKeys.Any())
+                {
+                    if (responseCacheOption.IgnoreVaryByQueryKeys.Any())
+                    {
+                        IgnoreVaryByQueryKeys = responseCacheOption.IgnoreVaryByQueryKeys.ToArray();
+                    }                        
+                }
+
                 foreach (var item in IgnoreVaryByQueryKeys ?? new string[0])
                 {
                     if (convertedDictionatry.ContainsKey(item.ToLower()))
@@ -182,7 +190,7 @@ namespace NetPro.ResponseCache
                                     context.HttpContext.Response.ContentType = cacheResponseBody.ContentType;
                                     await context.HttpContext.Response.WriteAsync(cacheResponseBody.Body);
                                     await Task.CompletedTask;
-                                    return; ;
+                                    return;
                                 case ResponseMode.Error:
                                     if (cacheResponseBody.StatusCode == 200)
                                     {
@@ -236,17 +244,23 @@ namespace NetPro.ResponseCache
                                 await Task.CompletedTask;
                                 return;
                             }
-                            string body;
+
                             if (responseResult.GetType().Name == "EmptyResult")
                             {
                                 await Task.CompletedTask;
                                 return;
                             }
-                            body = JsonSerializer.Serialize(responseResult.Value, new JsonSerializerOptions
+
+                            string body = string.Empty;
+                            if (responseResult as Microsoft.AspNetCore.Mvc.ObjectResult != null)
                             {
-                                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-                            });
+                                body = JsonSerializer.Serialize(responseResult.Value, new JsonSerializerOptions
+                                {
+                                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                                });
+                            }
+
                             if (Cluster)
                             {
                                 _redisManager.Set($"NetProPostResponse:{requestStrKey}", new ResponseCacheData

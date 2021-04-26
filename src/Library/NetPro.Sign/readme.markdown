@@ -79,6 +79,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ```json
 "VerifySignOption": {
 "Enabled": true,//是否开启签名
+"IsForce":true,//是否强制实名校验  ，false 签名错误只记录日志
 "IsDebug": true,//是否调试，显示更多敏感信息action加特式签名，global则全局
 "ExpireSeconds": 60,//时间戳过期时长，单位秒
 "CommonParameters": { //公共参数名的定义

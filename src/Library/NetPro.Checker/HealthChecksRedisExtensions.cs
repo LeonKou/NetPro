@@ -11,7 +11,7 @@ namespace NetPro.Checker
 {
     public static class HealthChecksRedisExtensions
     {
-        private static readonly string NAME = "redis";
+        private static readonly string NAME = $"redis-{Guid.NewGuid()}";
 
         /// <summary>
         /// Add a health check for Redis services.

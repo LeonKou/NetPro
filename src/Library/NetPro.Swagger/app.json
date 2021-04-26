@@ -3,8 +3,9 @@
 		"Enabled": true,
 		"IsDarkTheme": true,
 		"MiniProfilerEnabled": false,
-		"XmlComments": [ "", "" ],
+		//"XmlComments": [ "", "" ],
 		"RoutePrefix": "swagger",
+		"DescEndpoint": "lu/", //json endpoint
 		"Description": "this is swagger for netcore",
 		"Title": "Demo swagger",
 		"Version": "first version",

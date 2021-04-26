@@ -27,12 +27,13 @@ namespace NetPro.Proxy
             if (string.IsNullOrWhiteSpace(assemblyFullName))
             {
                 types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件程序集名称为空,Proxy结尾的程序集为: {string.Join(';',types.Select(s => s.GetName().Name))}");
             }
             else
             {
                 types = typeFinder.GetAssemblies().Where(s => s.GetName().Name == assemblyFullName).ToList();
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件配置的程序集名为:{assemblyFullName}");
             }
-            Console.WriteLine($"AddHttpProxy配置程序名为:{assemblyFullName}");
 
             var cookieContainer = new CookieContainer();
             foreach (var type in types)

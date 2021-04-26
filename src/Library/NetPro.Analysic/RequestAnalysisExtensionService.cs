@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.RedisManager;
+using NetPro.CsRedis;
 using System;
 namespace NetPro.Analysic
 {
@@ -28,13 +28,15 @@ namespace NetPro.Analysic
                 services.AddSingleton(option);
                 var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
                 if (redisCacheOption != null)
-                {
-                    services.AddRedisManager(configuration);
+                {     
+                    //新增redis缓存注入
+                    services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(configuration);
                 }
+
             }
             catch (Exception ex)
             {
-                throw new ArgumentNullException("流量分析依赖NetPro.RedisManager组件,请检查是否遗漏RedisCacheOption配置节点", ex);
+                throw new ArgumentNullException("流量分析依赖NetPro.CsRedis组件,请检查是否注入服务并遗漏RedisCacheOption配置节点", ex);
             }
 
             return services;

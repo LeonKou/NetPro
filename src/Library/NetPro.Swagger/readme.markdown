@@ -11,9 +11,12 @@
 ```json
 "SwaggerOption": {
  "Enabled": true,
+ "IsForce": true, //是否强制签名
+ "IsDebug": true, //是否调试，显示更多敏感信息action加特式签名，global则全局
  "MiniProfilerEnabled": false,
  "XmlComments": [ "", "" ],
  "RoutePrefix": "swagger",
+ "DescEndpoint": "lu/", //json endpoint
  "Description": "this is swagger for netcore",
  "Title": "Demo swagger",
  "Version": "first version",

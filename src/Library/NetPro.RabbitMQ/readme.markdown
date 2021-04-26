@@ -9,7 +9,7 @@
 ```csharp
  services.AddRabbitMqClient(new RabbitMqClientOptions
  {
-     HostName = "172.16.127.229",
+     HostName = "192.168.7.66",
      Port = 5672,
      Password = "guest",
      UserName = "guest",
@@ -17,12 +17,22 @@
  })
  .AddProductionExchange("LeonTest", new RabbitMqExchangeOptions
      {
-         DeadLetterExchange = "DeadExchange",
+         DeadLetterExchange = "DeadExchange", //不为空，默认不重发
          AutoDelete = false,
          Type = "fanout",
          Durable = true,
          Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "myqueue", RoutingKeys = new HashSet<string> { "mini", "yang" } } }
-     });
+     })
+     .AddConsumptionExchange($"{LeonTest}", new RabbitMqExchangeOptions
+            {
+                DeadLetterExchange = "DeadExchange", //不为空，默认不重发
+                AutoDelete = false,
+                Type = ExchangeType.Direct,
+                Durable = true,
+                Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = $"{myqueue}", RoutingKeys = new HashSet<string> { "myqueue" } } }
+            }).AddMessageHandlerSingleton<CustomMessageHandler>("myqueue");
+
+            services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming();;
 ```
 
 ```json

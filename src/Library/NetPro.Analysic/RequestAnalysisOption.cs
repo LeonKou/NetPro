@@ -32,6 +32,17 @@ namespace NetPro.Analysic
         /// m:分钟;d:天;h:小时;s:秒;f:毫秒
         /// </summary>
         public string HitDuration { get; set; } = "1d";
+
+        /// <summary>
+        /// 被锁定的持续时间 
+        /// m:分钟;d:天;h:小时;s:秒;f:毫秒
+        /// </summary>
+        public string LockDuration { get; set; } = "1d";
+
+        /// <summary>
+        /// 是否全局以IP锁定,false只锁指定地址
+        /// </summary>
+        public bool IsGlobalLock { get; set; }
     }
 
     /// <summary>
@@ -66,5 +77,10 @@ namespace NetPro.Analysic
         /// </summary>
         /// <remarks>手机号对应的验证码</remarks>
         public static string Key_Request_Limit_IP_Error = "Request:Limit_IP_Error:";
+
+        /// <summary>
+        /// 请求被锁定
+        /// </summary>
+        public static string Key_Request_Limit_IP_Lock = "Request:Limit_IP_Lock:";
     }
 }

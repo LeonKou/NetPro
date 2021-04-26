@@ -19,7 +19,6 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Analysic.xml</DocumentationFile>
 	</PropertyGroup>
@@ -33,10 +32,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	</ItemGroup>
+
 	<ItemGroup>
-	  <ProjectReference Include="..\NetPro.RedisManager\NetPro.RedisManager.csproj" />
+	  <ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

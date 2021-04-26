@@ -520,7 +520,8 @@ namespace MQMiddleware
             var deadLetterExchanges = _exchanges.Select(x => x.Options.DeadLetterExchange).Distinct();
             if (!_exchanges.Any(x => x.Name == exchangeName) && !deadLetterExchanges.Any(x => x == exchangeName))
             {
-                throw new ArgumentException($"Exchange {nameof(exchangeName)} has not been declared yet.", nameof(exchangeName));
+                var exchanges = string.Join(';', _exchanges.Select(s => s.Name).ToList());
+                throw new ArgumentException($"Exchange  {exchangeName}  has not been declared yet.  exchanges:{exchanges}", nameof(exchangeName));
             }
         }
 

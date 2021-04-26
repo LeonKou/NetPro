@@ -23,6 +23,7 @@ namespace NetPro.Checker
         {
             app.UseEnvCheck(envPath);
             app.UseInfoCheck(infoPath);
+            app.UseHealthCheck("/check");
         }
 
         public static void UseEnvCheck(this IApplicationBuilder app, string path = "/env")
@@ -81,15 +82,25 @@ namespace NetPro.Checker
             {
                 s.Run(async context =>
                 {
-                    HealthCheckRegistry.HealthStatus status = await Task.Run(() => HealthCheckRegistry.GetStatus());
-
-                    if (!status.IsHealthy)
+                    var remoteIp = context.Connection.RemoteIpAddress;
+                    if (!IPAddress.IsLoopback(remoteIp))
                     {
-                        // Return a service unavailable status code if any of the checks fail
-                        context.Response.StatusCode = 503;
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
                     }
-                    context.Response.ContentType = DEFAULT_CONTENT_TYPE;
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(status));
+                    else
+                    {
+                        HealthCheckRegistry.HealthStatus status = await Task.Run(() => HealthCheckRegistry.GetStatus());
+
+                        if (!status.IsHealthy)
+                        {
+                            // Return a service unavailable status code if any of the checks fail
+                            context.Response.StatusCode = 503;
+                        }
+                        context.Response.ContentType = DEFAULT_CONTENT_TYPE;
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(status));
+                    }
                 });
             });
         }

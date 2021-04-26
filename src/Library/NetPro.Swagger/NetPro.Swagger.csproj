@@ -19,7 +19,12 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Swagger.xml</DocumentationFile>
 	</PropertyGroup>
+
 	<ItemGroup>
+	  <None Remove="Index.html" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Index.html" />
 		<EmbeddedResource Include="IndexDark.html" />
 	</ItemGroup>
 

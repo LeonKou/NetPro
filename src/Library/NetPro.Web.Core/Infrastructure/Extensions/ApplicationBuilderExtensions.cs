@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.Utility;
@@ -14,6 +15,9 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.IO;
+using System;
+using System.Linq;
 
 namespace NetPro.Web.Core.Infrastructure.Extensions
 {
@@ -39,11 +43,11 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         {
             application.UseStatusCodePages(context =>
             {
-                //handle 404 (Bad request)
+                //handle 400 (Bad request)
                 if (context.HttpContext.Response.StatusCode == StatusCodes.Status400BadRequest)
                 {
-                    var logger = EngineContext.Current.Resolve<ILogger>();
-                    logger.Error($"Error 400. Bad request,{context.HttpContext.Request.Path.Value}");
+                    var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
+                    logger.LogError($"Error 400. Bad request,{context.HttpContext.Request.Path.Value}");
                 }
 
                 return Task.CompletedTask;
@@ -58,11 +62,12 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         {
             var nopConfig = application.ApplicationServices.GetService<NetProOption>();
             var hostingEnvironment = application.ApplicationServices.GetService<IWebHostEnvironment>();
-            var requestIp = application.ApplicationServices.GetService<IWebHelper>();
+            var webHelper = application.ApplicationServices.GetService<IWebHelper>();
 
+            var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
             if (!hostingEnvironment.IsDevelopment())
             {
-                //全局默认异常捕获(响应被处理，此处将不再处理)
+                //The global default handles exceptions
                 application.UseExceptionHandler(handler =>
                 {
                     handler.Run(async context =>
@@ -73,17 +78,42 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                         if (contextFeature != null)
                         {
                             var exceptionHandlerPathFeature =
-                   context.Features.Get<IExceptionHandlerPathFeature>();
+                            context.Features.Get<IExceptionHandlerPathFeature>();
                             if (exceptionHandlerPathFeature?.Error != null)
                             {
                                 if (!exceptionHandlerPathFeature.Error.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
                                 {
-                                    var url = string.Format("{0}{1}", context.Request.Host.Value, context.Request.Path.Value);
-                                    Serilog.Log.Error(exceptionHandlerPathFeature?.Error, $"系统异常, requestIp: {requestIp} url:  {url}");
+                                    string body = null;
+                                    string userInfo = context?.User.Identity.Name;
+
+                                    if (context?.Request.Method.ToUpper() == "POST")
+                                    {
+                                        try
+                                        {
+                                            context.Request.Body.Position = 0;
+                                            using (StreamReader reader = new StreamReader(context?.Request.Body, Encoding.UTF8, true, 1024, true))
+                                            {
+                                                body = await reader.ReadToEndAsync();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            logger.LogError($"Global exception capture is error for reads the body", ex);
+                                        }
+                                    }
+                                    logger.LogError(exceptionHandlerPathFeature?.Error, @$"[{DateTime.Now:HH:mm:ss}] [Global system exception]
+                                    RequestIp=> {webHelper.GetCurrentIpAddress()}
+                                    HttpMethod=> {context?.Request.Method}
+                                    Path=> {context.Request.Host.Value}{context?.Request.Path}{context?.Request.QueryString}
+                                    Body=> {body}
+                                    Header=> 
+                                    { string.Join("\r\n", context?.Request.Headers.ToList())}
+                                    UserId=> {userInfo}
+                                    ");
                                 }
                             }
-
-                            await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"系统异常,请稍后再试", Result = "" }, new JsonSerializerOptions
+                            context.Response.Headers.Add("error", $"{exceptionHandlerPathFeature?.Error.Message}");
+                            await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"System exception, please try again later", Result = "" }, new JsonSerializerOptions
                             {
                                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
