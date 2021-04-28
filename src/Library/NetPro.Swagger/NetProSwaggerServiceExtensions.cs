@@ -21,25 +21,31 @@ namespace NetPro.Swagger
     {
         public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddFileProcessService();
             var loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
             ILogger logger = null;
             if (loggerFactory != null)
             {
                 logger = loggerFactory.CreateLogger($"{nameof(NetProSwaggerServiceExtensions)}");
             }
-            if (!configuration.GetValue<bool>("SwaggerOption:Enabled", false))
+            services.Configure<SwaggerOption>(configuration.GetSection(nameof(SwaggerOption)));
+            var swaggerOption = services.BuildServiceProvider().GetService<IOptions<SwaggerOption>>().Value;
+            //var swaggerOption = configuration.GetSection(nameof(SwaggerOption)).Get<SwaggerOption>();
+            if (!swaggerOption.Enabled)
             {
                 logger?.LogInformation($"NetPro Swagger 已关闭");
                 return services;
             }
             else
+            {
                 logger?.LogInformation($"NetPro Swagger 已启用");
+            }
+            services.AddSingleton(swaggerOption);
+            services.AddFileProcessService();
 
-            services
-                .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));
+            //services
+            //    .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));
 
-            var info = services.BuildServiceProvider().GetService<IOptions<OpenApiInfo>>().Value;
+            //var info = services.BuildServiceProvider().GetService<IOptions<OpenApiInfo>>().Value;
 
             services.AddSwaggerGen(c =>
             {
@@ -67,12 +73,12 @@ namespace NetPro.Swagger
 
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = info.Title,
-                    Version = info.Version,
-                    Description = info.Description,
+                    Title = swaggerOption.Title,
+                    Version = swaggerOption.Version,
+                    Description = swaggerOption.Description,
                     //TermsOfService = "None",
-                    Contact = info.Contact,// new OpenApiContact { Email = "Email", Name = "Name", Url = new Uri("http://www.github.com") },
-                    License = info.License,//new OpenApiLicense { Url = new Uri("http://www.github.com"), Name = "LicenseName" },
+                    Contact = swaggerOption.Contact,// new OpenApiContact { Email = "Email", Name = "Name", Url = new Uri("http://www.github.com") },
+                    License = swaggerOption.License,//new OpenApiLicense { Url = new Uri("http://www.github.com"), Name = "LicenseName" },
                 });
                 c.IgnoreObsoleteActions();
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -131,16 +137,27 @@ namespace NetPro.Swagger
         public static IApplicationBuilder UseNetProSwagger(
          this IApplicationBuilder application)
         {
-            var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
+            var configuration = application.ApplicationServices.GetService<IConfiguration>();
+            var swaggerOption = application.ApplicationServices.GetService<IOptions<SwaggerOption>>().Value;
 
-            if (configuration.GetValue<bool>("SwaggerOption:Enabled", false))
+            if (swaggerOption.Enabled)
             {
-                var openApiInfo = configuration.GetSection("SwaggerOption").Get<OpenApiInfo>();
-
+                var basePath = swaggerOption.ServerPrefix;
                 application.UseSwagger(c =>
-                {   
-                    c.RouteTemplate = $"{configuration.GetValue<string>("SwaggerOption:DescEndpoint", "")}docs/"+"{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
+                {
+                    c.RouteTemplate = "docs/{documentName}/docs.json";//使中间件服务生成Swagger作为JSON端点
                     c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Info.Description = httpReq.Path);//请求过滤处理
+                    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                    {
+                        var refererPath = httpReq.Headers.Where(s => "referer".Equals(s.Key.ToLower())).Select(s => s.Value);
+                        if (refererPath.Any())
+                        {
+                            var refererPathUri = new Uri($"{refererPath.First()}");
+                            swaggerDoc.Servers.Add(new OpenApiServer { Url = $"{httpReq.Scheme}://{refererPathUri.Host}:{refererPathUri.Port}/{basePath}" });
+                        }
+
+                        swaggerDoc.Servers.Add(new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}/{basePath}" });
+                    });
                 });
 
                 application.UseSwaggerUI(c =>
@@ -154,14 +171,15 @@ namespace NetPro.Swagger
                     c.EnableValidator();
                     //c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head);
 
-                    c.RoutePrefix = $"{configuration.GetValue<string>("SwaggerOption:RoutePrefix", "swagger")}";//设置文档首页根路径
-                    c.SwaggerEndpoint($"/{configuration.GetValue<string>("SwaggerOption:DescEndpoint", "")}docs/v1/docs.json", $"{openApiInfo.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
+                    c.RoutePrefix = $"{swaggerOption.RoutePrefix}";//设置文档首页根路径
+                    var prefix = !string.IsNullOrEmpty(basePath) ? $"/{basePath}/" : "/";
+                    c.SwaggerEndpoint($"{prefix}docs/v1/docs.json", $"{swaggerOption.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
                     c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例   
 
                     #region
                     typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.SwaggerProfiler.html");
                     #endregion
-                    if (configuration.GetValue<bool>("SwaggerOption:IsDarkTheme", false))
+                    if (swaggerOption.IsDarkTheme)
                         c.IndexStream = () => typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.IndexDark.html");
                     else
                         c.IndexStream = () => typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.Index.html");

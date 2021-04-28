@@ -5,7 +5,7 @@
 		"MiniProfilerEnabled": false,
 		//"XmlComments": [ "", "" ],
 		"RoutePrefix": "swagger",
-		"DescEndpoint": "lu/", //json endpoint
+		"ServerPrefix": "lu", //json endpoint
 		"Description": "this is swagger for netcore",
 		"Title": "Demo swagger",
 		"Version": "first version",
