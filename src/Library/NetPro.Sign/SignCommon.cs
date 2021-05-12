@@ -95,7 +95,6 @@ namespace NetPro.Sign
             return result;
         }
 
-
         /// <summary>
         /// sha256
         /// </summary>

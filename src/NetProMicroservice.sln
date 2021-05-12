@@ -69,6 +69,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.Proxy", "Library\Net
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.ResponseResult", "Library\NetPro.ResponseResult\NetPro.ResponseResult.csproj", "{9127E7F2-1D48-460E-87FC-8337E793AFA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer", "sample\GrpcServer\GrpcServer.csproj", "{05BB3979-E92E-436D-AD5C-F923A2AA1065}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +197,10 @@ Global
 		{9127E7F2-1D48-460E-87FC-8337E793AFA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9127E7F2-1D48-460E-87FC-8337E793AFA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9127E7F2-1D48-460E-87FC-8337E793AFA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05BB3979-E92E-436D-AD5C-F923A2AA1065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05BB3979-E92E-436D-AD5C-F923A2AA1065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05BB3979-E92E-436D-AD5C-F923A2AA1065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05BB3979-E92E-436D-AD5C-F923A2AA1065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,6 +236,7 @@ Global
 		{8A68BFF6-42E2-440D-B144-FF828E8A46C6} = {FF4C78A3-7DBC-445E-B836-E7835F25B2BC}
 		{6EFA157B-97F0-4048-B76E-B370CEA0D314} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
 		{9127E7F2-1D48-460E-87FC-8337E793AFA4} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
+		{05BB3979-E92E-436D-AD5C-F923A2AA1065} = {631F494D-9DFB-42A7-84C7-270C95B7EC2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A47D5791-DD56-46F9-B40F-AF963F95E93F}

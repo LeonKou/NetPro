@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
 using System;
 namespace NetPro.Analysic
@@ -15,7 +16,6 @@ namespace NetPro.Analysic
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        [Obsolete]
         public static IServiceCollection AddRequestAnalysic(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
@@ -27,12 +27,11 @@ namespace NetPro.Analysic
                 services.AddHttpContextAccessor();
                 services.AddSingleton(option);
                 var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
-                if (redisCacheOption != null)
-                {     
+                if (redisCacheOption != null && redisCacheOption.Enabled)
+                {
                     //新增redis缓存注入
                     services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(configuration);
                 }
-
             }
             catch (Exception ex)
             {
@@ -41,7 +40,6 @@ namespace NetPro.Analysic
 
             return services;
         }
-
     }
 
     /// <summary>
@@ -49,7 +47,6 @@ namespace NetPro.Analysic
     /// </summary>
     public class RequestAnalysicBehaviorOptions
     {
-
         /// <summary>
         /// 
         /// </summary>

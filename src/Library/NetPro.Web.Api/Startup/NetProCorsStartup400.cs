@@ -21,14 +21,15 @@ namespace NetPro.Web.Api.Startup
         /// <param name="configuration">Configuration root of the application</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            var loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
+            var serviceProvider = services.BuildServiceProvider();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             ILogger logger = null;
             if (loggerFactory != null)
             {
                 logger = loggerFactory.CreateLogger($"{nameof(NetProCorsStartup400)}");
             }
 
-            var netProOption = configuration.GetSection(nameof(NetProOption)).Get<NetProOption>();
+            var netProOption = serviceProvider.GetService<NetProOption>();
             var corsOrigins = ConvertHelper.ToList<string>(netProOption.CorsOrigins).ToArray();
             //支持跨域访问
             services.AddCors(options =>
