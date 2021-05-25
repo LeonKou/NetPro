@@ -22,7 +22,6 @@ namespace Leon.XXX.Domain.XXX.Service
 
         public void Handle(string message, string routingKey)
         {
-            // 转盘抽奖记录 消费
             using var serviceScope = _serviceScopeFactory.CreateScope();
             var _dataBaseOptionService = serviceScope.ServiceProvider.GetRequiredService<IDataBaseOptionService>();
             var body = JsonSerializer.Deserialize<dynamic>(message);

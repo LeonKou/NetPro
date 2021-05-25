@@ -9,6 +9,7 @@ namespace Leon.XXXV2.Api
     ///这是controller
     /// </summary>
     [Route("api/v1/[controller]")]
+    [ApiController]
     public class WeatherForecastController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;

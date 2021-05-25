@@ -22,7 +22,6 @@ namespace Leon.XXXV2.Api
 
         public void Handle(string message, string routingKey)
         {
-            // 转盘抽奖记录 消费
             using var serviceScope = _serviceScopeFactory.CreateScope();
             var _xXXService = serviceScope.ServiceProvider.GetRequiredService<IXXXService>();
             var body = JsonSerializer.Deserialize<dynamic>(message);
