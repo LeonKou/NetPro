@@ -251,18 +251,22 @@ namespace NetPro.Sign
             return unixSeconds.ToString();
         }
 
-
         internal static bool CheckTime(long requestTime, long expireSeconds)
         {
+            if (requestTime < DateTimeOffset.Now.AddSeconds(-expireSeconds).ToUnixTimeSeconds())
+            {
+                return false;
+            }
+
             long unixSeconds = DateTimeOffset.Now.ToUnixTimeSeconds();
             // 毫秒单位
-            if (requestTime.ToString().Length >= 1265337794000.ToString().Length)
+            if (requestTime > 1265337794000)//毫秒1265337794000=2010-02-05 10:43:14
             {
                 unixSeconds = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                 expireSeconds = expireSeconds * 1000;
             }
 
-            if (unixSeconds + expireSeconds - requestTime < 0)
+            if (unixSeconds + expireSeconds < requestTime || requestTime < unixSeconds - expireSeconds)
             {
                 return false;
             }

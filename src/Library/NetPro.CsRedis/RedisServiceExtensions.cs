@@ -18,11 +18,12 @@ namespace NetPro.CsRedis
         /// <returns></returns>
         public static IServiceCollection AddCsRedis<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
         {
+            //切库参考：https://github.com/2881099/csredis/issues/63
             var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
 
             if (option == null)
             {
-                throw new ArgumentNullException(nameof(RedisCacheOption),$"未检测到NetPro.CsRedis配置节点{nameof(RedisCacheOption)}");
+                throw new ArgumentNullException(nameof(RedisCacheOption), $"未检测到NetPro.CsRedis配置节点{nameof(RedisCacheOption)}");
             }
 
             return services.AddCsRedis<T>(sp => option);

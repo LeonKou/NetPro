@@ -134,6 +134,7 @@ namespace NetPro.ResponseCache
                         {
                             context.Response.StatusCode = cacheResponseBody.StatusCode;
                             context.Response.ContentType = cacheResponseBody.ContentType;
+                            context.Response.Headers["response-cache"] = "true";
                             await context.Response.WriteAsync(cacheResponseBody.Body);
                             _iLogger.LogInformation($"触发PostResponseCacheMiddleware本地缓存");
                             //直接return可避免此错误 ：OnStarting cannot be set because the response has already started.
