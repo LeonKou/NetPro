@@ -37,7 +37,9 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             {
                 Console.Title = hostEnvironment.ApplicationName;
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine(Figgle.FiggleFonts.Varsity.Render(new string(new char[] { 'N', 'e', 't', 'P', 'r', 'o' })));
+                var frameworkName= System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                
+                Console.WriteLine(Figgle.FiggleFonts.Varsity.Render(frameworkName.Substring(0, frameworkName.IndexOf('.'))));
                 Console.ResetColor();
                 //使用dotnet watch run  启动后可以调试此进程id
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss} {hostEnvironment.EnvironmentName}] dotnet process id:{Process.GetCurrentProcess().Id}");
