@@ -1,2 +1,2 @@
-dotnet nuget push ./PushNuget/*.nupkg -k netpro -s http://www.nuget.org
+dotnet nuget push ./PushNuget/*.nupkg -k key -s https://www.nuget.org/api/v2/package
 Write-Output "ok"

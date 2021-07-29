@@ -81,6 +81,9 @@
 		<NetProGrpc>3.1.10</NetProGrpc>
 		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>		
 
+		<NetProProxy>3.1.10</NetProProxy>
+		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>	
+
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">

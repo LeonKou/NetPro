@@ -2,30 +2,29 @@
 
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-		<Version>$(NetProGlobalization)</Version>
+		<Version>$(NetProGrpc)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
 		<PackageIcon>$(PackageIcon)</PackageIcon>
-		<AssemblyName>$(NetProGlobalizationAssemblyName)</AssemblyName>
+		<AssemblyName>$(NetProGrpcAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Globalization.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Grpc.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Globalization.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Grpc.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
-	</ItemGroup>
-	
+	</ItemGroup>	
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
@@ -33,4 +32,8 @@
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
 	</ItemGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 </Project>
