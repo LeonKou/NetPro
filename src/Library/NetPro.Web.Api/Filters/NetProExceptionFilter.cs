@@ -6,14 +6,14 @@ using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure.Attributes;
 using NetPro.Utility;
+using NetPro.Web.Api;
 using NetPro.Web.Core.Helpers;
 using Serilog;
 using Serilog.Events;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 
-namespace NetPro.Web.Core.Filters
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 全局异常捕获过滤器,异常由中间件完成

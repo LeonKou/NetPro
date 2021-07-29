@@ -7,7 +7,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using NetPro.Grpc;
 
 namespace GrpcServer
 {
@@ -16,7 +18,7 @@ namespace GrpcServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddGrpcHttpApi();
+            //services.AddGrpcHttpApi();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -24,7 +26,8 @@ namespace GrpcServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.AddGrpcServices(new string[] { $"{Assembly.GetExecutingAssembly().GetName().Name}" });
+                //endpoints.MapGrpcService<GreeterService>();
             });
         }
     }

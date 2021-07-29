@@ -15,8 +15,12 @@
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.37.0" />
-		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.37.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Grpc.HttpApi" Version="0.1.0-alpha.20179.2" />
+		<!--<PackageReference Include="Grpc.AspNetCore.Web" Version="2.37.0" />-->
+		<!--<PackageReference Include="Microsoft.AspNetCore.Grpc.HttpApi" Version="0.1.0-alpha.20179.2" />-->
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\NetPro.Grpc\NetPro.Grpc.csproj" />
   </ItemGroup>
 
 </Project>

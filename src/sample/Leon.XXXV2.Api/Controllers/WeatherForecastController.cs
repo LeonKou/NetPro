@@ -1,7 +1,16 @@
-﻿using Leon.XXX.Proxy;
+﻿
+using Grpc.Core;
+using Grpc.Net.Client;
+using GrpcServer;
+using Language.Resoureces;
+using Leon.XXX.Proxy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NetPro.Web.Api.Controllers;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Leon.XXXV2.Api
 {
@@ -13,6 +22,7 @@ namespace Leon.XXXV2.Api
     public class WeatherForecastController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
+        private readonly IStringLocalizer<Language.Resoureces.Language> _localizer;
 
         private IExampleProxy _userApi { get; set; }
         private readonly ILogger<WeatherForecastController> _logger;
@@ -25,10 +35,12 @@ namespace Leon.XXXV2.Api
         /// <param name="userApi"></param>
         //[FromServices]
         public WeatherForecastController(ILogger<WeatherForecastController> logger
-            , IXXXService xXXService)
+            , IXXXService xXXService,
+            IStringLocalizer<Language.Resoureces.Language> localizer)
         {
             _logger = logger;
             _xXXService = xXXService;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -40,17 +52,32 @@ namespace Leon.XXXV2.Api
         [Route("pay/create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
-        public IActionResult Get([FromQuery]XXXRequest gg)
+        public async Task<IActionResult> Get([FromQuery] XXXRequest gg)
         {
             //return ToFailResult("", 500);
-            var result = _xXXService.GetList();
+            //var result = _xXXService.GetList();
             //var ss= _userApi.GetGoodsList(1,"66").GetAwaiter().GetResult();
             //测试设置数据库
 
             //测试自动生成代理请求
             //var resu = _userApi.GetGoodsList(1, "hhhh").GetAwaiter().GetResult();
             //Serilog.Log.Error("这是错误");
-            return ToSuccessResult(result);
+            var httpHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001"
+                //, new GrpcChannelOptions
+                //{
+                //    HttpHandler = httpHandler
+                //   //,Credentials = ChannelCredentials.Insecure}
+                );
+
+            var client = new Greeter.GreeterClient(channel);
+            var reply = await client.SayHelloAsync(
+                              new HelloRequest { Name = "leon is dad" });
+            return ToSuccessResult(_localizer["who are you"] + reply.Message + $"{DateTime.Now}");
         }
 
         /// <summary>
@@ -60,7 +87,7 @@ namespace Leon.XXXV2.Api
         [HttpPost]
         [Route("pay/hh")]
         [ProducesResponseType(200)]
-        public void HH([FromForm]FileTestInput gg)
+        public void HH([FromForm] FileTestInput gg)
         {
             var d = Request.Body;
         }

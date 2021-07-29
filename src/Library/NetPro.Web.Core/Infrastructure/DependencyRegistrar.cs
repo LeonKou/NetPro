@@ -45,10 +45,10 @@ namespace NetPro.Web.Core.Infrastructure
             builder.RegisterAssemblyTypes(typeFinder.GetAssemblies().ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType).InstancePerLifetimeScope();
 
-            if (config.AppType == AppType.Api)//api 没有权限验证判断使用默认的
-            {
-                builder.RegisterType<NullPermissionService>().As<INetProPermissionService>().InstancePerLifetimeScope();
-            }
+            //if (config.AppType == AppType.Api)//api 没有权限验证判断使用默认的
+            //{
+            //    builder.RegisterType<NullPermissionService>().As<INetProPermissionService>().InstancePerLifetimeScope();
+            //}
         }
 
         /// <summary>

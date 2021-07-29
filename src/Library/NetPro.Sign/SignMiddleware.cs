@@ -122,6 +122,11 @@ namespace NetPro.Sign
                 {
                     queryDic.Add("authorization", request.Request.Headers["Authorization"]);
                 }
+                //语言信息参与签名
+                if (!string.IsNullOrWhiteSpace(request.Request.Headers["Accept-Language"]))
+                {
+                    queryDic.Add("accept-language", request.Request.Headers["Accept-Language"]);
+                }
 
                 var timestampStr = queryDic[commonParameters.TimestampName];
                 if (!long.TryParse(timestampStr, out long timestamp) || !SignCommon.CheckTime(timestamp, verifySignOption.ExpireSeconds))

@@ -36,25 +36,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// Adds a special handler that checks for responses with the 400 status code (bad request)
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void UseBadRequestResult(this IApplicationBuilder application)
-        {
-            application.UseStatusCodePages(context =>
-            {
-                //handle 400 (Bad request)
-                if (context.HttpContext.Response.StatusCode == StatusCodes.Status400BadRequest)
-                {
-                    var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
-                    logger.LogError($"Error 400. Bad request,{context.HttpContext.Request.Path.Value}");
-                }
-
-                return Task.CompletedTask;
-            });
-        }
-
-        /// <summary>
         /// Add exception handling
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>

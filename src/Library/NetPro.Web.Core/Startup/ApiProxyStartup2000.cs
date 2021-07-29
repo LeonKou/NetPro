@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
-using NetPro.Utility.Helpers;
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using NetPro.Proxy;
 
-namespace NetPro.Web.Api
+namespace NetPro.Web.Core
 {
     public class ApiProxyStartup2000 : INetProStartup
     {

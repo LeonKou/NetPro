@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
 using NetPro.Web.Core.Infrastructure.Extensions;
 using Serilog;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace NetPro.Web.Core.Infrastructure
 {
@@ -34,7 +37,17 @@ namespace NetPro.Web.Core.Infrastructure
             //404处理
             application.UsePageNotFound();
             //400处理
-            application.UseBadRequestResult();               
+            application.UseStatusCodePages(context =>
+            {
+                //handle 400 (Bad request)
+                if (context.HttpContext.Response.StatusCode == StatusCodes.Status400BadRequest)
+                {
+                    var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
+                    logger.LogError($"Error 400. Bad request,{context.HttpContext.Request.Path.Value}");
+                }
+
+                return Task.CompletedTask;
+            });
         }
 
         /// <summary>

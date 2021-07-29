@@ -7,7 +7,6 @@ using NetPro.Core.Infrastructure;
 using NetPro.CsRedis;
 using NetPro.Swagger;
 using NetPro.TypeFinder;
-using NetPro.Web.Api.Filters;
 
 namespace NetPro.Web.Api.Startup
 {

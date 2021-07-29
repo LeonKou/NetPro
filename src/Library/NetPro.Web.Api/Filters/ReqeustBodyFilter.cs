@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace NetPro.Web.Core.Filters
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 请求数据监控

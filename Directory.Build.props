@@ -15,66 +15,71 @@
 
 	<PropertyGroup Label="NetPro SDK Versions">		 
 		
-		<NetProAuthentication>3.1.8</NetProAuthentication>
+		<NetProAuthentication>3.1.10</NetProAuthentication>
 		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
 
-		<NetProAnalysic>3.1.8</NetProAnalysic>
+		<NetProAnalysic>3.1.10</NetProAnalysic>
 		<NetProAnalysicAssemblyName>NetPro.Analysicn</NetProAnalysicAssemblyName>
 
-		<NetProChecker>3.1.8</NetProChecker>
+		<NetProChecker>3.1.10</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>3.1.8</NetProCore>
+		<NetProCore>3.1.10</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.8</NetProDapper>
+		<NetProDapper>3.1.10</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
-		<NetProLog>3.1.8</NetProLog>
+		<NetProLog>3.1.10</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>3.1.8</NetProMongoDb>
+		<NetProMongoDb>3.1.10</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>3.1.8</NetProRabbitMQ>
+		<NetProRabbitMQ>3.1.10</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.8</NetProRedisManager>
+		<NetProRedisManager>3.1.10</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProStackExchangeRedis>3.1.8</NetProStackExchangeRedis>
+		<NetProStackExchangeRedis>3.1.10</NetProStackExchangeRedis>
 		<NetProStackExchangeRedisAssemblyName>NetPro.StackExchange.Redis</NetProStackExchangeRedisAssemblyName>
 
-		<NetProCsRedis>3.1.8</NetProCsRedis>
+		<NetProCsRedis>3.1.10</NetProCsRedis>
 		<NetProCsRedisAssemblyName>NetPro.CsRedis</NetProCsRedisAssemblyName>
 
-		<NetProUtility>3.1.8</NetProUtility>
+		<NetProUtility>3.1.10</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProTypeFinder>3.1.8</NetProTypeFinder>
+		<NetProTypeFinder>3.1.10</NetProTypeFinder>
 		<NetProTypeFinderAssemblyName>NetPro.TypeFinder</NetProTypeFinderAssemblyName>
 
-		<NetProSwagger>3.1.8</NetProSwagger>
+		<NetProSwagger>3.1.10</NetProSwagger>
 		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
 
-		<NetProShareRequestBody>3.1.8</NetProShareRequestBody>
+		<NetProShareRequestBody>3.1.10</NetProShareRequestBody>
 		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>
 
-		<NetProResponseCache>3.1.8</NetProResponseCache>
+		<NetProResponseCache>3.1.10</NetProResponseCache>
 		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
 
-		<NetProWebApi>3.1.8</NetProWebApi>
+		<NetProWebApi>3.1.10</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
-		<NetProWebCore>3.1.8</NetProWebCore>
+		<NetProWebCore>3.1.10</NetProWebCore>
 		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
-		<NetProEFCore>3.1.8</NetProEFCore>
+		<NetProEFCore>3.1.10</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 
-		<NetProSign>3.1.8</NetProSign>
+		<NetProSign>3.1.10</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
 
+		<NetProGlobalization>3.1.10</NetProGlobalization>
+		<NetProGlobalizationAssemblyName>NetPro.Globalization</NetProGlobalizationAssemblyName>
+
+		<NetProGrpc>3.1.10</NetProGrpc>
+		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>		
 
 	</PropertyGroup>
 
@@ -172,7 +177,7 @@
 		<MicrosoftIdentityModelTokens>5.6.0</MicrosoftIdentityModelTokens>
 		<MiniProfilerAspNetCoreMvc>4.1.0</MiniProfilerAspNetCoreMvc>
 		<MiniProfilerEntityFrameworkCore>4.1.0</MiniProfilerEntityFrameworkCore>
-		<SkyAPMAgentAspNetCore>0.9.0</SkyAPMAgentAspNetCore>
+		<SkyAPMAgentAspNetCore>1.3.0</SkyAPMAgentAspNetCore>
 		<OpenTracingContribNetCoreUnofficial>0.1.3</OpenTracingContribNetCoreUnofficial>
 		<Scrutor>3.2.1</Scrutor>
 

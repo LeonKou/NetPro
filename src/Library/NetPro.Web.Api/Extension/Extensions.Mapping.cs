@@ -4,7 +4,7 @@ using NetPro.Web.Core.Models;
 using System;
 using System.Collections.Generic;
 
-namespace NetPro.Web.Core
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 对象转换 

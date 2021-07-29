@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
 using System.Threading.Tasks;
 
-namespace NetPro.Web.Api.Filters
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 自定义认证过滤器

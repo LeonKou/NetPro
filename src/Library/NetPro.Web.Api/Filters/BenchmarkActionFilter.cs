@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetPro.Web.Core.Filters
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// api执行时间监控

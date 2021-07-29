@@ -8,12 +8,12 @@ using Serilog;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NetPro.Web.Core.Filters
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 权限控制过滤器
     /// </summary>
-    public class PermissionActionFilter : IAsyncActionFilter
+    public class PermissionActionFilter //: IAsyncActionFilter
     {
         readonly NetProOption _config;
         readonly INetProPermissionService _NetProPermissionService;

@@ -5,7 +5,7 @@ using NetPro.Utility;
 using NetPro.Utility.Helpers;
 using NetPro.Web.Core.Models;
 
-namespace NetPro.Web.Core
+namespace NetPro.Web.Api
 {
     public static partial class Extensions
     {

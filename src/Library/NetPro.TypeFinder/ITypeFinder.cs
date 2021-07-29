@@ -5,8 +5,7 @@ using System.Reflection;
 namespace NetPro.TypeFinder
 {
     /// <summary>
-    /// Classes implementing this interface provide information about types 
-    /// to various services in the Nop engine.
+    /// 实现此接口的类提供关于类型的信息      
     /// </summary>
     public interface ITypeFinder
     {

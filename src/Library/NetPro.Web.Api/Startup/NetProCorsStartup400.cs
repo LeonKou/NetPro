@@ -8,7 +8,6 @@ using NetPro.Core.Infrastructure;
 using NetPro.Swagger;
 using NetPro.TypeFinder;
 using NetPro.Utility.Helpers;
-using NetPro.Web.Api.Filters;
 
 namespace NetPro.Web.Api.Startup
 {

@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Swagger;
 using NetPro.TypeFinder;
-using NetPro.Web.Api.Filters;
 using Serilog;
 
 namespace NetPro.Web.Api.Startup
