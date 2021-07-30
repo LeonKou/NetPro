@@ -21,6 +21,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\..\Library\NetPro.Grpc\NetPro.Grpc.csproj" />
+    <ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
   </ItemGroup>
 
 </Project>

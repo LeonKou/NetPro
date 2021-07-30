@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace NetPro.Grpc.Startup
+namespace NetPro.Grpc
 {
-    public class Startup : INetProStartup
+    public class GrpcStartup : INetProStartup
     {
         public int Order => 0;
 
@@ -20,8 +20,7 @@ namespace NetPro.Grpc.Startup
 
             application.UseEndpoints(endpoints =>
             {
-                GrpcServiceExtension.AddGrpcServices(endpoints,new string[] {$"{Assembly.GetExecutingAssembly().GetName().Name}" });
-                //endpoints.MapGrpcService<GreeterService>();
+                 GrpcServiceExtension.AddGrpcServices(endpoints,new string[] {$"{Assembly.GetEntryAssembly().GetName().Name}" });
             });
         }
 
