@@ -91,10 +91,10 @@ namespace NetPro.Core.Configuration
         /// </summary>
         public string CorsOrigins { get; set; } = "*";
 
-        /// <summary>
-        /// 是否启用健康检查
-        /// </summary>
-        public bool EnabledHealthCheck { get; set; }
+        ///// <summary>
+        ///// 是否启用健康检查
+        ///// </summary>
+        //public bool EnabledHealthCheck { get; set; }
 
         /// <summary>
         /// 全局路由前缀

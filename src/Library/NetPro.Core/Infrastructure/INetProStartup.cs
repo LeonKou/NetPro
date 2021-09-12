@@ -7,6 +7,7 @@ namespace NetPro.Core.Infrastructure
 {
     /// <summary>
     /// 程序启动时配置、中间件服务 注册依赖 接口定义
+    /// 继承此接口将在初始化启动时自动执行实现了ConfigureServices和Configure的方法
     /// </summary>
     public interface INetProStartup
     {
@@ -28,5 +29,11 @@ namespace NetPro.Core.Infrastructure
         /// 依赖注入调用顺序
         /// </summary>
         int Order { get; }
+
+        /// <summary>
+        /// 描述
+        /// 方便在控制台直观显示继承了INetProStartup的中间件各用途
+        /// </summary>
+        string Description { get; }
     }
 }

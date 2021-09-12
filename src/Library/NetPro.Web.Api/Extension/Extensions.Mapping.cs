@@ -1,6 +1,4 @@
 using NetPro.Core.Infrastructure.Mapper;
-using NetPro.Utility;
-using NetPro.Web.Core.Models;
 using System;
 using System.Collections.Generic;
 

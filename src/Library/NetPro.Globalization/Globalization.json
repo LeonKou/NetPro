@@ -1,0 +1,9 @@
+﻿{
+	"Globalization": {
+		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//sqlite地址
+		"Cultures": [
+			"zh-CN",
+			"en-US"
+		]
+	}
+}

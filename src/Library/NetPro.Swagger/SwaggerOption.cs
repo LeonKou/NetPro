@@ -33,6 +33,11 @@ namespace NetPro.Swagger
         public string ServerPrefix { get; set; }
 
         /// <summary>
+        /// OAuth2配置，无配置默认ApiKey
+        /// </summary>
+        public OAuth2 OAuth2 { get; set; }
+
+        /// <summary>
         /// 描述信息
         /// </summary>
         public string Description { get; set; }
@@ -46,8 +51,11 @@ namespace NetPro.Swagger
         /// version
         /// </summary>
         public string Version { get; set; }
+
         public string TermsOfService { get; set; }
+
         public OpenApiContact Contact { get; set; }
+
         public OpenApiLicense License { get; set; }
 
         /// <summary>
@@ -59,6 +67,19 @@ namespace NetPro.Swagger
         /// 全局Query参数
         /// </summary>
         public Query[] Query { get; set; }
+    }
+
+    public class OAuth2
+    {
+        public string Server { get; set; }
+        public IList<Dic> Scopes { get; set; }
+
+    }
+
+    public class Dic
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 
     public class Header

@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure.Attributes;
-using NetPro.Utility;
-using NetPro.Web.Api;
 using NetPro.Web.Core.Helpers;
 using Serilog;
 using Serilog.Events;
@@ -18,7 +16,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// 全局异常捕获过滤器,异常由中间件完成
     /// </summary>
-    [Obsolete]
+    [Obsolete("废弃")]
     public class NetProExceptionFilter : IExceptionFilter
     {
         private readonly ILogger _logger;
@@ -109,11 +107,11 @@ namespace NetPro.Web.Api
                     break;
             }
             //写入日志系统
-            _logger.Write(eventLevel, exception, "{0}异常.errorCode:{1},errorMsg:{2},请求url:{3},请求Body:{4},请求IP:{5},服务器名称:{6}", appName, errorCode.Value(), errorMsg, url, requestBodyText, requestIp, macName);
+            _logger.Write(eventLevel, exception, "{0}异常.errorCode:{1},errorMsg:{2},请求url:{3},请求Body:{4},请求IP:{5},服务器名称:{6}", appName, (int)errorCode, errorMsg, url, requestBodyText, requestIp, macName);
             //自定义异常返回
             if (_config.AppType == AppType.Api)
             {
-                context.Result = errorMsg.ToErrorActionResult(errorCode.Value());
+                context.Result = errorMsg.ToErrorActionResult((int)errorCode);
                 context.HttpContext.Response.StatusCode = (int)statusCode;
             }
             else

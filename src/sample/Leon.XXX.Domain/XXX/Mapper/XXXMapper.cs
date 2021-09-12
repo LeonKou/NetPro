@@ -14,8 +14,8 @@ namespace Leon.XXX.Domain
         /// </summary>
         public XXXMapper()
         {
-            //数据库实体映射AO业务实体
-            CreateMap<XXXDo, XXXAo>();
+            //数据库实体映射AO业务实体,ReverseMap可实现双向映射
+            CreateMap<XXXDo, XXXAo>().ReverseMap();
             //AO业务实体映射数据库实体
             CreateMap<XXXAo, XXXDo>();
         }

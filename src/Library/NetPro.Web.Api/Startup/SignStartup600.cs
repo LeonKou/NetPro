@@ -10,8 +10,10 @@ namespace NetPro.Web.Core.Infrastructure
     /// <summary>
     /// 签名
     /// </summary>
-    public class SignStartup600 : INetProStartup
+    public class SignStartup600 //: INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持签名";
+
         /// <summary>
         /// 添加 
         /// </summary>

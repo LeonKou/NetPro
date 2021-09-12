@@ -251,6 +251,12 @@ namespace NetPro.Sign
             return unixSeconds.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <param name="expireSeconds"></param>
+        /// <returns></returns>
         internal static bool CheckTime(long requestTime, long expireSeconds)
         {
             if (requestTime < DateTimeOffset.Now.AddSeconds(-expireSeconds).ToUnixTimeSeconds())

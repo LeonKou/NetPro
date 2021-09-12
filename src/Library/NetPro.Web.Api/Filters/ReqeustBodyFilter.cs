@@ -16,6 +16,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// 请求数据监控
     /// </summary>
+    [Obsolete("废弃")]
     public class ReqeustBodyFilter : IAsyncActionFilter
     {
         private readonly ILogger _logger;

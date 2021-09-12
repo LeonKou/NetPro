@@ -28,6 +28,7 @@
 		
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\Language.Resources\Language.Resources.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
@@ -36,5 +37,11 @@
 
 	<ItemGroup>
 		<Folder Include="wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LocalizationRecords.sqlite">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

@@ -10,19 +10,19 @@ using NetPro.TypeFinder;
 using NetPro.Web.Core.Compression;
 using System.Linq;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 文件中间件
     /// </summary>
     public class NetProStaticFilesStartup100 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持 UseStaticFiles；UseResponseCompression响应压缩";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
-        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             //compression
@@ -31,16 +31,13 @@ namespace NetPro.Web.Core.Infrastructure
             //add options feature
             services.AddOptions();
 
-            //新增redis缓存注入
-            if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
-                services.AddCsRedis<SystemTextJsonSerializer>(configuration);
-
-            services.Scan(scan => scan
-           .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
-                 s.GetName().Name.EndsWith("Repository")).ToArray()) //搜索Repository程序集
-           .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))//搜索Repository结尾的类
-           .AsImplementedInterfaces()
-           .WithScopedLifetime());
+           // //批量注入Repository
+           // services.Scan(scan => scan
+           //.FromAssemblies(typeFinder.GetAssemblies().Where(s =>
+           //      s.GetName().Name.EndsWith("Repository")).ToArray()) //搜索Repository程序集
+           //.AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))//搜索Repository结尾的类
+           //.AsImplementedInterfaces()
+           //.WithScopedLifetime());
         }
 
         /// <summary>

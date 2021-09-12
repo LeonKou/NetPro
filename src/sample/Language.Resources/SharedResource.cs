@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Language.Resoureces
 {
-    public class Language
+    public class SharedResource
     {
         public const string JDJ = "dd";
     }

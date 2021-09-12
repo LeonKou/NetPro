@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using NetPro.Analysic;
 using NetPro.Core.Infrastructure;
 using NetPro.CsRedis;
-using NetPro.Swagger;
 using NetPro.TypeFinder;
 
-namespace NetPro.Web.Api.Startup
+namespace NetPro.Analysic
 {
     public class NetProAnalysicStartup400 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持请求分析，风控";
         private static bool enabled = true;
         /// <summary>
         /// Add and configure any of the middleware

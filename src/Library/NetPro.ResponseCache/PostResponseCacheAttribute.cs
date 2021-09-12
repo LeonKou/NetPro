@@ -192,7 +192,7 @@ namespace NetPro.ResponseCache
                                     await Task.CompletedTask;
                                     return;
                                 case ResponseMode.Error:
-                                    if (cacheResponseBody.StatusCode == 200)
+                                    if (cacheResponseBody.StatusCode == ((int)HttpStatusCode.OK))
                                     {
                                         //TODO确定StatusCode与Headers响应的先后顺序
                                         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;

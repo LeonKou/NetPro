@@ -15,6 +15,7 @@ namespace Leon.XXX.Api
 {
     public class ApiStartup : INetProStartup
     {
+        public string Description => "自定义startup";
         public int Order => 900;
         public static IFreeSql Fsql { get; private set; }
 

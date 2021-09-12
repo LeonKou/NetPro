@@ -12,7 +12,11 @@ namespace NetPro.Authentication
             var configuration = builder.ApplicationServices.GetService<IConfiguration>();
             var option = configuration.GetSection(nameof(AuthenticationOption)).Get<AuthenticationOption>();
             if (option?.Enabled ?? false)
+            {
                 builder.UseAuthentication();
+                builder.UseAuthorization();
+            }
+                
             return builder;
         }
     }

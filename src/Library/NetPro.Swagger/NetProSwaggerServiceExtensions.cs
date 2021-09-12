@@ -55,10 +55,6 @@ namespace NetPro.Swagger
                 c.OperationFilter<CustomerHeaderParameter>();//add default header
                 c.OperationFilter<CustomerQueryParameter>();//add default query
 
-                var securityRequirement = new OpenApiSecurityRequirement();
-                securityRequirement.Add(new OpenApiSecurityScheme { Name = "Bearer" }, new string[] { });
-                c.AddSecurityRequirement(securityRequirement);
-
                 //batch find xml file of swagger
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;//get app root path
                 List<string> xmlComments = GetXmlComments();
@@ -81,16 +77,22 @@ namespace NetPro.Swagger
                     License = swaggerOption.License,//new OpenApiLicense { Url = new Uri("http://www.github.com"), Name = "LicenseName" },
                 });
                 c.IgnoreObsoleteActions();
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+
+                if (swaggerOption.OAuth2 == null)
                 {
-                    Description = "Authority certification(The data is transferred in the request header) structure of the parameters : \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                    var securityRequirement = new OpenApiSecurityRequirement();
+                    securityRequirement.Add(new OpenApiSecurityScheme { Name = "Bearer" }, new string[] { });
+                    c.AddSecurityRequirement(securityRequirement);
+
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = "Authority certification(The data is transferred in the request header) structure of the parameters : \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement(){
                     {
                         new OpenApiSecurityScheme
                         {
@@ -107,9 +109,35 @@ namespace NetPro.Swagger
                         new List<string>()
                     }
                 });
+                }
+                else if (Uri.IsWellFormedUriString(swaggerOption.OAuth2.Server, UriKind.RelativeOrAbsolute))
+                {
+                    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.OAuth2,
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            Password = new OpenApiOAuthFlow()
+                            {
+                                TokenUrl = new Uri($"{swaggerOption.OAuth2.Server}/connect/token"),
+                                Scopes = swaggerOption.OAuth2.Scopes.ToDictionary(x=>x.Key,y=>y.Value)// swaggerOption.OAuth2.Scopes
+                            }
+                        }
+                    });
+
+                    //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    //{
+                    //    {
+                    //        new OpenApiSecurityScheme
+                    //        {
+                    //            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    //        }
+                    //       ,new[] { "" }
+                    //    }
+                    //});
+                }
             });
             services.AddSwaggerGenNewtonsoftSupport();
-
             return services;
         }
 

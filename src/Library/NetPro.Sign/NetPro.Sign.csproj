@@ -36,6 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 	  <ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

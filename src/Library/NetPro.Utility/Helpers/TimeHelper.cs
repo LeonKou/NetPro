@@ -1,5 +1,4 @@
-﻿using NPOI.HSSF.Record.AutoFilter;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using TimeZoneConverter;
 
@@ -26,7 +25,7 @@ namespace NetPro.Utility.Helpers
         /// </summary>
         /// <param name="windowsTimeZoneId"></param>
         /// <returns></returns>
-        private static string GetWindowsZoneIdToOtherZoneByPlatform(string windowsTimeZoneId = "China Standard Time")
+        public static string GetWindowsZoneIdToOtherZoneByPlatform(string windowsTimeZoneId = "China Standard Time")
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

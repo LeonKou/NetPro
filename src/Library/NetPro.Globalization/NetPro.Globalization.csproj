@@ -25,6 +25,21 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Localization.SqlLocalizer" Version="3.0.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="LocalizationRecords.sqlite">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="LocalizationRecords.sqlite">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

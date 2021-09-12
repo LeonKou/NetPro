@@ -46,7 +46,7 @@
 		<PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
 		<PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
 		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
 		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
 		<PackageReference Include="IdentityModel" Version="4.4.0" />
@@ -60,14 +60,16 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.Authentication\NetPro.Authentication.csproj" />
-		<ProjectReference Include="..\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<ProjectReference Include="..\NetPro.Log\NetPro.Log.csproj" />
 		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\NetPro.Sign\NetPro.Sign.csproj" />
-		<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />
-		<ProjectReference Include="..\NetPro.Proxy\NetPro.Proxy.csproj" />
+		<!--<ProjectReference Include="..\NetPro.Utility\NetPro.Utility.csproj" />-->
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="Startup\" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

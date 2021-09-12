@@ -12,6 +12,7 @@ namespace NetPro.Web.Core.Infrastructure
     /// </summary>
     public class ShareBodyStartup500 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持UseShareRequestBody共享请求body";
         /// <summary>
         /// 添加 
         /// </summary>

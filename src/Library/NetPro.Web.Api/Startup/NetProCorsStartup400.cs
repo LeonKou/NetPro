@@ -5,14 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.Swagger;
 using NetPro.TypeFinder;
-using NetPro.Utility.Helpers;
 
-namespace NetPro.Web.Api.Startup
+namespace NetPro.Web.Api
 {
     class NetProCorsStartup400 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持跨域设置";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>

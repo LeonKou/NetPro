@@ -12,7 +12,10 @@
 "SwaggerOption": {
  "Enabled": true, 
  "RoutePrefix": "swagger",
- "ServerPrefix": "lu/", //json endpoint
+ "ServerPrefix": "lu/", //json endpoint，用于反向代理场景使用
+ "OAuth2":{
+      "Server":"www.baidu.com"//开启Oauth2功能
+ }
  "Description": "this is swagger for netcore",
  "Title": "Demo swagger",
  "Version": "first version",

@@ -7,10 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro.Web.Api.Startup
+namespace NetPro.Web.Api
 {
+    /// <summary>
+    /// NetProEndpointsStartup1100
+    /// </summary>
     public class NetProEndpointsStartup1100 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持UseEndpoints配置";
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
 

@@ -9,13 +9,14 @@ using Serilog;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 配置应用程序启动时异常处理中间件
     /// </summary>
     public class ErrorHandlerStartup : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持统一全局异常处理，包括404，400";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>

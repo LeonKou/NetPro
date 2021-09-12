@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
@@ -7,10 +8,11 @@ using NetPro.Swagger;
 using NetPro.TypeFinder;
 using Serilog;
 
-namespace NetPro.Web.Api.Startup
+namespace NetPro.Web.Api
 {
     class NetProRoutingStartup300 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持 UseRouting,swagger文档";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
@@ -23,20 +25,25 @@ namespace NetPro.Web.Api.Startup
             {
                 config.Filters.Add(typeof(CustomAuthorizeFilter));//用户权限验证过滤器                                                                    
                                                                   //同类型的过滤按添加先后顺序执行,第一个最先执行；ApiController特性下，
-                                                                  //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions              
+                                                                  //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions 
             });
+            //路由小写
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddNetProSwagger(configuration);
+            //services.SwaggerConfigureOauth2(configuration);
         }
 
         public void Configure(IApplicationBuilder application)
         {
-            application.Use(async (context, next) => {
+            application.Use(async (context, next) =>
+            {
                 context.Request.EnableBuffering();
                 await next();
             });
 
             application.UseNetProSwagger();
-            //TODO流量分析等其他中间件            
+            //TODO流量分析等其他中间件
+            //
             application.UseRouting();
         }
 

@@ -42,7 +42,7 @@ namespace NetPro.ShareRequestBody
                 return;
             });
 
-            if (context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase) || context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
+            if (context.Request.ContentType?.Contains("multipart/form-data")??false || context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase) || context.Request.Method.Equals("head", StringComparison.OrdinalIgnoreCase))
             {
                 await _next(context);
             }
@@ -69,7 +69,8 @@ namespace NetPro.ShareRequestBody
     public static class ShareRequestBodyMiddlewareExtensions
     {
         /// <summary>
-        /// 使用共享请求体组件
+        /// 共享请求体组件
+        /// 放于UseRouting之后
         /// 建议尽量放于请求管道中的最上层
         /// 实际压测数据显示，增加body共享的处理比每次解析body花费时间更久，再body解析不超过5次情况下，谨慎使用body共享组件
         /// </summary>

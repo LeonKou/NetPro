@@ -28,6 +28,7 @@ namespace NetPro.Proxy
             {
                 types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件程序集名称为空,Proxy结尾的程序集为: {string.Join(';',types.Select(s => s.GetName().Name))}");
+
             }
             else
             {

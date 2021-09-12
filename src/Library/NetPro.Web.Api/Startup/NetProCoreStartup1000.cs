@@ -1,5 +1,4 @@
 ﻿using FluentValidation.AspNetCore;
-using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using NetPro.Checker;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.CsRedis;
@@ -25,13 +23,19 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 配置应用程序启动时MVC需要的中间件
     /// </summary>
-    public class NetProCoreStartup : INetProStartup
+    public class NetProCoreStartup1000 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持Mvc核心配置，模型校验，Get响应缓存，全局路由前缀";
+        /// <summary>
+        /// Gets order of this startup configuration implementation
+        /// </summary>
+        public int Order => 1000;
+
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
@@ -41,29 +45,10 @@ namespace NetPro.Web.Core.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             var serviceProvider = services.BuildServiceProvider();
-            var redisCacheOption = serviceProvider.GetService<RedisCacheOption>();
             var netproOption = serviceProvider.GetService<NetProOption>();
 
-            //配置 ef性能监控
-            //services.AddMiniProfilerEF();
             //配置 mvc服务
-
             AddNetProCore(services, netproOption);
-            //services.AddNetProCore(netproOption);
-
-            //健康检查
-            if (!netproOption?.EnabledHealthCheck ?? false)
-                return;
-
-            var healthbuild = services.AddHealthChecks();
-            //if (!string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-            //    healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
-            //foreach (var item in redisCacheOption?.Endpoints ?? new List<ServerEndPoint>())
-            //{
-            //    healthbuild.AddRedis($"{item.Host}:{item.Port},password={redisCacheOption.Password}", name: $"redis-{Guid.NewGuid()}");
-            //}
-
-            //services.AddHealthChecksUI();
         }
 
         /// <summary>
@@ -72,25 +57,6 @@ namespace NetPro.Web.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application)
         {
-            var config = EngineContext.Current.Resolve<NetProOption>();
-            //if (config.MiniProfilerEnabled)
-            //{
-            //    //add MiniProfiler
-            //    application.UseMiniProfiler();
-            //    application.UseMiddleware<MiniProfilerMiddleware>();
-            //}
-
-            if (!config.EnabledHealthCheck) return;
-
-            application.UseHealthChecks("/health", new HealthCheckOptions()
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-
-            //application.UseHealthChecksUI(s => s.UIPath = "/ui");
-
-            application.UseCheck();
         }
 
         /// <summary>
@@ -98,20 +64,21 @@ namespace NetPro.Web.Core.Infrastructure
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <returns>A builder for configuring MVC services</returns>
-        public IMvcBuilder AddNetProCore(IServiceCollection services, NetProOption netProOption)
+        private IMvcBuilder AddNetProCore(IServiceCollection services, NetProOption netProOption)
         {
             //TODO 流量分析
 
             //响应缓存
             services.AddResponseCachingExtension();
 
-            var NetProOption = services.GetNetProConfig();
+            //var NetProOption = services.GetNetProConfig();
 
             //支持IIS
             services.Configure<IISOptions>(options =>
             {
                 options.ForwardClientCertificate = false;
             });
+
             //替换控制器所有者
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
             //add basic MVC feature
@@ -127,16 +94,8 @@ namespace NetPro.Web.Core.Infrastructure
                     config.Conventions.Insert(0, new GlobalRoutePrefixConvention(netProOption.RoutePrefix));
                 }
 
-                //config.Filters.Add(typeof(ShareResponseBodyFilter));//请求响应body
-                //config.Filters.Add(typeof(NetProExceptionFilter));//自定义全局异常过滤器
                 config.Filters.Add(typeof(BenchmarkActionFilter));//接口性能监控过滤器
 
-                //if (NetProOption.PermissionEnabled)
-                //{
-                //    config.Filters.Add(typeof(PermissionActionFilter));//用户权限验证过滤器
-                //}
-
-                //config.Filters.Add(typeof(ReqeustBodyFilter));//请求数据过滤器
             }).ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
@@ -157,6 +116,7 @@ namespace NetPro.Web.Core.Infrastructure
                     };
                 };
             });
+
             //mvc binder对象转换支持空字符串.如果传入空字符串为转成空字符串，默认会转成null
             mvcBuilder.AddMvcOptions(options => options.ModelMetadataDetailsProviders.Add(new CustomMetadataProvider()));
 
@@ -182,21 +142,13 @@ namespace NetPro.Web.Core.Infrastructure
                     }
                 }
                 configuration.RegisterValidatorsFromAssemblies(assembliesResult);
+                
                 //implicit/automatic validation of child properties 复合对象是否验证
                 configuration.ImplicitlyValidateChildProperties = true;
             });
 
-            //if (NetProOption.APMEnabled)
-            //{
-            //    mvcBuilder.AddMetrics();
-            //}
             return mvcBuilder;
         }
-
-        /// <summary>
-        /// Gets order of this startup configuration implementation
-        /// </summary>
-        public int Order => 1000;
 
         /// <summary>
         /// 全局路由前缀

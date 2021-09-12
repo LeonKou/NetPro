@@ -31,7 +31,7 @@
 		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.Analysic\NetPro.Analysic.csproj" />
+		<!--<ProjectReference Include="..\NetPro.Analysic\NetPro.Analysic.csproj" />-->
 		<ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />
 		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />
 	</ItemGroup>

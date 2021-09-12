@@ -13,12 +13,37 @@
 
 "NetProOption": {
       "ProjectPrefix": "NetPro",//项目前缀
-      "ProjectSuffix": "",
-      "UseResponseCompression": false,
-      "ThreadMinCount": 5,
-      "ApplicationName": "",
-      "RequestWarningThreshold": 5
+      "ProjectSuffix": "",//项目后缀
+      "UseResponseCompression": false,//是否启用响应压缩
+      "ThreadMinCount": 5,//最小线程数
+      "ApplicationName": "",//应用名称
+      "RequestWarningThreshold": 5 //请求时长的警告临界值
 	},
+
 ```
-#### 依赖
-此类库无依赖其他项目
+
+#### 常用功能
+
+##### 静态方式获取对象实例
+
+``` csharp
+EngineContext.Current.Resolve<对象类型>();
+```
+
+##### Apollo配置中心
+
+```csharp
+ /// <summary>
+ /// 
+ /// </summary>
+ /// <param name="args"></param>
+ /// <returns></returns>
+ public static IHostBuilder CreateHostBuilder(string] args) =>
+     Host.CreateDefaultBuilder(args)
+        .UseServiceProviderFactory(new utofacServiceProviderFactory())
+        .ConfigureAppConfiguration((hostingContext, onfig) => ApolloClientHelper.ApolloConfighostingContext, config, args))
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
+```

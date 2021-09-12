@@ -9,11 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>    
-    <EmbeddedResource Update="Language.en-US.resx">
+    <EmbeddedResource Update="SharedResource.en-US.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>    
-    <EmbeddedResource Update="Language.zh-CN.resx">
+    <EmbeddedResource Update="SharedResource.zh-CN.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>

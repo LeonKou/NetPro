@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetPro.Checker
 {
@@ -23,27 +24,29 @@ namespace NetPro.Checker
         {
             app.UseEnvCheck(envPath);
             app.UseInfoCheck(infoPath);
-            app.UseHealthCheck("/check");
+            //app.UseHealthCheck("/check");
         }
 
         public static void UseEnvCheck(this IApplicationBuilder app, string path = "/env")
         {
+            var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
             {
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-                    if (!IPAddress.IsLoopback(remoteIp))
-                    {
-                        context.Response.StatusCode = 403;
-                        context.Response.ContentType = "application/html";
-                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
-                    }
-                    else
+
+                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
                     {
                         var env = AppEnvironment.GetAppEnvironment();
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
                         await context.Response.WriteAsync(Serialize(env));
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
                     }
                 });
             });
@@ -51,18 +54,14 @@ namespace NetPro.Checker
 
         public static void UseInfoCheck(this IApplicationBuilder app, string path = "/info")
         {
+            var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
             {
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-                    if (!IPAddress.IsLoopback(remoteIp))
-                    {
-                        context.Response.StatusCode = 403;
-                        context.Response.ContentType = "application/html";
-                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
-                    }
-                    else
+
+                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
                     {
                         var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
                         var info = AppInfo.GetAppInfo(configuration);
@@ -71,6 +70,12 @@ namespace NetPro.Checker
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
                         await context.Response.WriteAsync(Serialize(info));
                     }
+                    else
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
+                    }
                 });
             });
         }
@@ -78,18 +83,14 @@ namespace NetPro.Checker
         [Obsolete("recommended to use IApplicationBuilder.UseCheck")]
         public static void UseHealthCheck(this IApplicationBuilder app, string path = "/health")
         {
+            var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
             {
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-                    if (!IPAddress.IsLoopback(remoteIp))
-                    {
-                        context.Response.StatusCode = 403;
-                        context.Response.ContentType = "application/html";
-                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
-                    }
-                    else
+
+                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
                     {
                         HealthCheckRegistry.HealthStatus status = await Task.Run(() => HealthCheckRegistry.GetStatus());
 
@@ -100,6 +101,12 @@ namespace NetPro.Checker
                         }
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(status));
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/html";
+                        await context.Response.WriteAsync("<font size=\"7\">403</font><br/>");
                     }
                 });
             });

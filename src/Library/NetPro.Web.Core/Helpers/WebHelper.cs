@@ -5,8 +5,6 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
 using NetPro.TypeFinder;
-using NetPro.Utility;
-using NetPro.Utility.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

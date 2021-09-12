@@ -17,6 +17,12 @@ namespace NetPro.Sign
 {
     public static class SignMiddlewareExtensions
     {
+        /// <summary>
+        /// 全局请求接口签名，只校验/api开头路由
+        /// 必须在UseRouting之后
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseGlobalSign(
         this IApplicationBuilder builder)
         {

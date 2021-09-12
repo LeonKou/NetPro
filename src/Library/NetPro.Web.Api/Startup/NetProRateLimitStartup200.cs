@@ -7,13 +7,14 @@ using NetPro.CsRedis;
 using NetPro.TypeFinder;
 using StackExchange.Redis;
 
-namespace NetPro.Web.Core.Infrastructure
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 限流中间件
     /// </summary>
-    public class NetProRateLimitStartup200 : INetProStartup
+    public class NetProRateLimitStartup200 //: INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持限流";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>

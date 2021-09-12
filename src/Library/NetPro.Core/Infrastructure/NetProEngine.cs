@@ -10,7 +10,6 @@ using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
-using NetPro.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -160,7 +159,6 @@ namespace NetPro.Core.Infrastructure
             //find startup configurations provided by other assemblies
 
             _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
-            //_typeFinder = new WebAppTypeFinder();
             var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 
             //create and sort instances of startup configurations
@@ -171,11 +169,11 @@ namespace NetPro.Core.Infrastructure
             //configure services
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine($"服务注入顺序：", System.Drawing.Color.FromArgb(1, 212, 1));
-            var table = new ConsoleTable("Order", "StartUpName", "Path");
+            var table = new ConsoleTable("Order", "StartUpName", "Path", "Describe");
             foreach (var instance in instances)
             {
                 instance.NetProStartupImplement.ConfigureServices(services, configuration, _typeFinder);
-                table.AddRow(instance.NetProStartupImplement.Order, instance.Name, instance.NetProStartupImplement);
+                table.AddRow(instance.NetProStartupImplement.Order, instance.Name, instance.NetProStartupImplement, instance.NetProStartupImplement.Description);
             }
             Console.WriteLine(table.ToStringAlternative());
             Console.ResetColor();

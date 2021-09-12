@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NetPro.Utility.Exceptions
+namespace NetPro
 {
     /// <summary>
     /// 业务错误

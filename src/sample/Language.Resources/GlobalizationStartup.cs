@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Language.Resoureces
 {
-    public class GlobalizationStartup : INetProStartup
+    public class GlobalizationStartup //: INetProStartup
     {
         public int Order => 299;
+
+        public string Description => "支持国际化多语言";
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {

@@ -12,6 +12,7 @@ namespace NetPro.Grpc
 {
     public class GrpcStartup : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持自动注入Grpc服务";
         public int Order => 0;
 
         public void Configure(IApplicationBuilder application)

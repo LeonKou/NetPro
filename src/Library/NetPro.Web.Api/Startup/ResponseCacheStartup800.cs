@@ -12,6 +12,8 @@ namespace NetPro.Web.Core.Infrastructure
     /// </summary>
     public class ResponseCacheStartup800 : INetProStartup
     {
+        public string Description => $"{this.GetType().Namespace} 支持Get响应缓存";
+
         /// <summary>
         /// 添加 
         /// </summary>

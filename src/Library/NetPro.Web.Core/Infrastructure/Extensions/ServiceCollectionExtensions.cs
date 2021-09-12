@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NetPro.Checker;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
@@ -37,8 +36,8 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             {
                 Console.Title = hostEnvironment.ApplicationName;
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                var frameworkName= System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-                
+                var frameworkName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
                 Console.WriteLine(Figgle.FiggleFonts.Varsity.Render(frameworkName.Substring(0, frameworkName.IndexOf('.'))));
                 Console.ResetColor();
                 //使用dotnet watch run  启动后可以调试此进程id
@@ -76,20 +75,17 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已开启");
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo MetaServer={configuration.GetValue<string>("Apollo:MetaServer")}");
 
-                HealthCheckRegistry.RegisterHealthCheck("apollo", () =>
-              {
-                  var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
-                  using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
-                  {
-                      if (tcpClient.Connected)
-                      {
-                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={configuration.GetValue<string>("Apollo:Env")}");
-                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
-                          return HealthResponse.Healthy($"{uri.Host}:{uri.Port}connection successful; pollo:Env={configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
-                      }
-                      return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port} connection failed");
-                  }
-              });
+                var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
+                using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
+                {
+                    if (tcpClient.Connected)
+                    {
+                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={configuration.GetValue<string>("Apollo:Env")}");
+                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
+                        Console.WriteLine($"{uri.Host}:{uri.Port}connection successful; pollo:Env={configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
+                    }
+                    Console.WriteLine($"Apollo{uri.Host}:{uri.Port} connection failed");
+                }
             }
             else
             {
@@ -132,33 +128,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
             Serilog.Log.Logger = new LoggerConfiguration()
               .ReadFrom.Configuration(configuration)
               .CreateLogger();
-        }
-
-       
-
-        
-
-        ///// <summary>
-        ///// 新增EFCore性能监控
-        ///// </summary>
-        ///// <param name="services"></param>
-        //public static void AddMiniProfilerEF(this IServiceCollection services)
-        //{
-        //    var config = services.GetNetProConfig();
-        //    if (!config.MiniProfilerEnabled) return;
-        //    // profiling
-        //    services.AddMiniProfiler(options =>
-        //        options.RouteBasePath = "/profiler").AddEntityFramework();
-        //}
-
-        /// <summary>
-        /// 获取配置信息
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static NetProOption GetNetProConfig(this IServiceCollection services)
-        {
-            return services.BuildServiceProvider().GetRequiredService<NetProOption>();
         }
     }
 }

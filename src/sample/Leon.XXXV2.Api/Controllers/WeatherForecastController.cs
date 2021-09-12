@@ -22,7 +22,7 @@ namespace Leon.XXXV2.Api
     public class WeatherForecastController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
-        private readonly IStringLocalizer<Language.Resoureces.Language> _localizer;
+        private readonly IStringLocalizer<Language.Resoureces.SharedResource> _localizer;
 
         private IExampleProxy _userApi { get; set; }
         private readonly ILogger<WeatherForecastController> _logger;
@@ -36,7 +36,7 @@ namespace Leon.XXXV2.Api
         //[FromServices]
         public WeatherForecastController(ILogger<WeatherForecastController> logger
             , IXXXService xXXService,
-            IStringLocalizer<Language.Resoureces.Language> localizer)
+            IStringLocalizer<Language.Resoureces.SharedResource> localizer)
         {
             _logger = logger;
             _xXXService = xXXService;
@@ -54,6 +54,7 @@ namespace Leon.XXXV2.Api
         [ProducesResponseType(200, Type = typeof(XXXAo))]
         public async Task<IActionResult> Get([FromQuery] XXXRequest gg)
         {
+            return ToSuccessResult(_localizer["BoxLengthRange"] + $"{DateTime.Now}");
             //return ToFailResult("", 500);
             //var result = _xXXService.GetList();
             //var ss= _userApi.GetGoodsList(1,"66").GetAwaiter().GetResult();
@@ -62,6 +63,12 @@ namespace Leon.XXXV2.Api
             //测试自动生成代理请求
             //var resu = _userApi.GetGoodsList(1, "hhhh").GetAwaiter().GetResult();
             //Serilog.Log.Error("这是错误");
+            var credentials = CallCredentials.FromInterceptor((context, metadata) =>
+            {
+                metadata.Add("Authorization", $"Bearer {1}");
+                return Task.CompletedTask;
+            });
+
             var httpHandler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback =

@@ -2,7 +2,7 @@
 ## ANetPro.Analysic使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic)
 
-精确到同ip下对请求流量的精确控制，可控制1天 或者1小时内的错误数正确数
+同ip下对请求流量的精确控制，可控制1天 或者1小时内的错误数正确数
 
 ### 使用
 
@@ -46,7 +46,9 @@
 	}
 
 ```
+
 #### 启用服务
+
 ```csharp
 public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
@@ -59,8 +61,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-```
- 后期功能:
+ TODO:
+
+```text
+
  全局接口熔断策略:
  20秒以内超过10次请求指定接口错误率超过20% 触发阈值  持续10秒熔断(指标都是可配置)
  全局接口限制策略:
@@ -68,4 +72,3 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  同ip1小时内请求数大于20次触发阈值(指标都是可配置)
 
 ```
-

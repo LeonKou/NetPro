@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
-using NetPro.Utility;
 using NetPro.Web.Core.Permission;
 using Serilog;
 using System.Linq;
@@ -69,7 +68,7 @@ namespace NetPro.Web.Api
                 if (_config.AppType == AppType.Api)
                 {
                     string errorMsg = "用户无权访问!";
-                    throw new NetProException(errorMsg, AppErrorCode.PermissionDenied.Value());
+                    throw new NetProException(errorMsg, (int)AppErrorCode.PermissionDenied);
                 }
                 else
                 {

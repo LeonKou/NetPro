@@ -1,37 +1,37 @@
 
-## Checker使用
+# Checker使用
+
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Checker.svg)](https://nuget.org/packages/NetPro.Checker)
 
 对Microsoft.AspNetCore.Diagnostics.HealthChecks的强化和redis，mongodb检查的完善
 
-### 使用
+## 使用
 
-#### appsetting.json 
+### 启用服务
 
-```json
-"HealthChecksUI": {
- "HealthChecks": [
- 	{
- 	 "Name": "HealthList",
- 	 "Uri": "/health"
- 	}
- ],
- "Webhooks": [],
- "EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
- "MinimumSecondsBetweenFailureNotifications": 60
-},
-```
-#### 启用服务
+以检测redis;mongodb的健康为例：
+
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
      var healthbuild = services.AddHealthChecks();
-     if (!string.IsNullOrWhiteSpace(mongoDbOptions?.ConnectionString))
-         healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });//健康检查mongodb
 
-     healthbuild.AddRedis($redisconnection, name:$"redisTest")//健康检查redis
-     //检查其他组件，引用相关nuget即可
-     services.AddHealthChecksUI();//添加健康检查UI能力
+     //健康检查redis
+      healthbuild.AddMongoDb(mongoDbOptions.ConnectionString, tags: new string[] { "mongodb" });
+      
+      //健康检查mongodb
+     healthbuild.AddRedis($"{redisconnection}", name:$"redis-{Guid.NewGuid()}")//健康检查redis
+     
+     //健康检查url,两种方式
+     //1、
+      healthbuild.AddUrl(new List<string> {
+        "htttp://www.douying.com"
+       ,"htttp://www.baidu.com" }
+       ,timeout:System.TimeSpan.FromSeconds(5));//检查
+     //2、
+       healthbuild.AddUrlGroup(new Uri("https://localhost:44318/weatherforecast"), "Example endpoint")// should return status code 200
+      
+      //检查其他组件，引用相关nuget即可 
 }
 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,14 +42,35 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
 
-    application.UseHealthChecksUI(s => s.UIPath = "/ui");//健康检查UI地址
-
     application.UseCheck(envPath:"/env",infoPath:"/info");//envPath:应用环境地址；infoPath:应用自身信息地址
 }
 ```
 
-#### 访问 /health
+除以上方式实现健康检查，另一种健康检查：
+以检查apollo健康程度为例：
+
+```csharp
+    HealthCheckRegistry.RegisterHealthCheck("apollo", () =>
+              {
+                  var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
+                  using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
+                  {
+                      if (tcpClient.Connected)
+                      {
+                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={configuration.GetValue<string>("Apollo:Env")}");
+                          Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
+                          return HealthResponse.Healthy($"{uri.Host}:{uri.Port}connection successful; pollo:Env={configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
+                      }
+                      return HealthResponse.Unhealthy($"Apollo{uri.Host}:{uri.Port} connection failed");
+                  }
+              });
+
+```
+
+### 访问 /health
+
 得到以下检查结果，可根据此来判断组件健康程度来做下一步处理
+
 ```json
 {
   "status": "Unhealthy",
@@ -76,15 +97,56 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
   }
 }
 ```
-#### 访问 /ui 
-可视化查看健康检查
+
+### 增加统一健康检查Dashboard
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+     services.AddHealthChecksUI();//添加健康检查UI dashboard
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    application.UseHealthChecksUI(s => s.UIPath = "/hc-ui");//健康检查UI地址
+
+    application.UseCheck(envPath:"/env",infoPath:"/info");//envPath:应用环境地址；infoPath:应用自身信息地址
+}
+```
+
+```json
+ "HealthChecksUI": {
+    "HealthChecks": [
+      {
+        "Name": "HealthList",
+        "Uri": "/health"
+      },
+      {
+        "Name": "HTTP-Api-Basic",
+        "Uri": "http://localhost:6457/healthz"
+      }
+    ],//通过HealthChecks可统一检测对所有符合`HealthChecks.UI`规范的组件健康程度，支持本地和远程
+    "Webhooks": [],
+    "EvaluationTimeOnSeconds": 3600, //检查周期，单位秒
+    "MinimumSecondsBetweenFailureNotifications": 60
+  },
+
+```
+
+#### 可视化查看健康状况
+
+会将所有配置在HealthChecksUI:HealthChecks节点下各地址的健康信息统一显示
+
+### 访问 /hc-ui
+
 <p align="center">
   <img  src="https://github.com/LeonKou/NetPro/blob/master/docs/images/checkhealth.jpg">
 </p>
 
-#### 访问 /env 
+### 访问 /env
 
 将得到应用所在系统的环境参数值，可快速定位问题
+
 ```json
 
   "ProcessId": 11232,
@@ -152,7 +214,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-#### 访问 /info 
+### 访问 /info
+
 可得到.netcore应用本身的环境信息，例如appsetting.json；系统环境变量；配置文件所有驱动，主机地址等等
 
 ```json
@@ -221,6 +284,13 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
       "Value": null
     }]
 }
+
 ```
 
+```json
+"CheckOption": {
+    "OpenIp": true  //是否开启所有IP访问，默认只支持回环地址
+  },
+```
 
+> [ASP.NET Core的健康检查](https://blog.zhaytam.com/2020/04/30/health-checks-aspnetcore/)

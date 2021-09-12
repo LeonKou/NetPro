@@ -3,13 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
-using NetPro.Proxy;
 
-namespace NetPro.Web.Core
+namespace NetPro.CsRedis
 {
-    public class ApiProxyStartup2000 : INetProStartup
+    public class NetProCsRedisStartup1000 : INetProStartup
     {
-        public int Order => 2000;
+        public int Order => 1000;
+
+        public string Description => $"{this.GetType().Namespace} 支持CsRedis注入";
 
         public void Configure(IApplicationBuilder application)
         {
@@ -17,7 +18,9 @@ namespace NetPro.Web.Core
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddHttpProxy(configuration, typeFinder, configuration.GetValue<string>("MicroServicesEndpoint:Assembly", string.Empty));
+            //新增redis缓存注入
+            if (configuration.GetValue<bool>("RedisCacheOption:Enabled", false))
+                services.AddCsRedis<SystemTextJsonSerializer>(configuration);
         }
     }
 }

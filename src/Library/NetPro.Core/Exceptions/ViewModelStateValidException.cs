@@ -1,4 +1,4 @@
-﻿namespace NetPro.Utility
+﻿namespace NetPro
 {
     /// <summary>
     /// viewModel Data validation failed exception

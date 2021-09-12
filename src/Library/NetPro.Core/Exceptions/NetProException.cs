@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace NetPro.Utility
+namespace NetPro
 {
     /// <summary>
     /// 异常基类
