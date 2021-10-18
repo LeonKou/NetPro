@@ -31,7 +31,6 @@
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-		<ProjectReference Include="..\Language.Resources\Language.Resources.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.RabbitMQ\NetPro.RabbitMQ.csproj" />
 	</ItemGroup>

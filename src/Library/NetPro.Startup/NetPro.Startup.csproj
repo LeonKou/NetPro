@@ -33,10 +33,7 @@
 	<ItemGroup>
 		<PackageReference Include="ConsoleTables" Version="2.4.2" />
 		<PackageReference Include="Figgle" Version="0.4.0" />
-		<!--<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />-->
-		<!--<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />-->
-		<!--<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.20" />-->
-		<!--<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />-->
+		<PackageReference Include="Scrutor" Version="3.2.2" />
 	</ItemGroup>
 
 	<ItemGroup>

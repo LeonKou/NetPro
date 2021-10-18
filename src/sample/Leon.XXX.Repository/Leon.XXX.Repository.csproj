@@ -8,4 +8,7 @@
 		<PackageReference Include="FreeSql.Repository" Version="1.7.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Library\NetPro.Startup\NetPro.Startup.csproj" />
+	</ItemGroup>
 </Project>

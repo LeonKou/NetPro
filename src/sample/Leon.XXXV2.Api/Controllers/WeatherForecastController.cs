@@ -1,8 +1,6 @@
-﻿
-using Grpc.Core;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcServer;
-using Language.Resoureces;
 using Leon.XXX.Proxy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -22,7 +20,7 @@ namespace Leon.XXXV2.Api
     public class WeatherForecastController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
-        private readonly IStringLocalizer<Language.Resoureces.SharedResource> _localizer;
+        private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
 
         private IExampleProxy _userApi { get; set; }
         private readonly ILogger<WeatherForecastController> _logger;
@@ -35,7 +33,7 @@ namespace Leon.XXXV2.Api
         /// <param name="localizer"></param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger
             , IXXXService xXXService,
-            IStringLocalizer<Language.Resoureces.SharedResource> localizer)
+            IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
             _logger = logger;
             _xXXService = xXXService;
