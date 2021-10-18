@@ -28,6 +28,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
+	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>

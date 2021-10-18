@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 
-namespace NetPro.Core
+namespace NetPro
 {
     public static class ApolloClientHelper
     {

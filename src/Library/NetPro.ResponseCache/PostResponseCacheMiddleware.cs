@@ -213,7 +213,7 @@ namespace NetPro.ResponseCache
                 }
             }
 
-            gotoNext:
+        gotoNext:
             await _next(context);
         }
     }
@@ -223,26 +223,27 @@ namespace NetPro.ResponseCache
     /// </summary>
     public static class PostResponseCacheMiddlewareExtensions
     {
+        // response cache not be suitable for global middleware
         /// <summary>
         /// 签名在响应缓存之前
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>  
         /// <remarks></remarks>
-        public static IApplicationBuilder UsePostResponseCache(
-            this IApplicationBuilder builder)
-        {
-            var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            if (responseCacheOption?.Enabled ?? false)
-            {
-                if (responseCacheOption.Duration < 1)
-                    throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
-                //脱离Http协议的Post缓存
-                builder.UseMiddleware<PostResponseCacheMiddleware>();
-            }
+        //public static IApplicationBuilder UsePostResponseCache(
+        //    this IApplicationBuilder builder)
+        //{
+        //    var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
+        //    if (responseCacheOption?.Enabled ?? false)
+        //    {
+        //        if (responseCacheOption.Duration < 1)
+        //            throw new ArgumentNullException($"ResponseCacheOption.Duration", "Post响应缓存Duration参数不能小于1");
+        //        //脱离Http协议的Post缓存
+        //        builder.UseMiddleware<PostResponseCacheMiddleware>();
+        //    }
 
-            return builder;
-        }
+        //    return builder;
+        //}
 
         /// <summary>
         /// Get缓存
@@ -254,24 +255,28 @@ namespace NetPro.ResponseCache
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            if (responseCacheOption?.Enabled ?? false)
+            if (responseCacheOption != null && responseCacheOption.Disabled == false)
             {
                 //全局Get响应缓存，遵守Http协议
                 builder.UseResponseCaching();
                 builder.Use(async (context, next) =>
                 {
-                    context.Response.GetTypedHeaders().CacheControl =
-                    new CacheControlHeaderValue()
+                    if (context.Request.Method.Equals("get", StringComparison.OrdinalIgnoreCase))
                     {
-                        Public = true,
-                        MaxAge = TimeSpan.FromSeconds(responseCacheOption.Duration < 1 ? 1 : responseCacheOption.Duration)
-                    };
+                        context.Response.GetTypedHeaders().CacheControl =
+                     new CacheControlHeaderValue()
+                     {
+                         Public = true,
+                         MaxAge = TimeSpan.FromSeconds(responseCacheOption.Duration < 1 ? 1 : responseCacheOption.Duration)
+                     };
 
-                    var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
+                        var responseCachingFeature = context.Features.Get<IResponseCachingFeature>();
 
-                    if (responseCachingFeature != null)//必须放于响应缓存之后
-                    {
-                        responseCachingFeature.VaryByQueryKeys = new[] { "*" };
+                        if (responseCachingFeature != null)//必须放于响应缓存之后
+                        {
+                            responseCachingFeature.VaryByQueryKeys = new[] { "*" };
+                        }
+                       
                     }
                     await next();
                 });

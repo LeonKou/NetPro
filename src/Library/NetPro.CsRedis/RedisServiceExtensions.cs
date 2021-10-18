@@ -55,6 +55,20 @@ namespace NetPro.CsRedis
             services.AddSingleton(redisCacheOption);
             var option = redisCacheOption.Invoke(services.BuildServiceProvider());
             services.AddSingleton(option);
+                        
+            if (option?.Disabled ?? true)
+            {
+                //禁用，用NullCache实例化，防止现有注入失败
+                var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
+                _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
+                services.AddSingleton<IRedisManager, NullCache>();
+                return services;
+            }
+            else
+            {
+                services.AddSingleton<IRedisManager, CsRedisManager>();
+            }
+
             List<string> csredisConns = new List<string>();
             string password = option.Password;
             int defaultDb = option.Database;
@@ -83,14 +97,6 @@ namespace NetPro.CsRedis
             }
 
             RedisHelper.Initialization(csredis);
-            if (option?.Enabled ?? false)
-                services.AddSingleton<IRedisManager, CsRedisManager>();
-            else
-            {
-                var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
-                _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
-                services.AddSingleton<IRedisManager, NullCache>();
-            }
 
             return services;
         }

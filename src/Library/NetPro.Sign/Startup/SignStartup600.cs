@@ -13,8 +13,6 @@ namespace NetPro.Sign
     /// </summary>
     public class SignStartup600 : INetProStartup
     {
-        public string Description => $"{this.GetType().Namespace} 支持接口签名";
-
         /// <summary>
         /// 添加 
         /// </summary>
@@ -23,10 +21,11 @@ namespace NetPro.Sign
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             //签名
-            if (configuration.GetValue<bool>("VerifySignOption:Enabled", false))
-            {
-                services.AddVerifySign();
-            }
+            services.AddVerifySign();
+            //if (configuration.GetValue<bool>("VerifySignOption:Disabled", false))
+            //{
+            //    services.AddVerifySign();
+            //}
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace NetPro.Sign
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public int Order
+        public double Order
         {
             //authentication should be loaded before MVC
             get { return 600; }

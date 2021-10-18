@@ -38,7 +38,7 @@
 		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.2" />
 		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
-		<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />
+		<!--<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />-->
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
 		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.3" />			 
 	</ItemGroup>

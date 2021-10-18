@@ -28,11 +28,12 @@ namespace NetPro.Web.Core.Filters
         {
             IServiceProvider serviceProvider = context.HttpContext.RequestServices;
             var _logger = serviceProvider.GetRequiredService<ILogger<VerifySignAttribute>>();
-            var _configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            //var _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var _verifySignCommon = serviceProvider.GetService<IOperationFilter>();
             var _verifySignOption = serviceProvider.GetService<VerifySignOption>();
 
-            if (!_verifySignOption?.Enabled??true)
+            //显式停用才绕过
+            if (_verifySignOption!=null&& _verifySignOption.Disabled)
             {
                 goto gotoNext;
             }

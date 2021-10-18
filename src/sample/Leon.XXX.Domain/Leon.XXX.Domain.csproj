@@ -10,7 +10,7 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.RabbitMQ\NetPro.RabbitMQ.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Repository\Leon.XXX.Repository.csproj" />
 	</ItemGroup>
 

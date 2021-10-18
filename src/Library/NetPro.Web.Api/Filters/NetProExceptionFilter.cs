@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure.Attributes;
-using NetPro.Web.Core.Helpers;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -108,26 +107,10 @@ namespace NetPro.Web.Api
             }
             //写入日志系统
             _logger.Write(eventLevel, exception, "{0}异常.errorCode:{1},errorMsg:{2},请求url:{3},请求Body:{4},请求IP:{5},服务器名称:{6}", appName, (int)errorCode, errorMsg, url, requestBodyText, requestIp, macName);
+           
             //自定义异常返回
-            if (_config.AppType == AppType.Api)
-            {
-                context.Result = errorMsg.ToErrorActionResult((int)errorCode);
-                context.HttpContext.Response.StatusCode = (int)statusCode;
-            }
-            else
-            {
-                string errorUrl = _config.ErrorUrl;
-                if (string.IsNullOrWhiteSpace(errorUrl) || (!string.IsNullOrWhiteSpace(errorUrl) && errorUrl.Split('/').Length != 2))
-                {
-                    context.Result = new ContentResult() { Content = "您访问的页面出错!" };
-                }
-                else
-                {
-                    var array = errorUrl.Split('/');
-                    context.Result = new RedirectToActionResult(array[1], array[0], new { error = exception.Message });
-                }
-                context.HttpContext.Response.StatusCode = (int)statusCode;
-            }
+            context.Result = errorMsg.ToErrorActionResult((int)errorCode);
+            context.HttpContext.Response.StatusCode = (int)statusCode;
             context.ExceptionHandled = true;
             return;
         }

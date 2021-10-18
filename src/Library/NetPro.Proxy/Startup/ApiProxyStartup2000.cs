@@ -13,8 +13,7 @@ namespace NetPro.Proxy
     /// </summary>
     public class ApiProxyStartup2000 : INetProStartup
     {
-        public string Description => $"{this.GetType().Namespace} 支持Proxy远程请求";
-        public int Order => 2000;
+        public double Order => 0;
 
         public void Configure(IApplicationBuilder application)
         {

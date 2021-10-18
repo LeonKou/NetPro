@@ -79,7 +79,7 @@ namespace NetPro.ResponseCache
             var responseCacheOption = serviceProvider.GetService<ResponseCacheOption>();
 
             //配置存在且配置关闭或者持续时长等于0，即忽略响应缓存
-            if ((responseCacheOption != null && !responseCacheOption.Enabled) || Duration == 0)
+            if ((responseCacheOption != null && responseCacheOption.Disabled) || Duration == 0)
             {
                 goto gotoNext;
             }
@@ -282,6 +282,7 @@ namespace NetPro.ResponseCache
                         }
                         catch (Exception ex)
                         {
+                            _logger.LogError(ex, "postResponse exception");
                             await Task.CompletedTask;
                             return;
                         }

@@ -32,21 +32,6 @@ namespace NetPro.Core.Configuration
         /// </summary>
         public int ThreadMinCount { get; set; }
 
-        ///// <summary>
-        ///// 是否启用性能监控
-        ///// </summary>
-        //public bool APMEnabled { get; set; }
-
-        ///// <summary>
-        ///// 是否打开权限过滤器(不同于认证)
-        ///// </summary>
-        //public bool PermissionEnabled { get; set; }
-
-        ///// <summary>
-        ///// 是否启用miniprofiler 监控
-        ///// </summary>
-        //public bool MiniProfilerEnabled { get; set; }
-
         /// <summary>
         /// 应用程序名称
         /// </summary>
@@ -64,7 +49,7 @@ namespace NetPro.Core.Configuration
         /// <summary>
         /// 应用程序类型
         /// </summary>
-        public AppType AppType { get; set; } = AppType.Api;
+        //public AppType AppType { get; set; } = AppType.Api;
 
         /// <summary>
         /// 错误页面url
@@ -90,11 +75,6 @@ namespace NetPro.Core.Configuration
         /// 跨域允许的站点
         /// </summary>
         public string CorsOrigins { get; set; } = "*";
-
-        ///// <summary>
-        ///// 是否启用健康检查
-        ///// </summary>
-        //public bool EnabledHealthCheck { get; set; }
 
         /// <summary>
         /// 全局路由前缀

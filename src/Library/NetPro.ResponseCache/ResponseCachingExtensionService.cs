@@ -17,6 +17,7 @@ namespace NetPro.ResponseCache
             {
                 options.UseCaseSensitivePaths = false;
             });
+
             services.AddMemoryCache();
             services.AddShareRequestBody();//用户共享存放中间件读取的body
 

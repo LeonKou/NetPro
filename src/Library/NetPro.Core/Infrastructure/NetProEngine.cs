@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿//using Autofac;
 using AutoMapper;
 using ConsoleTables;
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure.DependencyManagement;
+//using NetPro.Core.Infrastructure.DependencyManagement;
 using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
 using System;
@@ -51,81 +51,53 @@ namespace NetPro.Core.Infrastructure
             return accessor?.HttpContext?.RequestServices ?? ServiceProvider;
         }
 
-        /// <summary>
-        /// Run startup tasks
-        /// </summary>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
-        {
-            //find startup tasks provided by other assemblies
-            var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
+        ///// <summary>
+        ///// Run startup tasks
+        ///// </summary>
+        ///// <param name="typeFinder">Type finder</param>
+        //protected virtual void RunStartupTasks(ITypeFinder typeFinder)
+        //{
+        //    //find startup tasks provided by other assemblies
+        //    var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
 
-            //create and sort instances of startup tasks
-            //we startup this interface even for not installed plugins. 
-            //otherwise, DbContext initializers won't run and a plugin installation won't work
-            var instances = startupTasks
-                .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
-                .OrderBy(startupTask => startupTask.Order);
+        //    //create and sort instances of startup tasks
+        //    //we startup this interface even for not installed plugins. 
+        //    //otherwise, DbContext initializers won't run and a plugin installation won't work
+        //    var instances = startupTasks
+        //        .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
+        //        .OrderBy(startupTask => startupTask.Order);
 
-            //execute tasks
-            foreach (var task in instances)
-                task.Execute();
-        }
+        //    //execute tasks
+        //    foreach (var task in instances)
+        //        task.Execute();
+        //}
 
-        /// <summary>
-        /// Register dependencies
-        /// </summary>
-        /// <param name="containerBuilder">Container builder</param>
-        /// <param name="nopConfig">Nop configuration parameters</param>
-        public virtual void RegisterDependencies(ContainerBuilder containerBuilder, NetProOption nopConfig)
-        {
-            //register engine
-            containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
+        ///// <summary>
+        ///// Register dependencies
+        ///// </summary>
+        ///// <param name="containerBuilder">Container builder</param>
+        ///// <param name="netProOption">configuration parameters</param>
+        //public virtual void RegisterDependencies(ContainerBuilder containerBuilder, NetProOption netProOption)
+        //{
+        //    //https://blog.csdn.net/weixin_30679823/article/details/101501507
+        //    //register engine
+        //    containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
 
-            //register type finder
-            //containerBuilder.RegisterInstance(_typeFinder).As<ITypeFinder>().SingleInstance();
+        //    //register type finder
+        //    //containerBuilder.RegisterInstance(_typeFinder).As<ITypeFinder>().SingleInstance();
 
-            //find dependency registrars provided by other assemblies
-            var dependencyRegistrars = _typeFinder.FindClassesOfType<IDependencyRegistrar>();
+        //    //find dependency registrars provided by other assemblies
+        //    var dependencyRegistrars = _typeFinder.FindClassesOfType<IDependencyRegistrar>();
 
-            //create and sort instances of dependency registrars
-            var instances = dependencyRegistrars
-                .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar))
-                .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
+        //    //create and sort instances of dependency registrars
+        //    var instances = dependencyRegistrars
+        //        .Select(dependencyRegistrar => (IDependencyRegistrar)Activator.CreateInstance(dependencyRegistrar))
+        //        .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
 
-            //register all provided dependencies
-            foreach (var dependencyRegistrar in instances)
-                dependencyRegistrar.Register(containerBuilder, _typeFinder, nopConfig);
-        }
-
-        /// <summary>
-        /// Register and configure AutoMapper
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual void AddAutoMapper(IServiceCollection services, ITypeFinder typeFinder)
-        {
-            //find mapper configurations provided by other assemblies
-            var mapperConfigurations = typeFinder.FindClassesOfType<IOrderedMapperProfile>();
-
-            //create and sort instances of mapper configurations
-            var instances = mapperConfigurations
-                .Select(mapperConfiguration => (IOrderedMapperProfile)Activator.CreateInstance(mapperConfiguration))
-                .OrderBy(mapperConfiguration => mapperConfiguration.Order);
-
-            //create AutoMapper configuration
-            var config = new MapperConfiguration(cfg =>
-            {
-                foreach (var instance in instances)
-                {
-                    cfg.AddProfile(instance.GetType());
-                }
-            });
-
-            //register
-            AutoMapperConfiguration.Init(config);
-            services.AddSingleton(AutoMapperConfiguration.Mapper);
-        }
+        //    //register all provided dependencies
+        //    foreach (var dependencyRegistrar in instances)
+        //        dependencyRegistrar.Register(containerBuilder, _typeFinder);
+        //}
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
@@ -151,42 +123,13 @@ namespace NetPro.Core.Infrastructure
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration of the application</param>
-        /// <param name="nopConfig">Nop configuration parameters</param>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, NetProOption nopConfig)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            //用户基础框架在运行成功前执行EngineContext.Current.Resolve<xxx>
-            //_serviceProvider = services.BuildServiceProvider(); //TODO 预留，运行成功前需要用到基础对象时打开
-            //find startup configurations provided by other assemblies
+            _serviceProvider = services.BuildServiceProvider(); //TODO 预留，运行成功前需要用到基础对象时打开
 
-            _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
-            var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
-
-            //create and sort instances of startup configurations
-            var instances = startupConfigurations
-                .Select(startup => new { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Name = startup.Name })
-                .OrderBy(startup => startup.NetProStartupImplement.Order);
-
-            //configure services
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine($"服务注入顺序：", System.Drawing.Color.FromArgb(1, 212, 1));
-            var table = new ConsoleTable("Order", "StartUpName", "Path", "Describe");
-            foreach (var instance in instances)
-            {
-                instance.NetProStartupImplement.ConfigureServices(services, configuration, _typeFinder);
-                table.AddRow(instance.NetProStartupImplement.Order, instance.Name, instance.NetProStartupImplement, instance.NetProStartupImplement.Description);
-            }
-            Console.WriteLine(table.ToStringAlternative());
-            Console.ResetColor();
-
-            //register mapper configurations
-            AddAutoMapper(services, _typeFinder);
-
-            //run startup tasks
-            RunStartupTasks(_typeFinder);
-
-            //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
-            //load the plug-in assembly 
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            if (_typeFinder == null)
+                _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
+            //services.AddSingleton<IEngine, NetProEngine>();
         }
 
         /// <summary>
@@ -195,22 +138,6 @@ namespace NetPro.Core.Infrastructure
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void ConfigureRequestPipeline(IApplicationBuilder application)
         {
-            //转发头数据
-            application.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.All });
-            _serviceProvider = application.ApplicationServices;
-
-            //find startup configurations provided by other assemblies
-            var typeFinder = Resolve<ITypeFinder>();
-            var startupConfigurations = typeFinder.FindClassesOfType<INetProStartup>();
-
-            //create and sort instances of startup configurations
-            var instances = startupConfigurations
-                .Select(startup => (INetProStartup)Activator.CreateInstance(startup))
-                .OrderBy(startup => startup.Order);
-
-            //configure request pipeline
-            foreach (var instance in instances)
-                instance.Configure(application);
         }
 
         /// <summary>

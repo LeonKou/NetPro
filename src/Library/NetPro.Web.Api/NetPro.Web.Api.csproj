@@ -20,6 +20,14 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Web.Api.xml</DocumentationFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Startup\NetProCoreStartup1000.cs" />
+	  <Compile Remove="Startup\NetProCoreStartupMin.cs" />
+	  <Compile Remove="Startup\NetProRateLimitStartup200.cs" />
+	  <Compile Remove="Startup\ResponseCacheStartup800.cs" />
+	  <Compile Remove="Startup\SignStartup600.cs" />
+	</ItemGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
@@ -27,12 +35,37 @@
 		</None>
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Web.Api.xml</DocumentationFile>
-	</PropertyGroup>
+	<ItemGroup>
+		<!--<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(MicrosoftAspNetCoreMvcAbstractions)" />-->
+		<PackageReference Include="IdentityModel" Version="4.4.0" />
+		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
+		<PackageReference Include="Sentry" Version="2.1.6" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="5.6.0" />
+		<PackageReference Include="Serilog.Formatting.Compact" Version="$(SerilogFormattingCompact)" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfiguration)" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="$(SerilogSinksAsync)" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="$(SerilogSinksDebug)" />
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
+		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.2" />
+		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
+		<!--<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />-->
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.3" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
+		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.9" />
+
+
+	</ItemGroup>
+
 	<ItemGroup>
 		<!--<ProjectReference Include="..\NetPro.Analysic\NetPro.Analysic.csproj" />-->
-		<ProjectReference Include="..\NetPro.Web.Core\NetPro.Web.Core.csproj" />
+		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+		<ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
+		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
+		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />
 	</ItemGroup>
 

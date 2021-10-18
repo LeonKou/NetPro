@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NetPro.Core.Configuration;
-using NetPro.Web.Core.Helpers;
 using Serilog;
 using System;
 using System.IO;

@@ -31,6 +31,18 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
+		<PackageReference Include="Serilog.Exceptions" Version="5.6.0" />
+		<PackageReference Include="Serilog.Formatting.Compact" Version="$(SerilogFormattingCompact)" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="$(SerilogSettingsConfiguration)" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="$(SerilogSinksAsync)" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="$(SerilogSinksConsole)" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="$(SerilogSinksDebug)" />
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
+		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.2" />
+		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.3" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

@@ -1,5 +1,7 @@
-﻿using FluentValidation;
-using NetPro.Web.Core.Validators;
+﻿
+using FluentValidation;
+using NetPro.Web.Api;
+using System.ComponentModel.DataAnnotations;
 
 namespace Leon.XXX.Domain
 {
@@ -11,6 +13,8 @@ namespace Leon.XXX.Domain
         /// <summary>
         /// 这是Id
         /// </summary>
+        [Required]
+        [Range(0,12)]
         public uint Id { get; set; }
 
         /// <summary>

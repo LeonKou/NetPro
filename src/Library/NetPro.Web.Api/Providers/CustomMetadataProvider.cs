@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
-namespace NetPro.Web.Core.Providers
+namespace NetPro.Web.Api
 {
     public class CustomMetadataProvider : IMetadataDetailsProvider, IDisplayMetadataProvider
     {

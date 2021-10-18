@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MQMiddleware;
 using MQMiddleware.Configuration;
-using NetPro.Core.Infrastructure;
+using NetPro;
 using NetPro.Sign;
 using NetPro.TypeFinder;
 using RabbitMQ.Client;
@@ -15,16 +15,22 @@ namespace Leon.XXX.Api
 {
     public class ApiStartup : INetProStartup
     {
-        public string Description => "自定义startup";
-        public int Order => 900;
+        public double Order => int.MaxValue;
         public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
             services.Scan(scan => scan
               .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
-                    s.GetName().Name.EndsWith("Leon.XXX.Domain")).ToArray())
+                    s.GetName().Name.EndsWith("Leon.XXX.Repository")).ToArray())
               .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+              .AsImplementedInterfaces()
+              .WithScopedLifetime());
+
+            services.Scan(scan => scan
+              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
+                    s.GetName().Name.EndsWith("Leon.XXX.Domain")).ToArray())
+              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
               .AsImplementedInterfaces()
               .WithScopedLifetime());
 
@@ -79,6 +85,7 @@ namespace Leon.XXX.Api
 
         public void Configure(IApplicationBuilder application)
         {
+            
         }
     }
 }

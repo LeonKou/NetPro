@@ -10,12 +10,24 @@ namespace NetPro.Sign
 
         }
 
+        /// <summary>
+        /// 是否调试模式
+        /// </summary>
         public bool IsDebug { get; set; }
 
+        /// <summary>
+        /// 是否强制签名
+        /// </summary>
         public bool IsForce { get; set; }
 
-        public bool Enabled { get; set; }
+        /// <summary>
+        /// 是否停用
+        /// </summary>
+        public bool Disabled { get; set; }
 
+        /// <summary>
+        /// 过期秒数
+        /// </summary>
         public int ExpireSeconds { get; set; } = 5;
 
         public DeclareCommonParameters CommonParameters { get; set; } = new DeclareCommonParameters();

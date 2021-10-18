@@ -9,13 +9,17 @@ namespace NetPro.Core.Infrastructure
     {
         #region Methods
 
+        private EngineContext()
+        {
+
+        }
         /// <summary>
         /// 返回NetProEngine 单例对象
         /// </summary>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static IEngine Create()
         {
-            //create NopEngine as engine
+            //create NetProEngine as engine
             return Singleton<IEngine>.Instance ?? (Singleton<IEngine>.Instance = new NetProEngine());
         }
 

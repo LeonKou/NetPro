@@ -21,6 +21,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Infrastructure\INetProStartup.cs" />
+		<Compile Remove="Infrastructure\IStartupTask.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
@@ -31,11 +36,7 @@
 		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="$(AutofacExtensionsDependencyInjection)" />
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
 		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1" />
@@ -44,6 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 	</ItemGroup>
 

@@ -15,5 +15,4 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Utility\NetPro.Utility.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
 	</ItemGroup></Project>

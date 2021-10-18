@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NetPro.Web.Core.Models;
 
 namespace NetPro.Web.Api
 {

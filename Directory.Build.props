@@ -82,7 +82,11 @@
 		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>		
 
 		<NetProProxy>3.1.10</NetProProxy>
-		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>	
+		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>
+
+		<NetProStartup>3.1.10</NetProStartup>
+		<NetProStartupAssemblyName>NetPro.Startup</NetProStartupAssemblyName>
+		
 
 	</PropertyGroup>
 

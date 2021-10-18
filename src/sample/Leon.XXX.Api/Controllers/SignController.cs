@@ -2,9 +2,9 @@
 using Leon.XXX.Domain.XXX.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetPro;
 using NetPro.Sign;
 using NetPro.Web.Core.Filters;
-using NetPro.Web.Core.Models;
 using System.Web;
 
 namespace Leon.XXX.Api

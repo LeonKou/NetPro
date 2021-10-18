@@ -11,7 +11,6 @@ namespace NetPro.Analysic
 {
     public class NetProAnalysicStartup400 : INetProStartup
     {
-        public string Description => $"{this.GetType().Namespace} 支持请求分析，风控";
         private static bool enabled = true;
         /// <summary>
         /// Add and configure any of the middleware
@@ -23,7 +22,7 @@ namespace NetPro.Analysic
             //redis没开启，流量监控无法打开
             var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
             var logger = services.BuildServiceProvider().GetService<ILogger<NetProAnalysicStartup400>>();
-            if (redisCacheOption != null && redisCacheOption.Enabled)
+            if (redisCacheOption != null && !redisCacheOption.Disabled)
             {
                 services.AddRequestAnalysic();
             }
@@ -43,7 +42,7 @@ namespace NetPro.Analysic
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public int Order
+        public double Order
         {
             get { return 400; }
         }

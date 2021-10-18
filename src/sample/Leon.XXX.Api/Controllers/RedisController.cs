@@ -3,9 +3,8 @@ using Leon.XXX.Domain;
 using Leon.XXX.Domain.XXX.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetPro;
 using NetPro.ResponseCache;
-using NetPro.Web.Core.Filters;
-using NetPro.Web.Core.Models;
 using System.Threading.Tasks;
 
 namespace Leon.XXX.Api

@@ -1,5 +1,5 @@
-﻿using NetPro.CsRedis;
-using NetPro.Web.Core.Models;
+﻿using NetPro;
+using NetPro.CsRedis;
 using System.Threading.Tasks;
 
 namespace Leon.XXX.Domain.XXX.Service

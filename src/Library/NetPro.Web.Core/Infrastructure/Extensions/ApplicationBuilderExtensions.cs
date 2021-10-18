@@ -25,15 +25,6 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
-        /// 配置http 请求管道
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void ConfigureRequestPipeline(this IApplicationBuilder application)
-        {
-            EngineContext.Current.ConfigureRequestPipeline(application);
-        }
-
-        /// <summary>
         /// Add exception handling
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
@@ -41,11 +32,11 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         {
             var nopConfig = application.ApplicationServices.GetService<NetProOption>();
             var hostingEnvironment = application.ApplicationServices.GetService<IWebHostEnvironment>();
-            var webHelper = application.ApplicationServices.GetService<IWebHelper>();
 
             var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
             if (!hostingEnvironment.IsDevelopment())
             {
+                var webHelper = application.ApplicationServices.GetRequiredService<IWebHelper>();
                 //The global default handles exceptions
                 application.UseExceptionHandler(handler =>
                 {
@@ -81,7 +72,7 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
                                         }
                                     }
                                     logger.LogError(exceptionHandlerPathFeature?.Error, @$"[{DateTime.Now:HH:mm:ss}] [Global system exception]
-                                    RequestIp=> {webHelper.GetCurrentIpAddress()}
+                                    RequestIp=> {webHelper?.GetCurrentIpAddress()}
                                     HttpMethod=> {context?.Request.Method}
                                     Path=> {context.Request.Host.Value}{context?.Request.Path}{context?.Request.QueryString}
                                     Body=> {body}
@@ -117,12 +108,14 @@ namespace NetPro.Web.Core.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UsePageNotFound(this IApplicationBuilder application)
         {
+            //var webHelper = application.ApplicationServices.GetService<IWebHelper>();//启动前执行到此IWebHelper还未创建，因为他是scope的
             application.UseStatusCodePages(async context =>
             {
                 //handle 404 Not Found
                 if (context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
-                    var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+                    var webHelper = context.HttpContext.RequestServices.GetService<IWebHelper>();
+                    //var webHelper = EngineContext.Current.Resolve<IWebHelper>();
                     if (!webHelper.IsStaticResource())
                     {
                         //get original path and query

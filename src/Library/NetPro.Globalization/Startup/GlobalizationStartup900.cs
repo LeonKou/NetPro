@@ -16,9 +16,12 @@ using System.Net;
 
 namespace NetPro.Globalization
 {
+    /// <summary>
+    /// 全局多语言支持
+    ///  app.UseRequestLocalization()
+    /// </summary>
     public class GlobalizationStartup900 : INetProStartup
     {
-        public string Description => $"{this.GetType().Namespace} 国际化";
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
@@ -29,10 +32,10 @@ namespace NetPro.Globalization
             services.AddGlobalization();
         }
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder app)
         {
             //置于app.UseRouting()后便可;
-            var configuration = application.ApplicationServices.GetService<IConfiguration>();
+            var configuration = app.ApplicationServices.GetService<IConfiguration>();
 
             var globalization = configuration.GetSection(nameof(Globalization)).Get<Globalization>();
 
@@ -45,13 +48,13 @@ namespace NetPro.Globalization
             localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
             localizationOptions.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
             localizationOptions.RequestCultureProviders.Insert(2, new AcceptLanguageHeaderRequestCultureProvider());
-            application.UseRequestLocalization(localizationOptions);
+            app.UseRequestLocalization(localizationOptions);
         }
 
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public int Order
+        public double Order
         {
             get { return 900; }
         }

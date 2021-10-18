@@ -12,7 +12,6 @@ namespace NetPro.Authentication
     /// </summary>
     public class AuthenticationStartup700 : INetProStartup
     {
-        public string Description => $"{this.GetType().Namespace} 支持用户本地jwt认证";
         /// <summary>
         /// 添加 处理身份认证服务相关的中间件实现
         /// </summary>
@@ -36,7 +35,7 @@ namespace NetPro.Authentication
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public int Order
+        public double Order
         {
             //authentication should be loaded before MVC
             get { return 700; }

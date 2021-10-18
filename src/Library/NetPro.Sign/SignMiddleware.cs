@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetPro.Sign
 {
@@ -26,9 +27,10 @@ namespace NetPro.Sign
         public static IApplicationBuilder UseGlobalSign(
         this IApplicationBuilder builder)
         {
-            var configuration = builder.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
+            var verifySignOption = builder.ApplicationServices.GetService<VerifySignOption>();//(typeof(IConfiguration)) as IConfiguration;
 
-            if (configuration.GetValue<bool>("VerifySignOption:Enabled", false))
+            //if (configuration.GetValue<bool>("VerifySignOption:Disabled", false))
+            if(!verifySignOption.Disabled)
                 return builder.UseMiddleware<SignMiddleware>();
             return builder;
         }

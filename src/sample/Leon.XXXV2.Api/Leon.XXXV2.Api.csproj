@@ -19,7 +19,7 @@
 	<ItemGroup>
 		<PackageReference Include="FreeSql.Provider.MySql" Version="1.7.1" />
 		<PackageReference Include="FreeSql.Repository" Version="1.7.1" />
-		<!--<PackageReference Include="Google.Protobuf" Version="3.17.3" />-->
+		<PackageReference Include="Google.Protobuf" Version="3.17.3" />
 		<PackageReference Include="Grpc.Net.Client" Version="2.38.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.38.1">
 		  <PrivateAssets>all</PrivateAssets>
@@ -28,6 +28,7 @@
 		
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\Language.Resources\Language.Resources.csproj" />

@@ -3,9 +3,10 @@
     "GrpcServer": {
       "commandName": "Project",
       "launchBrowser": false,
-      "applicationUrl": "https://0.0.0:5001",
+      "applicationUrl": "https://0.0.0:5002",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
       }
     }
   }

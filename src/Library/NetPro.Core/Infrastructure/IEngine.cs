@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿//using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +18,7 @@ namespace NetPro.Core.Infrastructure
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration of the application</param>
-        /// <param name="nopConfig">Nop configuration parameters</param>
-        void ConfigureServices(IServiceCollection services, IConfiguration configuration, NetProOption nopConfig);
+        void ConfigureServices(IServiceCollection services, IConfiguration configuration);
 
         /// <summary>
         /// Configure HTTP request pipeline
@@ -54,12 +53,5 @@ namespace NetPro.Core.Infrastructure
         /// <param name="type">Type of service</param>
         /// <returns>Resolved service</returns>
         object ResolveUnregistered(Type type);
-
-        /// <summary>
-        /// Register dependencies
-        /// </summary>
-        /// <param name="containerBuilder">Container builder</param>
-        /// <param name="nopConfig">Nop configuration parameters</param>
-        void RegisterDependencies(ContainerBuilder containerBuilder, NetProOption nopConfig);
     }
 }

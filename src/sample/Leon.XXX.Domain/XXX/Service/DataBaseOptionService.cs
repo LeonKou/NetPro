@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FreeSql.Internal.Model;
 using Leon.XXX.Repository;
-using NetPro.Web.Core.Models;
+using NetPro;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

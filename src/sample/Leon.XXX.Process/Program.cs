@@ -26,7 +26,7 @@ namespace Leon.XXX.Process
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.ConfigureApplicationServices(hostContext.Configuration, hostContext.HostingEnvironment);
+                    //services.ConfigureApplicationServices(hostContext.Configuration, hostContext.HostingEnvironment);
                 })
                 .Build();
 

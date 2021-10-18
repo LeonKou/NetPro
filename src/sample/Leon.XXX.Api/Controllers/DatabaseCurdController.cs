@@ -4,10 +4,9 @@ using Leon.XXX.Domain;
 using Leon.XXX.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetPro;
 using NetPro.ResponseCache;
 using NetPro.Sign;
-using NetPro.Web.Core.Filters;
-using NetPro.Web.Core.Models;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -23,6 +22,7 @@ namespace Leon.XXX.Api
     /// 版本号可在不停服情况下更新版本并做到兼容老版本
     /// </remarks>
     [Route("api/microservice/v1/[controller]")]
+    [ApiController]
     public class DatabaseCurdController : ControllerBase
     {
         private readonly IDataBaseOptionService _dataBaseOptionService;
@@ -52,8 +52,8 @@ namespace Leon.XXX.Api
         /// <returns></returns>
         [HttpPost("add")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]//swagger
-        [PostResponseCache(Duration = 3, IgnoreVaryByQueryKeys = new[] { "createtime" })]
-        public async Task<IActionResult> AddAsync(XXXAo xXXAo)
+        [PostResponseCache(Duration = 100, IgnoreVaryByQueryKeys = new[] { "createtime" })]
+        public async Task<IActionResult> AddAsync([FromBody]XXXAo xXXAo)
         {
             var result = await _dataBaseOptionService.AddAsync(_mapper.Map<XXXDo>(xXXAo));
             //Code等于0才是预期，否则都应该提示

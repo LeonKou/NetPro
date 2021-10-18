@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using NetPro.Web.Core.Helpers;
 using System.Threading.Tasks;
 
-namespace NetPro.Web.Core.Compression
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// 请求返回压缩中间件

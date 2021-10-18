@@ -3,8 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MQMiddleware;
 using MQMiddleware.Configuration;
+using NetPro;
 using NetPro.Core.Infrastructure;
-using NetPro.Sign;
 using NetPro.TypeFinder;
 using RabbitMQ.Client;
 using System.Collections.Generic;
@@ -14,8 +14,7 @@ namespace Leon.XXXV2.Api
 {
     public class ApiStartup : INetProStartup
     {
-        public string Description => "自定义startup";
-        public int Order => 900;
+        public double Order => 900;
         public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
@@ -24,6 +23,13 @@ namespace Leon.XXXV2.Api
               .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
                     s.GetName().Name.EndsWith("Leon.XXXV2.Api")).ToArray())
               .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+              .AsImplementedInterfaces()
+              .WithScopedLifetime());
+
+            services.Scan(scan => scan
+              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
+                    s.GetName().Name.EndsWith("Leon.XXXV2.Api")).ToArray())
+              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
               .AsImplementedInterfaces()
               .WithScopedLifetime());
 
@@ -65,8 +71,8 @@ namespace Leon.XXXV2.Api
             //         Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name= "exchange", RoutingKeys = new HashSet<string> { string.Empty } } }
             //     })
             //     .AddMessageHandlerSingleton<CustomerMessageHandler>(string.Empty);
-            
-           // services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming();
+
+            // services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming();
         }
 
         public void Configure(IApplicationBuilder application)

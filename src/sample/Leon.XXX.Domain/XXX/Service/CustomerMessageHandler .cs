@@ -8,10 +8,18 @@ using System.Text.Json;
 
 namespace Leon.XXX.Domain.XXX.Service
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CustomerMessageHandler : IMessageHandler
     {
         readonly ILogger _logger;
         private IServiceScopeFactory _serviceScopeFactory;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="serviceScopeFactory"></param>
         public CustomerMessageHandler(
             ILogger<CustomerMessageHandler> logger,
             IServiceScopeFactory serviceScopeFactory)
@@ -20,6 +28,11 @@ namespace Leon.XXX.Domain.XXX.Service
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="routingKey"></param>
         public void Handle(string message, string routingKey)
         {
             using var serviceScope = _serviceScopeFactory.CreateScope();

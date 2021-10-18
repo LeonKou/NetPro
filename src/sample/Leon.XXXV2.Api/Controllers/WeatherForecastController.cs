@@ -32,8 +32,7 @@ namespace Leon.XXXV2.Api
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="xXXService"></param>
-        /// <param name="userApi"></param>
-        //[FromServices]
+        /// <param name="localizer"></param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger
             , IXXXService xXXService,
             IStringLocalizer<Language.Resoureces.SharedResource> localizer)
@@ -48,10 +47,11 @@ namespace Leon.XXXV2.Api
         /// </summary>
         /// <param name="gg"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("pay/create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
+        [ResponseCache( NoStore =false,Duration =3)]
         public async Task<IActionResult> Get([FromQuery] XXXRequest gg)
         {
             return ToSuccessResult(_localizer["BoxLengthRange"] + $"{DateTime.Now}");
@@ -63,11 +63,11 @@ namespace Leon.XXXV2.Api
             //测试自动生成代理请求
             //var resu = _userApi.GetGoodsList(1, "hhhh").GetAwaiter().GetResult();
             //Serilog.Log.Error("这是错误");
-            var credentials = CallCredentials.FromInterceptor((context, metadata) =>
-            {
-                metadata.Add("Authorization", $"Bearer {1}");
-                return Task.CompletedTask;
-            });
+            CallCredentials.FromInterceptor((context, metadata) =>
+             {
+                 metadata.Add("Authorization", $"Bearer {1}");
+                 return Task.CompletedTask;
+             });
 
             var httpHandler = new HttpClientHandler
             {

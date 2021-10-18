@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<Version>$(NetProStartup)</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>$(Authors)</Authors>
+		<Description>
+		</Description>
+		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
+		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<AssemblyName>$(NetProStartupAssemblyName)</AssemblyName>
+		<WarningLevel>3</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Startup.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Startup.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(PackageIconPath)">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ConsoleTables" Version="2.4.2" />
+		<PackageReference Include="Figgle" Version="0.4.0" />
+		<!--<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />-->
+		<!--<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />-->
+		<!--<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.20" />-->
+		<!--<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
+	</ItemGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
+
+</Project>

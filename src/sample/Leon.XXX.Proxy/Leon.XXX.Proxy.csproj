@@ -7,7 +7,6 @@
 	</PropertyGroup>
 	<ItemGroup>
     <ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
-    <ProjectReference Include="..\..\Library\NetPro.Web.Core\NetPro.Web.Core.csproj" />
   </ItemGroup>
 </Project>
 
