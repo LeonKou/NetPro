@@ -35,6 +35,7 @@ namespace NetPro.ShareRequestBody
         /// <remarks>错误： OnStarting cannot be set because the response has already started.</remarks>
         public async Task InvokeAsync(HttpContext context, RequestCacheData requestCacheData)
         {
+            
             context.Request.EnableBuffering();
             var token = context.RequestAborted.Register(async () =>
             {
