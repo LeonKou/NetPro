@@ -8,16 +8,6 @@ namespace NetPro.Core.Configuration
     public partial class NetProOption
     {
         /// <summary>
-        /// 项目前缀，用于项目内部批量注入使用
-        /// </summary>
-        public string ProjectPrefix { get; set; } = "NetPro";
-
-        /// <summary>
-        /// 项目后缀，用于项目内部批量注入使用
-        /// </summary>
-        public string ProjectSuffix { get; set; }
-
-        /// <summary>
         ///请求头参数"Cache-Control" 
         /// </summary>
         public string StaticFilesCacheControl { get; set; } = "Cache-Control";
@@ -38,31 +28,10 @@ namespace NetPro.Core.Configuration
         public string ApplicationName { get; set; }
 
         /// <summary>
-        /// 超级角色 超级角色拥有系统所有权限
-        /// </summary>
-        public string SuperRole { get; set; } = "";
-        /// <summary>
         /// api 执行超时警告时长(秒)
         /// </summary>
         public int RequestWarningThreshold { get; set; } = 5;
 
-        /// <summary>
-        /// 应用程序类型
-        /// </summary>
-        //public AppType AppType { get; set; } = AppType.Api;
-
-        /// <summary>
-        /// 错误页面url
-        /// </summary>
-        public string ErrorUrl { get; set; }
-        /// <summary>
-        /// 权限认证方式 code,url
-        /// </summary>
-        public string Permission { get; set; } = "";
-        /// <summary>
-        /// 登录页面地址
-        /// </summary>
-        public string LoginUrl { get; set; }
         /// <summary>
         /// 404页面地址
         /// </summary>
