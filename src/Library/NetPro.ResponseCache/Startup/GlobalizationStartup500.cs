@@ -34,9 +34,6 @@ namespace NetPro.ResponseCache
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            get { return 500; }
-        }
+        public double Order { get; set; } = 500;
     }
 }

@@ -23,7 +23,7 @@ namespace NetPro
     /// </summary>
     public class EngineContextStartup : INetProStartup
     {
-        public double Order => int.MaxValue;
+        public double Order { get; set; } = int.MaxValue;
 
         public void Configure(IApplicationBuilder application)
         {

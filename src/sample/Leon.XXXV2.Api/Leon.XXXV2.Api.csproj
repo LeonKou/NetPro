@@ -12,6 +12,9 @@
 		<EmbeddedResource Remove="logs\**" />
 		<None Remove="logs\**" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="startup.json" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Protobuf Include="Protos\greet.proto" GrpcServices="Clinet" />
@@ -37,6 +40,10 @@
 
 	<ItemGroup>
 		<Folder Include="wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="startup.json" />
 	</ItemGroup>
 
 	<ItemGroup>

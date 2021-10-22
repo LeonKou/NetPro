@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using ConsoleTables;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,8 +42,8 @@ namespace NetPro.Startup
 
             Console.WriteLine("The enhanced service has started");
 
-            IConfigurationBuilder _configurationBuilder = null;
-            List<_> instances = null;
+            IConfiguration _configuration = null;
+            List<_> instancesByOrder = null;
 
             //builder
             //   .ConfigureLogging((context, builder) =>
@@ -63,7 +64,7 @@ namespace NetPro.Startup
                             .AddJsonFile($"appsettings.{env}.json", true, true)
                             .AddJsonFile("startup.json", true, true)
                             .AddEnvironmentVariables();
-                _configurationBuilder = builder;
+                _configuration = builder.Build();
             });
 
             //builder.ConfigureServices((context, services) =>
@@ -89,18 +90,56 @@ namespace NetPro.Startup
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 
-                //create and sort instances of startup configurations
-                instances = startupConfigurations
-                .Select(startup => new _ { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Type = startup })
-                .OrderBy(startup => startup.NetProStartupImplement.Order).ToList();
+                //create and sort instances of startup configurations                 
+                var instances = startupConfigurations
+                  .Select(startup => new _ { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Type = startup })
+                  .OrderBy(startup => startup.NetProStartupImplement.Order)
+                  .ToList();
 
-                //configure services
+                //try to read startup.jsonfile
+                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"startup.json");
+                if (File.Exists(jsonPath))
+                {
+                    var folderDetails = jsonPath;
+                    var startupJson = File.ReadAllText(folderDetails);
+                    //dynamic jsonObj = new System.Dynamic.ExpandoObject();
+                    try
+                    {
+                        var jsonObj = JsonSerializer.Deserialize<Dictionary<string, double>>(startupJson);
+
+                        foreach (var instance in instances)
+                        {
+                            var startupName = instance.NetProStartupImplement.GetType().Name;
+                            if (jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).Any())
+                            {
+                                instance.NetProStartupImplement.Order = jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).FirstOrDefault().Value;
+                                jsonObj.Remove(startupName);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        goto nofile;
+                        Console.WriteLine($"startup.json exception: {ex.Message}");
+                    }
+
+                    instancesByOrder = instances.OrderBy(startup => startup.NetProStartupImplement.Order).ToList();
+                }
+                //else
+                //{
+                //    using (var writer = File.CreateText(jsonPath))
+                //    {
+                //        writer.WriteLine("log message");
+                //    }
+                //}
+            //configure services
+            nofile:
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
                 var table = new ConsoleTable("Order", "StartUpName", "Path", "Assembly");
-                foreach (var instance in instances)
+                foreach (var instance in instancesByOrder ?? instances)
                 {
-                    instance.NetProStartupImplement.ConfigureServices(services, _configurationBuilder.Build(), _typeFinder);
+                    instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
                     table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, instance.Type.Assembly.GetName());// instance.NetProStartupImplement.Assembly); ;
                 }
                 Console.WriteLine(table.ToStringAlternative());
@@ -113,20 +152,21 @@ namespace NetPro.Startup
 
             });
 
-            builder.Configure((application) =>
+            builder.Configure((context, app) =>
             {
-                var hostEnvironment = application.ApplicationServices.GetRequiredService<IHostEnvironment>();
+                //var hostEnvironment = app.ApplicationServices.GetRequiredService<IHostEnvironment>();
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)
-
-                _serviceProvider = application.ApplicationServices;
+                _serviceProvider = app.ApplicationServices;
 
                 var typeFinder = _serviceProvider.GetRequiredService<ITypeFinder>();
                 var startupConfigurations = typeFinder.FindClassesOfType<INetProStartup>();
 
                 //configure request pipeline
-                foreach (var instance in instances)
-                    instance.NetProStartupImplement.Configure(application);
+                foreach (var instance in instancesByOrder)
+                {
+                    instance.NetProStartupImplement.Configure(app);
+                }
             });
 
         }

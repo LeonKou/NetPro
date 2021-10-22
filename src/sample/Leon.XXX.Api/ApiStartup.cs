@@ -15,7 +15,7 @@ namespace Leon.XXX.Api
 {
     public class ApiStartup : INetProStartup
     {
-        public double Order => int.MaxValue;
+        public double Order { get; set; } = int.MaxValue;
         public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)

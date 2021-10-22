@@ -70,10 +70,6 @@ namespace NetPro.Web.Api
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //common services should be loaded after error handlers
-            get { return 100; }
-        }
+        public double Order { get; set; } = 100;//common services should be loaded after error handlers
     }
 }

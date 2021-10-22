@@ -54,9 +54,6 @@ namespace NetPro.Globalization
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            get { return 900; }
-        }
+        public double Order { get; set; } = 900;
     }
 }

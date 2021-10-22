@@ -162,11 +162,7 @@ namespace NetPro.Web.Api
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //Routing should be loaded last
-            get { return 200; }
-        }
+        public double Order { get; set; } = 200; //Routing should be loaded last
     }
 
     /// <summary>

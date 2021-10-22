@@ -20,7 +20,9 @@ namespace NetPro.Core.Startup
 {
     public class NetProCoreStartup : INetProStartup
     {
-        public double Order => 0;
+        //public double Order = 0;
+
+        public double Order { get; set; } = 0;
 
         public void Configure(IApplicationBuilder application)
         {

@@ -9,7 +9,7 @@ namespace Leon.XXX.Proxy
 {
     public class XXXApiProxyStartup : INetProStartup
     {
-        public double Order => 900;
+        public double Order { get; set; } = 900;
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {

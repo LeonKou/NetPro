@@ -43,10 +43,6 @@ namespace NetPro.Sign
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //authentication should be loaded before MVC
-            get { return 600; }
-        }
+        public double Order { get; set; } = 600; //authentication should be loaded before MVC
     }
 }

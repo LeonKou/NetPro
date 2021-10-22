@@ -9,7 +9,7 @@ namespace Leon.XXXV2.Api
 {
     public class RepositoryStartup : INetProStartup
     {
-        public double Order => 1000;
+        public double Order { get; set; } = 1000;
         public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)

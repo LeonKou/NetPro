@@ -63,10 +63,6 @@ namespace NetPro.Web.Api
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //MVC should be loaded last
-            get { return 300; }
-        }
+        public double Order { get; set; } = 300; //MVC should be loaded last
     }
 }

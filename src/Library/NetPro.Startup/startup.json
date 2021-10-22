@@ -1,0 +1,4 @@
+{
+	"NetProCoreStartup": 0, //继承INetProStartup的实现类名称对应的执行顺序，此处为0 ，无此配置默认以代码中配置为准
+	"NetProCoreStartup1": 1
+}

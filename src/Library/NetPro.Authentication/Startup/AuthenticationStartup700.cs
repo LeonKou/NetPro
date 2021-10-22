@@ -35,10 +35,6 @@ namespace NetPro.Authentication
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //authentication should be loaded before MVC
-            get { return 700; }
-        }
+        public double Order { get; set; } = 700;
     }
 }

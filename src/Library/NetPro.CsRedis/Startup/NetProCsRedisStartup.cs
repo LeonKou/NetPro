@@ -8,7 +8,7 @@ namespace NetPro.CsRedis
 {
     public class NetProCsRedisStartup1000 : INetProStartup
     {
-        public double Order => 1000;
+        public double Order { get; set; } = 1000;
 
         public void Configure(IApplicationBuilder application)
         {

@@ -34,9 +34,6 @@ namespace NetPro.ShareRequestBody
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            get { return 400; }
-        }
+        public double Order { get; set; } = 400;
     }
 }

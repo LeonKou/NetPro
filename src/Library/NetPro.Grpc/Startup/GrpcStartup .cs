@@ -13,7 +13,7 @@ namespace NetPro.Grpc
 {
     public class GrpcStartup : INetProStartup
     {
-        public double Order => 0;
+        public double Order { get; set; } = 0;
 
         public void Configure(IApplicationBuilder application)
         {

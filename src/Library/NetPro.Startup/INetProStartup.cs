@@ -29,7 +29,7 @@ namespace NetPro
         /// 依赖注入调用顺序
         /// double.double.MaxValue系统内置，请勿使用
         /// </summary>
-        double Order { get; }
+        double Order { get; set; }
 
     }
 }

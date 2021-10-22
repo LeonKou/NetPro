@@ -13,7 +13,7 @@ namespace NetPro.Proxy
     /// </summary>
     public class ApiProxyStartup2000 : INetProStartup
     {
-        public double Order => 0;
+        public double Order { get; set; } = 0;
 
         public void Configure(IApplicationBuilder application)
         {

@@ -53,10 +53,6 @@ namespace NetPro.Web.Api
         /// <summary>
         /// Gets order of this startup configuration implementation
         /// </summary>
-        public double Order
-        {
-            //error handlers should be loaded first
-            get { return 0; }
-        }
+        public double Order { get; set; } = 0;  //error handlers should be loaded first
     }
 }

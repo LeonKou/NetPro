@@ -26,11 +26,7 @@ namespace NetPro.Web.Api
                 s.MapControllers();
             });
         }
-
-        public double Order
-        {
-            //UseEndpoints should be loaded last
-            get { return 1000; }
-        }
+        //UseEndpoints should be loaded last
+        public double Order { get; set; } = 1000;
     }
 }
