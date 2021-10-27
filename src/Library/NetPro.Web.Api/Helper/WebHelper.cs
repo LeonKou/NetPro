@@ -509,7 +509,7 @@ namespace NetPro.Web.Api
             var success = TryWriteWebConfig();
             if (!success)
             {
-                throw new NetProException("修改web.config文件失败,请检查权限");
+                throw new Exception("修改web.config文件失败,请检查权限");
             }
         }
 

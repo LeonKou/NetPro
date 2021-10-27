@@ -31,6 +31,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
+如增加了以下环境变量配置，可省略以上初始化代码，内部将自动执行以上初始化
+
+```
+ "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
+```
+
 ### 使用说明
 
 ``` csharp

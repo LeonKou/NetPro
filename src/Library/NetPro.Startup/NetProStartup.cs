@@ -119,24 +119,25 @@ namespace NetPro.Startup
                     }
                     catch (Exception ex)
                     {
-                        goto nofile;
                         Console.WriteLine($"startup.json exception: {ex.Message}");
+                        goto nofile;
                     }
 
                     instancesByOrder = instances.OrderBy(startup => startup.NetProStartupImplement.Order).ToList();
                 }
-                //else
-                //{
-                //    using (var writer = File.CreateText(jsonPath))
-                //    {
-                //        writer.WriteLine("log message");
-                //    }
-                //}
+            //else
+            //{
+            //    using (var writer = File.CreateText(jsonPath))
+            //    {
+            //        writer.WriteLine("log message");
+            //    }
+            //}
             //configure services
             nofile:
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
-                var table = new ConsoleTable("Order", "StartUpName", "Path", "Assembly");
+
+                var table = new ConsoleTable("Order", "StartupName", "Path", "Assembly");
                 foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);

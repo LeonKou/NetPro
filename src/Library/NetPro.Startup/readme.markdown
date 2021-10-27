@@ -42,7 +42,7 @@ export ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup
 
 ## 高级用法
 
-### 更改Startup执行顺序
+### 更改Startup执行顺序，既中间件的执行顺序
 
 增加startup.json 文件到程序运行目录
 

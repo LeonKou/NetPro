@@ -61,9 +61,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\NetPro.Analysic\NetPro.Analysic.csproj" />-->
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-		<ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
 		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />

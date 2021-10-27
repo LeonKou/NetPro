@@ -56,7 +56,7 @@ namespace NetPro.Web.Api
             }
             catch (Exception ex)
             {
-                throw new NetProException("数据Model转换错误", ex);
+                throw new Exception("数据Model转换错误", ex);
             }
 
         }

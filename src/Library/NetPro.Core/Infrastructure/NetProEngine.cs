@@ -190,7 +190,7 @@ namespace NetPro.Core.Infrastructure
                     {
                         var service = Resolve(parameter.ParameterType);
                         if (service == null)
-                            throw new NetProException("Unknown dependency");
+                            throw new Exception("ResolveUnregistered() is exception ;Unknown dependency");
                         return service;
                     });
 
@@ -203,7 +203,7 @@ namespace NetPro.Core.Infrastructure
                 }
             }
 
-            throw new NetProException("No constructor was found that had all the dependencies satisfied.", innerException);
+            throw new Exception("No constructor was found that had all the dependencies satisfied.", innerException);
         }
 
         #endregion

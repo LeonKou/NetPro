@@ -46,7 +46,7 @@ namespace NetPro.Web.Api
 
             var mvcBuilder = services.AddControllers(config =>
             {
-                config.Filters.Add(typeof(CustomAuthorizeFilter));//用户权限验证过滤器                                                                    
+                //config.Filters.Add(typeof(CustomAuthorizeFilter));//用户权限验证过滤器                                                                    
                                                                   //同类型的过滤按添加先后顺序执行,第一个最先执行；ApiController特性下，
                                                                   //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions 
                                                                   

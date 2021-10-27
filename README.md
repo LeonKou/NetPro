@@ -11,8 +11,16 @@
 * 👉[*master* branch](https://github.com/LeonKou/NetPro)
 
 ## 简要
-NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进程,windwos服务提供基础模板,支持.NetCore3.1，支持.Net5 Preview
 
+NetPro项目封装常用组件和初始配置，为快速开发webapi,守护进程,windwos服务提供基础模板,支持.NetCore3.1，支持.Net5 Preview，通过增强启动技术将各中间件解耦，“引用既启用”，屏蔽繁琐的初始化和通用处理，每个组件都相对轻量，可插拔，设计原则既尽量较少的依赖，较少的配置，尽量原生的用法，组件可插拔
+
+### 架构图
+
+<p align="center">
+  <img  src="docs/images/netproinfo.png">
+</p>
+
+![*master* branch](https://github.com/LeonKou/NetPro)
 #### 主要组件：
 
 `FreeSql`,`Autofac` , `Automapper`,`apollo`,`App.Metrics`,

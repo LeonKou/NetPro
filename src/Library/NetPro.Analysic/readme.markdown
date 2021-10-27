@@ -49,6 +49,8 @@
 
 #### 启用服务
 
+##### 方式一：
+
 ```csharp
 public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
@@ -60,7 +62,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseRequestAnalysis();
 }
 ```
+##### 方式二：
+如增加了以下环境变量配置，可省略方式一中的初始化代码，内部将自动执行以上初始化
 
+```
+ "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
+```
  TODO:
 
 ```text
