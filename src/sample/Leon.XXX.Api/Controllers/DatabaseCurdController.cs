@@ -19,6 +19,9 @@ namespace Leon.XXX.Api
     /// </summary>
     /// <remarks>
     /// 推荐路由好处：所有项目使用同一域名的情况下根据项目名称确定实际地址，方便管理域；
+    /// 
+    /// 
+    /// 
     /// 版本号可在不停服情况下更新版本并做到兼容老版本
     /// </remarks>
     [Route("api/microservice/v1/[controller]")]

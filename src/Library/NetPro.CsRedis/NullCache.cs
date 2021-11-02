@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NetPro.CsRedis
 {
-    internal class NullCache : IRedisManager
+    public class NullCache : IRedisManager
     {
         public NullCache()
         {

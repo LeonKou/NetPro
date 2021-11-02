@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Leon",
+  "classifications": [ "WebApi" ],
+  "name": "NetPro Webapi",
+  "identity": "NetPro Webapi", //模板唯一标识
+  "groupIdentity": "NetPro Webapi",
+  "shortName": "netproapi", //【修改】短名称，使用 dotnet new <shortName> 安装模板时的名称
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "XXX", //【修改】在使用 -n 选项时，会替换模板中项目的名字
+  "preferNameDirectory": true
+}

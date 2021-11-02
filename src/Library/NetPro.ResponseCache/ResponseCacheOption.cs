@@ -10,9 +10,9 @@ namespace NetPro.ResponseCache
             IgnoreVaryByQueryKeys = new List<string>();
         }
         /// <summary>
-        /// 是否停用
+        /// 是否启用
         /// </summary>
-        public bool Disabled { get; set; }
+        public bool Enabled { get; set; }
 
         /// <summary>
         /// 

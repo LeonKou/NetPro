@@ -59,10 +59,10 @@ namespace NetPro.CsRedis
         public bool Cluster { get; set; }
 
         /// <summary>
-        ///是否禁用
-        ///true:禁用，false:启用
+        ///是否启用
+        ///true:启用，false:禁用
         /// </summary>
-        public bool Disabled { get; set; }
+        public bool Enabled { get; set; }
     }
 
     public class BaseRedisOptions

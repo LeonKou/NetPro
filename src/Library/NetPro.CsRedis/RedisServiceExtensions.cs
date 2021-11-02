@@ -56,7 +56,7 @@ namespace NetPro.CsRedis
             var option = redisCacheOption.Invoke(services.BuildServiceProvider());
             services.AddSingleton(option);
                         
-            if (option?.Disabled ?? true)
+            if (option?.Enabled ?? true)
             {
                 //禁用，用NullCache实例化，防止现有注入失败
                 var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();

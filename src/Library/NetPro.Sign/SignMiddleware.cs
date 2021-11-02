@@ -30,7 +30,7 @@ namespace NetPro.Sign
             var verifySignOption = builder.ApplicationServices.GetService<VerifySignOption>();//(typeof(IConfiguration)) as IConfiguration;
 
             //if (configuration.GetValue<bool>("VerifySignOption:Disabled", false))
-            if(!verifySignOption.Disabled)
+            if (verifySignOption?.Enabled ?? false)
                 return builder.UseMiddleware<SignMiddleware>();
             return builder;
         }

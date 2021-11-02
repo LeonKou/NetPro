@@ -41,7 +41,7 @@ namespace NetPro.Sign
             var configuration = services.BuildServiceProvider().GetService<IConfiguration>();
 
             var option = configuration.GetSection(nameof(VerifySignOption)).Get<VerifySignOption>();
-            if (option?.Disabled ?? true)
+            if (!option?.Enabled ?? true)
             {
                 IoC.ServiceProvider = services.BuildServiceProvider();  //for VerifySignAttribute
                 Console.WriteLine("签名验证已关闭");

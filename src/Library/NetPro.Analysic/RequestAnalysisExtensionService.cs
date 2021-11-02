@@ -27,7 +27,7 @@ namespace NetPro.Analysic
                 services.AddHttpContextAccessor();
                 services.AddSingleton(option);
                 var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
-                if (redisCacheOption != null && !redisCacheOption.Disabled)
+                if (redisCacheOption != null && redisCacheOption.Enabled)
                 {
                     //新增redis缓存注入
                     services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(configuration);

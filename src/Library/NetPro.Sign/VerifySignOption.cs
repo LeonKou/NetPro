@@ -21,9 +21,9 @@ namespace NetPro.Sign
         public bool IsForce { get; set; }
 
         /// <summary>
-        /// 是否停用
+        /// 是否启用
         /// </summary>
-        public bool Disabled { get; set; }
+        public bool Enabled { get; set; }
 
         /// <summary>
         /// 过期秒数

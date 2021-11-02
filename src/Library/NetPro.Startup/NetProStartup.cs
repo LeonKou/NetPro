@@ -44,6 +44,7 @@ namespace NetPro.Startup
 
             IConfiguration _configuration = null;
             List<_> instancesByOrder = null;
+            List<_> instances = null;
 
             //builder
             //   .ConfigureLogging((context, builder) =>
@@ -56,16 +57,16 @@ namespace NetPro.Startup
             //   });
 
             builder.ConfigureAppConfiguration((config, builder) =>
-            {
-                var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
+              {
+                  var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
-                builder.SetBasePath(Directory.GetCurrentDirectory())
-                            .AddJsonFile("appsettings.json", true, true)
-                            .AddJsonFile($"appsettings.{env}.json", true, true)
-                            .AddJsonFile("startup.json", true, true)
-                            .AddEnvironmentVariables();
-                _configuration = builder.Build();
-            });
+                  builder.SetBasePath(Directory.GetCurrentDirectory())
+                              .AddJsonFile("appsettings.json", true, true)
+                              .AddJsonFile($"appsettings.{env}.json", true, true)
+                              .AddJsonFile("startup.json", true, true)
+                              .AddEnvironmentVariables();
+                  _configuration = builder.Build();
+              });
 
             //builder.ConfigureServices((context, services) =>
             // {
@@ -91,7 +92,7 @@ namespace NetPro.Startup
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 
                 //create and sort instances of startup configurations                 
-                var instances = startupConfigurations
+                instances = startupConfigurations
                   .Select(startup => new _ { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Type = startup })
                   .OrderBy(startup => startup.NetProStartupImplement.Order)
                   .ToList();
@@ -137,11 +138,12 @@ namespace NetPro.Startup
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
 
-                var table = new ConsoleTable("Order", "StartupName", "Path", "Assembly");
+                var table = new ConsoleTable("Order", "StartupClassName", "Path", "Assembly");
                 foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
-                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, instance.Type.Assembly.GetName());// instance.NetProStartupImplement.Assembly); ;
+                    var assemblyName= instance.Type.Assembly.GetName();
+                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"Name:{assemblyName.Name}  Version:{assemblyName.Version}");
                 }
                 Console.WriteLine(table.ToStringAlternative());
                 Console.ResetColor();
@@ -155,6 +157,7 @@ namespace NetPro.Startup
 
             builder.Configure((context, app) =>
             {
+
                 //var hostEnvironment = app.ApplicationServices.GetRequiredService<IHostEnvironment>();
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)
@@ -164,7 +167,7 @@ namespace NetPro.Startup
                 var startupConfigurations = typeFinder.FindClassesOfType<INetProStartup>();
 
                 //configure request pipeline
-                foreach (var instance in instancesByOrder)
+                foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.Configure(app);
                 }

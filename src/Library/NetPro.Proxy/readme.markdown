@@ -6,10 +6,11 @@
 
 ### 使用
 
+- 如果已添加环境变量ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup      启用自动初始化，添加appsetting.json 配置即可
+
 #### appsetting.json 
 
-- 通过NetPro.WebApi nuget的使用方式
-只需要增加以下配置节点即可
+- 增加以下配置节点
 ```json
 "MicroServicesEndpoint": {
 		"Assembly": null,//程序集完整名称，批量注入
@@ -18,8 +19,8 @@
 	}
 ```
 #### 启用服务
-- 通过直接使用NetPro.Proxy nuget的方式
-按以下方式注入服务，并添加上一条appsetting.json 节点配置即可
+
+如果没添加ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup环境变量，按以下方式注入服务，并添加上一条appsetting.json 节点配置即可
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 { 

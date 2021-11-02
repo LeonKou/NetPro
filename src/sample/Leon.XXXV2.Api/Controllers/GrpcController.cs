@@ -17,13 +17,13 @@ namespace Leon.XXXV2.Api
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class WeatherForecastController : ApiControllerBase
+    public class GrpcController : ApiControllerBase
     {
         private readonly IXXXService _xXXService;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
 
         private IExampleProxy _userApi { get; set; }
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<GrpcController> _logger;
 
         /// <summary>
         /// 
@@ -31,7 +31,7 @@ namespace Leon.XXXV2.Api
         /// <param name="logger"></param>
         /// <param name="xXXService"></param>
         /// <param name="localizer"></param>
-        public WeatherForecastController(ILogger<WeatherForecastController> logger
+        public GrpcController(ILogger<GrpcController> logger
             , IXXXService xXXService,
             IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
@@ -49,7 +49,7 @@ namespace Leon.XXXV2.Api
         [Route("pay/create")]
         [ProducesResponseType(200)]
         [ProducesResponseType(200, Type = typeof(XXXAo))]
-        [ResponseCache( NoStore =false,Duration =3)]
+        [ResponseCache(NoStore = false, Duration = 3)]
         public async Task<IActionResult> Get([FromQuery] XXXRequest gg)
         {
             return ToSuccessResult(_localizer["BoxLengthRange"] + $"{DateTime.Now}");

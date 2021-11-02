@@ -8,7 +8,7 @@
 ```json
 
 "RedisCacheOption": {
-   "Disabled": true,//是否禁用
+   "Enabled": true,//是否启用
    "Password": "netpro",
    "IsSsl": false,
    "Preheat": 20,//预热

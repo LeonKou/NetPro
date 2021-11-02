@@ -22,7 +22,7 @@ namespace NetPro.Analysic
             //redis没开启，流量监控无法打开
             var redisCacheOption = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
             var logger = services.BuildServiceProvider().GetService<ILogger<NetProAnalysicStartup400>>();
-            if (redisCacheOption != null && !redisCacheOption.Disabled)
+            if (redisCacheOption != null && redisCacheOption.Enabled)
             {
                 services.AddRequestAnalysic();
             }

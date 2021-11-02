@@ -32,8 +32,8 @@ namespace NetPro.Web.Core.Filters
             var _verifySignCommon = serviceProvider.GetService<IOperationFilter>();
             var _verifySignOption = serviceProvider.GetService<VerifySignOption>();
 
-            //显式停用才绕过
-            if (_verifySignOption!=null&& _verifySignOption.Disabled)
+            //无配置默认关闭
+            if (_verifySignOption == null || !_verifySignOption.Enabled)
             {
                 goto gotoNext;
             }

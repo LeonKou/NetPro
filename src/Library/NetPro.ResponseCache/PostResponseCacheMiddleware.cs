@@ -255,7 +255,7 @@ namespace NetPro.ResponseCache
             this IApplicationBuilder builder)
         {
             var responseCacheOption = builder.ApplicationServices.GetService(typeof(ResponseCacheOption)) as ResponseCacheOption;
-            if (responseCacheOption != null && responseCacheOption.Disabled == false)
+            if (responseCacheOption?.Enabled ?? false)
             {
                 //全局Get响应缓存，遵守Http协议
                 builder.UseResponseCaching();
@@ -276,7 +276,7 @@ namespace NetPro.ResponseCache
                         {
                             responseCachingFeature.VaryByQueryKeys = new[] { "*" };
                         }
-                       
+
                     }
                     await next();
                 });

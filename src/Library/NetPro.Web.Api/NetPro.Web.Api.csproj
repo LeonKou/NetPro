@@ -36,7 +36,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(MicrosoftAspNetCoreMvcAbstractions)" />-->
 		<PackageReference Include="IdentityModel" Version="4.4.0" />
 		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
 		<PackageReference Include="Sentry" Version="2.1.6" />
@@ -50,19 +49,16 @@
 		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Exceptionless" Version="3.1.2" />
 		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
-		<!--<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />-->
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
 		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.3" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
 		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.9" />
-
-
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-		<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
+		<!--<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />-->
 		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
 		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />
 	</ItemGroup>
