@@ -13,11 +13,11 @@
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Log.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Log.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Log.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Log.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
@@ -27,7 +27,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(MicrosoftAspNetCoreMvcAbstractions)" />
-		<PackageReference Include="Sentry" Version="2.1.6" />
 		<PackageReference Include="Serilog" Version="2.10.0" />
 		<PackageReference Include="Serilog.Exceptions" Version="5.6.0" />
 		<PackageReference Include="Serilog.Formatting.Compact" Version="$(SerilogFormattingCompact)" />
@@ -40,7 +39,8 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="$(SerilogSinksFile)" />
 		<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
-		<PackageReference Include="Serilog.Sinks.Sentry" Version="2.4.3" />			 
+		<PackageReference Include="Sentry.Serilog" Version="3.11.1" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />			 
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

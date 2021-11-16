@@ -4,7 +4,7 @@
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\Leon.XXXV2.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\Leon.XXXV2.Api.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="logs\**" />

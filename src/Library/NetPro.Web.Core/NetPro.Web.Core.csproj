@@ -12,11 +12,11 @@
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Web.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Web.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Web.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,12 +46,12 @@
 		<PackageReference Include="App.Metrics.Health.Checks.Sql" Version="$(AppMetricsHealthChecksSql)" />
 		<PackageReference Include="App.Metrics.Reporting.InfluxDB" Version="4.1.0" />
 		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.18" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
 		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
 		<PackageReference Include="IdentityModel" Version="4.4.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.9" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.14.1" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
 		<PackageReference Include="SkyAPM.Agent.AspNetCore" Version="1.3.0" />
 		<PackageReference Include="OpenTracing.Contrib.NetCore.Unofficial" Version="$(OpenTracingContribNetCoreUnofficial)" />
