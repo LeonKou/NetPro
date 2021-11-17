@@ -24,7 +24,7 @@ COPY ["src/Library/NetPro.Web.Api/NetPro.Web.Api.csproj", "src/Library/NetPro.We
 COPY ["src/Library/NetPro.Swagger/NetPro.Swagger.csproj", "src/Library/NetPro.Swagger/"]
 COPY ["src/sample/Leon.XXX.Proxy/Leon.XXX.Proxy.csproj", "src/sample/Leon.XXX.Proxy/"]
 COPY ["src/Library/NetPro.Proxy/NetPro.Proxy.csproj", "src/Library/NetPro.Proxy/"]
-COPY ["Directory.Build.props", "./"]
+COPY ["src/Directory.Build.props", "./"]
 COPY ["docs", "./"]
 RUN dotnet restore "src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj"
 COPY . .
