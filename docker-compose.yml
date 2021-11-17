@@ -4,7 +4,7 @@ services:
     #第一个服务名称
   NetPro.xxx:
       #build后的镜像名称
-    image: NetPro.xxx
+    image: netpro.xxx
       #定义的容器名称
     container_name: 'NetPro.xxx'
       #docker build的上下文路径定义
@@ -12,7 +12,7 @@ services:
       #docker-compose.yml所在路径开始寻址
       context: ./
       #dockerfile所在路径
-      dockerfile: NetPro.XXX.Api/Dockerfile
+      dockerfile: src/sample/Leon.XXX.Api/Dockerfile
       # EXPOSE: 80
       #主机端口8888映射到容器的80端口
     ports:

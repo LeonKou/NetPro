@@ -343,3 +343,4 @@ healthchecksdb
 /src/sample/Leon.XXXV2.Api/logs
 /src/.tye
 /src/.logs
+/.logs

@@ -10,7 +10,7 @@
 		<Authors>Leon</Authors>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
 		<PackageIcon>logo2.png</PackageIcon>
-		<PackageIconPath>docs/images/logo2.png</PackageIconPath>
+		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">		 

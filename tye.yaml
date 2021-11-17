@@ -8,7 +8,7 @@ extensions:
   
 services:
 - name: Leon-XXX-Api
-  project: sample/Leon.XXX.Api/Leon.XXX.Api.csproj
+  project: src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
   replicas: 1
   # liveness:
     # http:
