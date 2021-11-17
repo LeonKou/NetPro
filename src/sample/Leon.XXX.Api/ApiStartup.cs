@@ -1,10 +1,13 @@
-﻿using Leon.XXX.Domain.XXX.Service;
+﻿using HealthChecks.UI.Client;
+using Leon.XXX.Domain.XXX.Service;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MQMiddleware;
 using MQMiddleware.Configuration;
-using NetPro;
+using NetPro.Checker;
+using NetPro.Core.Infrastructure;
 using NetPro.Sign;
 using NetPro.TypeFinder;
 using RabbitMQ.Client;
@@ -21,16 +24,14 @@ namespace Leon.XXX.Api
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
             services.Scan(scan => scan
-              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
-                    s.GetName().Name.EndsWith("Leon.XXX.Repository")).ToArray())
-              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>s.GetName().Name.EndsWith("Leon.XXX.Domain")).ToArray())
+              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
               .AsImplementedInterfaces()
               .WithScopedLifetime());
 
             services.Scan(scan => scan
-              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>
-                    s.GetName().Name.EndsWith("Leon.XXX.Domain")).ToArray())
-              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
+              .FromAssemblies(typeFinder.GetAssemblies().Where(s =>s.GetName().Name.EndsWith("Leon.XXX.Repository")).ToArray())
+              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
               .AsImplementedInterfaces()
               .WithScopedLifetime());
 
@@ -53,12 +54,15 @@ namespace Leon.XXX.Api
             services.AddFreeRepository(null,
            this.GetType().Assembly);//批量注入Repository
 
+
+            var healthbuild = services.AddHealthChecks();
+
             //services.AddRabbitMqClient(new RabbitMqClientOptions
             //{
-            //    HostName = "198.89.70.56",
+            //    HostName = "ribbitmq-rabbitm",
             //    Port = 5672,
-            //    Password = "guest",
-            //    UserName = "guest",
+            //    Password = "609aZL4zBQ",
+            //    UserName = "user",
             //    VirtualHost = "/",
             //})
             //    .AddProductionExchange("exchange", new RabbitMqExchangeOptions
@@ -66,6 +70,7 @@ namespace Leon.XXX.Api
             //        DeadLetterExchange = "DeadExchange",
             //        AutoDelete = false,
             //        Type = ExchangeType.Direct,
+            //        ConsumeFailedAction= ConsumeFailedAction.RETRY,
             //        Durable = true,
             //        Queues = new List<RabbitMqQueueOptions> {
             //           new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "exchange" , RoutingKeys = new HashSet<string> { string.Empty } } }
@@ -75,8 +80,9 @@ namespace Leon.XXX.Api
             //        DeadLetterExchange = "DeadExchange",
             //        AutoDelete = false,
             //        Type = ExchangeType.Direct,
+            //        ConsumeFailedAction = ConsumeFailedAction.RETRY,
             //        Durable = true,
-            //        Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name= "exchange", RoutingKeys = new HashSet<string> { string.Empty } } }
+            //        Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "exchange", RoutingKeys = new HashSet<string> { string.Empty } } }
             //    })
             //    .AddMessageHandlerSingleton<CustomerMessageHandler>(string.Empty);
 
@@ -85,7 +91,13 @@ namespace Leon.XXX.Api
 
         public void Configure(IApplicationBuilder application)
         {
-            
+            application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            application.UseCheck(envPath: "/env", infoPath: "/info");//envPath:应用环境地址；infoPath:应用自身信息地址
         }
     }
 }

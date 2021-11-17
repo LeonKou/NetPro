@@ -2,7 +2,7 @@
 <Project>
 	<PropertyGroup Label="SDK Versions">
 		<NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
-		<NetCoreTargetVersion>netcoreapp3.1</NetCoreTargetVersion>
+		<NetCoreTargetVersion>net6.0</NetCoreTargetVersion>
 		<MicrosoftNETTestSdk>16.5.0</MicrosoftNETTestSdk>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
@@ -10,7 +10,7 @@
 		<Authors>Leon</Authors>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
 		<PackageIcon>logo2.png</PackageIcon>
-		<PackageIconPath>..\..\..\docs\images\logo2.png</PackageIconPath>
+		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">		 

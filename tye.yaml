@@ -1,0 +1,22 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+name: netpro
+
+extensions:
+- name: seq
+  logPath: ./.logs
+  
+services:
+- name: Leon-XXX-Api
+  project: src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
+  replicas: 1
+  # liveness:
+    # http:
+      # path: /api/healthcheck
+      # protocol: http
+  bindings:
+  - port: 7001
+  env:
+  - ASPNETCORE_ENVIRONMENT="Development" #Development/Staging/Production
+  - TZ="Asia/Shanghai"
+  - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES="SkyAPM.Agent.AspNetCore"
