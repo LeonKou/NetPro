@@ -31,6 +31,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Sign\NetPro.Sign.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Domain\Leon.XXX.Domain.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
 	</ItemGroup>

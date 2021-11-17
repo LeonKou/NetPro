@@ -9,7 +9,6 @@ WORKDIR /src
 COPY ["src/NuGet.config", "./"]
 COPY ["src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj", "src/sample/Leon.XXX.Api/"]
 COPY ["src/sample/Leon.XXX.Domain/Leon.XXX.Domain.csproj", "src/sample/Leon.XXX.Domain/"]
-COPY ["src/Library/NetPro.Web.Core/NetPro.Web.Core.csproj", "src/Library/NetPro.Web.Core/"]
 COPY ["src/Library/NetPro.Core/NetPro.Core.csproj", "src/Library/NetPro.Core/"]
 COPY ["src/Library/NetPro.TypeFinder/NetPro.TypeFinder.csproj", "src/Library/NetPro.TypeFinder/"]
 COPY ["src/Library/NetPro.Checker/NetPro.Checker.csproj", "src/Library/NetPro.Checker/"]
@@ -24,7 +23,7 @@ COPY ["src/Library/NetPro.Web.Api/NetPro.Web.Api.csproj", "src/Library/NetPro.We
 COPY ["src/Library/NetPro.Swagger/NetPro.Swagger.csproj", "src/Library/NetPro.Swagger/"]
 COPY ["src/sample/Leon.XXX.Proxy/Leon.XXX.Proxy.csproj", "src/sample/Leon.XXX.Proxy/"]
 COPY ["src/Library/NetPro.Proxy/NetPro.Proxy.csproj", "src/Library/NetPro.Proxy/"]
-COPY ["src/Directory.Build.props", "./"]
+COPY ["Directory.Build.props", "./"]
 COPY ["docs", "./"]
 RUN dotnet restore "src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj"
 COPY . .

@@ -37,7 +37,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="IdentityModel" Version="4.4.0" />
-		<PackageReference Include="Enums.NET" Version="$(EnumsNET)" />
+		<PackageReference Include="Enums.NET" Version="3.0.3" />
 		<PackageReference Include="Sentry" Version="2.1.6" />
 		<PackageReference Include="Serilog" Version="2.10.0" />
 		<PackageReference Include="Serilog.Exceptions" Version="5.6.0" />

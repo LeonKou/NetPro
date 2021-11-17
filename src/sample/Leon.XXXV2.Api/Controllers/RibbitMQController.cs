@@ -2,7 +2,6 @@
 using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcServer;
-using Language.Resoureces;
 using Leon.XXX.Proxy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;

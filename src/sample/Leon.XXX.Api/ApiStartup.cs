@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MQMiddleware;
 using MQMiddleware.Configuration;
+using NetPro;
 using NetPro.Checker;
 using NetPro.Core.Infrastructure;
 using NetPro.Sign;
