@@ -1,4 +1,6 @@
-﻿namespace MQMiddleware
+﻿using System.Threading.Tasks;
+
+namespace MQMiddleware
 {
     /// <summary>
     /// Interface of a service that handle messages.

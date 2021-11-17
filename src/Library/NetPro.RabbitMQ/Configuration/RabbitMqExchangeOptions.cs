@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MQMiddleware.Configuration
 {
@@ -31,7 +32,13 @@ namespace MQMiddleware.Configuration
         /// <summary>
         /// Option to re-queue failed messages (once).
         /// </summary>
+        [Obsolete("Change the attribute has been enabled, please use ConsumeFailedAction")]
         public bool RequeueFailedMessages { get; set; } = true;
+
+        /// <summary>
+        /// ConsumeAction Level
+        /// </summary>
+        public ConsumeFailedAction ConsumeFailedAction { get; set; } = ConsumeFailedAction.RETRY_ONCE;
 
         /// <summary>
         /// Additional arguments.
@@ -42,5 +49,26 @@ namespace MQMiddleware.Configuration
         /// Collection of queues connected to the exchange.
         /// </summary>
         public IList<RabbitMqQueueOptions> Queues { get; set; } = new List<RabbitMqQueueOptions>();
+    }
+
+    /// <summary>
+    /// ConsumeFailedAction Level
+    /// </summary>
+    public enum ConsumeFailedAction
+    {
+        /// <summary>
+        /// Every Retry
+        /// </summary>
+        RETRY,
+
+        /// <summary>
+        /// Retry once
+        /// </summary>
+        RETRY_ONCE,
+
+        /// <summary>
+        /// REJECT
+        /// </summary>
+        REJECT,
     }
 }

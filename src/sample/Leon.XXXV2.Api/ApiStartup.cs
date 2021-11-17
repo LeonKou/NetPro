@@ -39,34 +39,36 @@ namespace Leon.XXXV2.Api
             // services.AddFreeRepository(null,
             //this.GetType().Assembly);//批量注入Repository
 
-            // services.AddRabbitMqClient(new RabbitMqClientOptions
-            // {
-            //     HostName = "198.89.70.56",
-            //     Port = 5672,
-            //     Password = "guest",
-            //     UserName = "guest",
-            //     VirtualHost = "/",
-            // })
-            //     .AddProductionExchange("exchange", new RabbitMqExchangeOptions
-            //     {
-            //         DeadLetterExchange = "DeadExchange",
-            //         AutoDelete = false,
-            //         Type = ExchangeType.Direct,
-            //         Durable = true,
-            //         Queues = new List<RabbitMqQueueOptions> {
-            //            new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "exchange" , RoutingKeys = new HashSet<string> { string.Empty } } }
-            //     })
-            //     .AddConsumptionExchange($"exchange", new RabbitMqExchangeOptions
-            //     {
-            //         DeadLetterExchange = "DeadExchange",
-            //         AutoDelete = false,
-            //         Type = ExchangeType.Direct,
-            //         Durable = true,
-            //         Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name= "exchange", RoutingKeys = new HashSet<string> { string.Empty } } }
-            //     })
-            //     .AddMessageHandlerSingleton<CustomerMessageHandler>(string.Empty);
-            
-           // services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming();
+#if DEBUG
+            services.AddRabbitMqClient(new RabbitMqClientOptions
+            {
+                HostName = "ribbitmq-rabbitmq",
+                Port = 5672,
+                Password = "609aZL4zBQ",
+                UserName = "user",
+                VirtualHost = "/",
+            })
+                    .AddProductionExchange("exchange", new RabbitMqExchangeOptions
+                    {
+                        DeadLetterExchange = "DeadExchange",
+                        AutoDelete = false,
+                        Type = ExchangeType.Direct,
+                        Durable = true,
+                        Queues = new List<RabbitMqQueueOptions> {
+                        new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "exchange" , RoutingKeys = new HashSet<string> { string.Empty } } }
+                    })
+                    .AddConsumptionExchange($"exchange", new RabbitMqExchangeOptions
+                    {
+                        DeadLetterExchange = "DeadExchange",
+                        AutoDelete = false,
+                        Type = ExchangeType.Direct,
+                        Durable = true,
+                        Queues = new List<RabbitMqQueueOptions> { new RabbitMqQueueOptions { AutoDelete = false, Exclusive = false, Durable = true, Name = "exchange", RoutingKeys = new HashSet<string> { string.Empty } } }
+                    })
+                    .AddAsyncMessageHandlerSingleton<CustomerMessageHandler>(string.Empty);
+
+            services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming(); 
+#endif
         }
 
         public void Configure(IApplicationBuilder application)
