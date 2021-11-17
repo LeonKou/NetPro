@@ -1,8 +1,0 @@
-在当前文件夹执行 dotnet new -i ./ 创建项目
-
-执行 dotnet new -u 列出自定义模板的卸载命令
-
-用nugetpackage工具打包出nupkg文件，上传仓库，
-执行 dotnet new -i netproapi::*       --不要带版本号，*是从任意源，故需要提前配置nuget源
-
-执行dotnet new netproapi -n 项目名称。
