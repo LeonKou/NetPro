@@ -46,16 +46,6 @@ namespace NetPro.Startup
             List<_> instancesByOrder = null;
             List<_> instances = null;
 
-            //builder
-            //   .ConfigureLogging((context, builder) =>
-            //   {
-            //       // clear providers set from host application
-            //       if (context.HostingEnvironment.IsDevelopment())
-            //       {
-            //           //...
-            //        }
-            //   });
-
             builder.ConfigureAppConfiguration((config, builder) =>
               {
                   var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
@@ -67,22 +57,6 @@ namespace NetPro.Startup
                               .AddEnvironmentVariables();
                   _configuration = builder.Build();
               });
-
-            //builder.ConfigureServices((context, services) =>
-            // {
-            //     //...
-
-            //        // get assemblies based on configuration to load as Application Parts
-            //        var assemblies = GetControllerAssemblies(context.Configuration);
-
-            //     // register controllers application parts from external assemblies
-            //     foreach (var assembly in assemblies)
-            //     {
-            //         builder.AddApplicationPart(assembly);
-            //     }
-
-            //     //...
-            //    });
 
             builder.ConfigureServices((context, services) =>
             {
