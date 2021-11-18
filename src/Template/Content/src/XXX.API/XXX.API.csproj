@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="NetPro.Web.Api" Version="3.1.10" />
+	  <PackageReference Include="NetPro.Web.Api" Version="3.1.11" />
 	</ItemGroup>
 
 </Project>
