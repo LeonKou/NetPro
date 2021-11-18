@@ -19,4 +19,4 @@ services:
   env:
   - ASPNETCORE_ENVIRONMENT="Development" #Development/Staging/Production
   - TZ="Asia/Shanghai"
-  - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES="SkyAPM.Agent.AspNetCore"
+  - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES="NetPro.Startup;" #SkyAPM.Agent.AspNetCore

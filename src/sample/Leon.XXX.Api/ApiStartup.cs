@@ -1,21 +1,4 @@
-﻿using HealthChecks.UI.Client;
-using Leon.XXX.Domain.XXX.Service;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MQMiddleware;
-using MQMiddleware.Configuration;
-using NetPro;
-using NetPro.Checker;
-using NetPro.Core.Infrastructure;
-using NetPro.Sign;
-using NetPro.TypeFinder;
-using RabbitMQ.Client;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Leon.XXX.Api
+﻿namespace Leon.XXX.Api
 {
     public class ApiStartup : INetProStartup
     {

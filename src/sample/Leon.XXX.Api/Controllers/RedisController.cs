@@ -1,11 +1,4 @@
-﻿using AutoMapper;
-using Leon.XXX.Domain;
-using Leon.XXX.Domain.XXX.Service;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NetPro;
-using NetPro.ResponseCache;
-using System.Threading.Tasks;
+﻿using Leon.XXX.Domain.XXX.Service;
 
 namespace Leon.XXX.Api
 {
