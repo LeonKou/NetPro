@@ -17,7 +17,7 @@ namespace Leon.XXXV2.Api
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class GrpcController : ApiControllerBase
+    public class GrpcController : ControllerBase
     {
         private readonly IXXXService _xXXService;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;

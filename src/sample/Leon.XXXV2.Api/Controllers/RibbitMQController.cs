@@ -19,7 +19,7 @@ namespace Leon.XXXV2.Api
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class RibbitMQController : ApiControllerBase
+    public class RibbitMQController : ControllerBase
     {
         private readonly IQueueService _queueService;
         private readonly ILogger<RibbitMQController> _logger;

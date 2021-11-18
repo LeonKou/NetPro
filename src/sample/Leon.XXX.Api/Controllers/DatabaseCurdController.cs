@@ -9,7 +9,7 @@ using NetPro.Sign;
 using System.Threading.Tasks;
 using System.Web;
 using System;
-using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace Leon.XXX.Api
 {
@@ -41,11 +41,11 @@ namespace Leon.XXX.Api
         /// <param name="dataBaseOptionService"></param>
         /// <param name="mapper"></param>
         public DatabaseCurdController(
-            ILogger logger
+            ILogger<DatabaseCurdController> logger
             , IDataBaseOptionService dataBaseOptionService
             , IMapper mapper)
         {
-            _logger = logger.ForContext<DatabaseCurdController>();
+            _logger = logger;
             _dataBaseOptionService = dataBaseOptionService;
             _mapper = mapper;
         }
@@ -57,13 +57,13 @@ namespace Leon.XXX.Api
         [HttpPost("add")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]//swagger
         [PostResponseCache(Duration = 100, IgnoreVaryByQueryKeys = new[] { "createtime" })]
-        public async Task<IActionResult> AddAsync([FromBody]XXXAo xXXAo)
+        public async Task<IActionResult> AddAsync([FromBody] XXXAo xXXAo)
         {
             var result = await _dataBaseOptionService.AddAsync(_mapper.Map<XXXDo>(xXXAo));
             //Code等于0才是预期，否则都应该提示
             if (result.Code == 0)
             {
-                _logger.Warning($"[AddAsync]增加实体脱离预期值----Code:{result.Code}---msg:{result.Msg}");
+                _logger.LogWarning($"[AddAsync]增加实体脱离预期值----Code:{result.Code}---msg:{result.Msg}");
                 return BadRequest(new ResponseResult { Result = result, Code = result.Code, Msg = result.Msg });
             }
             return Ok(new ResponseResult { Result = result });
@@ -115,7 +115,7 @@ namespace Leon.XXX.Api
         [HttpPost("insertorupdate")]
         [PostResponseCache(Duration = 1)]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> InsertOrUpdateAsync([FromBody]XXXAo xXXAo)
+        public async Task<IActionResult> InsertOrUpdateAsync([FromBody] XXXAo xXXAo)
         {
             var result = await _dataBaseOptionService.InsertOrUpdateAsync(xXXAo);
             return Ok(new ResponseResult { Result = result });
@@ -128,7 +128,7 @@ namespace Leon.XXX.Api
         [HttpGet("find")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "id" })]
-        public async Task<IActionResult> FindAsync([FromQuery]uint id)
+        public async Task<IActionResult> FindAsync([FromQuery] uint id)
         {
             var result = await _dataBaseOptionService.FindAsync(id);
             return Ok(new ResponseResult { Result = result });
@@ -141,7 +141,7 @@ namespace Leon.XXX.Api
         [HttpGet("dynamicquery")]
         [ResponseCache(Duration = 30)]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> DynamicQueryAsync([FromQuery]DynamicFilterInfo dynamicFilter)
+        public async Task<IActionResult> DynamicQueryAsync([FromQuery] DynamicFilterInfo dynamicFilter)
         {
             var result = await _dataBaseOptionService.DynamicQueryAsync(dynamicFilter);
             return Ok(new ResponseResult { Result = result });
@@ -155,7 +155,7 @@ namespace Leon.XXX.Api
         [ResponseCache(Duration = 30)]
         public IActionResult CreateSign()
         {
-            _logger.Error("asfdasd{a},{ex}", DateTime.Now ,new Exception("哈哈"));
+            _logger.LogError("asfdasd{a},{ex}", DateTime.Now, new Exception("哈哈"));
             var query = HttpUtility.ParseQueryString(string.Empty);
             query["appid"] = "sadfsdf";       //必传 应用id
 
