@@ -395,7 +395,6 @@ namespace MQMiddleware
                 {
                     _logger.LogError(new EventId(), exception, $"An error occurred while processing received message with delivery tag {@event.DeliveryTag}.");
 
-                    Channel.BasicAck(@event.DeliveryTag, false);
 
                     if (@event.BasicProperties.Headers is null)
                     {
@@ -409,16 +408,23 @@ namespace MQMiddleware
                         return;
                     }
 
-                    if (exchange.Options.RequeueFailedMessages
+                    if (exchange.Options.ConsumeFailedAction == ConsumeFailedAction.RETRY)
+                    {
+                        Channel.BasicNack(@event.DeliveryTag, false,true);
+                        _logger.LogInformation("The failed message has been requeued.");
+                    }
+                    else if (exchange.Options.ConsumeFailedAction== ConsumeFailedAction.RETRY_ONCE
                         && !string.IsNullOrEmpty(exchange.Options.DeadLetterExchange)
                         && !@event.BasicProperties.Headers.ContainsKey("requeued"))
                     {
+                        Channel.BasicAck(@event.DeliveryTag, false);
                         @event.BasicProperties.Headers.Add("requeued", true);
                         Send(@event.Body, @event.BasicProperties, @event.Exchange, @event.RoutingKey, ResendTimeout);
-                        _logger.LogInformation("The failed message has been requeued.");
+                        _logger.LogInformation("The failed message has been requeued once.");
                     }
                     else
                     {
+                        Channel.BasicAck(@event.DeliveryTag, false);
                         _logger.LogInformation("The failed message would not be requeued.");
                     }
                 }

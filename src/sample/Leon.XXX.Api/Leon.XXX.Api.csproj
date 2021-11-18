@@ -3,10 +3,11 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\Leon.XXX.Api.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\Leon.XXX.Api.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,12 +25,14 @@
 
 	<ItemGroup>
 	  <PackageReference Include="MaxMind.Db" Version="2.6.1" />
+	  <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Sign\NetPro.Sign.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Sign\NetPro.Sign.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Domain\Leon.XXX.Domain.csproj" />
 		<ProjectReference Include="..\Leon.XXX.Proxy\Leon.XXX.Proxy.csproj" />
 	</ItemGroup>

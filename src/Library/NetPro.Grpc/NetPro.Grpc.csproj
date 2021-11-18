@@ -13,11 +13,11 @@
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Grpc.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Grpc.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Grpc.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Grpc.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

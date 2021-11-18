@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31612.314
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{631F494D-9DFB-42A7-84C7-270C95B7EC2E}"
 EndProject
@@ -70,6 +70,19 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.Globalization", "Library\NetPro.Globalization\NetPro.Globalization.csproj", "{6BE06FC3-74E0-4D59-88D9-293A63055815}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.Grpc", "Library\NetPro.Grpc\NetPro.Grpc.csproj", "{D6203123-4FB7-494A-8D58-F829B42957BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItem", "SolutionItem", "{59336CF6-1D7C-423A-A390-C8DB8BF68B9B}"
+	ProjectSection(SolutionItems) = preProject
+		..\_config.yml = ..\_config.yml
+		..\Directory.Build.props = ..\Directory.Build.props
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\global.json = ..\global.json
+		NuGet.config = NuGet.config
+		Push Nuget.ps1 = Push Nuget.ps1
+		..\README.md = ..\README.md
+		rundocker.ps1 = rundocker.ps1
+		..\tye.yaml = ..\tye.yaml
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.Startup", "Library\NetPro.Startup\NetPro.Startup.csproj", "{2F2C6E21-4337-4387-8C17-2A2B4F862C91}"
 EndProject

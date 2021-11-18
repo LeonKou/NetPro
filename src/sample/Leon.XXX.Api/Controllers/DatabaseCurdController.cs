@@ -3,12 +3,13 @@ using FreeSql.Internal.Model;
 using Leon.XXX.Domain;
 using Leon.XXX.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NetPro;
 using NetPro.ResponseCache;
 using NetPro.Sign;
 using System.Threading.Tasks;
 using System.Web;
+using System;
+using Serilog;
 
 namespace Leon.XXX.Api
 {
@@ -40,11 +41,11 @@ namespace Leon.XXX.Api
         /// <param name="dataBaseOptionService"></param>
         /// <param name="mapper"></param>
         public DatabaseCurdController(
-            ILogger<DatabaseCurdController> logger
+            ILogger logger
             , IDataBaseOptionService dataBaseOptionService
             , IMapper mapper)
         {
-            _logger = logger;
+            _logger = logger.ForContext<DatabaseCurdController>();
             _dataBaseOptionService = dataBaseOptionService;
             _mapper = mapper;
         }
@@ -62,7 +63,7 @@ namespace Leon.XXX.Api
             //Code等于0才是预期，否则都应该提示
             if (result.Code == 0)
             {
-                _logger.LogWarning($"[AddAsync]增加实体脱离预期值----Code:{result.Code}---msg:{result.Msg}");
+                _logger.Warning($"[AddAsync]增加实体脱离预期值----Code:{result.Code}---msg:{result.Msg}");
                 return BadRequest(new ResponseResult { Result = result, Code = result.Code, Msg = result.Msg });
             }
             return Ok(new ResponseResult { Result = result });
@@ -154,6 +155,7 @@ namespace Leon.XXX.Api
         [ResponseCache(Duration = 30)]
         public IActionResult CreateSign()
         {
+            _logger.Error("asfdasd{a},{ex}", DateTime.Now ,new Exception("哈哈"));
             var query = HttpUtility.ParseQueryString(string.Empty);
             query["appid"] = "sadfsdf";       //必传 应用id
 

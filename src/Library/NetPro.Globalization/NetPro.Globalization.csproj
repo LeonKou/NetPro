@@ -13,11 +13,11 @@
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Globalization.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Globalization.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Globalization.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Globalization.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
@@ -27,7 +27,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Localization.SqlLocalizer" Version="3.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />

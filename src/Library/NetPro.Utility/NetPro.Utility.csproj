@@ -13,11 +13,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Utility.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Utility.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netcoreapp3.1\NetPro.Utility.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Utility.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -34,7 +34,7 @@
 	<ItemGroup>
 		<PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
 		<PackageReference Include="IdGen" Version="3.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.12" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />

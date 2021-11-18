@@ -489,7 +489,7 @@ Swagger地址：[/swagger/index.html](ip:port/docs/index.html)
 
 应用信息 [/info](/info)
 
-环境信息 [/env](/env)、
+环境信息 [/env](/env)
 
 ## 问题汇总
 
