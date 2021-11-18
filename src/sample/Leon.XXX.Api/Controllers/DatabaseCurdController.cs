@@ -1,17 +1,4 @@
-﻿using AutoMapper;
-using FreeSql.Internal.Model;
-using Leon.XXX.Domain;
-using Leon.XXX.Repository;
-using Microsoft.AspNetCore.Mvc;
-using NetPro;
-using NetPro.ResponseCache;
-using NetPro.Sign;
-using System.Threading.Tasks;
-using System.Web;
-using System;
-using Microsoft.Extensions.Logging;
-
-namespace Leon.XXX.Api
+﻿namespace Leon.XXX.Api
 {
     /// <summary>
     /// 数据库CURD范例

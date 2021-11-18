@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using NetPro.Sign;
-
-namespace Leon.XXX.Api
+﻿namespace Leon.XXX.Api
 {
     public class VerifySignCustomer : IOperationFilter
     {

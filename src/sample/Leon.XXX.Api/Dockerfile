@@ -35,5 +35,7 @@ RUN dotnet publish "Leon.XXX.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV TZ Asia/Shanghai
+ENV ASPNETCORE_HOSTINGSTARTUPASSEMBLIES NetPro.Startup
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Leon.XXX.Api.dll"]
