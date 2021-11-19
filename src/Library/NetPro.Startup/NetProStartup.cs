@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using ConsoleTables;
+using BetterConsoles.Colors.Extensions;
+using BetterConsoles.Tables;
+using BetterConsoles.Tables.Builders;
+using BetterConsoles.Tables.Configuration;
+using BetterConsoles.Tables.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +54,7 @@ namespace NetPro.Startup
             builder.ConfigureAppConfiguration((config, builder) =>
               {
                   var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
+                  Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
                   builder.SetBasePath(Directory.GetCurrentDirectory())
                               .AddJsonFile("appsettings.json", true, true)
                               .AddJsonFile($"appsettings.{env}.json", true, true)
@@ -112,14 +117,52 @@ namespace NetPro.Startup
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
 
-                var table = new ConsoleTable("Order", "StartupClassName", "Path", "Assembly");
+                //var table = new Table("Order", "StartupClassName", "Path", "Assembly");
+
+                CellFormat headerFormat = new CellFormat()
+                {
+                    Alignment = Alignment.Center,
+                    ForegroundColor = Color.Magenta
+                };
+
+                string FormatMoney(string text)
+                {
+                    if ("RoutingStartup200-EndpointsStartup1000-StaticFilesStartup100-ErrorHandlerStartup0".Contains(text))
+                    {
+                        return text.ForegroundColor(Color.FromArgb(152, 168, 75));
+                    }
+                    return text;
+                }
+
+                Table table = new TableBuilder(headerFormat)
+              .AddColumn("Order", rowsFormat: new CellFormat(foregroundColor: Color.FromArgb(128, 129, 126)))
+              .AddColumn("StartupClassName")
+              .RowFormatter<string>((x) => FormatMoney(x))
+                  .RowsFormat()
+                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+              .AddColumn("Path")
+                  .RowsFormat()
+                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+              .AddColumn("Assembly")
+                  .RowsFormat()
+                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+                      .Alignment(Alignment.Left)
+             .AddColumn("Version")
+                  .RowsFormat()
+                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+                      .Alignment(Alignment.Left)
+              .Build();
+
+                table.Config = TableConfig.Unicode();
+
                 foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
-                    var assemblyName= instance.Type.Assembly.GetName();
-                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"Name:{assemblyName.Name}  Version:{assemblyName.Version}");
+                    var assemblyName = instance.Type.Assembly.GetName();
+                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"{assemblyName.Name} ",$" {assemblyName.Version}");
                 }
-                Console.WriteLine(table.ToStringAlternative());
+
+                Console.WriteLine(table.ToString());
                 Console.ResetColor();
 
                 //run startup tasks

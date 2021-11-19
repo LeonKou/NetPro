@@ -31,7 +31,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ConsoleTables" Version="2.4.2" />
+		<PackageReference Include="BetterConsoleTables" Version="2.0.2-rc1" />
+		<!--<PackageReference Include="ConsoleTables" Version="2.4.2" />-->
 		<PackageReference Include="Figgle" Version="0.4.0" />
 		<PackageReference Include="Scrutor" Version="3.2.2" />
 	</ItemGroup>
