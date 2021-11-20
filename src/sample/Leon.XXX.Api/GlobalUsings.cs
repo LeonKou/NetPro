@@ -20,3 +20,4 @@ global using System.Threading.Tasks;
 global using System.Web;
 global using System;
 global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Hosting;

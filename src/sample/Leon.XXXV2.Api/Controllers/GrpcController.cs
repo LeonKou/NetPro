@@ -52,7 +52,7 @@ namespace Leon.XXXV2.Api
         [ResponseCache(NoStore = false, Duration = 3)]
         public async Task<IActionResult> Get([FromQuery] XXXRequest gg)
         {
-            return ToSuccessResult(_localizer["BoxLengthRange"] + $"{DateTime.Now}");
+            return Ok(_localizer["BoxLengthRange"] + $"{DateTime.Now}");
             //return ToFailResult("", 500);
             //var result = _xXXService.GetList();
             //var ss= _userApi.GetGoodsList(1,"66").GetAwaiter().GetResult();
@@ -82,7 +82,7 @@ namespace Leon.XXXV2.Api
             var client = new Greeter.GreeterClient(channel);
             var reply = await client.SayHelloAsync(
                               new HelloRequest { Name = "leon is dad" });
-            return ToSuccessResult(_localizer["who are you"] + reply.Message + $"{DateTime.Now}");
+            return Ok(_localizer["who are you"] + reply.Message + $"{DateTime.Now}");
         }
 
         /// <summary>

@@ -20,14 +20,23 @@ namespace NetPro.Checker
         /// inclued: EnvCheck ;InfoCheck
         /// </summary>
         /// <param name="app"></param>
-        public static void UseCheck(this IApplicationBuilder app, string envPath = "/env", string infoPath = "/info")
+        /// <param name="openIp">Whether external access is allowed</param>
+        /// <param name="envPath"></param>
+        /// <param name="infoPath"></param>
+        public static void UseCheck(this IApplicationBuilder app, bool openIp = true, string envPath = "/env", string infoPath = "/info")
         {
-            app.UseEnvCheck(envPath);
-            app.UseInfoCheck(infoPath);
+            app.UseEnvCheck(openIp, envPath);
+            app.UseInfoCheck(openIp, infoPath);
             //app.UseHealthCheck("/check");
         }
 
-        public static void UseEnvCheck(this IApplicationBuilder app, string path = "/env")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="openIp"></param>
+        /// <param name="path"></param>
+        public static void UseEnvCheck(this IApplicationBuilder app, bool openIp = true, string path = "/env")
         {
             var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
@@ -36,7 +45,7 @@ namespace NetPro.Checker
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
 
-                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
+                    if (IPAddress.IsLoopback(remoteIp) || openIp)
                     {
                         var env = AppEnvironment.GetAppEnvironment();
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
@@ -52,7 +61,13 @@ namespace NetPro.Checker
             });
         }
 
-        public static void UseInfoCheck(this IApplicationBuilder app, string path = "/info")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="openIp"></param>
+        /// <param name="path"></param>
+        public static void UseInfoCheck(this IApplicationBuilder app, bool openIp = true, string path = "/info")
         {
             var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
@@ -61,7 +76,7 @@ namespace NetPro.Checker
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
 
-                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
+                    if (IPAddress.IsLoopback(remoteIp) || openIp)
                     {
                         var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
                         var info = AppInfo.GetAppInfo(configuration);
@@ -112,6 +127,12 @@ namespace NetPro.Checker
             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="report"></param>
+        /// <returns></returns>
         public static async Task WriteHealthCheckUiResponse(HttpContext httpContext, HealthReport report)
         {
             httpContext.Response.ContentType = DEFAULT_CONTENT_TYPE;
@@ -157,12 +178,34 @@ namespace NetPro.Checker
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CustomerHealthReport
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public IReadOnlyDictionary<string, object> Data { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public TimeSpan Duration { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Exception { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Status { get; set; }
     }
 }
