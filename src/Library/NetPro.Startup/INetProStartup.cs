@@ -30,6 +30,5 @@ namespace NetPro
         /// double.double.MaxValue系统内置，请勿使用
         /// </summary>
         double Order { get; set; }
-
     }
 }

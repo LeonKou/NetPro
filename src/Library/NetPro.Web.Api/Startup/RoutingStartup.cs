@@ -25,7 +25,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// 路由中间件加载app.UseRouting(); 
     /// </summary>
-    class RoutingStartup200 : INetProStartup
+    class RoutingStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware
@@ -47,9 +47,9 @@ namespace NetPro.Web.Api
             var mvcBuilder = services.AddControllers(config =>
             {
                 //config.Filters.Add(typeof(CustomAuthorizeFilter));//用户权限验证过滤器                                                                    
-                                                                  //同类型的过滤按添加先后顺序执行,第一个最先执行；ApiController特性下，
-                                                                  //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions 
-                                                                  
+                //同类型的过滤按添加先后顺序执行,第一个最先执行；ApiController特性下，
+                //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions 
+
                 //增加路由统一前缀
                 if (!string.IsNullOrWhiteSpace(netproOption.RoutePrefix))
                 {
@@ -92,15 +92,17 @@ namespace NetPro.Web.Api
             {
                 //register all available validators from netpro assemblies               
 
-                var assemblies = mvcBuilder.PartManager.ApplicationParts
-                    .OfType<AssemblyPart>()
-                    //.Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))
-                    .Select(part => part.Assembly);
-                string AssemblySkipLoadingPattern = "^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                //var assemblies = mvcBuilder.PartManager.ApplicationParts
+                //    .OfType<AssemblyPart>()
+                //    //.Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))
+                //    .Select(part => part.Assembly);
+
+                string assemblySkipLoadingPattern = "^Com.Ctrip*|^Figgle|^Serilog.*|^netstandard|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
                 var assembliesResult = new List<Assembly>();
                 foreach (var item in assemblies)
                 {
-                    if (!Regex.IsMatch(item.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(item.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
+                    if (!Regex.IsMatch(item.FullName, assemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(item.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
                     {
                         assembliesResult.Add(item);
                     }
@@ -116,11 +118,15 @@ namespace NetPro.Web.Api
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (!Regex.IsMatch(assembly.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(assembly.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
+                if (assembly.EntryPoint != null)
                 {
-                    //Inject all the assemblies the controller needs,otherwise  "mvcBuilder.PartManager.ApplicationParts" wont't get it
                     mvcBuilder.AddApplicationPart(assembly);
                 }
+                //if (!Regex.IsMatch(assembly.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(assembly.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
+                //{
+                //    //Inject all the assemblies the controller needs,otherwise  "mvcBuilder.PartManager.ApplicationParts" wont't get it
+                //    mvcBuilder.AddApplicationPart(assembly);
+                //}
             }
 
             mvcBuilder.AddControllersAsServices();
@@ -141,7 +147,7 @@ namespace NetPro.Web.Api
 
             //路由小写
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-            services.AddNetProSwagger(configuration);
+            //services.AddNetProSwagger(configuration);
             //services.SwaggerConfigureOauth2(configuration);
         }
 
@@ -153,7 +159,7 @@ namespace NetPro.Web.Api
                 await next();
             });
 
-            application.UseNetProSwagger();
+            //application.UseNetProSwagger();
             //TODO流量分析等其他中间件
             //
             application.UseRouting();

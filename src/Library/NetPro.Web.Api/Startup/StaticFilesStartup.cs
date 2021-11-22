@@ -13,7 +13,7 @@ namespace NetPro.Web.Api
     /// 文件中间件
     /// app.UseStaticFiles(); 
     /// </summary>
-    public class StaticFilesStartup100 : INetProStartup
+    public class StaticFilesStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

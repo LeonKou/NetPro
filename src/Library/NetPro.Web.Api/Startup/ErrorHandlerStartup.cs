@@ -14,7 +14,7 @@ namespace NetPro.Web.Api
     /// 配置应用程序启动时异常处理中间件
     /// app.UseExceptionHandler()
     /// </summary>
-    public class ErrorHandlerStartup0 : INetProStartup
+    public class ErrorHandlerStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

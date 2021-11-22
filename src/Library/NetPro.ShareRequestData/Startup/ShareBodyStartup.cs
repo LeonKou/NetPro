@@ -12,7 +12,7 @@ using System.Net;
 
 namespace NetPro.ShareRequestBody
 {
-    public class ShareBodyStartup400 : INetProStartup
+    public class ShareBodyStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

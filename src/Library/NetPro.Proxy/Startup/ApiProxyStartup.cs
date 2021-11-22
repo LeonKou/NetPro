@@ -11,7 +11,7 @@ namespace NetPro.Proxy
     /// Proxy远程请求组件
     /// MicroServicesEndpoint:Assembly配置当前Proxy接口所在程序集名称
     /// </summary>
-    public class ApiProxyStartup2000 : INetProStartup
+    public class ApiProxyStartup : INetProStartup
     {
         public double Order { get; set; } = 0;
 

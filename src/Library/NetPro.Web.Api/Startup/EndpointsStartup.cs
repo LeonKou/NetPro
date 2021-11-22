@@ -12,7 +12,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// app.UseEndpoints()
     /// </summary>
-    public class EndpointsStartup1000 : INetProStartup
+    public class EndpointsStartup : INetProStartup
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {

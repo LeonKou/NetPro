@@ -13,7 +13,7 @@ using System.Net;
 
 namespace NetPro.Analysic
 {
-    public class CheckerStartup0 : INetProStartup
+    public class CheckerStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

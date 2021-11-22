@@ -13,7 +13,7 @@ namespace NetPro.Web.Api
     /// 跨域
     /// application.UseCors();
     /// </summary>
-    class CorsStartup300 : INetProStartup
+    class CorsStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware
@@ -27,7 +27,7 @@ namespace NetPro.Web.Api
             ILogger logger = null;
             if (loggerFactory != null)
             {
-                logger = loggerFactory.CreateLogger($"{nameof(CorsStartup300)}");
+                logger = loggerFactory.CreateLogger($"{nameof(CorsStartup)}");
             }
 
             var netProOption = serviceProvider.GetService<NetProOption>();

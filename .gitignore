@@ -344,3 +344,4 @@ healthchecksdb
 /src/.tye
 /src/.logs
 /.logs
+/src/sample/Leon.XXX.Api/startup.json

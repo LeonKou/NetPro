@@ -45,6 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

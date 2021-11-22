@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,12 +12,9 @@ using BetterConsoles.Tables;
 using BetterConsoles.Tables.Builders;
 using BetterConsoles.Tables.Configuration;
 using BetterConsoles.Tables.Models;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using NetPro.Startup;
 using NetPro.TypeFinder;
 
@@ -105,13 +103,21 @@ namespace NetPro.Startup
 
                     instancesByOrder = instances.OrderBy(startup => startup.NetProStartupImplement.Order).ToList();
                 }
-            //else
-            //{
-            //    using (var writer = File.CreateText(jsonPath))
-            //    {
-            //        writer.WriteLine("log message");
-            //    }
-            //}
+                else
+                {
+                    using (var writer = File.CreateText(jsonPath))
+                    {
+                        var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
+
+                        foreach (var instance in instances)
+                        {
+                            dynamicObject.Add(instance.Type.Name, instance.NetProStartupImplement.Order);
+                        }
+
+                        var jsonString = JsonSerializer.Serialize(dynamicObject, new JsonSerializerOptions { WriteIndented = true });
+                        writer.WriteLine(jsonString);
+                    }
+                }
             //configure services
             nofile:
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -125,11 +131,12 @@ namespace NetPro.Startup
                     ForegroundColor = Color.Magenta
                 };
 
-                string FormatMoney(string text)
+                string FormatData(string text)
                 {
+                    //高亮原生中间件，方便识别中间件顺序
                     if ("RoutingStartup200-EndpointsStartup1000-StaticFilesStartup100-ErrorHandlerStartup0".Contains(text))
                     {
-                        return text.ForegroundColor(Color.FromArgb(152, 168, 75));
+                        return $"{text}(default)".ForegroundColor(Color.FromArgb(0, 255, 0));
                     }
                     return text;
                 }
@@ -137,29 +144,36 @@ namespace NetPro.Startup
                 Table table = new TableBuilder(headerFormat)
               .AddColumn("Order", rowsFormat: new CellFormat(foregroundColor: Color.FromArgb(128, 129, 126)))
               .AddColumn("StartupClassName")
-              .RowFormatter<string>((x) => FormatMoney(x))
-                  .RowsFormat()
-                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+                .RowFormatter<string>((x) => FormatData(x))
+                .RowsFormat()
+                .ForegroundColor(Color.FromArgb(128, 129, 126))
               .AddColumn("Path")
-                  .RowsFormat()
-                      .ForegroundColor(Color.FromArgb(128, 129, 126))
+                .RowsFormat()
+                .ForegroundColor(Color.FromArgb(128, 129, 126))
               .AddColumn("Assembly")
-                  .RowsFormat()
-                      .ForegroundColor(Color.FromArgb(128, 129, 126))
-                      .Alignment(Alignment.Left)
+                .RowFormatter<string>((x) =>
+                {
+                    if (!x.Contains("NetPro"))
+                    {
+                        return $"{x}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
+                    }
+                    return x;
+                })
+                .RowsFormat()
+                .ForegroundColor(Color.FromArgb(128, 129, 126))
+                .Alignment(Alignment.Left)
              .AddColumn("Version")
-                  .RowsFormat()
-                      .ForegroundColor(Color.FromArgb(128, 129, 126))
-                      .Alignment(Alignment.Left)
+                 .RowsFormat()
+                 .ForegroundColor(Color.FromArgb(128, 129, 126))
+                 .Alignment(Alignment.Left)
               .Build();
 
-                table.Config = TableConfig.Unicode();
-
+                table.Config = TableConfig.Default();
                 foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
                     var assemblyName = instance.Type.Assembly.GetName();
-                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"{assemblyName.Name} ",$" {assemblyName.Version}");
+                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
                 }
 
                 Console.WriteLine(table.ToString());
@@ -174,7 +188,6 @@ namespace NetPro.Startup
 
             builder.Configure((context, app) =>
             {
-
                 //var hostEnvironment = app.ApplicationServices.GetRequiredService<IHostEnvironment>();
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)
