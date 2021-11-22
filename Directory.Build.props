@@ -86,6 +86,9 @@
 
 		<NetProStartup>3.1.11</NetProStartup>
 		<NetProStartupAssemblyName>NetPro.Startup</NetProStartupAssemblyName>
+
+		<NetProResponseResult>3.1.11</NetProResponseResult>
+		<NetProResponseResultAssemblyName>NetPro.ResponseResult</NetProResponseResultAssemblyName>
 		
 
 	</PropertyGroup>

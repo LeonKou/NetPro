@@ -4,6 +4,7 @@
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<AssemblyName>Leon.XXX.Proxy</AssemblyName>
 		<RootNamespace>Leon.XXX.Proxy</RootNamespace>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
     <ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
