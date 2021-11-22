@@ -84,9 +84,14 @@ namespace NetPro.Web.Api
             //MVC now serializes JSON with camel case names by default, use this code to avoid it
             //mvcBuilder.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
-            //add fluent validation
-            mvcBuilder.AddFluentValidation(configuration =>
+
+            //register all available validators from netpro assemblies   
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+            var assembliesResult = new List<Assembly>();
+            foreach (var item in assemblies)
             {
+<<<<<<< HEAD:src/Library/NetPro.Web.Api/Startup/RoutingStartup.cs
                 //register all available validators from netpro assemblies               
 
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -103,13 +108,24 @@ namespace NetPro.Web.Api
                     {
                         assembliesResult.Add(item);
                     }
+=======
+                if (!Regex.IsMatch(item.FullName, AssemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(item.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
+                {
+                    assembliesResult.Add(item);
+>>>>>>> 8b61f902c617a802ebae7867fc2fca5c32d25cee:src/Library/NetPro.Web.Api/Startup/RoutingStartup200.cs
                 }
+            }
+
+            //add fluent validation
+            mvcBuilder.AddFluentValidation(configuration =>
+            {            
                 configuration.RegisterValidatorsFromAssemblies(assembliesResult);
 
                 //implicit/automatic validation of child properties 复合对象是否验证
                 configuration.ImplicitlyValidateChildProperties = true;
             });
 
+<<<<<<< HEAD:src/Library/NetPro.Web.Api/Startup/RoutingStartup.cs
 
             string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
@@ -125,6 +141,10 @@ namespace NetPro.Web.Api
                 //    mvcBuilder.AddApplicationPart(assembly);
                 //}
             }
+=======
+            //Inject all the assemblies the controller needs,otherwise  "mvcBuilder.PartManager.ApplicationParts" wont't get it
+            assembliesResult.ForEach(a => mvcBuilder.AddApplicationPart(a));
+>>>>>>> 8b61f902c617a802ebae7867fc2fca5c32d25cee:src/Library/NetPro.Web.Api/Startup/RoutingStartup200.cs
 
             mvcBuilder.AddControllersAsServices();
 
