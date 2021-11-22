@@ -46,7 +46,7 @@ namespace Leon.XXX.Domain
                 RuleFor(x => x.Id).GreaterThan((uint)1).WithMessage("Id不能小于1")
                     .MustAsync(async (s, a, x) =>
                     {
-                        bool IssuerValidate = false;
+                        bool IssuerValidate = true;
                         if ((await dataBaseOptionService.FindAsync(s.Id)).Result != null)
                         {
                             IssuerValidate = true;

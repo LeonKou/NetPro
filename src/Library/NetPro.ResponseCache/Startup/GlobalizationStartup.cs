@@ -14,7 +14,7 @@ using System.Net;
 
 namespace NetPro.ResponseCache
 {
-    public class GlobalizationStartup500 : INetProStartup
+    public class GlobalizationStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

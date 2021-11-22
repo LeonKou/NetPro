@@ -10,7 +10,7 @@ namespace NetPro.Authentication
     /// <summary>
     ///配置应用程序启动时身份验证中间件
     /// </summary>
-    public class AuthenticationStartup700 : INetProStartup
+    public class AuthenticationStartup : INetProStartup
     {
         /// <summary>
         /// 添加 处理身份认证服务相关的中间件实现

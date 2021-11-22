@@ -44,6 +44,7 @@
         [HttpPost("add")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]//swagger
         [PostResponseCache(Duration = 100, IgnoreVaryByQueryKeys = new[] { "createtime" })]
+        [Authorize]
         public async Task<IActionResult> AddAsync([FromBody] XXXAo xXXAo)
         {
             var result = await _dataBaseOptionService.AddAsync(_mapper.Map<XXXDo>(xXXAo));

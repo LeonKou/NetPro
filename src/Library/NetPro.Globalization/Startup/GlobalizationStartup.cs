@@ -20,7 +20,7 @@ namespace NetPro.Globalization
     /// 全局多语言支持
     ///  app.UseRequestLocalization()
     /// </summary>
-    public class GlobalizationStartup900 : INetProStartup
+    public class GlobalizationStartup : INetProStartup
     {
         /// <summary>
         /// Add and configure any of the middleware

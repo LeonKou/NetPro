@@ -61,7 +61,6 @@
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<!--<ProjectReference Include="..\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />-->
 		<ProjectReference Include="..\NetPro.ShareRequestData\NetPro.ShareRequestBody.csproj" />
-		<ProjectReference Include="..\NetPro.Swagger\NetPro.Swagger.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

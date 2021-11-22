@@ -6,7 +6,7 @@
 
         public string Secret { get; set; }
 
-        public bool Issuer { get; set; }
+        public string Issuer { get; set; }
 
         public int AccessTokenExpired { get; set; }
 

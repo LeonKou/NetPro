@@ -29,7 +29,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Authentication\NetPro.Authentication.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Sign\NetPro.Sign.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
