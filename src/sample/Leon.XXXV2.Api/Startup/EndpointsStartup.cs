@@ -11,7 +11,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// Endpoints 
     /// </summary>
-    public class EndpointsStartup //: INetProStartup
+    public class EndpointsStartup : INetProStartup
     {
         /// <summary>
         /// 
@@ -32,7 +32,7 @@ namespace NetPro.Web.Api
         {
             application.UseEndpoints(s =>
             {
-                s.MapControllers();
+                s.MapControllers();//add other operation
             });
         }
 
