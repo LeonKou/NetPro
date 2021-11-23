@@ -33,10 +33,11 @@ namespace Leon.XXXV2.Api
         /// <param name="localizer"></param>
         public GrpcController(ILogger<GrpcController> logger
             , IXXXService xXXService,
-            IStringLocalizer<NetPro.Globalization.Globalization> localizer)
+            IStringLocalizer<NetPro.Globalization.Globalization> localizer, IExampleProxy userApi)
         {
             _logger = logger;
             _xXXService = xXXService;
+            _userApi = userApi;
             _localizer = localizer;
         }
 

@@ -111,7 +111,7 @@ namespace NetPro.Web.Api
             });
 
 
-            string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+            //string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -126,7 +126,7 @@ namespace NetPro.Web.Api
                 //}
             }
 
-            mvcBuilder.AddControllersAsServices();
+            //mvcBuilder.AddControllersAsServices();
 
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
