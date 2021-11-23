@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using System;
 using System.Collections.Generic;
 
 namespace MQMiddleware.Configuration
@@ -12,7 +13,7 @@ namespace MQMiddleware.Configuration
         /// Exchange type.
         /// direct;fanout ;topic 
         /// </summary>
-        public string Type { get; set; } = "direct";
+        public string Type { get; set; } = ExchangeType.Direct;
 
         /// <summary>
         /// Durable option.

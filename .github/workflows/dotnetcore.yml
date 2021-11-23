@@ -27,6 +27,6 @@ jobs:
     - name: Test
       run: dotnet test src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj --no-restore --verbosity normal
     - name: Pack
-      run: dotnet pack src/NetProMicroservice.sln --no-restore  --output publish -c Release
+      run: dotnet pack src/NetProMicroservice.sln --output publish -c Release
     - name: Push Pack
       run: dotnet nuget push publish/*.nupkg -s https://www.nuget.org/api/v2/package   --skip-duplicate

@@ -11,7 +11,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// Endpoints 
     /// </summary>
-    public class EndpointsStartup //: INetProStartup
+    public class EndpointsStartup : INetProStartup
     {
         /// <summary>
         /// 
