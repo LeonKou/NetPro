@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProLog)</Version>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
