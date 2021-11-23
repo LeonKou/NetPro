@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FreeSql.Provider.MySql" Version="1.7.1" />
