@@ -2,9 +2,9 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'dev_6.0' ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, 'dev_6.0' ]
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-        source-url: https://www.nuget.org/api/v2/package
+        source-url: https://api.nuget.org/v3/index.json
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Install dependencies
@@ -27,6 +27,7 @@ jobs:
     - name: Test
       run: dotnet test src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj --no-restore --verbosity normal
     - name: Pack
-      run: dotnet pack src/NetProMicroservice.sln --no-restore  --output publish -c Release
+      run: dotnet pack src/NetProMicroservice.sln --output publish -c Release
     - name: Push Pack
-      run: dotnet nuget push publish/*.nupkg -s https://www.nuget.org/api/v2/package   --skip-duplicate
+      run: dotnet nuget push publish/*.nupkg -k ${{secrets.GITHUB_TOKEN}} -s https://api.nuget.org/v3/index.json  --skip-duplicate
+      continue-on-error: true
