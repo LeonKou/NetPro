@@ -12,7 +12,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     /// <summary>
     /// Represents a web helper

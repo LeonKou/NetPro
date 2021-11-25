@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace NetPro.Utility.Extenisons
+namespace NetPro
 {
     public static partial class Extensions
     {

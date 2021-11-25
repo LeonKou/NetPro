@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using NetPro;
 using NetPro.Web.Api;
 using System;
 using System.ComponentModel.DataAnnotations;

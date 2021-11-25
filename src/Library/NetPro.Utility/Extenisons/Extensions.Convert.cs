@@ -1,6 +1,6 @@
 ﻿using NetPro.Utility.Helpers;
 
-namespace NetPro.Utility
+namespace NetPro
 {
     /// <summary>
     /// 系统扩展 - 类型转换

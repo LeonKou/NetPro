@@ -1,6 +1,6 @@
 ﻿using IdGen;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// Id生成器
@@ -34,7 +34,7 @@ namespace NetPro.Utility.Helpers
         /// </summary>
         public static string ObjectId()
         {
-            return string.IsNullOrWhiteSpace(_id) ? Internal.ObjectId.GenerateNewStringId() : _id;
+            return string.IsNullOrWhiteSpace(_id) ? Utility.Helpers.Internal.ObjectId.GenerateNewStringId() : _id;
         }
 
         /// <summary>

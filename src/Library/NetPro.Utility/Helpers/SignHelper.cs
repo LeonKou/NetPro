@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// 签名帮助类

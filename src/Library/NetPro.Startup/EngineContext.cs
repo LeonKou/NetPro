@@ -1,6 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using NetPro.Startup;
+using System.Runtime.CompilerServices;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro
 {
     /// <summary>
     /// NetPro Engine 单例实现

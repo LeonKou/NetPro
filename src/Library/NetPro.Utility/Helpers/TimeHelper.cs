@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using TimeZoneConverter;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// 时间操作
@@ -97,7 +97,7 @@ namespace NetPro.Utility.Helpers
         {
             var start = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
             long ticks = (time - start.Add(new TimeSpan(8, 0, 0))).Ticks;
-            return NetPro.Utility.Helpers.ConvertHelper.ToLong(ticks / TimeSpan.TicksPerSecond);
+            return ConvertHelper.ToLong(ticks / TimeSpan.TicksPerSecond);
         }
 
         /// <summary>

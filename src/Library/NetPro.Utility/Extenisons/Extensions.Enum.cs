@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro.Core
+namespace NetPro
 {
     public static partial class Extensions
     {

@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// Xml序列化与反序列化

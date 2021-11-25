@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NetPro.Utility
+namespace NetPro
 {
     /// <summary>
     /// 系统扩展 - 公共
@@ -24,7 +24,7 @@ namespace NetPro.Utility
         /// <param name="instance">枚举实例</param>
         public static int Value(this System.Enum instance)
         {
-            return NetPro.Utility.Helpers.EnumHelper.GetValue(instance.GetType(), instance);
+            return EnumHelper.GetValue(instance.GetType(), instance);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace NetPro.Utility
         /// <param name="instance">枚举实例</param>
         public static string Description(this System.Enum instance)
         {
-            return NetPro.Utility.Helpers.EnumHelper.GetDescription(instance.GetType(), instance);
+            return EnumHelper.GetDescription(instance.GetType(), instance);
         }
 
         /// <summary>

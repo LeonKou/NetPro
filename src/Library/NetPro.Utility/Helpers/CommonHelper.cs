@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetPro.Utility.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -8,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// 常用公共操作

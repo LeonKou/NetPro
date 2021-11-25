@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NetPro.TypeFinder
+namespace NetPro
 {
     /// <summary>
     /// 实现此接口的类提供关于类型的信息      

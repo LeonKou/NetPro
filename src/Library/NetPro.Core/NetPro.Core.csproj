@@ -21,8 +21,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Infrastructure\EngineContext.cs" />
+		<Compile Remove="Infrastructure\IEngine.cs" />
 		<Compile Remove="Infrastructure\INetProStartup.cs" />
 		<Compile Remove="Infrastructure\IStartupTask.cs" />
+		<Compile Remove="Infrastructure\NetProEngine.cs" />
+		<Compile Remove="Infrastructure\Singleton.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     /// <summary>
     /// 常用公共操作

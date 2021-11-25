@@ -1,21 +1,14 @@
-﻿//using Autofac;
-using AutoMapper;
-using ConsoleTables;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Configuration;
-//using NetPro.Core.Infrastructure.DependencyManagement;
-using NetPro.Core.Infrastructure.Mapper;
 using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.Startup
 {
     /// <summary>
     /// IEngine接口实现
@@ -122,8 +115,7 @@ namespace NetPro.Core.Infrastructure
         /// Add and configure services
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        /// <param name="configuration">Configuration of the application</param>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public void ConfigureServices(IServiceCollection services)
         {
             _serviceProvider = services.BuildServiceProvider(); //TODO 预留，运行成功前需要用到基础对象时打开
 

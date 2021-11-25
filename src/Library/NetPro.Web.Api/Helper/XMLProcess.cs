@@ -4,7 +4,7 @@ using System;
 using System.Data;
 using System.Xml;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     public class XMLProcess
     {

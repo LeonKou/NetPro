@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     /// <summary>
     /// 实体验证基类

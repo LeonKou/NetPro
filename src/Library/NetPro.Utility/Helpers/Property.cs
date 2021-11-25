@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     [Serializable]
     [XmlRoot("Property")]

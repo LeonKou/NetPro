@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     /// <summary>
     /// IdentityExtensions

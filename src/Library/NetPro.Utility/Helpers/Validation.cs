@@ -1,4 +1,4 @@
-﻿namespace NetPro.Utility.Helpers
+﻿namespace NetPro
 {
     /// <summary>
     /// 验证操作

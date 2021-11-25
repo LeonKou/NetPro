@@ -126,7 +126,7 @@ namespace NetPro.Web.Api
                 //}
             }
 
-            //mvcBuilder.AddControllersAsServices();
+            mvcBuilder.AddControllersAsServices();
 
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

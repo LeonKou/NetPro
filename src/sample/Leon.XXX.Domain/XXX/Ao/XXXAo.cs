@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation;
+using NetPro;
 using NetPro.Web.Api;
 using System.ComponentModel.DataAnnotations;
 

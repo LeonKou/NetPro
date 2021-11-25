@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     /// <summary>
     /// Represents a web helper

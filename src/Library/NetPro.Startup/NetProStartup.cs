@@ -182,6 +182,10 @@ namespace NetPro.Startup
                 //run startup tasks
                 RunStartupTasks(_typeFinder);
 
+                //Inject the static object engine
+                var engine = EngineContext.Create();
+                engine.ConfigureServices(services);
+
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             });

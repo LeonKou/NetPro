@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace NetPro.Utility.Extenisons
+namespace NetPro
 {
     public static partial class Extensions
     {

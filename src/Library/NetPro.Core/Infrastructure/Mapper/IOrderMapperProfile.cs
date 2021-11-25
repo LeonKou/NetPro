@@ -1,4 +1,4 @@
-﻿namespace NetPro.Core.Infrastructure.Mapper
+﻿namespace NetPro
 {
     /// <summary>
     /// Mapper profile registrar interface

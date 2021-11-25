@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Leon.XXX.Repository;
+using NetPro;
 using NetPro.Core.Infrastructure.Mapper;
 
 namespace Leon.XXX.Domain

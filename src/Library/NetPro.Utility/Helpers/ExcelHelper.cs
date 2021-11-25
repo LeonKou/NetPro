@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using NetPro.Utility.Extenisons;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     public enum ExcelFormat
     {

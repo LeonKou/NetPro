@@ -1,12 +1,11 @@
-﻿using NetPro.Utility.Helpers.Internal;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NetPro.Utility.Helpers
+namespace NetPro
 {
     /// <summary>
     /// 加密操作

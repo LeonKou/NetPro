@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro.TypeFinder
+namespace NetPro
 {
     /// <summary>
     /// 文件操作抽象类

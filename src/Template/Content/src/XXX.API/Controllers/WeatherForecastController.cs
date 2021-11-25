@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetPro.Web.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,25 @@ namespace XXX.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class DemoController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<DemoController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public DemoController(ILogger<DemoController> logger)
         {
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpGet]
         public void Get()
         {
+            var er= EngineContext.Current.Resolve<IWebHelper>();
+            var sd= er.GetCurrentIpAddress();
         }
     }
 

@@ -1,12 +1,10 @@
-﻿//using Autofac;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Configuration;
 using System;
 using System.Collections.Generic;
 
-namespace NetPro.Core.Infrastructure
+namespace NetPro.Startup
 {
     /// <summary>
     ///定义程序启动初始化配置、服务、模块、组件等注入
@@ -17,8 +15,7 @@ namespace NetPro.Core.Infrastructure
         /// Add and configure services
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        /// <param name="configuration">Configuration of the application</param>
-        void ConfigureServices(IServiceCollection services, IConfiguration configuration);
+        void ConfigureServices(IServiceCollection services);
 
         /// <summary>
         /// Configure HTTP request pipeline

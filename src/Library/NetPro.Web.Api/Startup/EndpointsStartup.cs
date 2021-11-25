@@ -19,7 +19,7 @@ namespace NetPro.Web.Api
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <param name="typeFinder"></param>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, TypeFinder.ITypeFinder typeFinder)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
 
         }

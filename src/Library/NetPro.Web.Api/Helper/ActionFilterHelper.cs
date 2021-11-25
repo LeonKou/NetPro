@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace NetPro.Web.Api
+namespace NetPro
 {
     public class ActionFilterHelper
     {
