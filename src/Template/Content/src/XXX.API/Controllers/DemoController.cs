@@ -27,8 +27,9 @@ namespace XXX.API.Controllers
         [HttpGet]
         public void Get()
         {
-            var er= EngineContext.Current.Resolve<IWebHelper>();
-            var sd= er.GetCurrentIpAddress();
+            var er = EngineContext.Current.Resolve<IWebHelper>();
+            var sd = er.GetCurrentIpAddress();
+            var ass = AppDomain.CurrentDomain.GetAssemblies();
         }
     }
 

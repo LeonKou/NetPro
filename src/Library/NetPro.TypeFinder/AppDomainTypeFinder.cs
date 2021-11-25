@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -126,7 +127,8 @@ namespace NetPro.TypeFinder
                     var an = AssemblyName.GetAssemblyName(dllPath);
                     if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
                     {
-                        App.Load(an);
+                        Domain.LoadPlugin(dllPath);
+                        //App.Load(an);
                     }
 
                     //old loading stuff
@@ -299,7 +301,9 @@ namespace NetPro.TypeFinder
         #region Properties
 
         /// <summary>The app domain to look for types in.</summary>
-        public virtual AppDomain App => AppDomain.CurrentDomain;
+        //public virtual AppDomain App => AppDomain.CurrentDomain;
+
+        public virtual NatashaAssemblyDomain Domain => new NatashaAssemblyDomain("Default");//The system must be in Default  
 
         /// <summary>Gets or sets whether Nop should iterate assemblies in the app domain when loading Nop types. Loading patterns are applied when loading these assemblies.</summary>
         public bool LoadAppDomainAssemblies { get; set; } = true;

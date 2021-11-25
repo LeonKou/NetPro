@@ -115,7 +115,7 @@ namespace NetPro.Web.Api
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.EntryPoint != null)
+                if (assembly.EntryPoint != null||assembly.GetName().Name.Contains(".Plugin."))//The plug-in identifier
                 {
                     mvcBuilder.AddApplicationPart(assembly);
                 }
