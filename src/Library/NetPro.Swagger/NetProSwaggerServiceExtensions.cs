@@ -193,7 +193,7 @@ namespace NetPro.Swagger
                     c.DocExpansion(DocExpansion.List);
                     c.EnableDeepLinking();
                     c.EnableFilter();
-                    c.MaxDisplayedTags(5);
+                    c.MaxDisplayedTags(swaggerOption.MaxDisplayedTags);
                     c.ShowExtensions();
                     c.ShowCommonExtensions();
                     c.EnableValidator();
@@ -202,7 +202,7 @@ namespace NetPro.Swagger
                     c.RoutePrefix = $"{swaggerOption.RoutePrefix}";//设置文档首页根路径
                     var prefix = !string.IsNullOrEmpty(basePath) ? $"/{basePath}/" : "/";
                     c.SwaggerEndpoint($"{prefix}docs/v1/docs.json", $"{swaggerOption.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
-                    c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例   
+                    c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例
 
                     #region
                     typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.SwaggerProfiler.html");
