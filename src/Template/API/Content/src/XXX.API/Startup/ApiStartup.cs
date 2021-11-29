@@ -30,7 +30,17 @@ namespace XXX.API
             .UseConnectionString(FreeSql.DataType.MySql, connectionString)
             .UseAutoSyncStructure(false) //自动同步实体结构到数据库
             .Build(); //请务必定义成 Singleton 单例模式
-            services.AddSingleton<IFreeSql>(Fsql);
+            services.AddSingleton<IFreeSql>(
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                Fsql);
 
             services.AddFreeRepository(null,
            this.GetType().Assembly);//批量注入Repository

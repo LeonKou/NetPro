@@ -24,6 +24,9 @@ namespace XXX.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// 这是主
+        /// </summary>
         [HttpGet]
         public void Get()
         {

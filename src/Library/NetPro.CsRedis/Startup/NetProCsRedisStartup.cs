@@ -6,7 +6,7 @@ using NetPro.TypeFinder;
 
 namespace NetPro.CsRedis
 {
-    public class NetProCsRedisStartup : INetProStartup
+    public class NetProCsRedisStartup //: INetProStartup
     {
         public double Order { get; set; } = 1000;
 

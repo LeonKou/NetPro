@@ -1,4 +1,3 @@
-
 using Serilog;
 
 var host = Host.CreateDefaultBuilder(args)

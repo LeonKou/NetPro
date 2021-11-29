@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="DemoOne\Protos\greetone.proto" GrpcServices="Server" />
+		<Protobuf Include="DemoTwo\Protos\greettwo.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.37.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Library\NetPro.Grpc\NetPro.Grpc.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,7 +7,7 @@ package greet;
 
 service Greeter {
 
-  //简单rpc
+	//简单rpc
   rpc SayHello (HelloRequest) returns (HelloReply);
 
   //定义双向流
