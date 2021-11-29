@@ -22,13 +22,18 @@ namespace NetPro.Swagger
         public string RoutePrefix { get; set; } = "swagger";
 
         /// <summary>
+        /// 最大显示多少个Controller
+        /// </summary>
+        public int MaxDisplayedTags { get; set; } = 5;
+
+        /// <summary>
         /// 终结点地址前缀
         /// </summary>
         /// <remarks>
         /// 配置/xx 实际描述终结点地址将为：/xx/docs/v1/docs.json
         /// </remarks>
         /// <example>
-        /// "ServerPrefix": "/xx"     
+        /// "ServerPrefix": "/xx"
         /// </example>
         public string ServerPrefix { get; set; }
 
