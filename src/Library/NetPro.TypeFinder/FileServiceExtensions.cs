@@ -17,11 +17,8 @@ namespace NetPro.TypeFinder
         /// <returns></returns>
         public static IServiceCollection AddFileProcessService(this IServiceCollection services, TypeFinderOption typeFinderOption = null)
         {
-            if (typeFinderOption != null)
-            {
-                services.AddSingleton(typeFinderOption);
-            }
-          
+            services.AddSingleton(new TypeFinderOption { MountePath = typeFinderOption?.MountePath });
+
             //var hostEnvironment = services.BuildServiceProvider().GetRequiredService<IHostEnvironment>();
 
             //create default file provider
