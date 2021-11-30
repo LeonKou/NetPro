@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -12,14 +13,21 @@ namespace NetPro.TypeFinder
         #region Fields
 
         private bool _ensureBinFolderAssembliesLoaded = true;
-        private bool _binFolderAssembliesLoaded;
+        private static bool _binFolderAssembliesLoaded;
+        private readonly IConfiguration _configuration;
+        private readonly TypeFinderOption _typeFinderOption;
 
         #endregion
 
         #region Ctor
 
-        public WebAppTypeFinder(INetProFileProvider fileProvider = null) : base(fileProvider)
+        public WebAppTypeFinder(
+            TypeFinderOption typeFinderOption,
+            IConfiguration configuration
+            , INetProFileProvider fileProvider = null) : base(fileProvider)
         {
+            _typeFinderOption = typeFinderOption;
+            _configuration = configuration;
         }
 
         #endregion
@@ -49,7 +57,7 @@ namespace NetPro.TypeFinder
         }
 
         /// <summary>
-        /// Get assemblies
+        /// Get assemblies.Default the bin directory first, then traverse the PluginPath directory
         /// </summary>
         /// <returns>Result</returns>
         public override IList<Assembly> GetAssemblies()
@@ -58,8 +66,8 @@ namespace NetPro.TypeFinder
             {
                 _binFolderAssembliesLoaded = true;
                 var binPath = GetBinDirectory();
-                //binPath = _webHelper.MapPath("~/bin");
-                LoadMatchingAssemblies(binPath);
+                //binPath = _webHelper.MapPath("~/bin");                
+                LoadMatchingAssemblies(binPath, _typeFinderOption?.MountePath);// _configuration["TypeFinderOption:MountePath"]);//PluginPath:dll path
             }
 
             return base.GetAssemblies();

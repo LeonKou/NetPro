@@ -64,7 +64,8 @@ namespace NetPro.Startup
             builder.ConfigureServices((context, services) =>
             {
                 //Inject the file lookup component
-                services.AddFileProcessService();
+                var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
+                services.AddFileProcessService(option);
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
 

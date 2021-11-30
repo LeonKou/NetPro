@@ -40,6 +40,8 @@ namespace XXX.Plugin.Web.Manager
             var diweb = _webHelper.GetCurrentIpAddress();
             _demoService.Test();
             _managerdemoService.Test();
+            var file = EngineContext.Current.Resolve<INetProFileProvider>();
+            file.CreateFile($"./{DateTime.Now.Second}");
             return "";
         }
     }

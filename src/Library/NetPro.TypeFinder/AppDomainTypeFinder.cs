@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NetPro.TypeFinder
@@ -21,9 +23,13 @@ namespace NetPro.TypeFinder
 
         #region Ctor
 
-        public AppDomainTypeFinder(INetProFileProvider fileProvider = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileProvider"></param>
+        public AppDomainTypeFinder(INetProFileProvider fileProvider)
         {
-            _fileProvider = fileProvider ?? CoreHelper.DefaultFileProvider;
+            _fileProvider = fileProvider;// ?? CoreHelper.DefaultFileProvider;
         }
 
         #endregion
@@ -103,24 +109,45 @@ namespace NetPro.TypeFinder
         /// <summary>
         /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
         /// </summary>
-        /// <param name="directoryPath">
-        /// The physical path to a directory containing dlls to load in the app domain.
+        /// <param name="directoryPaths">
+        /// The physical path to a directory containing dlls to load in the app domain and plugin directory.
         /// </param>
-        protected virtual void LoadMatchingAssemblies(string directoryPath)
+        protected virtual void LoadMatchingAssemblies(params string[] directoryPaths)
         {
             var loadedAssemblyNames = new List<string>();
-
-            foreach (var a in GetAssemblies())
+            foreach (var directoryPath in directoryPaths)
             {
-                loadedAssemblyNames.Add(a.FullName);
-            }
+                if (string.IsNullOrWhiteSpace(directoryPath))
+                {
+                    continue;
+                }
+                foreach (var a in GetAssemblies())
+                {
+                    loadedAssemblyNames.Add(a.FullName);
+                }
 
-            if (!_fileProvider.DirectoryExists(directoryPath))
-            {
-                return;
-            }
+                if (!_fileProvider.DirectoryExists(directoryPath))
+                {
+                    _fileProvider.CreateDirectory(directoryPath);
+                    _fileProvider.WriteAllText($"{directoryPath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
+                    return;
+                }
 
-            foreach (var dllPath in _fileProvider.GetFiles(directoryPath, "*.dll"))
+                //load root directory
+                _LoadDll(directoryPath, loadedAssemblyNames);
+
+                //load root sub directory
+                var subDirectories = _fileProvider.GetDirectories(directoryPath);
+                foreach (var subDirectory in subDirectories)
+                {
+                    _LoadDll(subDirectory, loadedAssemblyNames);
+                }
+            }
+        }
+
+        private void _LoadDll(string directory, List<string> loadedAssemblyNames)
+        {
+            foreach (var dllPath in _fileProvider.GetFiles(directory, "*.dll"))
             {
                 try
                 {
@@ -130,13 +157,6 @@ namespace NetPro.TypeFinder
                         Domain.LoadPlugin(dllPath);
                         //App.Load(an);
                     }
-
-                    //old loading stuff
-                    //Assembly a = Assembly.ReflectionOnlyLoadFrom(dllPath);
-                    //if (Matches(a.FullName) && !loadedAssemblyNames.Contains(a.FullName))
-                    //{
-                    //    App.Load(a.FullName);
-                    //}
                 }
                 catch (BadImageFormatException ex)
                 {

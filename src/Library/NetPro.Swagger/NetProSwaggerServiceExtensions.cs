@@ -40,7 +40,6 @@ namespace NetPro.Swagger
                 logger?.LogInformation($"NetPro Swagger 已启用");
             }
             services.AddSingleton(swaggerOption);
-            services.AddFileProcessService();
 
             //services
             //    .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));

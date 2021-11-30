@@ -346,3 +346,4 @@ healthchecksdb
 /.logs
 /src/sample/Leon.XXX.Api/startup.json
 /src/Template/Content/src/XXX.API/startup.json
+/src/Template/API/Content/src/XXX.API/Plugin

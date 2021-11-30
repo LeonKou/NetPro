@@ -16,8 +16,8 @@
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Web.Manager\XXX.Plugin.Web.Manager.csproj" />
+		<!--<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />-->
+		<!--<ProjectReference Include="..\XXX.Plugin.Web.Manager\XXX.Plugin.Web.Manager.csproj" />-->
 	</ItemGroup>
 
 </Project>

@@ -1,18 +1,35 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace NetPro.TypeFinder
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class FileServiceExtensions
     {
-        public static IServiceCollection AddFileProcessService(this IServiceCollection services)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="typeFinderOption"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddFileProcessService(this IServiceCollection services, TypeFinderOption typeFinderOption = null)
         {
-            var hostEnvironment = services.BuildServiceProvider().GetRequiredService<IHostEnvironment>();
+            if (typeFinderOption != null)
+            {
+                services.AddSingleton(typeFinderOption);
+            }
+          
+            //var hostEnvironment = services.BuildServiceProvider().GetRequiredService<IHostEnvironment>();
 
             //create default file provider
-            CoreHelper.DefaultFileProvider = new NetProFileProvider(hostEnvironment);
-            services.AddSingleton<ITypeFinder>(s => new WebAppTypeFinder());
-            services.AddScoped<INetProFileProvider, NetProFileProvider>();
+            //CoreHelper.DefaultFileProvider = new NetProFileProvider(hostEnvironment);
+            //services.AddSingleton<ITypeFinder>(s => new WebAppTypeFinder());
+            services.AddSingleton<ITypeFinder, WebAppTypeFinder>();
+            //services.AddScoped<INetProFileProvider, NetProFileProvider>();
+            services.AddSingleton<INetProFileProvider, NetProFileProvider>();
             return services;
         }
     }

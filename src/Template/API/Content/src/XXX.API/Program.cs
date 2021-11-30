@@ -7,12 +7,12 @@ var host = Host.CreateDefaultBuilder(args)
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        options.ListenLocalhost(5001, o => o.Protocols =
-                            HttpProtocols.Http2);
+                        //options.ListenLocalhost(11837, o => o.Protocols =
+                        //    HttpProtocols.Http2);
 
                         // ADDED THIS LINE to fix the problem
-                        options.ListenLocalhost(11837, o => o.Protocols =
-                            HttpProtocols.Http1);
+                        //options.ListenLocalhost(5001, o => o.Protocols =
+                        //    HttpProtocols.Http1);
                     });
                 }).UseSerilog();
 
