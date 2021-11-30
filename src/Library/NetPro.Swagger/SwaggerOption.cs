@@ -24,7 +24,7 @@ namespace NetPro.Swagger
         /// <summary>
         /// 最大显示多少个Controller
         /// </summary>
-        public int MaxDisplayedTags { get; set; } = 5;
+        public int MaxDisplayedTags { get; set; } = 100;
 
         /// <summary>
         /// 终结点地址前缀

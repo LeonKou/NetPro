@@ -12,6 +12,7 @@
 "SwaggerOption": {
  "Enabled": true, 
  "RoutePrefix": "swagger",
+ "MaxDisplayedTags":"100"//最多显示几个Controller,不写默认100
  "ServerPrefix": "lu/", //json endpoint，用于反向代理场景使用
  "OAuth2":{
       "Server":"www.baidu.com"//开启Oauth2功能

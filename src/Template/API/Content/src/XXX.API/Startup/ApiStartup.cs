@@ -7,45 +7,22 @@ namespace XXX.API
     public class ApiStartup : INetProStartup
     {
         public double Order { get; set; } = int.MaxValue;
-        public static IFreeSql Fsql { get; private set; }
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            //批量注入 Service 后缀的类
-            services.Scan(scan => scan
-              .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("XXX.API")).ToArray())
-              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
-              .AsImplementedInterfaces()
-              .WithScopedLifetime());
+            //批量注入
+            services.BatchInjection("^XXX.", "Service$"); //批量注入以XXX前缀的程序集，Service结尾的类
+            services.BatchInjection("^XXX.", "Repository$");//批量注入以XXX前缀的程序集，Repository结尾的类
 
-            //批量注入 Repository 后缀的类
-            services.Scan(scan => scan
-              .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("XXX.API")).ToArray())
-              .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
-              .AsImplementedInterfaces()
-              .WithScopedLifetime());
-
-            var connectionString = configuration.GetConnectionString("MysqlConnection");
-            Fsql = new FreeSql.FreeSqlBuilder()
-            .UseConnectionString(FreeSql.DataType.MySql, connectionString)
-            .UseAutoSyncStructure(false) //自动同步实体结构到数据库
+            //freesql数据库初始化
+            var connectionString = configuration.GetConnectionString("SqliteConnection");
+            IFreeSql Fsql = new FreeSql.FreeSqlBuilder()
+            .UseConnectionString(FreeSql.DataType.Sqlite, connectionString)
+            .UseAutoSyncStructure(true) //自动同步实体结构到数据库
             .Build(); //请务必定义成 Singleton 单例模式
-            services.AddSingleton<IFreeSql>(
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                Fsql);
-
-            services.AddFreeRepository(null,
-           this.GetType().Assembly);//批量注入Repository
-
-
+            services.AddSingleton<IFreeSql>(Fsql);
+            Fsql.Insert(new HealthCheckOptions());
+            Fsql.Insert(new HealthCheckOptions());
             var healthbuild = services.AddHealthChecks();
         }
 

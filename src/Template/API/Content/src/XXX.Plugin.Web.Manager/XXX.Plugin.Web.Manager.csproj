@@ -14,6 +14,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<ProjectReference Include="..\XXX.Entity\XXX.Entity.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />
 		<!--<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />-->
 	</ItemGroup>
 </Project>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FreeSql.DbContext" Version="2.6.100" />
+		<PackageReference Include="FreeSql.Provider.MySql" Version="1.7.1" />
+		<PackageReference Include="FreeSql.Repository" Version="1.7.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.6.100" />
+	</ItemGroup>
+</Project>
