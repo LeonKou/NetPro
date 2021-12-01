@@ -290,7 +290,7 @@ namespace XXX.Plugin.Web.Manager
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"事务事务执行失败");
+                _logger.LogError(ex, $"事务执行失败");
                 return false;
             }
             return true;
