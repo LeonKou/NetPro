@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro;
@@ -21,7 +22,7 @@ namespace Leon.XXXV2.Api
               .WithScopedLifetime());
         }
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
     }

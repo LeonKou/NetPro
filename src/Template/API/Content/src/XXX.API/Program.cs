@@ -7,12 +7,9 @@ var host = Host.CreateDefaultBuilder(args)
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
+                        //监听端口，可配多个使用
                         //options.ListenLocalhost(11837, o => o.Protocols =
                         //    HttpProtocols.Http2);
-
-                        // ADDED THIS LINE to fix the problem
-                        //options.ListenLocalhost(5001, o => o.Protocols =
-                        //    HttpProtocols.Http1);
                     });
                 }).UseSerilog();
 

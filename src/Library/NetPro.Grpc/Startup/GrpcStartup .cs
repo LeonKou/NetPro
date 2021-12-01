@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
@@ -15,7 +16,7 @@ namespace NetPro.Grpc
     {
         public double Order { get; set; } = 0;
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             application.UseRouting();
 

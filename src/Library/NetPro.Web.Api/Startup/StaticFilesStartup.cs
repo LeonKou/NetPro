@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +42,7 @@ namespace NetPro.Web.Api
         /// Configure the using of added middleware
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             var config = application.ApplicationServices.GetService<NetProOption>();
             //var config = EngineContext.Current.Resolve<NetProOption>();

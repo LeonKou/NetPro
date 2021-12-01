@@ -70,7 +70,7 @@ namespace Leon.XXXV2.Api
 #endif
         }
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
     }

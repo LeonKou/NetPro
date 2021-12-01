@@ -18,8 +18,16 @@ namespace NetPro
         /// 批量注入
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="assemblyPattern">程序集正则表达式。this.GetType().Assembly.GetName().Name</param>
-        /// <param name="classNamePattern">批量注入的类名正则表达式。Service$：以Service结尾的</param>
+        /// <param name="assemblyPattern">
+        /// 程序集正则表达式
+        /// 当前程序集名称：this.GetType().Assembly.GetName().Name</param>
+        /// <param name="classNamePattern">批量注入的类名正则表达式</param>
+        /// <remarks>
+        /// 示例：
+        /// Service$：匹配Service结尾的字符串;
+        /// ^XXX.:匹配XXX.开头的字符串;
+        /// *.XXX.*:匹配包含.XXX.的字符串;
+        /// </remarks>
         public static void BatchInjection(this IServiceCollection services, string assemblyPattern, string classNamePattern = "Service$")
         {
             var typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();

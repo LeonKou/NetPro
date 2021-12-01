@@ -2,7 +2,7 @@
 {
     public class Company
     {
-        [Column(IsIdentity = true, IsPrimary = true)]
+        [Column(IsIdentity = true, IsPrimary = true,MapType = typeof(int))]
         public int Id { get; set; }
 
         /// <summary>

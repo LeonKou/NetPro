@@ -7,6 +7,7 @@ using NetPro.TypeFinder;
 using Serilog;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
 
 namespace NetPro.Web.Api
 {
@@ -29,7 +30,7 @@ namespace NetPro.Web.Api
         /// Configure the using of added middleware
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             application.UseSerilogRequestLogging();
             //异常处理

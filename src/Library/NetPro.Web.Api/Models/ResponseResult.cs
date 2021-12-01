@@ -24,7 +24,7 @@
         public string Msg { get; set; } = "";
 
         /// <summary>
-        /// 数据内容                         
+        /// 数据内容
         /// </summary>
         public T Result { get; set; }
     }

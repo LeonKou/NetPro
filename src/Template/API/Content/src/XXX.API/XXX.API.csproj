@@ -5,6 +5,11 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,6 +19,11 @@
 		<ProjectReference Include="..\XXX.Plugin.Web.Manager\XXX.Plugin.Web.Manager.csproj" />
 		<!--<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />-->
 		<!--<ProjectReference Include="..\XXX.Plugin.Web.Manager\XXX.Plugin.Web.Manager.csproj" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Manager\Model\" />
+	  <Folder Include="Manager\Service\" />
 	</ItemGroup>
 
 </Project>

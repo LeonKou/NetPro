@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.TypeFinder;
 using NetPro.Swagger;
+using Microsoft.AspNetCore.Hosting;
 
 namespace NetPro.Swagger
 {
@@ -20,7 +21,7 @@ namespace NetPro.Swagger
         /// 
         /// </summary>
         /// <param name="application"></param>
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             application.UseNetProSwagger();
         }

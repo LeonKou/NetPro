@@ -10,17 +10,17 @@
         /// <summary>
         /// 用户名
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-        public string NickName { get; set; }
+        public string? NickName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string Pwd { get; set; }
+        public string? Pwd { get; set; }
 
         /// <summary>
         /// 年龄
@@ -31,5 +31,10 @@
         /// 创建时间
         /// </summary>
         public long CreateTime { get; set; }
+
+        /// <summary>
+        /// 企业Id主键
+        /// </summary>
+        public int CompanyId { get; set; }
     }
 }

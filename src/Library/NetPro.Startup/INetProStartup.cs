@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.TypeFinder;
 
 namespace NetPro
 {
@@ -23,11 +23,11 @@ namespace NetPro
         /// 请求管道的配置应用程序
         /// </summary>
         /// <param name="app">用于配置应用程序请求管道的构建器</param>
-        void Configure(IApplicationBuilder app);
+        /// <param name="env">执行环境</param>
+        void Configure(IApplicationBuilder app, IWebHostEnvironment env=null);
 
         /// <summary>
-        /// 依赖注入调用顺序
-        /// double.double.MaxValue系统内置，请勿使用
+        /// 依赖注入执行顺序
         /// </summary>
         double Order { get; set; }
     }

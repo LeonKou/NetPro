@@ -8,31 +8,41 @@ using System.Threading.Tasks;
 
 namespace XXX.API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class DemoController : ControllerBase
+    public class ManagerController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<DemoController> _logger;
+        private readonly ILogger<ManagerController> _logger;
 
-        public DemoController(ILogger<DemoController> logger)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        public ManagerController(ILogger<ManagerController> logger)
         {
             _logger = logger;
         }
 
         /// <summary>
-        /// 这是主
+        /// 主站点Get方法
         /// </summary>
         [HttpGet]
-        public void Get()
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> Get()
         {
             var er = EngineContext.Current.Resolve<IWebHelper>();
             var sd = er.GetCurrentIpAddress();
             var ass = AppDomain.CurrentDomain.GetAssemblies();
+            _logger.LogInformation("系统调用成功");
+            return Ok();
         }
     }
 

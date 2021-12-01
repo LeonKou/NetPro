@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
 using NetPro.Proxy;
+using Microsoft.AspNetCore.Hosting;
 
 namespace NetPro.Proxy
 {
@@ -15,7 +16,7 @@ namespace NetPro.Proxy
     {
         public double Order { get; set; } = 0;
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
 

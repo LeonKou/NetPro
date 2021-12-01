@@ -48,6 +48,7 @@ namespace NetPro.Startup
             IConfiguration _configuration = null;
             List<_> instancesByOrder = null;
             List<_> instances = null;
+            var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
 
             builder.ConfigureAppConfiguration((config, builder) =>
               {
@@ -56,7 +57,7 @@ namespace NetPro.Startup
                   builder.SetBasePath(Directory.GetCurrentDirectory())
                               .AddJsonFile("appsettings.json", true, true)
                               .AddJsonFile($"appsettings.{env}.json", true, true)
-                              .AddJsonFile("startup.json", true, true)
+                              //.AddJsonFile("startup.json", true, true)
                               .AddEnvironmentVariables();
                   _configuration = builder.Build();
               });
@@ -79,20 +80,45 @@ namespace NetPro.Startup
                 var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"startup.json");
                 if (File.Exists(jsonPath))
                 {
-                    var folderDetails = jsonPath;
-                    var startupJson = File.ReadAllText(folderDetails);
+                    var startupJson = File.ReadAllText(jsonPath);
                     //dynamic jsonObj = new System.Dynamic.ExpandoObject();
                     try
                     {
-                        var jsonObj = JsonSerializer.Deserialize<Dictionary<string, double>>(startupJson);
-
-                        foreach (var instance in instances)
+                        if (string.IsNullOrWhiteSpace(startupJson))
                         {
-                            var startupName = instance.NetProStartupImplement.GetType().Name;
-                            if (jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).Any())
+                            uint tempInt = 1;
+                            foreach (var instance in instances)
                             {
-                                instance.NetProStartupImplement.Order = jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).FirstOrDefault().Value;
-                                jsonObj.Remove(startupName);
+                                if (dynamicObject.ContainsKey(instance.Type.Name))
+                                {
+                                    //instance.Type.Name = $"{instance.Type.Name}-{tempInt}";
+                                    dynamicObject.Add($"{instance.Type.Name}-{tempInt}", instance.NetProStartupImplement.Order);
+                                    tempInt++;
+                                }
+                                else
+                                {
+                                    dynamicObject.Add(instance.Type.Name, instance.NetProStartupImplement.Order);
+                                }
+                            }
+
+                            var jsonString = JsonSerializer.Serialize(dynamicObject, new JsonSerializerOptions { WriteIndented = true });
+                            using (StreamWriter file = new StreamWriter(jsonPath, true))
+                            {
+                                file.WriteLine(jsonString);
+                            }
+                        }
+                        else
+                        {
+                            var jsonObj = JsonSerializer.Deserialize<Dictionary<string, double>>(startupJson);
+
+                            foreach (var instance in instances)
+                            {
+                                var startupName = instance.NetProStartupImplement.GetType().Name;
+                                if (jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).Any())
+                                {
+                                    instance.NetProStartupImplement.Order = jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).FirstOrDefault().Value;
+                                    jsonObj.Remove(startupName);
+                                }
                             }
                         }
                     }
@@ -108,7 +134,7 @@ namespace NetPro.Startup
                 {
                     using (var writer = File.CreateText(jsonPath))
                     {
-                        var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
+
 
                         foreach (var instance in instances)
                         {
@@ -170,11 +196,26 @@ namespace NetPro.Startup
               .Build();
 
                 table.Config = TableConfig.Default();
+
+                var tempList = new List<string>();
+                uint tempstartupClassNameInt = 1;
                 foreach (var instance in instancesByOrder ?? instances)
                 {
                     instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
                     var assemblyName = instance.Type.Assembly.GetName();
-                    table.AddRow(instance.NetProStartupImplement.Order, instance.Type.Name, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
+                    string startupClassName;
+
+                    if (tempList.Where(s => s == instance.Type.Name).Any())
+                    {
+                        startupClassName = $"{instance.Type.Name}-{tempstartupClassNameInt}";
+                        tempstartupClassNameInt++;
+                    }
+                    else
+                    {
+                        startupClassName = instance.Type.Name;
+                    }
+                    table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
+                    tempList.Add(instance.Type.Name);
                 }
 
                 Console.WriteLine(table.ToString());
@@ -204,7 +245,7 @@ namespace NetPro.Startup
                 //configure request pipeline
                 foreach (var instance in instancesByOrder ?? instances)
                 {
-                    instance.NetProStartupImplement.Configure(app);
+                    instance.NetProStartupImplement.Configure(app, context.HostingEnvironment);
                 }
             });
 

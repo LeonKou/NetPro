@@ -28,7 +28,7 @@ namespace NetPro.Web.Api
         /// 
         /// </summary>
         /// <param name="application"></param>
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             application.UseEndpoints(s =>
             {

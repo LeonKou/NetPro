@@ -73,8 +73,9 @@
             //services.BuildServiceProvider().GetRequiredService<IQueueService>().StartConsuming();
         }
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
+            var dd= env.EnvironmentName;
             application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
             {
                 Predicate = _ => true,
