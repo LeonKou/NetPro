@@ -1,5 +1,6 @@
 ﻿using FreeSql.Internal.Model;
 using Microsoft.Extensions.Logging;
+using NetPro.CsRedis;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -130,7 +131,7 @@ namespace XXX.Plugin.Web.Manager
         }
 
         /// <summary>
-        ///  多表关联查询查询示例
+        ///  多表关联查询示例
         ///  多表关联查询方式提供多种，具体以官方文档
         ///  reference：https://github.com/dotnetcore/FreeSql/wiki/Query-from-Multi-Tables
         ///  reference：https://github.com/dotnetcore/FreeSql/wiki/查询
@@ -238,7 +239,7 @@ namespace XXX.Plugin.Web.Manager
         /// </summary>
         /// <returns></returns>
         public bool Transaction()
-        {
+        {          
             try
             {
                 //此种事务只能使用同步方法，其他事务用法参考:https://github.com/dotnetcore/FreeSql/wiki/事务

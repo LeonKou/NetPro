@@ -98,7 +98,8 @@ namespace NetPro.RedisManager
                 throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
             }
 
-            RedisHelper.Initialization(csredis);
+            //RedisHelper.Initialization(csredis);
+            services.AddSingleton(csredis);
             services.AddSingleton<IRedisManager, CsRedisManager>();
 
             /*注入stackexchange驱动，防止CSRedis驱动下获取IDatabase异常 */
@@ -235,7 +236,8 @@ namespace NetPro.RedisManager
                 throw new ArgumentException($"Check the configuration for redis;{ex}");
             }
 
-            RedisHelper.Initialization(csredis);
+            //RedisHelper.Initialization(csredis);
+            services.AddSingleton(csredis);
 
             #endregion
 

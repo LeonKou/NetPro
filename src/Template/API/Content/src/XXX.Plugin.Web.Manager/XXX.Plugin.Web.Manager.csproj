@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.CsRedis\NetPro.CsRedis.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\XXX.Entity\XXX.Entity.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />

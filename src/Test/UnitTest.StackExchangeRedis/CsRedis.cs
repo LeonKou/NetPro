@@ -44,12 +44,12 @@ namespace UnitTest.StackExchangeRedis
                 throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
             }
 
-            RedisHelper.Initialization(csredis);
+            //RedisHelper.Initialization(csredis);
 
             _redisDatabase = new CsRedisManager(new RedisCacheOption
             {
 
-            }, new NetPro.CsRedis.SystemTextJsonSerializer());
+            }, new NetPro.CsRedis.SystemTextJsonSerializer(), csredis);
         }
         [TestMethod]
         public void SetAndExists()

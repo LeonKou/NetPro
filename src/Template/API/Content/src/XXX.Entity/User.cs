@@ -29,8 +29,10 @@
 
         /// <summary>
         /// 创建时间
+        /// 秒时间戳：DateTimeOffset.Now.ToUnixTimeSeconds()
+        /// 毫秒时间戳：DateTimeOffset.Now.ToUnixTimeMilliseconds()
         /// </summary>
-        public long CreateTime { get; set; }
+        public long CreateTime { get; set; }=DateTimeOffset.Now.ToUnixTimeSeconds();
 
         /// <summary>
         /// 企业Id主键

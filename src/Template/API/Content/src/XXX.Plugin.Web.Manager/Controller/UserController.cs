@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetPro;
 using System.ComponentModel.DataAnnotations;
+using XXX.Plugin.Web.Demo;
 
 namespace XXX.Plugin.Web.Manager
 {
     /// <summary>
-    /// 
+    /// Freesql数据库增删改查实例
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -15,24 +16,24 @@ namespace XXX.Plugin.Web.Manager
     {
         private readonly ILogger<FreeSQLDemoController> _logger;
         private readonly IWebHelper _webHelper;
-        private readonly Demo.IDemoService _managerdemoService;
+        private readonly IRedisService _redisService;
         private readonly IFreeSQLDemoService _userService;
 
         /// <summary>
-        /// 
+        /// ctor
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="webHelper"></param>
-        /// <param name="managerdemoService"></param>
+        /// <param name="redisService"></param>
         /// <param name="userService"></param>
         public FreeSQLDemoController(ILogger<FreeSQLDemoController> logger,
             IWebHelper webHelper
-            , Demo.IDemoService managerdemoService
+            , IRedisService redisService
             , IFreeSQLDemoService userService)
         {
             _logger = logger;
             _webHelper = webHelper;
-            _managerdemoService = managerdemoService;
+            _redisService = redisService;
             _userService = userService;
         }
 

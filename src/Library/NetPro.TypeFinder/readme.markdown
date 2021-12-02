@@ -17,7 +17,7 @@
 建议从appsetting取配置，如下
 ```json
 	"TypeFinderOption": {
-		"MountePath": "./Plugin"
+		"MountePath": "./Plugin" //windows默认目录： C:/opt/netpro ; linux环境：/opt/netpro
 	}
 ```
 

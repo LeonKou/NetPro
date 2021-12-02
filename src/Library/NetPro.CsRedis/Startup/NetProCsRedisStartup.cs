@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
@@ -6,11 +7,11 @@ using NetPro.TypeFinder;
 
 namespace NetPro.CsRedis
 {
-    public class NetProCsRedisStartup //: INetProStartup
+    public class NetProCsRedisStartup : INetProStartup
     {
         public double Order { get; set; } = 1000;
 
-        public void Configure(IApplicationBuilder application)
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
 

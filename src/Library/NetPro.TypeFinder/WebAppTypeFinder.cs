@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace NetPro.TypeFinder
 {
@@ -66,8 +67,19 @@ namespace NetPro.TypeFinder
             {
                 _binFolderAssembliesLoaded = true;
                 var binPath = GetBinDirectory();
-                //binPath = _webHelper.MapPath("~/bin");                
-                LoadMatchingAssemblies(binPath, _typeFinderOption?.MountePath);// _configuration["TypeFinderOption:MountePath"]);//PluginPath:dll path
+                //binPath = _webHelper.MapPath("~/bin");
+                if (string.IsNullOrWhiteSpace(_typeFinderOption?.MountePath))
+                {
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        _typeFinderOption.MountePath = "C:/opt/netpro";
+                    }
+                    else
+                    {
+                        _typeFinderOption.MountePath = "/opt/netpro";
+                    }
+                }
+                LoadMatchingAssemblies(binPath, _typeFinderOption?.MountePath);//MountePath:dll path
             }
 
             return base.GetAssemblies();

@@ -138,9 +138,10 @@ namespace NetPro.TypeFinder
 
                 //load root sub directory
                 var subDirectories = _fileProvider.GetDirectories(directoryPath);
-                foreach (var subDirectory in subDirectories)
+                //Excluding the bin directory
+                for (int i = 1; i < subDirectories.Count(); i++)
                 {
-                    _LoadDll(subDirectory, loadedAssemblyNames);
+                    _LoadDll(subDirectories[i], loadedAssemblyNames);
                 }
             }
         }

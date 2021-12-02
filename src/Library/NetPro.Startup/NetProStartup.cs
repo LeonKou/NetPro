@@ -150,8 +150,6 @@ namespace NetPro.Startup
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
 
-                //var table = new Table("Order", "StartupClassName", "Path", "Assembly");
-
                 CellFormat headerFormat = new CellFormat()
                 {
                     Alignment = Alignment.Center,
@@ -170,30 +168,18 @@ namespace NetPro.Startup
 
                 Table table = new TableBuilder(headerFormat)
               .AddColumn("Order", rowsFormat: new CellFormat(foregroundColor: Color.FromArgb(128, 129, 126)))
-              .AddColumn("StartupClassName")
-                .RowFormatter<string>((x) => FormatData(x))
-                .RowsFormat()
-                .ForegroundColor(Color.FromArgb(128, 129, 126))
-              .AddColumn("Path")
-                .RowsFormat()
-                .ForegroundColor(Color.FromArgb(128, 129, 126))
-              .AddColumn("Assembly")
-                .RowFormatter<string>((x) =>
+              .AddColumn("StartupClassName").RowFormatter<string>((x) => FormatData(x)).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126))
+              .AddColumn("Path").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126))
+              .AddColumn("Assembly").RowFormatter<string>((x) =>
                 {
                     if (!x.Contains("NetPro"))
                     {
                         return $"{x}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
                     }
                     return x;
-                })
-                .RowsFormat()
-                .ForegroundColor(Color.FromArgb(128, 129, 126))
-                .Alignment(Alignment.Left)
-             .AddColumn("Version")
-                 .RowsFormat()
-                 .ForegroundColor(Color.FromArgb(128, 129, 126))
-                 .Alignment(Alignment.Left)
-              .Build();
+                }).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
+             .AddColumn("Version").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
+             .Build();
 
                 table.Config = TableConfig.Default();
 
@@ -221,12 +207,12 @@ namespace NetPro.Startup
                 Console.WriteLine(table.ToString());
                 Console.ResetColor();
 
-                //run startup tasks
-                RunStartupTasks(_typeFinder);
-
                 //Inject the static object engine
                 var engine = EngineContext.Create();
                 engine.ConfigureServices(services);
+
+                //run startup tasks
+                RunStartupTasks(_typeFinder);
 
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
@@ -234,7 +220,6 @@ namespace NetPro.Startup
 
             builder.Configure((context, app) =>
             {
-                //var hostEnvironment = app.ApplicationServices.GetRequiredService<IHostEnvironment>();
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)
                 _serviceProvider = app.ApplicationServices;

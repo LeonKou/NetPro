@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CSRedis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
@@ -55,18 +56,18 @@ namespace NetPro.CsRedis
             services.AddSingleton(redisCacheOption);
             var option = redisCacheOption.Invoke(services.BuildServiceProvider());
             services.AddSingleton(option);
-                        
-            if (option?.Enabled ?? true)
+
+            if (option?.Enabled ?? false)
+            {
+                services.AddSingleton<IRedisManager, CsRedisManager>();
+            }
+            else
             {
                 //禁用，用NullCache实例化，防止现有注入失败
                 var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
                 _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
                 services.AddSingleton<IRedisManager, NullCache>();
                 return services;
-            }
-            else
-            {
-                services.AddSingleton<IRedisManager, CsRedisManager>();
             }
 
             List<string> csredisConns = new List<string>();
@@ -85,18 +86,20 @@ namespace NetPro.CsRedis
                 csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={option.Preheat},idleTimeout={timeout},testcluster={option.Cluster}");
             }
 
-            CSRedis.CSRedisClient csredis;
+            CSRedisClient csredis;
 
             try
             {
-                csredis = new CSRedis.CSRedisClient(null, csredisConns.ToArray());
+                csredis = new CSRedisClient(null, csredisConns.ToArray());
             }
             catch (Exception ex)
             {
                 throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
             }
 
-            RedisHelper.Initialization(csredis);
+            //静态RedisHelper初始化
+            //RedisHelper.Initialization(csredis);
+            services.AddSingleton(csredis);
 
             return services;
         }

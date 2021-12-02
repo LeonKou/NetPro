@@ -2,6 +2,7 @@
 ## RedisManager使用
 
 同时支持StackExchangeRedis和CsRedis，支持分布式锁
+**不推荐使用此库，Redis请使用指定客户端实现的 NetPro.CsRedis、NetPro.StackExchange.Redis或者原生CsRedis**
 
 ### appsetting.json
 
