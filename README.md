@@ -8,7 +8,7 @@
 
 ### 🕰️ 项目请参照 
 
-* 👉[*dev_3.1* branch](https://github.com/LeonKou/NetPro/tree/dev_3.1)
+* 👉[*dev_6.0* branch](https://github.com/LeonKou/NetPro/tree/dev_3.1)
 
 ## 简要
 
