@@ -8,26 +8,14 @@
 ```json
 
 "RedisCacheOption": {
-   "Enabled": true,//是否启用
-   "Password": "netpro",
-   "IsSsl": false,
-   "Preheat": 20,//预热
-   "Cluster": true, //集群模式
-   "ConnectionTimeout": 20,
-   "Endpoints": [
-   	{
-   	 "Port": 6665,
-   	 "Host": "192.168.66.33"
-   	},
-   	{
-   	 "Port": 6666,
-   	 "Host": "192.168.66.66"
-   	}
-   ],
-   "Database": 0,
-   "DefaultCustomKey": "",
-   "PoolSize": 50
-},
+		"Enabled": true,
+		"ConnectionString": [
+			{
+				"Key": "1", //连接串key别名，唯一,用来物理隔离
+				"Value": "127.0.0.1:6379,password=123,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10" //别名key对应的连接串
+			}
+		]
+}
 
 ```
 

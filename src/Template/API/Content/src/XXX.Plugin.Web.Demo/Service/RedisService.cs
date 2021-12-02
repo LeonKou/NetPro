@@ -22,7 +22,8 @@ namespace XXX.Plugin.Web.Demo
     {
         private readonly ILogger<RedisService> _logger;
         private readonly IRedisManager _redisManager;//NetPro封装过的对象接口，提供更丰富功能，本地缓存等
-        private readonly CSRedisClient _redisClient;//CSRedis原生对象，以最原生方式调用
+        private readonly IdleBus<CSRedisClient> _redisClient;//CSRedis原生对象，以最原生方式调用，支持操作多个redis库；_redisClient.Get("别名")必须先取出别名对应的redis实例对象进行奥操作
+
         private static int tempInt = 0;
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace XXX.Plugin.Web.Demo
         /// <param name="redisClient"></param>
         public RedisService(ILogger<RedisService> logger
             , IRedisManager redisManager
-            , CSRedisClient redisClient)
+            , IdleBus<CSRedisClient> redisClient)
         {
             _logger = logger;
             _redisManager = redisManager;
@@ -72,7 +73,7 @@ namespace XXX.Plugin.Web.Demo
         public async Task<string> GetAsync(string key = "one_key")
         {
             //可随时改用原生对象操作redis
-            var value = await _redisClient.GetAsync<string>(key);
+            var value = await _redisManager.GetAsync<string>(key);
             _logger.LogError("redis 查询成功 ");
             return value;
         }
@@ -85,7 +86,8 @@ namespace XXX.Plugin.Web.Demo
         /// <returns></returns>
         public async Task<long> PublishAsync(string channel, string message)
         {
-            var value = await _redisClient.PublishNoneMessageIdAsync(channel, message);
+            //发布到别名为1的redis数据库中
+            var value = await _redisManager.PublishAsync(channel, message);
             _logger.LogInformation("redis 查询成功 ");
             return value;
         }
@@ -99,7 +101,8 @@ namespace XXX.Plugin.Web.Demo
         /// <returns></returns>
         public int DistributeLock(string lockKey, int timeoutSeconds = 30, bool autoDelay = false)
         {
-            using (_redisClient.Lock(lockKey, timeoutSeconds, autoDelay))
+            //通过别名为1的redis库进行分布式锁
+            using (_redisClient.Get("1").Lock(lockKey, timeoutSeconds, autoDelay))
             {
                 //被锁住的逻辑
                 _logger.LogInformation($"分布式锁的当前值---{tempInt++}");
@@ -114,7 +117,8 @@ namespace XXX.Plugin.Web.Demo
     /// </summary>
     class RedisTask : IStartupTask
     {
-        private readonly CSRedisClient _redisClient;
+        private readonly IdleBus<CSRedisClient> _redisClient;
+        private readonly IRedisManager _redisManager;
         private readonly ILogger<RedisTask> _logger;
 
         /// <summary>
@@ -122,7 +126,8 @@ namespace XXX.Plugin.Web.Demo
         /// </summary>
         public RedisTask()
         {
-            _redisClient = EngineContext.Current.Resolve<CSRedisClient>();//获取Redisclient对象
+            _redisClient = EngineContext.Current.Resolve<IdleBus<CSRedisClient>>();//获取支持多个库的原生Redisclient对象
+            _redisManager= EngineContext.Current.Resolve<IRedisManager>();//获取封装过的redis库的IRedisManager对象
             _logger = EngineContext.Current.Resolve<ILogger<RedisTask>>();
         }
         int IStartupTask.Order => 0;
@@ -135,7 +140,7 @@ namespace XXX.Plugin.Web.Demo
         /// <returns></returns>
         void IStartupTask.Execute()
         {
-            _redisClient.Subscribe
+            _redisClient.Get("1").Subscribe
                (
                ("runoobChat", msg =>
                {
@@ -144,7 +149,7 @@ namespace XXX.Plugin.Web.Demo
                }
             ));
 
-            _redisClient.Subscribe
+            _redisClient.Get("1").Subscribe
                (
                ("runoobChat2", msg =>
                {

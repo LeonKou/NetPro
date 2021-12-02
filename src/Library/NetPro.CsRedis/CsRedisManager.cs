@@ -13,16 +13,28 @@ using System.Threading.Tasks;
 
 namespace NetPro.CsRedis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CsRedisManager : IRedisManager
     {
         private readonly RedisCacheOption _option;
         private readonly ISerializer _serializer;
         private IMemoryCache _memorycache;
         private ILogger _logger;
-        private readonly CSRedisClient _cSRedisClient ; 
+        private readonly IdleBus<CSRedisClient> _cSRedisClient;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="option"></param>
+        /// <param name="serializer"></param>
+        /// <param name="cSRedisClient"></param>
+        /// <param name="memorycache"></param>
+        /// <param name="logger"></param>
         public CsRedisManager(RedisCacheOption option,
             ISerializer serializer
-            , CSRedisClient cSRedisClient
+            , IdleBus<CSRedisClient> cSRedisClient
             , IMemoryCache memorycache = null
             , ILogger<CsRedisManager> logger = null
             )
@@ -34,15 +46,23 @@ namespace NetPro.CsRedis
             _logger = logger ?? NullLogger<CsRedisManager>.Instance; ;
         }
 
-        public T Get<T>(string key)
+        public T Get<T>(string key, string dbKey = default)
         {
-            var result = _cSRedisClient.Get<T>(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).Get<T>(key);
             return result;
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T> GetAsync<T>(string key, string dbKey = default)
         {
-            var result = await _cSRedisClient.GetAsync<T>(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = await _cSRedisClient.Get(dbKey).GetAsync<T>(key);
             return result;
         }
 
@@ -57,8 +77,12 @@ namespace NetPro.CsRedis
         /// <param name="expiredTime"></param>
         /// <param name="localExpiredTime">本地过期时间</param>
         /// <returns></returns>
-        public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
+        public T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0, string dbKey = default)
         {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
             if (localExpiredTime > 0 && TimeSpan.FromSeconds(localExpiredTime) <= expiredTime && _memorycache != null)
             {
                 var memoryResult = _memorycache.GetOrCreate<T>(key, s =>
@@ -69,7 +93,7 @@ namespace NetPro.CsRedis
                         return default(T);
                     }
 
-                    var resultTemp = _(key, func, expiredTime);
+                    var resultTemp = _(key, func, expiredTime, dbKey);
 
                     if (resultTemp == null)
                         s.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(5);
@@ -80,12 +104,12 @@ namespace NetPro.CsRedis
                 });
                 return memoryResult;
             }
-            return _(key, func, expiredTime);
+            return _(key, func, expiredTime, dbKey);
         }
 
-        private T _<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null)
+        private T _<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, string dbKey = default)
         {
-            var result = _cSRedisClient.Get<T>(key);
+            var result = _cSRedisClient.Get(dbKey).Get<T>(key);
 
             //引用类型
             if (typeof(T).IsClass && result == null)
@@ -95,9 +119,9 @@ namespace NetPro.CsRedis
                 if (executeResult == null) return default(T);
 
                 if (expiredTime.HasValue)
-                    _cSRedisClient.Set(key, executeResult, expiredTime.Value);
+                    _cSRedisClient.Get(dbKey).Set(key, executeResult, expiredTime.Value);
                 else
-                    _cSRedisClient.Set(key, executeResult);
+                    _cSRedisClient.Get(dbKey).Set(key, executeResult);
 
                 return executeResult;
             }
@@ -113,9 +137,9 @@ namespace NetPro.CsRedis
                         if (executeResult == null) return default(T);
 
                         if (expiredTime.HasValue)
-                            _cSRedisClient.Set(key, executeResult, expiredTime.Value);
+                            _cSRedisClient.Get(dbKey).Set(key, executeResult, expiredTime.Value);
                         else
-                            _cSRedisClient.Set(key, executeResult);
+                            _cSRedisClient.Get(dbKey).Set(key, executeResult);
                         return executeResult;
                     }
                     else
@@ -131,9 +155,9 @@ namespace NetPro.CsRedis
                         var executeResult = func.Invoke();
                         if (executeResult == null) return default(T);
                         if (expiredTime.HasValue)
-                            _cSRedisClient.Set(key, executeResult, expiredTime.Value);
+                            _cSRedisClient.Get(dbKey).Set(key, executeResult, expiredTime.Value);
                         else
-                            _cSRedisClient.Set(key, executeResult);
+                            _cSRedisClient.Get(dbKey).Set(key, executeResult);
                         return executeResult;
                     }
                     else
@@ -146,8 +170,12 @@ namespace NetPro.CsRedis
             return result;
         }
 
-        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0)
+        public async Task<T> GetOrSetAsync<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0, string dbKey = default)
         {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
             if (localExpiredTime > 0 && TimeSpan.FromSeconds(localExpiredTime) <= expiredTime && _memorycache != null)
             {
                 var memoryResult = await _memorycache.GetOrCreateAsync<T>(key, async s =>
@@ -171,9 +199,9 @@ namespace NetPro.CsRedis
             return await _Async(key, func, expiredTime);
         }
 
-        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null)
+        private async Task<T> _Async<T>(string key, Func<Task<T>> func = null, TimeSpan? expiredTime = null, string dbKey = default)
         {
-            var result = await _cSRedisClient.GetAsync<T>(key);
+            var result = await _cSRedisClient.Get(dbKey).GetAsync<T>(key);
 
             //引用类型
             if (typeof(T).IsClass && result == null)
@@ -183,9 +211,9 @@ namespace NetPro.CsRedis
                 if (executeResult == null) return default(T);
 
                 if (expiredTime.HasValue)
-                    await _cSRedisClient.SetAsync(key, executeResult, expiredTime.Value);
+                    await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult, expiredTime.Value);
                 else
-                    await _cSRedisClient.SetAsync(key, executeResult);
+                    await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult);
                 return executeResult;
             }
             //值类型
@@ -200,9 +228,9 @@ namespace NetPro.CsRedis
                         if (executeResult == null) return default(T);
 
                         if (expiredTime.HasValue)
-                            await _cSRedisClient.SetAsync(key, executeResult, expiredTime.Value);
+                            await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult, expiredTime.Value);
                         else
-                            await _cSRedisClient.SetAsync(key, executeResult);
+                            await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult);
                         return executeResult;
                     }
                     else
@@ -218,9 +246,9 @@ namespace NetPro.CsRedis
                         var executeResult = await func.Invoke();
                         if (executeResult == null) return default(T);
                         if (expiredTime.HasValue)
-                            await _cSRedisClient.SetAsync(key, executeResult, expiredTime.Value);
+                            await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult, expiredTime.Value);
                         else
-                            await _cSRedisClient.SetAsync(key, executeResult);
+                            await _cSRedisClient.Get(dbKey).SetAsync(key, executeResult);
                         return executeResult;
                     }
                     else
@@ -233,24 +261,32 @@ namespace NetPro.CsRedis
             return result;
         }
 
-        public object GetByLuaScript(string script, object obj)
+        public object GetByLuaScript(string script, object obj, string dbKey = default)
         {
-            var result = _cSRedisClient.Eval(script, key: "lock_name", args: obj);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).Eval(script, key: "lock_name", args: obj);
             return result;
         }
 
-        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait)
+        public T GetDistributedLock<T>(string resource, int timeoutSeconds, Func<T> func, bool isAwait, string dbKey = default)
         {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
             if (timeoutSeconds <= 0 || string.IsNullOrWhiteSpace(resource))
             {
                 throw new ArgumentException($"The timeout is not valid with a distributed lock object--key:{resource}--expiryTime--{timeoutSeconds}");
             }
 
-            resource = AddDefaultPrefixKey(resource);
+            //resource = AddDefaultPrefixKey(resource);
 
             if (isAwait)
                 goto gotoNext;
-            using (var _lockObject = _cSRedisClient.Lock(resource, 1))
+            using (var _lockObject = _cSRedisClient.Get(dbKey).Lock(resource, 1))
             {
                 if (_lockObject == null)
                 {
@@ -259,9 +295,9 @@ namespace NetPro.CsRedis
                 goto gotoNext;
             }
 
-            gotoNext:
+        gotoNext:
             {
-                using (var lockObject = _cSRedisClient.Lock(resource, timeoutSeconds))
+                using (var lockObject = _cSRedisClient.Get(dbKey).Lock(resource, timeoutSeconds))
                 {
                     if (lockObject == null)
                     {
@@ -276,38 +312,66 @@ namespace NetPro.CsRedis
             }
         }
 
-        public long HashDelete(string key, IEnumerable<string> field)
+        public long HashDelete(string key, IEnumerable<string> field, string dbKey = default)
         {
-            return _cSRedisClient.HDel(key, field.ToArray());
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).HDel(key, field.ToArray());
         }
-        public async Task<long> HashDeleteAsync(string key, IEnumerable<string> field)
+        public async Task<long> HashDeleteAsync(string key, IEnumerable<string> field, string dbKey = default)
         {
-            return await _cSRedisClient.HDelAsync(key, field.ToArray());
-        }
-
-        public long HashDelete(string key, string[] field)
-        {
-            return _cSRedisClient.HDel(key, field);
-        }
-
-        public async Task<long> HashDeleteAsync(string key, string[] field)
-        {
-            return await _cSRedisClient.HDelAsync(key, field);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).HDelAsync(key, field.ToArray());
         }
 
-        public async Task<bool> HashExistsAsync(string key, string hashField)
+        public long HashDelete(string key, string[] field, string dbKey = default)
         {
-            return await _cSRedisClient.HExistsAsync(key, hashField);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).HDel(key, field);
         }
 
-        public bool HashExists(string key, string hashField)
+        public async Task<long> HashDeleteAsync(string key, string[] field, string dbKey = default)
         {
-            return _cSRedisClient.HExists(key, hashField);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).HDelAsync(key, field);
         }
 
-        public T HashGet<T>(string key, string field)
+        public async Task<bool> HashExistsAsync(string key, string hashField, string dbKey = default)
         {
-            return _cSRedisClient.HGet<T>(key, field);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).HExistsAsync(key, hashField);
+        }
+
+        public bool HashExists(string key, string hashField, string dbKey = default)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).HExists(key, hashField);
+        }
+
+        public T HashGet<T>(string key, string field, string dbKey = default)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).HGet<T>(key, field);
         }
 
         /// <summary>
@@ -316,9 +380,13 @@ namespace NetPro.CsRedis
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Dictionary<string, T> HashGetAll<T>(string key)
+        public Dictionary<string, T> HashGetAll<T>(string key, string dbKey = default)
         {
-            return _cSRedisClient.HGetAll<T>(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).HGetAll<T>(key);
         }
 
         /// <summary>
@@ -327,106 +395,178 @@ namespace NetPro.CsRedis
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<Dictionary<string, T>> HashGetAllAsync<T>(string key)
+        public async Task<Dictionary<string, T>> HashGetAllAsync<T>(string key, string dbKey = default)
         {
-            return await _cSRedisClient.HGetAllAsync<T>(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).HGetAllAsync<T>(key);
         }
 
-        public async Task<T> HashGetAsync<T>(string key, string field)
+        public async Task<T> HashGetAsync<T>(string key, string field, string dbKey = default)
         {
-            return await _cSRedisClient.HGetAsync<T>(key, field);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).HGetAsync<T>(key, field);
         }
 
-        public bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null)
+        public bool HashSet<T>(string key, string field, T value, TimeSpan? expiredTime = null, string dbKey = default)
         {
-            bool isSet = _cSRedisClient.HSet(key, field, value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            bool isSet = _cSRedisClient.Get(dbKey).HSet(key, field, value);
             if (isSet && expiredTime.HasValue)
-                _cSRedisClient.Expire(key, expiredTime.Value);
+                _cSRedisClient.Get(dbKey).Expire(key, expiredTime.Value);
             return isSet;
         }
 
-        public async Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null)
+        public async Task<bool> HashSetAsync<T>(string key, string field, T value, TimeSpan? expiredTime = null, string dbKey = default)
         {
-            bool isSet = await _cSRedisClient.HSetAsync(key, field, value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            bool isSet = await _cSRedisClient.Get(dbKey).HSetAsync(key, field, value);
             if (isSet && expiredTime.HasValue)
-                await _cSRedisClient.ExpireAsync(key, expiredTime.Value);
+                await _cSRedisClient.Get(dbKey).ExpireAsync(key, expiredTime.Value);
             return isSet;
         }
 
-        public bool KeyExpire(string key, TimeSpan expiration)
+        public bool KeyExpire(string key, TimeSpan expiration, string dbKey = default)
         {
-            return _cSRedisClient.Expire(key, expiration);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).Expire(key, expiration);
         }
 
-        public async Task<bool> KeyExpireAsync(string key, TimeSpan expiration)
+        public async Task<bool> KeyExpireAsync(string key, TimeSpan expiration, string dbKey = default)
         {
-            return await _cSRedisClient.ExpireAsync(key, expiration);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).ExpireAsync(key, expiration);
         }
 
-        public bool Exists(string key)
+        public bool Exists(string key, string dbKey = default)
         {
-            return _cSRedisClient.Exists(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).Exists(key);
         }
 
-        public async Task<bool> ExistsAsync(string key)
+        public async Task<bool> ExistsAsync(string key, string dbKey = default)
         {
-            return await _cSRedisClient.ExistsAsync(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).ExistsAsync(key);
         }
 
-        public long Remove(string key)
+        public long Remove(string key, string dbKey = default)
         {
-            return _cSRedisClient.Del(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).Del(key);
         }
 
-        public async Task<long> RemoveAsync(string key)
+        public async Task<long> RemoveAsync(string key, string dbKey = default)
         {
-            return await _cSRedisClient.DelAsync(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).DelAsync(key);
         }
 
-        public long Remove(string[] keys)
+        public long Remove(string[] keys, string dbKey = default)
         {
-            return _cSRedisClient.Del(keys);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).Del(keys);
         }
 
-        public async Task<long> RemoveAsync(string[] keys)
+        public async Task<long> RemoveAsync(string[] keys, string dbKey = default)
         {
-            return await _cSRedisClient.DelAsync(keys);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).DelAsync(keys);
         }
 
-        public bool Set(string key, object data, TimeSpan? expiredTime)
+        public bool Set(string key, object data, TimeSpan? expiredTime, string dbKey = default)
         {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
             if (expiredTime.HasValue)
-                return _cSRedisClient.Set(key, data, expiredTime.Value);
+                return _cSRedisClient.Get(dbKey).Set(key, data, expiredTime.Value);
             else
-                return _cSRedisClient.Set(key, data);
+                return _cSRedisClient.Get(dbKey).Set(key, data);
         }
 
-        public async Task<bool> SetAsync(string key, object data, TimeSpan? expiredTime)
+        public async Task<bool> SetAsync(string key, object data, TimeSpan? expiredTime, string dbKey = default)
         {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
             if (expiredTime.HasValue)
-                return await _cSRedisClient.SetAsync(key, data, expiredTime.Value);
+                return await _cSRedisClient.Get(dbKey).SetAsync(key, data, expiredTime.Value);
             else
-                return await _cSRedisClient.SetAsync(key, data);
+                return await _cSRedisClient.Get(dbKey).SetAsync(key, data);
         }
 
-        public long SortedSetAdd<T>(string key, T obj, decimal score)
+        public long SortedSetAdd<T>(string key, T obj, decimal score, string dbKey = default)
         {
-            return _cSRedisClient.ZAdd(key, (score, obj));
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).ZAdd(key, (score, obj));
         }
 
-        public async Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score)
+        public async Task<long> SortedSetAddAsync<T>(string key, T obj, decimal score, string dbKey = default)
         {
-            return await _cSRedisClient.ZAddAsync(key, (score, obj));
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return await _cSRedisClient.Get(dbKey).ZAddAsync(key, (score, obj));
         }
 
-        public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1)
+        public List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1, string dbKey = default)
         {
-            return _cSRedisClient.ZRange<T>(key, start, stop)?.ToList();
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).ZRange<T>(key, start, stop)?.ToList();
         }
 
-        public async Task<List<T>> SortedSetRangeByRankAsync<T>(string key, long start = 0, long stop = -1)
+        public async Task<List<T>> SortedSetRangeByRankAsync<T>(string key, long start = 0, long stop = -1, string dbKey = default)
         {
-            var result = await _cSRedisClient.ZRangeAsync<T>(key, start, stop);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = await _cSRedisClient.Get(dbKey).ZRangeAsync<T>(key, start, stop);
             return result.ToList();
         }
 
@@ -438,11 +578,15 @@ namespace NetPro.CsRedis
         /// <param name="expiry">过期时间</param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public long StringIncrement(string key, long value = 1, TimeSpan? expiry = null)
+        public long StringIncrement(string key, long value = 1, TimeSpan? expiry = null, string dbKey = default)
         {
-            var result = _cSRedisClient.IncrBy(key, value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).IncrBy(key, value);
             if (expiry.HasValue)
-                _cSRedisClient.Expire(key, expiry.Value);
+                _cSRedisClient.Get(dbKey).Expire(key, expiry.Value);
             return result;
         }
 
@@ -454,11 +598,15 @@ namespace NetPro.CsRedis
         /// <param name="expiry">过期时间</param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public async Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        public async Task<long> StringIncrementAsync(string key, long value = 1, TimeSpan? expiry = null, string dbKey = default)
         {
-            var result = await _cSRedisClient.IncrByAsync(key, value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = await _cSRedisClient.Get(dbKey).IncrByAsync(key, value);
             if (expiry.HasValue)
-                await _cSRedisClient.ExpireAsync(key, expiry.Value);
+                await _cSRedisClient.Get(dbKey).ExpireAsync(key, expiry.Value);
             return result;
         }
 
@@ -469,11 +617,15 @@ namespace NetPro.CsRedis
         /// <param name="value"></param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null)
+        public long StringDecrement(string key, long value = 1, TimeSpan? expiry = null, string dbKey = default)
         {
-            var result = _cSRedisClient.IncrBy(key, -value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).IncrBy(key, -value);
             if (expiry.HasValue)
-                _cSRedisClient.Expire(key, expiry.Value);
+                _cSRedisClient.Get(dbKey).Expire(key, expiry.Value);
             return result;
         }
 
@@ -485,23 +637,35 @@ namespace NetPro.CsRedis
         /// <param name="expiry">过期时间</param>
         /// <returns></returns>
         /// <remarks>TODO 待优化为脚本批量操作</remarks>
-        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null)
+        public async Task<long> StringDecrementAsync(string key, long value = 1, TimeSpan? expiry = null, string dbKey = default)
         {
-            var result = await _cSRedisClient.IncrByAsync(key, -value);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = await _cSRedisClient.Get(dbKey).IncrByAsync(key, -value);
             if (expiry.HasValue)
-                await _cSRedisClient.ExpireAsync(key, expiry.Value);
+                await _cSRedisClient.Get(dbKey).ExpireAsync(key, expiry.Value);
             return result;
         }
 
-        public long KeyTimeToLive(string key)
+        public long KeyTimeToLive(string key, string dbKey = default)
         {
-            var time = _cSRedisClient.Ttl(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var time = _cSRedisClient.Get(dbKey).Ttl(key);
             return time;
         }
 
-        public async Task<long> KeyTimeToLiveAsync(string key)
+        public async Task<long> KeyTimeToLiveAsync(string key, string dbKey = default)
         {
-            var time = await _cSRedisClient.TtlAsync(key);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var time = await _cSRedisClient.Get(dbKey).TtlAsync(key);
             return time;
         }
 
@@ -510,9 +674,13 @@ namespace NetPro.CsRedis
         /// </summary>
         /// <param name="key"></param>
         /// <param name="message"></param>
-        public long Publish(string key, string message)
+        public long Publish(string key, string message, string dbKey = default)
         {
-            return _cSRedisClient.PublishNoneMessageId(key, message);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            return _cSRedisClient.Get(dbKey).PublishNoneMessageId(key, message);
         }
 
         /// <summary>
@@ -521,9 +689,13 @@ namespace NetPro.CsRedis
         /// <param name="channel"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<long> PublishAsync(string channel, string input)
+        public async Task<long> PublishAsync(string channel, string input, string dbKey = default)
         {
-            var result = await _cSRedisClient.PublishNoneMessageIdAsync(channel, input);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = await _cSRedisClient.Get(dbKey).PublishNoneMessageIdAsync(channel, input);
             return result;
         }
 
@@ -534,9 +706,13 @@ namespace NetPro.CsRedis
         /// </summary>
         /// <param name="channels">管道</param>
         /// <returns>收到的消息</returns>
-        public void Subscribe(params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels)
+        public void Subscribe(string dbKey = default, params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels)
         {
-            var result = _cSRedisClient.Subscribe(channels);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).Subscribe(channels);
             result.Dispose();
         }
 
@@ -553,16 +729,20 @@ namespace NetPro.CsRedis
         //
         //   onMessage:
         //     接收消息委托
-        public void SubscribeListBroadcast(string listKey, string clientId, Action<string> onMessage)
+        public void SubscribeListBroadcast(string listKey, string clientId, Action<string> onMessage, string dbKey = default)
         {
-            var result = _cSRedisClient.SubscribeListBroadcast(listKey, clientId, onMessage);
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).SubscribeListBroadcast(listKey, clientId, onMessage);
             result.Dispose();
         }
 
-        private string AddDefaultPrefixKey(string key)
-        {
-            var build = new StringBuilder(_option?.DefaultCustomKey ?? string.Empty);
-            return build.Append(key).ToString();
-        }
+        //private string AddDefaultPrefixKey(string key)
+        //{
+        //    var build = new StringBuilder(_option?.DefaultCustomKey ?? string.Empty);
+        //    return build.Append(key).ToString();
+        //}
     }
 }

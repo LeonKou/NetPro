@@ -1,24 +1,11 @@
 {
 	"RedisCacheOption": {
 		"Enabled": true,
-		"Password": "netpro", 
-		"IsSsl": false,
-		"Preheat": 20,
-		"Cluster": true, 
-		"ConnectionTimeout": 20,
-		"Endpoints": [
+		"ConnectionString": [
 			{
-				"Port": 666,
-				"Host": "192.16.8.90"
-			},
-			{
-				"Port": 2333,
-				"Host": "192.16.8.91"
+				"Key": "1", //连接串key别名，唯一
+				"Value": "127.0.0.1:6379,password=123,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10" //别名key对应的连接串
 			}
-		],
-		"Database": 0,
-		"DefaultCustomKey": "",
-		"PoolSize": 50
+		]
 	}
 }
-

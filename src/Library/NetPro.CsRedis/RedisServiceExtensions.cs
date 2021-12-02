@@ -5,10 +5,14 @@ using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace NetPro.CsRedis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class RedisServiceExtensions
     {
         /// <summary>
@@ -53,6 +57,7 @@ namespace NetPro.CsRedis
         /// <returns></returns>
         public static IServiceCollection AddCsRedis(this IServiceCollection services, Func<IServiceProvider, RedisCacheOption> redisCacheOption)
         {
+            // redis连接串示例 var connectionString = "127.0.0.1:6379,password=123,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10";
             services.AddSingleton(redisCacheOption);
             var option = redisCacheOption.Invoke(services.BuildServiceProvider());
             services.AddSingleton(option);
@@ -70,36 +75,27 @@ namespace NetPro.CsRedis
                 return services;
             }
 
-            List<string> csredisConns = new List<string>();
-            string password = option.Password;
-            int defaultDb = option.Database;
-            string ssl = option.SslHost;
-            string keyPrefix = option.DefaultCustomKey;
-            int writeBuffer = 10240;
-            int poolsize = option.PoolSize == 0 ? 10 : option.PoolSize;
-            int timeout = option.ConnectionTimeout;
-            foreach (var e in option.Endpoints)
-            {
-                string server = e.Host;
-                int port = e.Port;
-                if (string.IsNullOrWhiteSpace(server) || port <= 0) { continue; }
-                csredisConns.Add($"{server}:{port},password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={option.Preheat},idleTimeout={timeout},testcluster={option.Cluster}");
-            }
+            //CSRedisClient csredis;
 
-            CSRedisClient csredis;
-
-            try
+            IdleBus<CSRedisClient> idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(10));
+            foreach (var item in option.ConnectionString)
             {
-                csredis = new CSRedisClient(null, csredisConns.ToArray());
+                idleBus.Register(item.Key, () =>
+                {
+                    try
+                    {
+                        return new CSRedisClient(item.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
+                    }
+                });
             }
-            catch (Exception ex)
-            {
-                throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
-            }
+            services.AddSingleton(idleBus);
 
-            //静态RedisHelper初始化
+            //静态RedisHelper方式初始化
             //RedisHelper.Initialization(csredis);
-            services.AddSingleton(csredis);
 
             return services;
         }

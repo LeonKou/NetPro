@@ -32,6 +32,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CSRedisCore" Version="3.6.6" />
+		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>
 

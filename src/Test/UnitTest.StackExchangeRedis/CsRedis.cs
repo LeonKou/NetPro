@@ -1,3 +1,4 @@
+using CSRedis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,11 +46,13 @@ namespace UnitTest.StackExchangeRedis
             }
 
             //RedisHelper.Initialization(csredis);
+            IdleBus<CSRedisClient> idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(10));
+            idleBus.Register("", () => csredis);
 
             _redisDatabase = new CsRedisManager(new RedisCacheOption
             {
 
-            }, new NetPro.CsRedis.SystemTextJsonSerializer(), csredis);
+            }, new NetPro.CsRedis.SystemTextJsonSerializer(), idleBus);
         }
         [TestMethod]
         public void SetAndExists()
