@@ -37,7 +37,7 @@ namespace XXX.API
                 //Register方法注册一个名为sqlite的数据库实例
                 return new FreeSqlBuilder()
                 .UseConnectionString(DataType.Sqlite, configuration.GetConnectionString("SqliteConnection"))
-                .UseAutoSyncStructure(true) //自动同步实体结构到数据库
+                .UseAutoSyncStructure(true) //true:自动同步实体结构到数据库
                 .Build();
             });
 
@@ -46,7 +46,7 @@ namespace XXX.API
                 //Register方法注册一个名为sqlite的数据库实例
                 return new FreeSqlBuilder()
                 .UseConnectionString(DataType.MySql, configuration.GetConnectionString("MysqlConnection"))
-                .UseAutoSyncStructure(true) //自动同步实体结构到数据库
+                .UseAutoSyncStructure(false) //true:自动同步实体结构到数据库；false:默认不迁移数据
                 .Build();
             });
 
@@ -55,7 +55,7 @@ namespace XXX.API
             services.AddSingleton<IFreeSql>(fsql);
             #endregion
 
-            services.AddHealthChecks();
+            //services.AddHealthChecks();
         }
 
         /// <summary>
@@ -65,15 +65,15 @@ namespace XXX.API
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            //健康检查(应该限制外网访问或者注释此段)
-            application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
+            ////健康检查(应该限制外网访问或者注释此段)
+            //application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //});
 
-            //环境检查(应该限制外网访问或者注释此段)
-            application.UseCheck(envPath: "/env", infoPath: "/info");//envPath:应用环境地址；infoPath:应用自身信息地址
+            ////环境检查(应该限制外网访问或者注释此段)
+            //application.UseCheck(envPath: "/env", infoPath: "/info");//envPath:应用环境地址；infoPath:应用自身信息地址
         }
     }
 }

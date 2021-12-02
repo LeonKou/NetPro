@@ -123,10 +123,19 @@ namespace XXX.Plugin.Web.Manager
         public async Task<int> UpdateAsync(UserUpdateAo user)
         {
             var userEntity = _mapper.Map<UserUpdateAo, User>(user);
-            var affrows = await _fsql.GetRepository<User>()
-                .UpdateAsync(userEntity);
+            int affrows = 0;
+            try
+            {
+                affrows = await _fsql.GetRepository<User>()
+               .UpdateAsync(userEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("更新整个对象失败，不存在");
+                return 0;
+            }
 
-            _logger.LogError("更新单个值成功");
+            _logger.LogInformation("更新整个对象成功");
             return affrows;
         }
 
@@ -239,7 +248,7 @@ namespace XXX.Plugin.Web.Manager
         /// </summary>
         /// <returns></returns>
         public bool Transaction()
-        {          
+        {
             try
             {
                 //此种事务只能使用同步方法，其他事务用法参考:https://github.com/dotnetcore/FreeSql/wiki/事务
