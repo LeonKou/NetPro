@@ -10,17 +10,17 @@
 ```json
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Leon",//作者
-  "classifications": [ "WebApi" ], //脚手架所属类型，这里是WebApi
-  "name": "NetPro Webapi", // 脚手架模板全称(不唯一)
-  "identity": "NetPro Webapi", //脚手架模板唯一标识
-  "groupIdentity": "NetPro Webapi", //所属组，例如都隶属于某组织
-  "shortName": "netproapi", //短名称，使用 dotnet new <shortName> 安装模板时的名称
+  "author": "Leon",
+  "classifications": [ "gRPC" ],
+  "name": "NetPro gRPC",
+  "identity": "NetPro gRPC", //模板唯一标识
+  "groupIdentity": "NetPro gRPC",
+  "shortName": "netprogrpc", //【修改】短名称，使用 dotnet new <shortName> 安装模板时的名称
   "tags": {
-    "language": "C#", //脚手架支持的语言
-    "type": "project" //默认project
+    "language": "C#",
+    "type": "project"
   },
-  "sourceName": "XXX", //在使用 -n 选项时，会替换模板中所有包含了XXX的文件夹，文件等
+  "sourceName": "XXX", //【修改】在使用 -n 选项时，会替换模板中项目的名字
   "preferNameDirectory": true
 }
 ```
@@ -47,7 +47,7 @@ dotnet new -i ./
     <id>netproapi</id><!-- 唯一标识 -->
     <version>1.0.0</version><!-- 版本 -->
     <description>
-      NetProApi Template, including WebApi     
+      NetProGrpc Template, including Grpc     
     </description>
     <authors>leon</authors>
     <packageTypes>

@@ -42,6 +42,7 @@ namespace XXX.Plugin.Web.Manager
         /// </summary>
         /// <returns></returns>
         [HttpPost("MultiFreeSql")]
+        [ProducesResponseType(200, Type = typeof(string))]
         public async Task<string> MultiFreeSqlAsync(string dbKey)
         {
             var constring = await _userService.MultiFreeSqlAsync(dbKey);
@@ -52,16 +53,18 @@ namespace XXX.Plugin.Web.Manager
         /// 新增示例
         /// </summary>
         [HttpPost("insert")]
-        public async Task<string> InsertAsync(UserInsertAo userInsertAo)
+        [ProducesResponseType(200, Type = typeof(int))]
+        public async Task<int> InsertAsync(UserInsertAo userInsertAo)
         {
-            await _userService.InsertAsync(userInsertAo);
-            return "";
+            var result = await _userService.InsertAsync(userInsertAo);
+            return result;
         }
 
         /// <summary>
         /// 删除示例
         /// </summary>
         [HttpDelete("delete")]
+        [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> DeleteAsync(uint id)
         {
             var result = await _userService.DeleteAsync(id);
@@ -72,6 +75,7 @@ namespace XXX.Plugin.Web.Manager
         /// 更新单个值示例
         /// </summary>
         [HttpPatch("update")]
+        [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> UpdatePatchAsync(uint id, uint age)
         {
             var result = await _userService.UpdatePatchAsync(id, age);
@@ -82,6 +86,7 @@ namespace XXX.Plugin.Web.Manager
         /// 更新整个对象示例
         /// </summary>
         [HttpPost("update")]
+        [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> UpdateAsync(UserUpdateAo user)
         {
             var result = await _userService.UpdateAsync(user);
@@ -92,6 +97,7 @@ namespace XXX.Plugin.Web.Manager
         /// 关联查询示例
         /// </summary>
         [HttpGet("searchjoin")]
+        [ProducesResponseType(200, Type = typeof(PagedList<User>))]
         public async Task<PagedList<User>> SearchJoinAsync([FromQuery] UserSearchAo search)
         {
             var result = await _userService.SearchJoinAsync(search);
@@ -106,6 +112,7 @@ namespace XXX.Plugin.Web.Manager
         /// <param name="searchPageBase"></param>
         /// <returns></returns>
         [HttpGet("graphql")]
+        [ProducesResponseType(200, Type = typeof(PagedList<User>))]
         public async Task<PagedList<User>> GraphQLAsync([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase)
         {
             var result = await _userService.GraphQLAsync(dyfilter, searchPageBase);
@@ -119,6 +126,7 @@ namespace XXX.Plugin.Web.Manager
         /// <param name="searchPageBase"></param>
         /// <returns></returns>
         [HttpGet("GenerateSqlByLinq")]
+        [ProducesResponseType(200, Type = typeof(string))]
         public async Task<string> GenerateSqlByLinq([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase)
         {
             var result = await _userService.GenerateSqlByLinq(dyfilter, searchPageBase);
@@ -131,6 +139,7 @@ namespace XXX.Plugin.Web.Manager
         /// </summary>
         /// <returns></returns>
         [HttpGet("Transaction")]
+        [ProducesResponseType(200, Type = typeof(bool))]
         public bool Transaction()
         {
             var succeed = _userService.Transaction();

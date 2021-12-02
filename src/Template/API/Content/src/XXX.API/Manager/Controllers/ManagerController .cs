@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NetPro.Web.Api;
 using System;
@@ -21,28 +22,30 @@ namespace XXX.API.Controllers
         };
 
         private readonly ILogger<ManagerController> _logger;
+        private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        public ManagerController(ILogger<ManagerController> logger)
+        /// <param name="localizer"></param>
+        public ManagerController(ILogger<ManagerController> logger
+            , IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
-        /// 主站点Get方法
+        /// 多语言国际化示例
         /// </summary>
-        [HttpGet]
+        [HttpGet("Globalization")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Globalization()
         {
-            var er = EngineContext.Current.Resolve<IWebHelper>();
-            var sd = er.GetCurrentIpAddress();
-            var ass = AppDomain.CurrentDomain.GetAssemblies();
-            _logger.LogInformation("系统调用成功");
-            return Ok();
+            var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
+            return Ok(message);
+
         }
     }
 

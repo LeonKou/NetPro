@@ -37,6 +37,7 @@ namespace XXX.Plugin.Web.Demo
         /// <param name="timeSpan">过期时间</param>
         /// <returns></returns>
         [HttpPost("Set")]
+        [ProducesResponseType(200, Type = typeof(bool))]
         public async Task<bool> SetAsync(string key = "one_key", string value = "one_value", TimeSpan? timeSpan = null)
         {
             //除了构造函数获取对象实例也可使用静态的EngineContext来获取对象容器中的指定容器(不鼓励使用，图便利可以使用)
@@ -56,6 +57,7 @@ namespace XXX.Plugin.Web.Demo
         /// <param name="key">redis key</param>
         /// <returns></returns>
         [HttpGet("Get")]
+        [ProducesResponseType(200, Type = typeof(string))]
         public async Task<string> GetAsync(string key = "one_key")
         {
             var result = await _redisService.GetAsync(key);
@@ -69,6 +71,7 @@ namespace XXX.Plugin.Web.Demo
         /// <param name="message">要发布的消息</param>
         /// <returns></returns>
         [HttpPost("Publish")]
+        [ProducesResponseType(200, Type = typeof(long))]
         public async Task<long> PublishAsync(string channel, string message)
         {
             var result = await _redisService.PublishAsync(channel, message);
@@ -80,6 +83,7 @@ namespace XXX.Plugin.Web.Demo
         /// 消息订阅由后台自动执行，参考继承了IStartupTask接口的RedisTask实现类
         /// </summary>
         [HttpGet("Subscribe")]
+        [ProducesResponseType(200)]
         public IActionResult Subscribe()
         {
             //class RedisTask : IStartupTask
@@ -94,6 +98,7 @@ namespace XXX.Plugin.Web.Demo
         /// <param name="autoDelay">是否自动延长过期时间</param>
         /// <returns></returns>
         [HttpGet("DistributeLock")]
+        [ProducesResponseType(200)]
         public IActionResult DistributeLock(string lockKey = "lockKey", int timeoutSeconds = 30, bool autoDelay = false)
         {
             var result = _redisService.DistributeLock(lockKey, timeoutSeconds, autoDelay);

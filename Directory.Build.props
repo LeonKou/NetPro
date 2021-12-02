@@ -13,83 +13,80 @@
 		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>
 	</PropertyGroup>
 
-	<PropertyGroup Label="NetPro SDK Versions">		 
-		
-		<NetProAuthentication>3.1.13</NetProAuthentication>
+	<PropertyGroup Label="NetPro SDK Versions">
+
+		<NetProAuthentication>6.0.1</NetProAuthentication>
 		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
 
-		<NetProAnalysic>3.1.13</NetProAnalysic>
-		<NetProAnalysicAssemblyName>NetPro.Analysicn</NetProAnalysicAssemblyName>
+		<NetProAnalysic>6.0.1</NetProAnalysic>
+		<NetProAnalysicAssemblyName>NetPro.Analysic</NetProAnalysicAssemblyName>
 
-		<NetProChecker>3.1.13</NetProChecker>
+		<NetProChecker>6.0.1</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCore>3.1.13</NetProCore>
+		<NetProCore>6.0.1</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProDapper>3.1.13</NetProDapper>
+		<NetProDapper>6.0.1</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
-		<NetProLog>3.1.13</NetProLog>
+		<NetProLog>6.0.1</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>3.1.13</NetProMongoDb>
+		<NetProMongoDb>6.0.1</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>3.1.13</NetProRabbitMQ>
+		<NetProRabbitMQ>6.0.1</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>3.1.13</NetProRedisManager>
+		<NetProRedisManager>6.0.1</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProStackExchangeRedis>3.1.13</NetProStackExchangeRedis>
+		<NetProStackExchangeRedis>6.0.1</NetProStackExchangeRedis>
 		<NetProStackExchangeRedisAssemblyName>NetPro.StackExchange.Redis</NetProStackExchangeRedisAssemblyName>
 
-		<NetProCsRedis>3.1.13</NetProCsRedis>
+		<NetProCsRedis>6.0.1</NetProCsRedis>
 		<NetProCsRedisAssemblyName>NetPro.CsRedis</NetProCsRedisAssemblyName>
 
-		<NetProUtility>3.1.13</NetProUtility>
+		<NetProUtility>6.0.1</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProTypeFinder>3.1.13</NetProTypeFinder>
+		<NetProTypeFinder>6.0.1</NetProTypeFinder>
 		<NetProTypeFinderAssemblyName>NetPro.TypeFinder</NetProTypeFinderAssemblyName>
 
-		<NetProSwagger>3.1.13</NetProSwagger>
+		<NetProSwagger>6.0.1</NetProSwagger>
 		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
 
-		<NetProShareRequestBody>3.1.13</NetProShareRequestBody>
+		<NetProShareRequestBody>6.0.1</NetProShareRequestBody>
 		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>
 
-		<NetProResponseCache>3.1.13</NetProResponseCache>
+		<NetProResponseCache>6.0.1</NetProResponseCache>
 		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
 
-		<NetProWebApi>3.1.13</NetProWebApi>
+		<NetProWebApi>6.0.1</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
-
-		<NetProWebCore>3.1.13</NetProWebCore>
-		<NetProWebCoreAssemblyName>NetPro.Web.Core</NetProWebCoreAssemblyName>
 
 		<NetProEFCore>3.1.13</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 
-		<NetProSign>3.1.13</NetProSign>
+		<NetProSign>6.0.1</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
 
-		<NetProGlobalization>3.1.13</NetProGlobalization>
+		<NetProGlobalization>6.0.1</NetProGlobalization>
 		<NetProGlobalizationAssemblyName>NetPro.Globalization</NetProGlobalizationAssemblyName>
 
-		<NetProGrpc>3.1.13</NetProGrpc>
-		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>		
+		<NetProGrpc>6.0.1</NetProGrpc>
+		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>
 
-		<NetProProxy>3.1.13</NetProProxy>
+		<NetProProxy>6.0.1</NetProProxy>
 		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>
 
-		<NetProStartup>3.1.13</NetProStartup>
+		<NetProStartup>6.0.1</NetProStartup>
 		<NetProStartupAssemblyName>NetPro.Startup</NetProStartupAssemblyName>
 
-		<NetProResponseResult>3.1.13</NetProResponseResult>
+		<NetProResponseResult>6.0.1</NetProResponseResult>
 		<NetProResponseResultAssemblyName>NetPro.ResponseResult</NetProResponseResultAssemblyName>
-		
+
 
 	</PropertyGroup>
 
