@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text.Json;
 using BetterConsoles.Colors.Extensions;
 using BetterConsoles.Tables;
@@ -256,7 +257,8 @@ namespace NetPro.Startup
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             //check for assembly already loaded
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            //var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            var assembly = AssemblyLoadContext.Default.Assemblies.FirstOrDefault(a => a.FullName== args.Name); 
             if (assembly != null)
                 return assembly;
             return null;

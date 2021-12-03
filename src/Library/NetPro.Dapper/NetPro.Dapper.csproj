@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<IsPackable>false</IsPackable>
 		<Version>$(NetProDapper)</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>

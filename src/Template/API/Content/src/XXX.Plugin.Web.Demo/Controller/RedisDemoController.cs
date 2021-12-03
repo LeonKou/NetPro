@@ -11,11 +11,6 @@ namespace XXX.Plugin.Web.Demo
     [Route("[controller]")]
     public class RedisDemoController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<RedisDemoController> _logger;
         private readonly IWebHelper _webHelper;
         private readonly IRedisService _redisService;

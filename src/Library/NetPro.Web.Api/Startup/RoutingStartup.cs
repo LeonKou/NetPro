@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +45,18 @@ namespace NetPro.Web.Api
 
             var mvcBuilder = services.AddControllers(config =>
             {
+                //是否允许Body为空，默认为false不允许为空
+                config.AllowEmptyInputInBodyModelBinding = true;
+                foreach (var formatter in config.InputFormatters)
+                {
+                    if (formatter.GetType() == typeof(SystemTextJsonInputFormatter))
+                    {   //增加默认支持的ContentType
+                        var supportedMediaTypes = ((SystemTextJsonInputFormatter)formatter).SupportedMediaTypes;
+                        supportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("text/plain"));
+                        supportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("multipart/form-data"));
+                    }
+                }
+
                 //config.Filters.Add(typeof(CustomAuthorizeFilter));//用户权限验证过滤器                                                                    
                 //同类型的过滤按添加先后顺序执行,第一个最先执行；ApiController特性下，
                 //过滤器无法挡住过滤验证失败，故无法统一处理，只能通过ConfigureApiBehaviorOptions 
@@ -116,7 +129,7 @@ namespace NetPro.Web.Api
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.EntryPoint != null||assembly.GetName().Name.Contains(".Plugin."))//The plug-in identifier
+                if (assembly.EntryPoint != null || assembly.GetName().Name.Contains(".Plugin."))//The plug-in identifier
                 {
                     mvcBuilder.AddApplicationPart(assembly);
                 }
