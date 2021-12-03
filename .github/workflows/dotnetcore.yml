@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 6.0.x
         source-url: https://api.nuget.org/v3/index.json
       env:
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        NUGET_AUTH_TOKEN: ${{secrets.NUGET_AUTH_TOKEN}}
     - name: Install dependencies
       run: dotnet restore src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
     - name: Build
@@ -29,5 +29,5 @@ jobs:
     - name: Pack
       run: dotnet pack src/NetProMicroservice.sln --output publish -c Release
     - name: Push Pack
-      run: dotnet nuget push publish/*.nupkg -k ${{secrets.GITHUB_TOKEN}} -s https://api.nuget.org/v3/index.json  --skip-duplicate
+      run: dotnet nuget push publish/*.nupkg -k ${{secrets.NUGET_AUTH_TOKEN}} -s https://api.nuget.org/v3/index.json  --skip-duplicate
       continue-on-error: true
