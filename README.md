@@ -86,6 +86,8 @@
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic) [NetPro.Analysic](https://github.com/LeonKou/NetPro.Analysic)(请求分析控制，可精细配置同ip一定时间的错误数和正确数，超过阈值拦截熔断访问)
 
+---
+
 具体参考 NetPro\src\Template\API\Content（插模块插件)项目
 
  webapi项目引用 `NetPro.Web.Api` [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)  引用最新nuget即可
@@ -97,6 +99,30 @@ Package Manager方式: `Install-Package NetPro.Web.Api -Version 3.1.2`
 PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="3.1.2" />`
 
 .NET CLI 方式: `paket add NetPro.Web.Api --version 3.1.2`
+
+---
+
+## 通过脚手架创建项目(推荐)
+
+### 1、安装netproapi脚手架
+执行以下命令安装脚手架
+```
+dotnet new -i netproapi::* 
+```
+
+### 2、使用脚手架创建项目
+
+在指定的项目文件夹中执行以下命令
+```
+dotnet new netproapi -n 项目名称
+```
+例如当前项目为IAM.API
+```
+dotnet new netproapi -n IAM.API
+```
+
+
+## 手动创建项目
 
 *  修改`Program.cs`
 

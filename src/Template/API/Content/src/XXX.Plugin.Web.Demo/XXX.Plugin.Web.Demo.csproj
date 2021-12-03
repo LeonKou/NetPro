@@ -4,7 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<!--<Nullable>enable</Nullable>-->  <!--可空检测，6.0以下升级上来的不建议打开，影响业务逻辑-->
+		<!--<Nullable>enable</Nullable>-->
+		<!--可空检测，6.0以下升级上来的不建议打开，影响业务逻辑-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,11 +22,14 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="IronPython" Version="2.7.11" />
 		<PackageReference Include="IronPython.StdLib" Version="2.7.11" />
+
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.CsRedis\NetPro.CsRedis.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<PackageReference Include="NetPro.CsRedis" Version="6.0.1" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />
 	</ItemGroup>
 
 </Project>
