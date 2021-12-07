@@ -116,11 +116,11 @@ dotnet new -i netproapi::*
 ```
 dotnet new netproapi -n 项目名称
 ```
-例如当前项目为IAM.API
+例如当前项目为IAM
 ```
-dotnet new netproapi -n IAM.API
+dotnet new netproapi -n IAM
 ```
-
+执行以上命令将自动创建WebApi代码解决方案
 
 ## 手动创建项目
 
