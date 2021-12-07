@@ -79,6 +79,7 @@ namespace NetPro.TypeFinder
                         _typeFinderOption.MountePath = "/opt/netpro";
                     }
                 }
+
                 LoadMatchingAssemblies(binPath, _typeFinderOption?.MountePath);//MountePath:dll path
             }
 

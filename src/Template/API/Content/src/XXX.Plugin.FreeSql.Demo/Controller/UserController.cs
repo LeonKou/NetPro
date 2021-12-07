@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetPro;
 using System.ComponentModel.DataAnnotations;
-using XXX.Plugin.Redis.Demo;
 
 namespace XXX.Plugin.FreeSql.Demo
 {
@@ -16,7 +15,6 @@ namespace XXX.Plugin.FreeSql.Demo
     {
         private readonly ILogger<FreeSQLDemoController> _logger;
         private readonly IWebHelper _webHelper;
-        private readonly IRedisService _redisService;
         private readonly IFreeSQLDemoService _userService;
 
         /// <summary>
@@ -28,12 +26,10 @@ namespace XXX.Plugin.FreeSql.Demo
         /// <param name="userService"></param>
         public FreeSQLDemoController(ILogger<FreeSQLDemoController> logger,
             IWebHelper webHelper
-            , IRedisService redisService
             , IFreeSQLDemoService userService)
         {
             _logger = logger;
             _webHelper = webHelper;
-            _redisService = redisService;
             _userService = userService;
         }
 

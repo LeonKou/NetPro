@@ -115,6 +115,7 @@ namespace NetPro.TypeFinder
         protected virtual void LoadMatchingAssemblies(params string[] directoryPaths)
         {
             var loadedAssemblyNames = new List<string>();
+            string entryPoint = null;
             foreach (var directoryPath in directoryPaths)
             {
                 if (string.IsNullOrWhiteSpace(directoryPath))
@@ -123,12 +124,17 @@ namespace NetPro.TypeFinder
                 }
                 foreach (var a in GetAssemblies())
                 {
+                    if (a.EntryPoint != null)
+                    {
+                        entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
+                    }
+                   
                     loadedAssemblyNames.Add(a.FullName);
                 }
 
-                if (!_fileProvider.DirectoryExists(directoryPath))
+                if (!_fileProvider.DirectoryExists($"{directoryPath}/{entryPoint}"))
                 {
-                    _fileProvider.CreateDirectory(directoryPath);
+                    _fileProvider.CreateDirectory($"{directoryPath}/{entryPoint}");
                     _fileProvider.WriteAllText($"{directoryPath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
                     return;
                 }

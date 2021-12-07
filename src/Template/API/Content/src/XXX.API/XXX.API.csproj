@@ -14,14 +14,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />-->
+		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />-->
+		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />-->
+		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />-->
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<PackageReference Include="NetPro.Checker" Version="6.0.1" />
 		<PackageReference Include="NetPro.Globalization" Version="6.0.1" />
 		<PackageReference Include="NetPro.Swagger" Version="6.0.1" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />
+		<!--<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\XXX.Plugin.FreeSql.Demo\XXX.Plugin.FreeSql.Demo.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.FreeSql.Demo\XXX.Plugin.FreeSql.Demo.csproj" />
 	</ItemGroup>
 
 </Project>
