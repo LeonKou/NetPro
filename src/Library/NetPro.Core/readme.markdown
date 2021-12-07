@@ -11,13 +11,12 @@
 ```json
 基础配置
 
-"NetProOption": {
-      "ProjectPrefix": "NetPro",//项目前缀
-      "ProjectSuffix": "",//项目后缀
+"NetProOption": {     
       "UseResponseCompression": false,//是否启用响应压缩
       "ThreadMinCount": 5,//最小线程数
       "ApplicationName": "",//应用名称
-      "RequestWarningThreshold": 5 //请求时长的警告临界值
+      "RequestWarningThreshold": 5, //请求时长的警告临界值
+      "RoutePrefix":"api" //全局路由前缀
 	},
 
 ```

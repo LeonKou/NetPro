@@ -13,4 +13,4 @@ global using Microsoft.AspNetCore.Hosting;
 global using NetPro;
 global using XXX.Entity;
 global using AutoMapper;
-global using XXX.Plugin.Web.Manager;
+global using XXX.Plugin.FreeSql.Demo;

@@ -15,7 +15,7 @@ namespace XXX.API
         public double Order { get; set; } = int.MaxValue;
 
         /// <summary>
-        /// 
+        /// 服务注入
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>

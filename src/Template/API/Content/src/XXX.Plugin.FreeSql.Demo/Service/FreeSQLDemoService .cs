@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XXX.Plugin.Web.Manager
+namespace XXX.Plugin.FreeSql.Demo
 {
     public interface IFreeSQLDemoService
     {

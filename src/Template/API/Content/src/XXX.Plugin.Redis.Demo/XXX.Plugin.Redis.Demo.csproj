@@ -26,8 +26,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.CsRedis\NetPro.CsRedis.csproj" />
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.CsRedis\NetPro.CsRedis.csproj" />
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />-->
 		<PackageReference Include="NetPro.CsRedis" Version="6.0.1" />
 		<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />
 	</ItemGroup>

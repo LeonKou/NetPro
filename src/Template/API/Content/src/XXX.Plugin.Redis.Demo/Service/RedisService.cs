@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static CSRedis.CSRedisClient;
 
-namespace XXX.Plugin.Web.Demo
+namespace XXX.Plugin.Redis.Demo
 {
     public interface IRedisService
     {

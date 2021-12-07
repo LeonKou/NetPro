@@ -13,10 +13,6 @@
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
-	<ItemGroup>		
-		<ProjectReference Include="..\XXX.Plugin.Web.Manager\XXX.Plugin.Web.Manager.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
@@ -29,8 +25,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Manager\Model\" />
-		<Folder Include="Manager\Service\" />
+		<Folder Include="Redis\Model\" />
+		<Folder Include="Redis\Service\" />
+		<Folder Include="FreeSql\Model\" />
+		<Folder Include="FreeSql\Service\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\XXX.Plugin.FreeSql.Demo\XXX.Plugin.FreeSql.Demo.csproj" />
 	</ItemGroup>
 
 </Project>

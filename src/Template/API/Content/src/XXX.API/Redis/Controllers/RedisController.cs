@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 namespace XXX.API.Controllers
 {
     /// <summary>
-    /// 
+    /// 单程序集开发方式： RedisController 
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ManagerController : ControllerBase
+    public class RedisController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<ManagerController> _logger;
+        private readonly ILogger<RedisController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace XXX.API.Controllers
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
-        public ManagerController(ILogger<ManagerController> logger
+        public RedisController(ILogger<RedisController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
             _logger = logger;
@@ -37,7 +37,7 @@ namespace XXX.API.Controllers
         }
 
         /// <summary>
-        /// 多语言国际化示例
+        /// 单程序集开发方式：多语言国际化示例
         /// </summary>
         [HttpGet("Globalization")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]

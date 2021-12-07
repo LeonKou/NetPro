@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\XXX.Entity\XXX.Entity.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Web.Demo\XXX.Plugin.Web.Demo.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.Redis.Demo\XXX.Plugin.Redis.Demo.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,6 @@
-﻿namespace XXX.Plugin.Web.Manager
+﻿namespace XXX.Plugin.Redis.Demo
 {
-    public class ApiStartup : INetProStartup
+    public class RedisStartup : INetProStartup
     {
         public double Order { get; set; } = int.MaxValue;
 

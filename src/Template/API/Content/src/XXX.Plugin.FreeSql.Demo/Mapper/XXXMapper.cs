@@ -1,4 +1,4 @@
-﻿namespace Leon.XXX.Domain
+﻿namespace XXX.Plugin.FreeSql.Demo
 {
     /// <summary>
     /// 实体之间隐射配置

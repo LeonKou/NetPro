@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetPro;
 using System.ComponentModel.DataAnnotations;
-using XXX.Plugin.Web.Demo;
+using XXX.Plugin.Redis.Demo;
 
-namespace XXX.Plugin.Web.Manager
+namespace XXX.Plugin.FreeSql.Demo
 {
     /// <summary>
     /// Freesql数据库增删改查实例
