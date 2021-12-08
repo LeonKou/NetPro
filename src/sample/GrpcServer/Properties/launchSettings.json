@@ -5,8 +5,7 @@
       "launchBrowser": false,
       "applicationUrl": "https://0.0.0:5002",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

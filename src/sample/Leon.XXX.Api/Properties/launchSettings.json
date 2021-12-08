@@ -6,8 +6,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5001"
     },
@@ -17,8 +16,7 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/docs",
       "publishAllPorts": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Startup"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

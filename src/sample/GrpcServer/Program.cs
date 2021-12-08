@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using NetPro;
 using NetPro.Core;
 using Serilog;
+using System;
 
 namespace GrpcServer
 {
@@ -14,6 +15,7 @@ namespace GrpcServer
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "NetPro.Startup");
             CreateHostBuilder(args).Build().Run();
         }
 
