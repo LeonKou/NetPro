@@ -1,6 +1,7 @@
 
 # XXX 简介
-XXX是一个Webapi服务,由netproapi脚手架生成，依赖于.NetCore6.0
+XXX是一个跨平台Webapi服务,基于开源组件[LeonKou/NetPro](https://github.com/LeonKou/NetPro)，由netproapi脚手架生成，运行时依赖于.Net6.0+。
+
 ...(待补充)
 ---
 
@@ -69,4 +70,6 @@ appsetting.json
 	},
 
 ```
+
+## 相关业务注意事项：
 
