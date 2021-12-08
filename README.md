@@ -242,6 +242,13 @@ namespace NetPro.Web.Api
 
 ```
 
+* 启动前设置环境变量开启增强启动
+```csharp
+Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "NetPro.Startup")
+```
+
+
+
 * Controller使用
 
 `Controller`继承原生`ControllerBase`即可，使用也参考官方原生接口开发
