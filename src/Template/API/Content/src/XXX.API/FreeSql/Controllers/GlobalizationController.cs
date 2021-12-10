@@ -6,34 +6,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XXX.API.FreeSql.Service;
 
 namespace XXX.API.Controllers
 {
     /// <summary>
-    /// 单程序集开发方式： FreeSql
+    /// Globalization
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class FreeSqlController : ControllerBase
+    public class GlobalizationController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<FreeSqlController> _logger;
+        private readonly ILogger<GlobalizationController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
+        private readonly IGlobalizationService _globalizationService;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
-        public FreeSqlController(ILogger<FreeSqlController> logger
-            , IStringLocalizer<NetPro.Globalization.Globalization> localizer)
+        /// <param name="globalizationService"></param>
+        public GlobalizationController(ILogger<GlobalizationController> logger
+            , IStringLocalizer<NetPro.Globalization.Globalization> localizer
+            , IGlobalizationService globalizationService)
         {
             _logger = logger;
             _localizer = localizer;
+            _globalizationService = globalizationService;
         }
 
         /// <summary>

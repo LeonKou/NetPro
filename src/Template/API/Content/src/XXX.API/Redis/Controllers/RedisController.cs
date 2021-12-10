@@ -16,10 +16,6 @@ namespace XXX.API.Controllers
     [Route("[controller]")]
     public class RedisController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
         private readonly ILogger<RedisController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
@@ -39,9 +35,9 @@ namespace XXX.API.Controllers
         /// <summary>
         /// 单程序集开发方式：多语言国际化示例
         /// </summary>
-        [HttpGet("Globalization")]
+        [HttpGet("Message")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> Globalization()
+        public async Task<IActionResult> Message()
         {
             var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
             return Ok(message);

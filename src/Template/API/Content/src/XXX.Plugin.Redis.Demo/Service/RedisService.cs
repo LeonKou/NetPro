@@ -114,17 +114,6 @@ namespace XXX.Plugin.Redis.Demo
 
         public void ExecutePython(string cmd, string args)
         {
-            //IronPython:
-            var eng = IronPython.Hosting.Python.CreateEngine();
-            var scope = eng.CreateScope();
-            var script = @$"
-def greetings(name):
-    return 'Hello ' + name.title() + '!'
-";
-            eng.Execute(script, scope);
-            dynamic greetings = scope.GetVariable("greetings");
-            Console.WriteLine(greetings("world"));
-
             // Process：
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = "python";

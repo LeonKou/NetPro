@@ -28,7 +28,6 @@
 		<Folder Include="Redis\Model\" />
 		<Folder Include="Redis\Service\" />
 		<Folder Include="FreeSql\Model\" />
-		<Folder Include="FreeSql\Service\" />
 	</ItemGroup>
 
 	<ItemGroup>
