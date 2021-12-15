@@ -27,7 +27,7 @@
 		<NetProCore>6.0.1</NetProCore>
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
-		<NetProCore>6.0.1</NetProCore>
+		<NetProCors>6.0.1</NetProCors>
 		<NetProCorsAssemblyName>NetPro.Cors</NetProCorsAssemblyName>		
 
 		<NetProDapper>6.0.1</NetProDapper>
