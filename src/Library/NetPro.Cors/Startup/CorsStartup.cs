@@ -7,8 +7,11 @@ using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.TypeFinder;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace NetPro.Web.Api
+namespace NetPro.Cors
 {
     /// <summary>
     /// 跨域
@@ -16,11 +19,14 @@ namespace NetPro.Web.Api
     /// </summary>
     class CorsStartup : INetProStartup
     {
+        bool enabled = true;
+
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
+        /// <param name="typeFinder">typeFinder</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             var serviceProvider = services.BuildServiceProvider();
@@ -31,14 +37,32 @@ namespace NetPro.Web.Api
                 logger = loggerFactory.CreateLogger($"{nameof(CorsStartup)}");
             }
 
-            var netProOption = serviceProvider.GetService<NetProOption>();
-            var corsOrigins = ConvertHelper.ToList<string>(netProOption.CorsOrigins).ToArray();
+            var netProCorsOption = configuration.GetSection(nameof(NetProCorsOption)).Get<NetProCorsOption>();
+            if (netProCorsOption != null && !string.IsNullOrWhiteSpace(netProCorsOption.CorsOrigins))
+                services.AddSingleton(netProCorsOption);
+            else
+            {
+                logger.LogWarning($"allow Cors disabled,because netProCorsOption:CorsOrigins is null");
+                enabled = false;
+                return;
+            }
+
+            string[] ToArray(string input)
+            {
+                if (string.IsNullOrWhiteSpace(input))
+                    return new string[] { };
+                var array = input.Split(',');
+                return array;
+            }
+
+            var corsOrigins = ToArray(netProCorsOption.CorsOrigins).ToArray();
+
             //支持跨域访问
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", (builder) =>
                 {
-                    if (!string.IsNullOrEmpty(netProOption.CorsOrigins) && netProOption.CorsOrigins == "*")//所有域名都可跨域
+                    if (!string.IsNullOrEmpty(netProCorsOption.CorsOrigins) && netProCorsOption.CorsOrigins == "*")//所有域名都可跨域
                     {
                         builder = builder.SetIsOriginAllowed((host) => true);
                         logger?.LogInformation($"全局跨域已开启");
@@ -58,12 +82,14 @@ namespace NetPro.Web.Api
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            application.UseCors("CorsPolicy");
+            if (enabled)
+                application.UseCors("CorsPolicy");
         }
 
         /// <summary>
         /// Gets order of this startup configuration implementation
+        /// Cors should be enabled after routing
         /// </summary>
-        public double Order { get; set; } = 300; //MVC should be loaded last
+        public double Order { get; set; } = 300; //Cors should be enabled after routing
     }
 }

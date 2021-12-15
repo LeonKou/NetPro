@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XXX.Plugin.FreeSql.Demo
+namespace XXX.Plugin.FreeSql
 {
     /// <summary>
     /// 查询条件类

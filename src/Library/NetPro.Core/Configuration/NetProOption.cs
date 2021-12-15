@@ -40,11 +40,7 @@ namespace NetPro.Core.Configuration
         /// 是否是调试模式
         /// </summary>
         public bool IsDebug { get; set; }
-        /// <summary>
-        /// 跨域允许的站点
-        /// </summary>
-        public string CorsOrigins { get; set; } = "*";
-
+        
         /// <summary>
         /// 全局路由前缀
         /// </summary>

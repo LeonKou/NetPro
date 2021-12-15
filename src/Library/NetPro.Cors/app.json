@@ -1,0 +1,5 @@
+﻿{
+	"NetProCorsOption": {
+		"CorsOrigins": "*" //允许跨域,不填未开启跨域
+	}
+}

@@ -17,6 +17,7 @@ namespace XXX.API.Controllers
     [Route("[controller]")]
     public class GlobalizationController : ControllerBase
     {
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<GlobalizationController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IGlobalizationService _globalizationService;
@@ -27,10 +28,12 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="globalizationService"></param>
-        public GlobalizationController(ILogger<GlobalizationController> logger
+        public GlobalizationController(IHostEnvironment hostEnvironment
+            , ILogger<GlobalizationController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
             , IGlobalizationService globalizationService)
         {
+            _hostEnvironment = hostEnvironment;
             _logger = logger;
             _localizer = localizer;
             _globalizationService = globalizationService;
@@ -43,7 +46,8 @@ namespace XXX.API.Controllers
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public async Task<IActionResult> Globalization()
         {
-            var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
+            var d= _hostEnvironment.ApplicationName;
+               var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
             return Ok(message);
 
         }

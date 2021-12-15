@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XXX.Plugin.Redis.Demo;
+using XXX.Plugin.Redis;
 
-namespace XXX.Plugin.Web.Redis.Controller
+namespace XXX.Plugin.Redis
 {
     /// <summary>
     /// Redis 操作示例

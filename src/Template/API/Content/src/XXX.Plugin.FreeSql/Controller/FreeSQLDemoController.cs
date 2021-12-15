@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using NetPro;
 using System.ComponentModel.DataAnnotations;
 
-namespace XXX.Plugin.FreeSql.Demo
+namespace XXX.Plugin.FreeSql
 {
     /// <summary>
     /// Freesql数据库增删改查实例

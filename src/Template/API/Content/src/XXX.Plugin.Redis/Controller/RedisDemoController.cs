@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NetPro;
 
-namespace XXX.Plugin.Redis.Demo
+namespace XXX.Plugin.Redis
 {
     /// <summary>
     /// Redis 操作示例

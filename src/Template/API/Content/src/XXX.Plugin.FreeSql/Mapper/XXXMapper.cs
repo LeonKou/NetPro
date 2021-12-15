@@ -1,4 +1,4 @@
-﻿namespace XXX.Plugin.FreeSql.Demo
+﻿namespace XXX.Plugin.FreeSql
 {
     /// <summary>
     /// 实体之间隐射配置

@@ -5,25 +5,23 @@
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
+		<!--可空检测，6.0以下升级上来的不建议打开，影响业务逻辑-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Web.Manager.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Web.Demo.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Web.Manager.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Web.Demo.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
-	</PropertyGroup>
 
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-	</ItemGroup>
+		<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
 
-	<ItemGroup>
-		<ProjectReference Include="..\XXX.Entity\XXX.Entity.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Redis.Demo\XXX.Plugin.Redis.Demo.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,6 +29,10 @@
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<PackageReference Include="NetPro.CsRedis" Version="6.0.1" />
 		<!--<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Service\" />
 	</ItemGroup>
 
 </Project>

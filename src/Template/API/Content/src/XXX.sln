@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.API", "XXX.API\XXX.API.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Entity", "XXX.Entity\XXX.Entity.csproj", "{42C12AD8-4174-4D26-9F4D-CC5273780534}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.Redis.Demo", "XXX.Plugin.Redis.Demo\XXX.Plugin.Redis.Demo.csproj", "{603399A9-20AC-47A0-B387-6EE7F1A7687B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.Redis", "XXX.Plugin.Redis\XXX.Plugin.Redis.csproj", "{603399A9-20AC-47A0-B387-6EE7F1A7687B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.FreeSql.Demo", "XXX.Plugin.FreeSql.Demo\XXX.Plugin.FreeSql.Demo.csproj", "{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.FreeSql", "XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj", "{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
