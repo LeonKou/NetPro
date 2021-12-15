@@ -1,4 +1,6 @@
-﻿namespace Leon.XXX.Api
+﻿using NetPro.CsRedis;
+
+namespace Leon.XXX.Api
 {
     public class ApiStartup : INetProStartup
     {
@@ -38,6 +40,7 @@
             services.AddFreeRepository(null,
            this.GetType().Assembly);//批量注入Repository
 
+            services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(configuration);
 
             var healthbuild = services.AddHealthChecks();
 
