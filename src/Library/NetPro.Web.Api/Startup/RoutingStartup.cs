@@ -53,7 +53,7 @@ namespace NetPro.Web.Api
                     {   //增加默认支持的ContentType
                         var supportedMediaTypes = ((SystemTextJsonInputFormatter)formatter).SupportedMediaTypes;
                         supportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("text/plain"));
-                        supportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("multipart/form-data"));
+                        //supportedMediaTypes.Add(Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("multipart/form-data"));
                     }
                 }
 
