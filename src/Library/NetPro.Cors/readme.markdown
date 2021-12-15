@@ -1,6 +1,6 @@
 
-## NetPro.Proxy使用
- [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.ResponseCache)
+## NetPro.Cors使用
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.Cors.svg)](https://nuget.org/packages/NetPro.Cors)
 
 跨域组件
 
