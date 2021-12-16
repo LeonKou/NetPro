@@ -1,6 +1,8 @@
 ﻿using MongoDB.Driver;
+using MongoDbGenericRepository;
+using System.Collections.Concurrent;
 
-namespace XXX.Plugin.MongoDBS
+namespace XXX.Plugin.MongoDB
 {
     public class MongoDBStartup : INetProStartup
     {
@@ -8,9 +10,7 @@ namespace XXX.Plugin.MongoDBS
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            //var client = new MongoClient("mongodb://localhost:<port>");
-            //var database = client.GetDatabase("test");
-            //IdleBus<MongoClient> idleBus = new IdleBus<MongoClient>(TimeSpan.FromSeconds(10));
+            services.AddMongoDb(configuration);
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)

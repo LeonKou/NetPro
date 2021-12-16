@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetPro;
+using XXX.Plugin.MongoDB.Service;
 
 namespace XXX.Plugin.MongoDB
 {
@@ -13,37 +14,67 @@ namespace XXX.Plugin.MongoDB
     {
         private readonly ILogger<MongoDBDemoController> _logger;
         private readonly IWebHelper _webHelper;
+        private readonly IMongoDBService _mongoDBService;
 
         public MongoDBDemoController(ILogger<MongoDBDemoController> logger,
-            IWebHelper webHelper)
+            IWebHelper webHelper,
+            IMongoDBService mongoDBService)
         {
             _logger = logger;
             _webHelper = webHelper;
+            _mongoDBService = mongoDBService;
         }
 
-        [HttpPost("TimeZone")]
-        public void TimeZone()
+        /// <summary>
+        /// 通过数据库别名key新增到指定数据库
+        /// </summary>
+        /// <param name="key">数据库别名key</param>
+        /// <returns></returns>
+        [HttpGet("InsertOne")]
+        [ProducesResponseType(200)]
+        public IActionResult InsertOne(string key)
         {
-            var localTime = DateTimeOffset.Now.ToUnixTimeSeconds();
-            var utcTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            Console.WriteLine(localTime);
-            Console.WriteLine(utcTime);
-            //要用TimeZoneInfo对象指定时区时统一用linux用的时区表示法,
-            //即大洲/城市名代表，hangfire定时作业时注意
-            TimeZoneInfo linuxTimezone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Shanghai");
-            TimeZoneInfo windowsTimezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
-            
-            try
-            {
-                TimeZoneInfo local = TimeZoneInfo.FindSystemTimeZoneById("Local");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "");
-            }
+            _mongoDBService.InsertOne(key);
+            return Ok();
+        }
 
-            //Local会取本地时区，现在让容器限定了utc,以下方式始终都是取UTC时区，所以
-            var dd = TimeZoneInfo.Local;
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="key">数据库别名key</param>
+        /// <returns></returns>
+        [HttpGet("DeleteOne")]
+        [ProducesResponseType(200)]
+        public IActionResult DeleteOne(string key)
+        {
+            _mongoDBService.DeleteOne(key);
+            return Ok();
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="key">数据库别名key</param>
+        /// <returns></returns>
+        [HttpGet("ReplaceOne")]
+        [ProducesResponseType(200)]
+        public IActionResult ReplaceOne(string key)
+        {
+            _mongoDBService.ReplaceOne(key);
+            return Ok();
+        }
+
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="key">数据库别名key</param>
+        /// <returns></returns>
+        [HttpGet("Find")]
+        [ProducesResponseType(200)]
+        public IActionResult Find(string key)
+        {
+            _mongoDBService.Find(key);
+            return Ok();
         }
     }
 }

@@ -1,14 +1,55 @@
-﻿namespace NetPro.MongoDb
+﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+
+namespace NetPro.MongoDb
 {
-    public class MongoDbOptions
+    /// <summary>
+    /// Redis配置
+    /// </summary>
+    public class MongoDbOption
     {
         /// <summary>
-        /// 连接字符串
+        /// 
         /// </summary>
-        public string ConnectionString { get; set; }
+        public MongoDbOption()
+        {
+        }
+
         /// <summary>
-        /// 数据库名称
+        /// root node is Redis
         /// </summary>
-        public string Database { get; set; }
+        /// <param name="config"></param>
+        public MongoDbOption(IConfiguration config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            config.GetSection(nameof(MongoDbOption)).Bind(this);
+        }
+
+        /// <summary>
+        /// 连接串集合
+        /// </summary>
+        public List<ConnectionString> ConnectionString { get; set; }
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ConnectionString
+    {
+        /// <summary>
+        /// 连接串别名
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
+        /// 连接串
+        /// </summary>
+        public string Value { get; set; }
     }
 }

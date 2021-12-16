@@ -1,7 +1,10 @@
 {
 	"MongoDbOptions": {
-		"Enabled": false,
-		"ConnectionString": null,
-		"Database": -1
+		"ConnectionString": [
+			{
+				"Key": "1", //连接串key别名，唯一
+				"Value": "mongodb://192.168.100.187:27017/netprodemo" //别名key对应的连接串
+			}
+		]
 	}
 }

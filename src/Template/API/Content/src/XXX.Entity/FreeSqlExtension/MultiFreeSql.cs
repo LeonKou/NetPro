@@ -1,10 +1,10 @@
 ﻿using FreeSql;
 using FreeSql.Internal;
 using FreeSql.Internal.CommonProvider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+
+/*
+ 自动生成的支持freesql多库多实例的代码，勿改动
+ */
 
 public class MultiFreeSql : MultiFreeSql<string> { }
 

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
 
 Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "NetPro.Startup");
@@ -8,9 +7,6 @@ var host = Host.CreateDefaultBuilder(args)
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        //监听端口，可配多个使用
-                        //options.ListenLocalhost(11837, o => o.Protocols =
-                        //    HttpProtocols.Http2);
                     });
                 }).UseSerilog();
 

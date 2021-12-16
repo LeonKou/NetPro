@@ -1,33 +1,41 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using NetPro.MongoDb;
 using System;
 
-namespace NetPro.MongoDb
+/// <summary>
+/// mongodb扩展
+/// </summary>
+public static class MongoDbBuilderExtensions
 {
-    public static class MongoDbBuilderExtensions
+    /// <summary>
+    ///  依赖注入mongodb服务扩展方法
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="optionsAction"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddMongoDb(this IServiceCollection services, MongoDbOption optionsAction)
     {
-        /// <summary>
-        /// 依赖注入mongodb服务扩展方法
-        /// </summary>
-        /// <returns></returns>
-        /// <param name="services">Services.</param>
-        /// <param name="optionsAction">Options Action.</param>
-        public static IServiceCollection AddMongoDb(this IServiceCollection services, Action<MongoDbOptions> optionsAction)
-        {
-            services.Configure(optionsAction);
-            services.TryAddScoped<IMongoDbContext, MongoDbContext>();
+        MongoDBMulti.MongoDbOption = optionsAction;
+        services.AddSingleton(optionsAction);
+        services.AddSingleton(MongoDBMulti.Instance);
+        return services;
+    }
 
-            return services;
-        }
+    /// <summary>
+    ///  依赖注入mongodb服务扩展方法
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
+    {
+        var mongoDbOptions = new MongoDbOption(configuration);
+        MongoDBMulti.MongoDbOption = mongoDbOptions;
+        services.AddSingleton(mongoDbOptions);
+        services.AddSingleton(MongoDBMulti.Instance);
 
-        public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
-        {
-            var option = configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>();
-            services.TryAddSingleton(option);
-            services.TryAddScoped<IMongoDbContext, MongoDbContext>();
-
-            return services;
-        }
+        return services;
     }
 }

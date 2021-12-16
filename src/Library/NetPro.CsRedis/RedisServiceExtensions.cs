@@ -77,7 +77,7 @@ namespace NetPro.CsRedis
 
             //CSRedisClient csredis;
 
-            IdleBus<CSRedisClient> idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(10));
+           var idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromMinutes(10));
             foreach (var item in option.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>
