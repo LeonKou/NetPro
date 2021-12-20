@@ -104,12 +104,15 @@ namespace NetPro.Sign
         internal static string GetSHA256Sign(string message, string secret)
         {
             byte[] data = Encoding.UTF8.GetBytes(message + secret);
-            SHA256 shaM = new SHA256Managed();
-            var hashBytes = shaM.ComputeHash(data);
-            var hexString = hashBytes.Aggregate(new StringBuilder(),
-                              (sb, v) => sb.Append(v.ToString("x2"))
-                             ).ToString();
-            return hexString;
+            //SHA256 shaM = new SHA256Managed();
+            using (SHA256 shaM = SHA256.Create())
+            {
+                var hashBytes = shaM.ComputeHash(data);
+                var hexString = hashBytes.Aggregate(new StringBuilder(),
+                                  (sb, v) => sb.Append(v.ToString("x2"))
+                                 ).ToString();
+                return hexString;
+            }
         }
         internal static string GetHMACSHA256Sign(string message, string secret)
         {

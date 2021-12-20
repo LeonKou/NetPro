@@ -22,6 +22,12 @@ namespace NetPro.TypeFinder
 
         #region Ctor
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeFinderOption"></param>
+        /// <param name="configuration"></param>
+        /// <param name="fileProvider"></param>
         public WebAppTypeFinder(
             TypeFinderOption typeFinderOption,
             IConfiguration configuration

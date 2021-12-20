@@ -20,6 +20,7 @@ namespace NetPro.ShareRequestBody
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
+        /// <param name="typeFinder">typeFinder</param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             services.AddShareRequestBody();

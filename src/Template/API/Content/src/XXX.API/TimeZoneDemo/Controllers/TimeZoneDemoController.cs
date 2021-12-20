@@ -6,51 +6,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XXX.API.FreeSql.Service;
 
 namespace XXX.API.Controllers
 {
     /// <summary>
-    /// Globalization
+    /// 单程序集开发方式： RedisController 
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class GlobalizationController : ControllerBase
+    public class TimeZoneDemoController : ControllerBase
     {
-        private readonly IHostEnvironment _hostEnvironment;
-        private readonly ILogger<GlobalizationController> _logger;
+
+        private readonly ILogger<TimeZoneDemoController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
-        private readonly IGlobalizationService _globalizationService;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
-        /// <param name="globalizationService"></param>
-        public GlobalizationController(IHostEnvironment hostEnvironment
-            , ILogger<GlobalizationController> logger
-            , IStringLocalizer<NetPro.Globalization.Globalization> localizer
-            , IGlobalizationService globalizationService)
+        public TimeZoneDemoController(ILogger<TimeZoneDemoController> logger
+            , IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
-            _hostEnvironment = hostEnvironment;
             _logger = logger;
             _localizer = localizer;
-            _globalizationService = globalizationService;
         }
 
-        /// <summary>
-        /// 单程序集开发方式：多语言国际化示例
-        /// </summary>
-        [HttpGet("Globalization")]
-        [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> Globalization()
-        {
-            var applicationName = _hostEnvironment.ApplicationName;
-            var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
-            return Ok(message);
-
-        }
 
         /// <summary>
         /// 时间戳、时区、时间处理示例

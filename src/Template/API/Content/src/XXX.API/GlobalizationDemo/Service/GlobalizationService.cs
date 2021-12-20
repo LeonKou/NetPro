@@ -1,13 +1,13 @@
 ﻿namespace XXX.API.FreeSql.Service
 {
-    public interface IGlobalizationService
+    public interface IGlobalizationDemoService
     {
         void GetLanguage();
     }
 
-    public class GlobalizationService : IGlobalizationService
+    public class GlobalizationDemoService : IGlobalizationDemoService
     {
-        public GlobalizationService()
+        public GlobalizationDemoService()
         {
 
         }

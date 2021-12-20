@@ -6,10 +6,20 @@ using System.IO;
 
 namespace NetPro
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ApolloClientHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hostingContext"></param>
+        /// <param name="builder"></param>
+        /// <param name="args"></param>
         public static void ApolloConfig(HostBuilderContext hostingContext, IConfigurationBuilder builder, string[] args)
         {
+            //TODO 递归加载指定文件夹下所有json文件
             var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
             builder.SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json", true, true)

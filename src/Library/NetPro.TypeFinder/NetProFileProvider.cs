@@ -484,6 +484,9 @@ namespace NetPro.TypeFinder
             System.IO.File.WriteAllText(path, contents, encoding);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected string BaseDirectory { get; }
     }
 }

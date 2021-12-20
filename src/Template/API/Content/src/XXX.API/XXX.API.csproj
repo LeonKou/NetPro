@@ -27,15 +27,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Redis\Model\" />
-		<Folder Include="Redis\Service\" />
-		<Folder Include="FreeSql\Model\" />
+		<Folder Include="TimeZoneDemo\Model\" />
+		<Folder Include="TimeZoneDemo\Service\" />
+		<Folder Include="GlobalizationDemo\Model\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Redis\XXX.Plugin.Redis.csproj" />
 	</ItemGroup>
 
 </Project>
