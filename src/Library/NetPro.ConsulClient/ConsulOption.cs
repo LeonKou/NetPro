@@ -13,6 +13,10 @@ namespace NetPro.ConsulClient
     public class ConsulOption
     {
         /// <summary>
+        /// 是否开启，默认开启
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+        /// <summary>
         /// 健康检车接口
         /// 默认HealthCheck
         /// </summary>

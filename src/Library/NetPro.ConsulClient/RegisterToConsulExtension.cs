@@ -36,13 +36,18 @@ namespace NetPro.ConsulClient
         /// <returns></returns>
         public static IServiceCollection AddConsul(this IServiceCollection services, IConfiguration configuration)
         {
+            if (!configuration.GetValue<bool>($"{nameof(ConsulOption)}:Enabled"))
+            {
+                return services;
+            }
             //http://+:80
             LANIP = configuration["LANIP"];
             PORT = configuration.GetValue<int?>("PORT");
 
             // configuration Consul register address
             //配置consul注册地址
-            services.Configure<ConsulOption>(configuration.GetSection(nameof(ConsulOption)));
+            var consulOption = configuration.GetSection(nameof(ConsulOption));
+            services.Configure<ConsulOption>(consulOption);
 
             //configuration Consul client
             //配置consul客户端
@@ -68,12 +73,18 @@ namespace NetPro.ConsulClient
         /// <returns></returns>
         public static IApplicationBuilder UseConsul(this IApplicationBuilder app)
         {
+            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+            if (!configuration.GetValue<bool>($"{nameof(ConsulOption)}:Enabled"))
+            {
+                return app;
+            }
             //***
-            IConsulClient consul = app.ApplicationServices.GetRequiredService<IConsulClient>();
+            //
             Microsoft.Extensions.Hosting.IHostApplicationLifetime appLife = app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Hosting.IHostApplicationLifetime>();
             IOptions<ConsulOption> serviceOptions = app.ApplicationServices.GetRequiredService<IOptions<ConsulOption>>();
             var features = app.ServerFeatures;//app.Properties["server.Features"] as FeatureCollection;
 
+            IConsulClient consul = app.ApplicationServices.GetRequiredService<IConsulClient>();
             if (!PORT.HasValue)
             {
                 PORT = new Uri(features.Get<IServerAddressesFeature>()
