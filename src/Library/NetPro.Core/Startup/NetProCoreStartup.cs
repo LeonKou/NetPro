@@ -35,11 +35,16 @@ namespace NetPro.Core.Startup
         {
             var netProOption = services.ConfigureStartupConfig<NetProOption>(configuration.GetSection(nameof(NetProOption)));
             services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
-            var serviceProvider = services.BuildServiceProvider();
-            var hostEnvironment = serviceProvider.GetRequiredService<IHostEnvironment>();
 
             if (string.IsNullOrWhiteSpace(netProOption.ApplicationName))
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                //reset ApplicationName
+                serviceProvider.GetRequiredService<IHostEnvironment>().ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
+                var hostEnvironment = serviceProvider.GetRequiredService<IHostEnvironment>();
+
                 netProOption.ApplicationName = hostEnvironment.ApplicationName;
+            }
 
             //--------------- AutoMapper
 

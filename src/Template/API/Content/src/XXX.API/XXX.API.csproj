@@ -17,6 +17,7 @@
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />-->
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />-->
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />-->
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<PackageReference Include="NetPro.Checker" Version="6.0.1" />

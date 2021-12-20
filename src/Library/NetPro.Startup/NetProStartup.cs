@@ -52,21 +52,24 @@ namespace NetPro.Startup
             var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
 
             builder.ConfigureAppConfiguration((config, builder) =>
-              {
-                  var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
-                  Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
-                  builder.SetBasePath(Directory.GetCurrentDirectory())
-                              .AddJsonFile("appsettings.json", true, true)
-                              .AddJsonFile($"appsettings.{env}.json", true, true)
-                              //.AddJsonFile("startup.json", true, true)
-                              .AddEnvironmentVariables();
-                  _configuration = builder.Build();
-              });
+            {
+                //reset ApplicationName
+                config.HostingEnvironment.ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
+
+                var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
+                builder.SetBasePath(Directory.GetCurrentDirectory())
+                            .AddJsonFile("appsettings.json", true, true)
+                            .AddJsonFile($"appsettings.{env}.json", true, true)
+                            //.AddJsonFile("startup.json", true, true)
+                            .AddEnvironmentVariables();
+                _configuration = builder.Build();
+            });
 
             builder.ConfigureServices((context, services) =>
             {
-                //Inject the file lookup component
-                var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
+                  //Inject the file lookup component
+                  var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
                 services.AddFileProcessService(option);
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
@@ -258,7 +261,7 @@ namespace NetPro.Startup
         {
             //check for assembly already loaded
             //var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
-            var assembly = AssemblyLoadContext.Default.Assemblies.FirstOrDefault(a => a.FullName== args.Name); 
+            var assembly = AssemblyLoadContext.Default.Assemblies.FirstOrDefault(a => a.FullName == args.Name);
             if (assembly != null)
                 return assembly;
             return null;

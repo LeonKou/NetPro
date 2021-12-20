@@ -12,7 +12,6 @@ namespace NetPro.Grpc
     {
         public static void AddGrpcServices(this IEndpointRouteBuilder builder, string[] assemblyNames)
         {
-            //Assembly.GetExecutingAssembly().GetName().Name
             Assembly assembly = Assembly.GetEntryAssembly();
             foreach (var item in ServicesHelper.GetGrpcServices(assemblyNames))
             {
