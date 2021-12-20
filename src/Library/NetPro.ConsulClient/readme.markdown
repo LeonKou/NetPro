@@ -6,6 +6,9 @@ Consul 客户端
 
 ### 使用
 
+如在容器中使用，需要配置如下LANIP和PORT环境变量，示例如下：
+宿主机IP地址   LANIP=192.168.1.1
+PORT 端口号 PORT=5000
 
 #### appsetting.json 
 
