@@ -43,6 +43,6 @@ namespace NetPro.ConsulClient
         /// consul服务所在地址
         /// 格式：http://localhost:8500
         /// </summary>
-        public string EndPoint { get; set; }
+        public string EndPoint { get; set; } = "http://localhost:8500";
     }
 }

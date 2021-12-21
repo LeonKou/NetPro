@@ -1,18 +1,21 @@
 ﻿using Consul;
 using Microsoft.Extensions.Localization;
+using NetMQ;
+using NetMQ.Sockets;
+using System.Threading;
 using XXX.API.FreeSql.Service;
 
 namespace XXX.API.Controllers
 {
     /// <summary>
-    /// Globalization多语言实例
+    /// 各种组件使用示例
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ConsulDemoController : ControllerBase
+    public class MiddlewareDemoController : ControllerBase
     {
         private readonly IHostEnvironment _hostEnvironment;
-        private readonly ILogger<ConsulDemoController> _logger;
+        private readonly ILogger<MiddlewareDemoController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IConsulClient _consulClient;
 
@@ -23,10 +26,11 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="consulClient"></param>
-        public ConsulDemoController(IHostEnvironment hostEnvironment
-            , ILogger<ConsulDemoController> logger
+        public MiddlewareDemoController(IHostEnvironment hostEnvironment
+            , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
-            , IConsulClient consulClient)
+            , IConsulClient consulClient
+            )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
@@ -37,15 +41,34 @@ namespace XXX.API.Controllers
         /// <summary>
         /// consul发现服务
         /// </summary>
-        [HttpGet("DiscoveryServices")]
+        [HttpGet("ConsulDiscovery")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> DiscoveryServices(string serviceName = "XXX.API")
+        public async Task<IActionResult> ConsulDiscovery(string serviceName = "XXX.API")
         {
             //以下几种方式都可拿到注册的服务地址
             var result = await _consulClient.Agent.DiscoveryAsync();
             var result1 = await _consulClient.Catalog.DiscoveryAsync(serviceName);
             var result2 = await _consulClient.DiscoveryAsync(serviceName);
             return Ok(new { result, result1, result2 });
+        }
+
+        /// <summary>
+        /// zeroMQ 发布消息
+        /// </summary>
+        [HttpGet("ZeroMQPublish")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> ZeroMQPublish(string serviceName = "XXX.API")
+        {
+            //仅作为发布者样板代码
+            using (var publisher = new PublisherSocket())
+            {
+                publisher.Bind("tcp://*:5001");
+
+                publisher
+                    .SendMoreFrame("A") // Topic
+                    .SendFrame(DateTimeOffset.Now.ToString()); // Message
+            }
+            return Ok();
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
@@ -136,14 +137,21 @@ namespace NetPro.ConsulClient
                         Tags = serviceOptions.Value.Tags
                     };
 
-                    consul.Agent.ServiceRegister(registration).GetAwaiter().GetResult();
-
-                    //send consul request after service stop
-                    //当服务停止后想consul发送的请求
-                    appLife.ApplicationStopping.Register(() =>
+                    try
                     {
-                        consul.Agent.ServiceDeregister(serviceId).GetAwaiter().GetResult();
-                    });
+                        consul.Agent.ServiceRegister(registration).ConfigureAwait(false).GetAwaiter().GetResult();
+                        //send consul request after service stop
+                        //当服务停止后想consul发送的请求
+                        appLife.ApplicationStopping.Register(() =>
+                        {
+                            consul.Agent.ServiceDeregister(serviceId).ConfigureAwait(false).GetAwaiter().GetResult();
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
+                        logger.LogError(ex, $"consul error");
+                    }
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($"health check service:{httpCheck.HTTP}");
@@ -171,14 +179,23 @@ namespace NetPro.ConsulClient
                     Tags = serviceOptions.Value.Tags,
                 };
 
-                consul.Agent.ServiceRegister(registration).GetAwaiter().GetResult();
-
-                //send consul request after service stop
-                //当服务停止后想consul发送的请求
-                appLife.ApplicationStopping.Register(() =>
+                try
                 {
-                    consul.Agent.ServiceDeregister(serviceId).GetAwaiter().GetResult();
-                });
+                    consul.Agent.ServiceRegister(registration).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                    //send consul request after service stop
+                    //当服务停止后想consul发送的请求
+                    appLife.ApplicationStopping.Register(() =>
+                    {
+                        consul.Agent.ServiceDeregister(serviceId).ConfigureAwait(false).GetAwaiter().GetResult();
+                    });
+                }
+                catch (Exception ex)
+                {
+                    var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
+                    logger.LogError(ex, $"consul error");
+                }
+
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"health check service:{httpCheck.HTTP}");
@@ -200,13 +217,13 @@ namespace NetPro.ConsulClient
             //    Port = PORT.Value
             //};
 
-            //consul.Agent.ServiceRegister(localhostregistration).GetAwaiter().GetResult();
+            //consul.Agent.ServiceRegister(localhostregistration).ConfigureAwait(false).GetAwaiter().GetResult();
 
             ////send consul request after service stop
             ////当服务停止后向consul发送的请求
             //appLife.ApplicationStopping.Register(() =>
             //{
-            //    consul.Agent.ServiceDeregister(localhostregistration.ID).GetAwaiter().GetResult();
+            //    consul.Agent.ServiceDeregister(localhostregistration.ID).ConfigureAwait(false).GetAwaiter().GetResult();
             //});
 
             app.Map($"{serviceOptions.Value.HealthPath}", s =>
