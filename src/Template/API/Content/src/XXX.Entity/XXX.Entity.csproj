@@ -20,6 +20,7 @@
 		<PackageReference Include="FreeSql.Repository" Version="1.7.1" />
 		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.6.100" />
 		<PackageReference Include="IdleBus" Version="1.5.2" />
+		<PackageReference Include="NetMQ" Version="4.0.1.7-pre" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>
 </Project>

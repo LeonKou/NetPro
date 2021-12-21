@@ -36,7 +36,11 @@ namespace NetPro.ConsulClient
         /// <returns></returns>
         public static IServiceCollection AddConsul(this IServiceCollection services, IConfiguration configuration)
         {
-            if (!configuration.GetValue<bool>($"{nameof(ConsulOption)}:Enabled"))
+            //配置consul注册地址
+            var consulOptionSection = configuration.GetSection(nameof(ConsulOption));
+            services.Configure<ConsulOption>(consulOptionSection);
+            var consulOption = services.BuildServiceProvider().GetService<IOptions<ConsulOption>>();
+            if (!consulOption.Value.Enabled)
             {
                 return services;
             }
@@ -45,10 +49,6 @@ namespace NetPro.ConsulClient
             PORT = configuration.GetValue<int?>("PORT");
 
             // configuration Consul register address
-            //配置consul注册地址
-            var consulOption = configuration.GetSection(nameof(ConsulOption));
-            services.Configure<ConsulOption>(consulOption);
-
             //configuration Consul client
             //配置consul客户端
             services.AddSingleton<IConsulClient>(sp => new Consul.ConsulClient(config =>
@@ -73,23 +73,29 @@ namespace NetPro.ConsulClient
         /// <returns></returns>
         public static IApplicationBuilder UseConsul(this IApplicationBuilder app)
         {
-            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
-            if (!configuration.GetValue<bool>($"{nameof(ConsulOption)}:Enabled"))
+            IOptions<ConsulOption> serviceOptions = app.ApplicationServices.GetRequiredService<IOptions<ConsulOption>>();
+            if (!serviceOptions.Value.Enabled)
             {
                 return app;
             }
             //***
-            //
+
             Microsoft.Extensions.Hosting.IHostApplicationLifetime appLife = app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Hosting.IHostApplicationLifetime>();
-            IOptions<ConsulOption> serviceOptions = app.ApplicationServices.GetRequiredService<IOptions<ConsulOption>>();
-            var features = app.ServerFeatures;//app.Properties["server.Features"] as FeatureCollection;
+
+            var features = app.ServerFeatures;
 
             IConsulClient consul = app.ApplicationServices.GetRequiredService<IConsulClient>();
+
             if (!PORT.HasValue)
             {
-                PORT = new Uri(features.Get<IServerAddressesFeature>()
-               .Addresses
-               .FirstOrDefault()).Port;
+                var uri = new Uri(features.Get<IServerAddressesFeature>()
+              .Addresses
+              .FirstOrDefault());
+                PORT = uri.Port;
+                if (!(uri.Host.Contains("0.0.0.0") || uri.Host.Contains("+") || uri.Host.Contains("*")))//http://+:80
+                {
+                    LANIP = uri.Host;
+                }
             }
 
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -127,6 +133,7 @@ namespace NetPro.ConsulClient
                         ID = serviceId,
                         Name = serviceOptions.Value.ServiceName,
                         Port = PORT.Value,
+                        Tags = serviceOptions.Value.Tags
                     };
 
                     consul.Agent.ServiceRegister(registration).GetAwaiter().GetResult();
@@ -161,6 +168,7 @@ namespace NetPro.ConsulClient
                     ID = serviceId,
                     Name = serviceOptions.Value.ServiceName,
                     Port = PORT.Value,
+                    Tags = serviceOptions.Value.Tags,
                 };
 
                 consul.Agent.ServiceRegister(registration).GetAwaiter().GetResult();
@@ -178,28 +186,28 @@ namespace NetPro.ConsulClient
 
             //register localhost address
             //注册本地地址
-            var localhostregistration = new AgentServiceRegistration()
-            {
-                Checks = new[] { new AgentServiceCheck()
-                {
-                    DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-                    Interval = TimeSpan.FromSeconds(30),
-                    HTTP = $"{Uri.UriSchemeHttp}://localhost:{PORT}{serviceOptions.Value.HealthPath}",
-                } },
-                Address = "localhost",
-                ID = $"{serviceOptions.Value.ServiceName}_localhost:{PORT}",
-                Name = serviceOptions.Value.ServiceName,
-                Port = PORT.Value
-            };
+            //var localhostregistration = new AgentServiceRegistration()
+            //{
+            //    Checks = new[] { new AgentServiceCheck()
+            //    {
+            //        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
+            //        Interval = TimeSpan.FromSeconds(30),
+            //        HTTP = $"{Uri.UriSchemeHttp}://localhost:{PORT}{serviceOptions.Value.HealthPath}",
+            //    } },
+            //    Address = "localhost",
+            //    ID = $"{serviceOptions.Value.ServiceName}_localhost:{PORT}",
+            //    Name = serviceOptions.Value.ServiceName,
+            //    Port = PORT.Value
+            //};
 
-            consul.Agent.ServiceRegister(localhostregistration).GetAwaiter().GetResult();
+            //consul.Agent.ServiceRegister(localhostregistration).GetAwaiter().GetResult();
 
-            //send consul request after service stop
-            //当服务停止后向consul发送的请求
-            appLife.ApplicationStopping.Register(() =>
-            {
-                consul.Agent.ServiceDeregister(localhostregistration.ID).GetAwaiter().GetResult();
-            });
+            ////send consul request after service stop
+            ////当服务停止后向consul发送的请求
+            //appLife.ApplicationStopping.Register(() =>
+            //{
+            //    consul.Agent.ServiceDeregister(localhostregistration.ID).GetAwaiter().GetResult();
+            //});
 
             app.Map($"{serviceOptions.Value.HealthPath}", s =>
             {

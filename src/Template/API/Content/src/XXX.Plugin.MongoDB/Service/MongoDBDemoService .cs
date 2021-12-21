@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace XXX.Plugin.MongoDB.Service
 {
-    public interface IMongoDBService
+    public interface IMongoDBDemoService
     {
         void InsertOne(string key = "mongo1");
         void DeleteOne(string key = "mongo1");
@@ -18,10 +18,10 @@ namespace XXX.Plugin.MongoDB.Service
 
     }
 
-    public class MongoDBService : IMongoDBService
+    public class MongoDBDemoService : IMongoDBDemoService
     {
         private readonly MongoDBMulti _mongoDBMulti;
-        public MongoDBService(MongoDBMulti mongoDBMulti)
+        public MongoDBDemoService(MongoDBMulti mongoDBMulti)
         {
             _mongoDBMulti = mongoDBMulti;
         }

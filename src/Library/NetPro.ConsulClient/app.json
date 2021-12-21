@@ -1,8 +1,9 @@
 ﻿{
-	"ConsulOption": {
-		"Enabled": false,
-		"HealthPath": "/HealthCheck",
-		"ServiceName": "xxx.api",
-		"EndPoint": "http://localhost:8500"
-	}
+  "ConsulOption": {
+    "Enabled": false,
+    "HealthPath": "/HealthCheck",
+    "ServiceName": "xxx.api",
+    "EndPoint": "http://localhost:8500",
+    "Tags": [ "HUHU"]
+  }
 }

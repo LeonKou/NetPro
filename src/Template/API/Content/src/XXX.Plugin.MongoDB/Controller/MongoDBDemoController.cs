@@ -14,11 +14,11 @@ namespace XXX.Plugin.MongoDB
     {
         private readonly ILogger<MongoDBDemoController> _logger;
         private readonly IWebHelper _webHelper;
-        private readonly IMongoDBService _mongoDBService;
+        private readonly IMongoDBDemoService _mongoDBService;
 
         public MongoDBDemoController(ILogger<MongoDBDemoController> logger,
             IWebHelper webHelper,
-            IMongoDBService mongoDBService)
+            IMongoDBDemoService mongoDBService)
         {
             _logger = logger;
             _webHelper = webHelper;

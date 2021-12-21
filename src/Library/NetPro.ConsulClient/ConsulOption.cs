@@ -23,6 +23,11 @@ namespace NetPro.ConsulClient
         public string HealthPath { get; set; } = "/HealthCheck";
 
         /// <summary>
+        /// 
+        /// </summary>
+        public string[] Tags { get; set; }//= new string[] { "" };
+
+        /// <summary>
         /// 服务名称
         /// 默认当前运行程序集名称
         /// </summary>

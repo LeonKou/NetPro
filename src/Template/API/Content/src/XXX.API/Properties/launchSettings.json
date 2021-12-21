@@ -9,9 +9,7 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://0.0.0.0:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "LANIP": "192.178.23.1",
-        "PORT": "900"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 
 namespace XXX.Plugin.MongoDB
 {
-    public class MongoDBStartup : INetProStartup
+    public class MongoDBDemoStartup : INetProStartup
     {
         public double Order { get; set; } = int.MaxValue;
 

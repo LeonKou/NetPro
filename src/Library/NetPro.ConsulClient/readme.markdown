@@ -19,6 +19,7 @@ PORT 端口号 PORT=5000
 		"HealthPath": "/HealthCheck",//可空不填，默认HealthCheck
 		"ServiceName": "xxx.api",//可空不填，取运行时程序集名称
 		"EndPoint": "http://localhost:8500" consul服务地址
+        "Tags": [ "HUHU"] //tag
 	}
 ```
 如果基于NetPro.WebApi的项目，只需要以上配置即可，如不是基于NetPro.WebApi的项目，需手动按一下初始化组件
@@ -32,5 +33,39 @@ public void ConfigureServices(IServiceCollection services, IConfiguration config
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseConsul();
+        }
+```
+
+```csharp
+ublic class ConsulDemoController : ControllerBase
+    {
+
+        private readonly ILogger<TimeZoneDemoController> _logger;
+        private readonly IConsulClient _consulClient;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="consulClient"></param>
+        public TimeZoneDemoController(ILogger<TimeZoneDemoController> logger,
+        IConsulClient consulClient)
+        {
+            _logger = logger;
+            _consulClient=consulClient;
+        }
+
+        /// <summary>
+        /// consul发现服务
+        /// </summary>
+        [HttpGet("DiscoveryServices")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> DiscoveryServices(string serviceName = "XXX.API")
+        {
+            //以下几种方式都可拿到注册的服务地址
+            var result = await _consulClient.Agent.DiscoveryAsync();
+            var result1 = await _consulClient.Catalog.DiscoveryAsync(serviceName);
+            var result2 = await _consulClient.DiscoveryAsync(serviceName);
+            return Ok(new { result, result1, result2 });
         }
 ```
