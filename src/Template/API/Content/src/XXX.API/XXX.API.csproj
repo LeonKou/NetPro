@@ -12,6 +12,9 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Examples\Service\NetMqTask.cs~RF1442cbf2.TMP" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />-->
@@ -29,14 +32,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="TimeZoneDemo\Model\" />
-		<Folder Include="TimeZoneDemo\Service\" />
-		<Folder Include="GlobalizationDemo\Model\" />
+		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
+	  <Folder Include="Examples\Model\" />
 	</ItemGroup>
 
 </Project>

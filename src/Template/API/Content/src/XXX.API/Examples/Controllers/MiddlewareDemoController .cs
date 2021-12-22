@@ -57,7 +57,7 @@ namespace XXX.API.Controllers
         /// </summary>
         [HttpGet("ZeroMQPublish")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> ZeroMQPublish(string serviceName = "XXX.API")
+        public async Task<IActionResult> ZeroMQPublish(string topc = "A")
         {
             //仅作为发布者样板代码
             using (var publisher = new PublisherSocket())
@@ -65,7 +65,7 @@ namespace XXX.API.Controllers
                 publisher.Bind("tcp://*:5001");
 
                 publisher
-                    .SendMoreFrame("A") // Topic
+                    .SendMoreFrame(topc) // Topic
                     .SendFrame(DateTimeOffset.Now.ToString()); // Message
             }
             return Ok();

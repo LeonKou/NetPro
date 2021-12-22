@@ -7,6 +7,8 @@ namespace XXX.Plugin.Redis
     /// <summary>
     /// Redis 操作示例
     /// </summary>
+    /// <remarks>redisjson: https://blog.alumdb.org/using-redisjson/
+    /// </remarks>
     [ApiController]
     [Route("[controller]")]
     public class RedisDemoController : ControllerBase

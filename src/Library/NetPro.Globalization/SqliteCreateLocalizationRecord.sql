@@ -1,4 +1,4 @@
-﻿CREATE TABLE "LocalizationRecords" (
+﻿CREATE TABLE IF NOT EXISTS "LocalizationRecords" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_DataEventRecord" PRIMARY KEY AUTOINCREMENT,
     "Key" TEXT,
     "ResourceKey" TEXT,

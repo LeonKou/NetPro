@@ -1,7 +1,8 @@
 
 ## RedisManager使用
 
-支持 StackExchange.Redis，支持分布式锁
+支持 StackExchange.Redis，支持分布式锁。
+redisjson参考：[redisjson](https://blog.alumdb.org/using-redisjson/)
 
 ### appsetting.json
 

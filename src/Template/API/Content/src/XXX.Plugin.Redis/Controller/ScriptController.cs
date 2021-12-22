@@ -8,7 +8,7 @@ using XXX.Plugin.Redis;
 namespace XXX.Plugin.Redis
 {
     /// <summary>
-    /// Redis 操作示例
+    /// 执行脚本示例(等价于命令行)
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -28,7 +28,7 @@ namespace XXX.Plugin.Redis
         }
 
         /// <summary>
-        /// 执行python
+        /// 执行python脚本
         /// </summary>
         /// <param name="cmd">命令</param>
         /// <param name="args">参数</param>
