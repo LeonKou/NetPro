@@ -18,6 +18,7 @@ namespace XXX.API.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="hostEnvironment"></param>
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="globalizationService"></param>
@@ -40,8 +41,9 @@ namespace XXX.API.Controllers
         public IActionResult Globalization()
         {
             var applicationName = _hostEnvironment.ApplicationName;
-            var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
-            return Ok(message);
+            var serviceMsg = _globalizationService.GetLanguage();
+            var localMsg = _localizer["当前时间为"] + $"：{DateTime.Now}";
+            return Ok(new { serviceMsg, localMsg });
         }
     }
 }

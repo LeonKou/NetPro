@@ -2,14 +2,15 @@
 # NetPro.Globalization使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Globalization.svg)](https://nuget.org/packages/NetPro.Globalization)
 
-国际化多语言使用
+国际化多语言使用，支持官方资源文件的方式外底层增加了sqlite持久化存储方式，便于跨语言跨项目共享和检查遗漏的多语言
 
 ## 使用
 
 ### 初始化服务
 
-#### 没有使用NetPro.Core的方式，需手动显示注入
+#### 无依赖方式
 
+没有依赖 [![NuGet](https://img.shields.io/nuget/v/NetPro.Core.svg)](https://nuget.org/packages/NetPro.Core)的使用，需要手动初始化注入
 ```csharp
   public void ConfigureServices(IServiceCollection services)
    {
@@ -42,7 +43,7 @@ appsetting.json
 ```json
 {
 	"Globalization": {
-		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址
+		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址,初始化会默认生成数据库
 		"Cultures": [
 			"zh-CN",
 			"en-US"
@@ -52,7 +53,7 @@ appsetting.json
 
 ```
 
-#### 在有NetPro.Core的基础上的使用
+#### 依赖于[![NuGet](https://img.shields.io/nuget/v/NetPro.Core.svg)](https://nuget.org/packages/NetPro.Core)的环境使用
 
 直接引用NetPro.Globalization nuget包，加入如下json配置即可
 
@@ -61,7 +62,7 @@ appsetting.json
 ```json
 {
 	"Globalization": {
-		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址
+		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址,初始化会默认生成数据库
 		"Cultures": [
 			"zh-CN",
 			"en-US"
@@ -89,8 +90,12 @@ appsetting.json
         {
             var cultureui = CultureInfo.CurrentUICulture.ToString();
             var culture = CultureInfo.CurrentCulture.ToString();
+            //原生用法，底层会处理sqlite持久化
             return _aboutLocalizerizer["Name"];//会从SharedResource资源下查询Name对应的多语言，查询不到进入指定sqlite中查询，继续查询不到插入Name.当前语言代码
         }
     }
 ```
 
+### tips
+
+[在线sqlite工具](https://sqliteonline.com/) https://sqliteonline.com/

@@ -1,23 +1,27 @@
-﻿namespace XXX.API.FreeSql.Service
+﻿using Microsoft.Extensions.Localization;
+
+namespace XXX.API.FreeSql.Service
 {
     public interface IGlobalizationDemoService
     {
-        void GetLanguage();
+        string GetLanguage();
     }
 
     public class GlobalizationDemoService : IGlobalizationDemoService
     {
-        public GlobalizationDemoService()
+        private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
+        public GlobalizationDemoService(IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
-
+            _localizer = localizer;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public void GetLanguage()
+        public string GetLanguage()
         {
-
+            var message = _localizer["当前时间为"] + $"：{DateTime.Now}";
+            return message;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,14 +57,28 @@ namespace NetPro.Globalization
 
             if (globalization != null)
             {
+                using (var connection = new SqliteConnection(sqlConnectionString))// "Data Source=LocalizationRecords.sqlite"
+                {
+                    connection.Open();  //  <== The database file is created here.
+                    using var cmd = new SqliteCommand(@$"
+                    CREATE TABLE ""LocalizationRecords"" (
+                    ""Id"" INTEGER NOT NULL CONSTRAINT ""PK_DataEventRecord"" PRIMARY KEY AUTOINCREMENT,
+                    ""Key"" TEXT,
+                    ""ResourceKey"" TEXT,
+                    ""Text"" TEXT,
+                    ""LocalizationCulture"" TEXT,
+                    ""UpdatedTimestamp"" TEXT NOT NULL
+                    )", connection);
+                    cmd.ExecuteScalar();
+                }
+
                 services.AddDbContext<LocalizationModelContext>(options =>
-            options.UseSqlite(
-             sqlConnectionString,
-                b => b.MigrationsAssembly("ImportExportLocalization")
-            ),
-            ServiceLifetime.Singleton,
-            ServiceLifetime.Singleton
-            );
+                options.UseSqlite(
+                sqlConnectionString,
+                b => b.MigrationsAssembly("ImportExportLocalization")),
+                ServiceLifetime.Singleton,
+                ServiceLifetime.Singleton
+                );
 
                 // Requires that LocalizationModelContext is defined
                 services.AddSqlLocalization(options => options.UseTypeFullNames = true);
