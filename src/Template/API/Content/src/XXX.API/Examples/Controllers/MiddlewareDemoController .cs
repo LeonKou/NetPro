@@ -1,9 +1,11 @@
 ﻿using Consul;
+using MediatR;
 using Microsoft.Extensions.Localization;
 using NetMQ;
 using NetMQ.Sockets;
 using System.Threading;
 using XXX.API.FreeSql.Service;
+using XXX.API.GlobalizationDemo.Service;
 
 namespace XXX.API.Controllers
 {
@@ -18,6 +20,7 @@ namespace XXX.API.Controllers
         private readonly ILogger<MiddlewareDemoController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IConsulClient _consulClient;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// 
@@ -26,16 +29,19 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="consulClient"></param>
+        /// <param name="mediator"></param>
         public MiddlewareDemoController(IHostEnvironment hostEnvironment
             , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
             , IConsulClient consulClient
+            , IMediator mediator
             )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
             _localizer = localizer;
             _consulClient = consulClient;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -68,6 +74,18 @@ namespace XXX.API.Controllers
                     .SendMoreFrame(topc) // Topic
                     .SendFrame(DateTimeOffset.Now.ToString()); // Message
             }
+            return Ok();
+        }
+
+        /// <summary>
+        /// Mediator 示例
+        /// </summary>
+        [HttpGet("Mediator")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> Mediator()
+        {
+            //https://ardalis.com/using-mediatr-in-aspnet-core-apps/
+            await _mediator.Publish(new MediatorEvent("Hello World"));
             return Ok();
         }
     }

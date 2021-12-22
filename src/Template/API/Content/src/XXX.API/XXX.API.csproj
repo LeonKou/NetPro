@@ -23,6 +23,7 @@
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
 		<PackageReference Include="NetMQ" Version="4.0.1.6" />
 		<PackageReference Include="NetPro.Checker" Version="6.0.1" />
 		<!--<PackageReference Include="NetPro.Globalization" Version="6.0.1" />-->
