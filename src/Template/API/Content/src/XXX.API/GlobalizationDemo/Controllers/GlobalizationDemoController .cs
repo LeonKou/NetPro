@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
-using XXX.API.FreeSql.Service;
+using XXX.API.Service;
 
 namespace XXX.API.Controllers
 {

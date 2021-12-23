@@ -103,7 +103,8 @@ namespace NetPro.Web.Api
             {
                 //register all available validators from netpro assemblies               
 
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+                var assemblies = typeFinder.GetAssemblies(); ;// AppDomain.CurrentDomain.GetAssemblies();
                 //var assemblies = mvcBuilder.PartManager.ApplicationParts
                 //    .OfType<AssemblyPart>()
                 //    //.Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))

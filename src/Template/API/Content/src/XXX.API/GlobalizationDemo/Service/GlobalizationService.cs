@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 
-namespace XXX.API.FreeSql.Service
+namespace XXX.API.Service
 {
     public interface IGlobalizationDemoService
     {

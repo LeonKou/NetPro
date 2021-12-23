@@ -17,6 +17,7 @@ namespace NetPro.TypeFinder
         #region Fields
 
         private readonly bool _ignoreReflectionErrors = true;
+        Dictionary<string, string> dicDll = new Dictionary<string, string>();
         private readonly INetProFileProvider _fileProvider;
 
         #endregion
@@ -128,7 +129,7 @@ namespace NetPro.TypeFinder
                     {
                         entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
                     }
-                   
+
                     loadedAssemblyNames.Add(a.FullName);
                 }
 
@@ -159,9 +160,14 @@ namespace NetPro.TypeFinder
                 try
                 {
                     var an = AssemblyName.GetAssemblyName(dllPath);
+                    if (dicDll.ContainsKey(an.Name))
+                    {
+                        continue;
+                    }
                     if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
                     {
                         Domain.LoadPlugin(dllPath);
+                        dicDll[an.Name] = dllPath;
                         //App.Load(an);
                     }
                 }

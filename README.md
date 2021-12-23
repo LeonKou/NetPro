@@ -393,5 +393,9 @@ var mvcBuilder = services.AddControllers(config =>
 ```
 ### ...
 ## Target
+
+- Microsoft.SourceLink.Github 加入
+- 可视化安装卸载组件
+
 # ...
 
