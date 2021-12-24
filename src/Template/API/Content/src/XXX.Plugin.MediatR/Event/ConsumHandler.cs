@@ -4,6 +4,9 @@ using System.Threading;
 
 namespace XXX.Plugin.MediatR
 {
+    /// <summary>
+    /// 订阅同一个对象，A和B会同时被触发执行
+    /// </summary>
     public class MediatorEvent : INotification
     {
         public MediatorEvent(string message)
@@ -14,11 +17,14 @@ namespace XXX.Plugin.MediatR
         public string Message { get; }
     }
 
-    public class MediatorHandler : INotificationHandler<MediatorEvent>
+    /// <summary>
+    /// 订阅A
+    /// </summary>
+    public class MediatorConsumAHandler : INotificationHandler<MediatorEvent>
     {
-        private readonly ILogger<MediatorHandler> _logger;
+        private readonly ILogger<MediatorConsumAHandler> _logger;
 
-        public MediatorHandler(ILogger<MediatorHandler> logger)
+        public MediatorConsumAHandler(ILogger<MediatorConsumAHandler> logger)
         {
             _logger = logger;
         }
@@ -30,11 +36,14 @@ namespace XXX.Plugin.MediatR
         }
     }
 
-    public class MediatorConsumHandler : INotificationHandler<MediatorEvent>
+    /// <summary>
+    /// 订阅B
+    /// </summary>
+    public class MediatorConsumBHandler : INotificationHandler<MediatorEvent>
     {
-        private readonly ILogger<MediatorHandler> _logger;
+        private readonly ILogger<MediatorConsumBHandler> _logger;
 
-        public MediatorConsumHandler(ILogger<MediatorHandler> logger)
+        public MediatorConsumBHandler(ILogger<MediatorConsumBHandler> logger)
         {
             _logger = logger;
         }

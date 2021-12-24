@@ -12,10 +12,7 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Remove="Examples\Service\NetMqTask.cs~RF1442cbf2.TMP" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />-->
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />-->
