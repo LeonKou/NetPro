@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <IsPackable>false</IsPackable>
     <!--<BaseOutputPath>..\XXX.API\bin</BaseOutputPath>-->
     <!--<BaseIntermediateOutputPath>..\XXX.API\obj\</BaseIntermediateOutputPath>-->
     <!--<Nullable>enable</Nullable>-->

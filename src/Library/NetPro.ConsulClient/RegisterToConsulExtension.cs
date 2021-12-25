@@ -137,6 +137,8 @@ namespace NetPro.ConsulClient
                         Tags = serviceOptions.Value.Tags
                     };
 
+                    var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
+
                     try
                     {
                         consul.Agent.ServiceRegister(registration).ConfigureAwait(false).GetAwaiter().GetResult();
@@ -147,14 +149,17 @@ namespace NetPro.ConsulClient
                             consul.Agent.ServiceDeregister(serviceId).ConfigureAwait(false).GetAwaiter().GetResult();
                         });
                     }
+
                     catch (Exception ex)
                     {
-                        var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
                         logger.LogError(ex, $"consul error");
                     }
-
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"health check service:{httpCheck.HTTP}");
+                    finally
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        logger.LogInformation($"health check service:{httpCheck.HTTP}");
+                        Console.ResetColor();
+                    }
                 }
             }
             else

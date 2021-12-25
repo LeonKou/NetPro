@@ -1,7 +1,0 @@
-{
-	"MongoDbOptions": {
-		"Enabled": false,
-		"ConnectionString": null,
-		"Database": -1
-	}
-}
