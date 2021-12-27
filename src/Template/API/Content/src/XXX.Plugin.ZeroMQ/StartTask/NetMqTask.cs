@@ -2,8 +2,11 @@
 using NetMQ.Sockets;
 using System.Threading;
 
-namespace XXX.API.Examples.Service
+namespace XXX.Plugin.ZeroMQ.StartTask
 {
+    /// <summary>
+    /// 初始化ZeroMQ订阅者
+    /// </summary>
     public class NetMqTask : IStartupTask
     {
         public NetMqTask()

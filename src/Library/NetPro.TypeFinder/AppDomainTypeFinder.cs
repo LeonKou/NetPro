@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -44,6 +43,7 @@ namespace NetPro.TypeFinder
         /// <param name="assemblies"></param>
         private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
+            //AssemblyLoadContext.Default.Assemblies
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (!Matches(assembly.FullName))
@@ -160,12 +160,15 @@ namespace NetPro.TypeFinder
                 try
                 {
                     var an = AssemblyName.GetAssemblyName(dllPath);
-                    if (dicDll.ContainsKey(an.Name))
+                    if (dicDll.ContainsKey(an.Name) || "Microsoft.CodeAnalysis.resources".Contains(an.Name))
                     {
                         continue;
                     }
                     if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
                     {
+                        //https://cloud.tencent.com/developer/article/1520894
+                        //https://cloud.tencent.com/developer/article/1581619?from=article.detail.1520894
+                        //https://cloud.tencent.com/developer/article/1428970?from=article.detail.1520894
                         Domain.LoadPlugin(dllPath);
                         dicDll[an.Name] = dllPath;
                         //App.Load(an);

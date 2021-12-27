@@ -25,7 +25,6 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="consulClient"></param>
-        /// <param name="mediator"></param>
         public MiddlewareDemoController(IHostEnvironment hostEnvironment
             , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
@@ -50,25 +49,6 @@ namespace XXX.API.Controllers
             var result1 = await _consulClient.Catalog.DiscoveryAsync(serviceName);
             var result2 = await _consulClient.DiscoveryAsync(serviceName);
             return Ok(new { result, result1, result2 });
-        }
-
-        /// <summary>
-        /// zeroMQ 发布消息
-        /// </summary>
-        [HttpGet("ZeroMQPublish")]
-        [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> ZeroMQPublish(string topc = "A")
-        {
-            //仅作为发布者样板代码
-            using (var publisher = new PublisherSocket())
-            {
-                publisher.Bind("tcp://*:5001");
-
-                publisher
-                    .SendMoreFrame(topc) // Topic
-                    .SendFrame(DateTimeOffset.Now.ToString()); // Message
-            }
-            return Ok();
         }
     }
 }

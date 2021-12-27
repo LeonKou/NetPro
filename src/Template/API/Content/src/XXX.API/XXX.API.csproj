@@ -32,10 +32,8 @@
 		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Examples\Model\" />
-	</ItemGroup>
 
 </Project>
