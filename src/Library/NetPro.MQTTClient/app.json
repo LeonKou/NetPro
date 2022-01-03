@@ -1,0 +1,11 @@
+{
+	"MQTTClientOption": {
+		"Enabled": true,
+		"ConnectionString": [
+			{
+				"Key": "1", //连接串key别名，唯一
+				"Value": "clientid=netpro;host=127.0.0.1;port=1883;username=netpro;password=netpro;" //别名key对应的连接串
+			}
+		]
+	}
+}
