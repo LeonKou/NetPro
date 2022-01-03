@@ -89,9 +89,9 @@ namespace NetPro.ConsulClient
 
             if (!PORT.HasValue)
             {
-                var uri = new Uri(features.Get<IServerAddressesFeature>()
-              .Addresses
-              .FirstOrDefault());
+                var addresses = features.Get<IServerAddressesFeature>().Addresses;
+                var uriString = addresses.FirstOrDefault();
+                var uri = new Uri(uriString);
                 PORT = uri.Port;
                 if (!(uri.Host.Contains("0.0.0.0") || uri.Host.Contains("+") || uri.Host.Contains("*")))//http://+:80
                 {
@@ -200,7 +200,6 @@ namespace NetPro.ConsulClient
                     var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
                     logger.LogError(ex, $"consul error");
                 }
-
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"health check service:{httpCheck.HTTP}");

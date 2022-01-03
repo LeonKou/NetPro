@@ -10,12 +10,13 @@ using MQTTnet.Server;
 using NetPro;
 using System.Net;
 using System.Text;
-using MQTTnet.AspNetCore.Client;
 
 namespace XXX.API
 {
     /// <summary>
-    /// MQTT Server端服务器
+    /// MQTT Broker 服务器示例
+    /// 端口默认1883
+    /// http中间件不会命中mqtt请求，两套管道
     /// </summary>
     public class MQTTServerStartup : INetProStartup
     {
@@ -44,11 +45,13 @@ namespace XXX.API
                          c =>
                          {
                              //比对连接的账户密码与配置是否匹配
-                             var currentUser = new { UserName = "", Password = "" };
+                             //c.ClientId //针对于clientid做校验
+                             var currentUser = new { UserName = "netpro", Password = "netpro" };
 
                              if (currentUser == null)
                              {
                                  c.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                                 c.ReasonString = $"用户不合法";
                                  Console.WriteLine($"用户不存在");
                                  return;
                              }
@@ -56,6 +59,7 @@ namespace XXX.API
                              if (c.Username != currentUser.UserName)
                              {
                                  c.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                                 c.ReasonString = $"用户不合法";
                                  Console.WriteLine($"用户不存在");
                                  return;
                              }
@@ -63,12 +67,13 @@ namespace XXX.API
                              if (c.Password != currentUser.Password)
                              {
                                  c.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+                                 c.ReasonString = $"用户不合法";
                                  Console.WriteLine($"密码错误");
                                  return;
                              }
 
                              c.ReasonCode = MqttConnectReasonCode.Success;
-                             Console.WriteLine();
+                             Console.WriteLine($"客户端[{c.ClientId}]验证通过");
                          })
                         //订阅拦截器
                         .WithSubscriptionInterceptor(
@@ -87,12 +92,12 @@ namespace XXX.API
                         //clean sesison是否生效
                         .WithPersistentSessions();
 
+            //接收到的所有消息集合
             List<MqttApplicationMessage> messages = new List<MqttApplicationMessage>();
 
             //服务端
-
             IMqttServer mqttServer = new MqttFactory().CreateMqttServer();
-            IMqttClient mqttClient = new MqttFactory().CreateMqttClient();
+            mqttServer.StartAsync(optionsBuilder.Build());
 
             //客户端断开连接拦截器
             mqttServer.UseClientDisconnectedHandler(OnMqttServerClientDisconnected);
@@ -144,12 +149,11 @@ namespace XXX.API
             }
             void OnMqttServerApplicationMessageReceived(MqttApplicationMessageReceivedEventArgs e)
             {
+                //持久化，记录,更丰富操处理...
                 messages.Add(e.ApplicationMessage);
-                Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
+                Console.WriteLine(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss:fff"));
                 Console.WriteLine($"客户端[{e.ClientId}]>> Topic[{e.ApplicationMessage.Topic}] Payload[{Encoding.UTF8.GetString(e.ApplicationMessage.Payload ?? new byte[] { })}] Qos[{e.ApplicationMessage.QualityOfServiceLevel}] Retain[{e.ApplicationMessage.Retain}]");
             }
-
-            mqttServer.StartAsync(optionsBuilder.Build()).GetAwaiter().GetResult();
         }
 
         /// <summary>

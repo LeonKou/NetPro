@@ -15,7 +15,7 @@ namespace NetPro.ConsulClient
         /// <summary>
         /// 
         /// </summary>
-        public double Order { get; set; } = 0;
+        public double Order { get; set; } = double.MaxValue;
 
         /// <summary>
         /// 
