@@ -11,7 +11,7 @@ using NetPro;
 using System.Net;
 using System.Text;
 
-namespace XXX.API
+namespace XXX.Plugin.MQTTServer
 {
     /// <summary>
     /// MQTT Broker 服务器示例

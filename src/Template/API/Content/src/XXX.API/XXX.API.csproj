@@ -18,7 +18,7 @@
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />-->
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />-->
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />		
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<PackageReference Include="NetMQ" Version="4.0.1.6" />
 		<PackageReference Include="NetPro.Checker" Version="6.0.1" />
@@ -33,6 +33,7 @@
 		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />
+		<!--<ProjectReference Include="..\XXX.Plugin.Redis\XXX.Plugin.Redis.csproj" />-->
 		<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />
 	</ItemGroup>
 

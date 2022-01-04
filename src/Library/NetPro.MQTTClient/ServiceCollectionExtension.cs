@@ -6,6 +6,7 @@ using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using MQTTnet.Client.Receiving;
+using MQTTnet.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace NetPro.MQTTClient
         public static IServiceCollection AddMQTTClient(this IServiceCollection services, IConfiguration configuration)
         {
             var mqtttClientOptions = new MQTTClientOption(configuration);
+            if (!mqtttClientOptions.Enabled)
+            {
+                return services;
+            }
             services.AddSingleton(mqtttClientOptions);
             var idleBus = new IdleBus<IMqttClient>(TimeSpan.FromMinutes(10));
             foreach (var item in mqtttClientOptions.ConnectionString)
@@ -35,13 +40,45 @@ namespace NetPro.MQTTClient
                 {
                     try
                     {
-                        var mqttClient = new MqttFactory().CreateMqttClient() as IMqttClient; ;
+                        var mqttClient = new MqttFactory().CreateMqttClient() as MqttClient;
+                        var clientid = _GetItemValueFromConnectionString(item.Value, "clientid");
+                        var username = _GetItemValueFromConnectionString(item.Value, "username");
+                        var password = _GetItemValueFromConnectionString(item.Value, "password");
+                        var host = _GetItemValueFromConnectionString(item.Value, "host");
+                        var protString = _GetItemValueFromConnectionString(item.Value, "port");
+                        var succeedPort = int.TryParse(protString, out int port);
+
+                        if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host) || !succeedPort)
+                        {
+                            throw new ArgumentException($"mqttclient配置信息缺失;clientid={clientid};host={host};Port={protString}");
+                        }
                         var option = new MqttClientOptionsBuilder()
-                        .WithClientId(_GetItemValueFromConnectionString(item.Value, "clientid"))
-                        .WithCredentials(_GetItemValueFromConnectionString(item.Value, "username"), _GetItemValueFromConnectionString(item.Value, "password"))
-                        .WithTcpServer(_GetItemValueFromConnectionString(item.Value, "host"), int.Parse(_GetItemValueFromConnectionString(item.Value, "port")))
-                        .Build();
-                        mqttClient.ConnectAsync(option);
+                        .WithClientId(clientid)
+                        .WithTcpServer(host, port);
+
+                        if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+                        {
+                            option.WithCredentials(username, password);
+                        }
+
+                        //https://github.com/chkr1011/MQTTnet/issues/929
+                        mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(e =>
+                        {
+                            System.Console.WriteLine("Client Connected");
+                        });
+
+                        mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(arg =>
+                        {
+                            System.Console.WriteLine("Client disconnected, ClientWasConnected=" + arg.ClientWasConnected.ToString());
+                        });
+
+                        //mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>
+                        //{
+                        //    string payload = System.Text.Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
+                        //    System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
+                        //});
+
+                        mqttClient.ConnectAsync(option.Build()).GetAwaiter().GetResult();
                         return mqttClient;
                     }
                     catch (Exception ex)
@@ -66,6 +103,7 @@ namespace NetPro.MQTTClient
                 Match mc = r.Match(connectionString);
                 return mc.Groups["key"].Value;
             }
+
         }
     }
 }

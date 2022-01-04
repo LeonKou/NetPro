@@ -1,4 +1,6 @@
-﻿namespace NetPro
+﻿using System.Threading.Tasks;
+
+namespace NetPro
 {
     /// <summary>
     /// Interface which should be implemented by tasks run on startup
