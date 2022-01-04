@@ -28,7 +28,6 @@ namespace NetPro.Proxy
             {
                 types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件程序集名称为空,Proxy结尾的程序集为: {string.Join(';',types.Select(s => s.GetName().Name))}");
-
             }
             else
             {
@@ -48,10 +47,10 @@ namespace NetPro.Proxy
                         services.AddHttpApi(item, s =>
                         {
                             var servicename = GetValue(item.Name, "I(.*)Proxy", "$1");
-                            var host = configuration.GetValue<string>($"MicroServicesEndpoint:{servicename}");
+                            var host = configuration.GetValue<string>($"NetProProxyOption:{servicename}");
                             if (string.IsNullOrWhiteSpace(host))
                             {
-                                throw new ArgumentNullException($"MicroServicesEndpoint:{servicename}", $"未检测到服务终结点MicroServicesEndpoint:{servicename},请检查配置文件中是否包含MicroServicesEndpoint节点");
+                                throw new ArgumentNullException($"NetProProxyOption:{servicename}", $"未检测到服务终结点NetProProxyOption:{servicename},请检查配置文件中是否包含NetProProxyOption节点");
                             }
                             s.HttpHost = new Uri(host);
                         }).ConfigurePrimaryHttpMessageHandler(() =>

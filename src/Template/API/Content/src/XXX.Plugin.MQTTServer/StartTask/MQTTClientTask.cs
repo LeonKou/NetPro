@@ -22,24 +22,19 @@ namespace XXX.Plugin.MQTTServer.StartTask
 
         public void Execute()
         {
-            Task.Factory.StartNew(() =>
+            var filter = new MqttTopicFilter()
             {
-                var filter = new MqttTopicFilter()
-                {
-                    Topic = "netpro/#",//"家/客厅/空调/#",
-                    QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce,
+                Topic = "netpro/#",//"家/客厅/空调/#",
+                QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce,
 
-                };
-                var _mqttClient = _mqttClientIds.Get("1");
-
-                //消费消息
-                _mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>
-                {
-                    string payload = System.Text.Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
-                    System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
-                });
-
-                var result = _mqttClient.SubscribeAsync(filter).GetAwaiter().GetResult();
+            };
+            var _mqttClient = _mqttClientIds.Get("1");
+            var result = _mqttClient.SubscribeAsync(filter);
+            //消费消息
+            _mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>
+            {
+                string payload = System.Text.Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
+                System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
             });
         }
     }

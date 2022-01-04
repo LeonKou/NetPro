@@ -110,10 +110,13 @@ namespace NetPro.TypeFinder
         /// <summary>
         /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
         /// </summary>
+        /// <param name="mountePath">
+        /// plugin path
+        /// </param>
         /// <param name="directoryPaths">
         /// The physical path to a directory containing dlls to load in the app domain and plugin directory.
         /// </param>
-        protected virtual void LoadMatchingAssemblies(params string[] directoryPaths)
+        protected virtual void LoadMatchingAssemblies(string mountePath, params string[] directoryPaths)
         {
             var loadedAssemblyNames = new List<string>();
             string entryPoint = null;
@@ -133,23 +136,26 @@ namespace NetPro.TypeFinder
                     loadedAssemblyNames.Add(a.FullName);
                 }
 
-                if (!_fileProvider.DirectoryExists($"{directoryPath}/{entryPoint}"))
-                {
-                    _fileProvider.CreateDirectory($"{directoryPath}/{entryPoint}");
-                    _fileProvider.WriteAllText($"{directoryPath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
-                    return;
-                }
-
                 //load root directory
                 _LoadDll(directoryPath, loadedAssemblyNames);
+            }
 
-                //load root sub directory
-                var subDirectories = _fileProvider.GetDirectories(directoryPath);
-                //Excluding the bin directory
-                for (int i = 1; i < subDirectories.Count(); i++)
+            //load root sub directory
+            if (!_fileProvider.DirectoryExists($"{mountePath}/{entryPoint}"))
+            {
+                _fileProvider.CreateDirectory($"{mountePath}/{entryPoint}");
+                _fileProvider.WriteAllText($"{mountePath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
+            }
+
+            //Excluding the bin directory
+            var subDirectories = _fileProvider.GetDirectories(mountePath);
+            for (int i = 1; i < subDirectories.Count(); i++)
+            {
+                if ("runtimes".Equals(subDirectories[i]))
                 {
-                    _LoadDll(subDirectories[i], loadedAssemblyNames);
+                    continue;
                 }
+                _LoadDll(subDirectories[i], loadedAssemblyNames);
             }
         }
 

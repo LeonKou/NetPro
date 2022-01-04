@@ -22,7 +22,7 @@ namespace NetPro.Proxy
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddHttpProxy(configuration, typeFinder, configuration.GetValue<string>("MicroServicesEndpoint:Assembly", string.Empty));
+            services.AddHttpProxy(configuration, typeFinder, configuration.GetValue<string>("NetProProxyOption:Assembly", string.Empty));
         }
     }
 }

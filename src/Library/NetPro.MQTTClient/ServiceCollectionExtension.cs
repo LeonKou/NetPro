@@ -78,7 +78,7 @@ namespace NetPro.MQTTClient
                         //    System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
                         //});
 
-                        mqttClient.ConnectAsync(option.Build()).GetAwaiter().GetResult();
+                        mqttClient.ConnectAsync(option.Build());//.GetAwaiter().GetResult();
                         return mqttClient;
                     }
                     catch (Exception ex)

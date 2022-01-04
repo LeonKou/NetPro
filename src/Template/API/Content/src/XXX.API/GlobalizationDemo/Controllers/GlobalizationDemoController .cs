@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using XXX.API.Service;
 
 namespace XXX.API.Controllers

@@ -12,7 +12,7 @@
 
 - 增加以下配置节点
 ```json
-"MicroServicesEndpoint": {
+"NetProProxyOption": {
 		"Assembly": null,//程序集完整名称，批量注入
 		"Example": "http://localhost:5000",//命名规则为请求接口去除结尾Proxy与I关键字，例如此项对应请求接口IExampleProxy
 		"Baidu": "http://baidu.com"
@@ -92,6 +92,8 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ##### 使用过滤
+
+复制以下代码放在请求方法顶部以特性方式使用，可实现方法的请求与响应的拦截处理，如需个性化处理，以此作为模板稍作改动即可
 
 ```csharp
 

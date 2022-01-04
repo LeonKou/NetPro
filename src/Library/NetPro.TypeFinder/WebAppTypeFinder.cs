@@ -74,7 +74,7 @@ namespace NetPro.TypeFinder
                 _binFolderAssembliesLoaded = true;
                 var binPath = GetBinDirectory();
                 //binPath = _webHelper.MapPath("~/bin");
-                if (string.IsNullOrWhiteSpace(_typeFinderOption?.MountePath))
+                if (string.IsNullOrWhiteSpace(_typeFinderOption.MountePath))
                 {
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
@@ -86,7 +86,7 @@ namespace NetPro.TypeFinder
                     }
                 }
 
-                LoadMatchingAssemblies(binPath, _typeFinderOption?.MountePath);//MountePath:dll path
+                LoadMatchingAssemblies(_typeFinderOption.MountePath, binPath);//MountePath:plugin dll path
             }
 
             return base.GetAssemblies();

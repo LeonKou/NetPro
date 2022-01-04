@@ -12,7 +12,7 @@ using NetPro.TypeFinder;
 using System.Collections.Generic;
 using System.Net;
 
-namespace NetPro.Analysic
+namespace NetPro.Checker
 {
     public class CheckerStartup : INetProStartup
     {

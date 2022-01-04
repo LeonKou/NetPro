@@ -68,8 +68,8 @@ namespace NetPro.Startup
 
             builder.ConfigureServices((context, services) =>
             {
-                  //Inject the file lookup component
-                  var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
+                //Inject the file lookup component
+                var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
                 services.AddFileProcessService(option);
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
@@ -138,8 +138,6 @@ namespace NetPro.Startup
                 {
                     using (var writer = File.CreateText(jsonPath))
                     {
-
-
                         foreach (var instance in instances)
                         {
                             dynamicObject.Add(instance.Type.Name, instance.NetProStartupImplement.Order);
@@ -207,7 +205,7 @@ namespace NetPro.Startup
                     table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
                     tempList.Add(instance.Type.Name);
                 }
-
+                Console.WriteLine($"instancesByOrder={instancesByOrder?.Count()};instances={instances.Count()}");
                 Console.WriteLine(table.ToString());
                 Console.ResetColor();
 

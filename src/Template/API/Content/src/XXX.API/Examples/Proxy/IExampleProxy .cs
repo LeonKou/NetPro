@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
+using HttpGetAttribute = WebApiClientCore.Attributes.HttpGetAttribute;
 
-namespace Leon.XXX.Proxy
+namespace XXX.API.Controllers
 {
-    public interface IBaiduProxy:IHttpApi
+    public interface IBaiduProxy: IHttpApi
     {
         [HttpGet("")]
         [WebApiClientFilter]
@@ -36,7 +37,7 @@ namespace Leon.XXX.Proxy
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
     }
 
-    public interface IExampleProxy: IHttpApi
+    public interface IExampleProxy
     {
         [HttpGet("")]
         [WebApiClientFilter]
