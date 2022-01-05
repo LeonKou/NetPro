@@ -7,8 +7,8 @@ extensions:
   logPath: ./.logs
   
 services:
-- name: Leon-XXX-Api
-  project: src/sample/Leon.XXX.Api/Leon.XXX.Api.csproj
+- name: XXX.API
+  project: src/sample/XXX.API/XXX.API.csproj
   replicas: 1
   # liveness:
     # http:
@@ -19,4 +19,3 @@ services:
   env:
   - ASPNETCORE_ENVIRONMENT="Development" #Development/Staging/Production
   - TZ="Asia/Shanghai"
-  - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES="NetPro.Startup;" #SkyAPM.Agent.AspNetCore

@@ -174,7 +174,6 @@ namespace NetPro.TypeFinder
                     {
                         //https://cloud.tencent.com/developer/article/1520894
                         //https://cloud.tencent.com/developer/article/1581619?from=article.detail.1520894
-                        //https://cloud.tencent.com/developer/article/1428970?from=article.detail.1520894
                         Domain.LoadPlugin(dllPath);
                         dicDll[an.Name] = dllPath;
                         //App.Load(an);
