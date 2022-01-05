@@ -1,0 +1,16 @@
+﻿global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using System.Linq;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Threading.Tasks;
+global using System.Web;
+global using System;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.AspNetCore.Hosting;
+global using NetPro;
+global using XXX.Entity;
+global using AutoMapper;
+global using XXX.Plugin.FreeSql;

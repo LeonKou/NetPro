@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />		
+		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<PackageReference Include="NetMQ" Version="4.0.1.6" />
+		<!--<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />
+	</ItemGroup>
+
+</Project>
