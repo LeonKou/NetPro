@@ -1,4 +1,4 @@
-﻿namespace NetPro.TypeFinder
+﻿namespace System.NetPro.TypeFinder
 {
     /// <summary>
     /// Represents a common helper

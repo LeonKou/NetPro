@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace NetPro.TypeFinder
+namespace System.NetPro
 {
     /// <summary>
     /// 

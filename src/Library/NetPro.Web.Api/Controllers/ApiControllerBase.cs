@@ -3,6 +3,7 @@ using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure;
 using System;
 using System.Linq;
+using System.NetPro;
 
 namespace NetPro.Web.Api.Controllers
 {

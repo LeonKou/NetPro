@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 using Serilog;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
+using System.NetPro;
 
 namespace NetPro.Web.Api
 {
@@ -15,7 +16,7 @@ namespace NetPro.Web.Api
     /// 配置应用程序启动时异常处理中间件
     /// app.UseExceptionHandler()
     /// </summary>
-    public class ErrorHandlerStartup : INetProStartup
+    public class ErrorHandlerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

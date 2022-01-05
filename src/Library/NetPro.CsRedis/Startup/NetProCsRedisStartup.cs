@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 
 namespace NetPro.CsRedis
 {
-    public class NetProCsRedisStartup : INetProStartup
+    public class NetProCsRedisStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 1000;
 

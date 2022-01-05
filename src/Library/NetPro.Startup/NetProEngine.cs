@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro.Startup
+namespace System.NetPro
 {
     /// <summary>
     /// IEngine接口实现

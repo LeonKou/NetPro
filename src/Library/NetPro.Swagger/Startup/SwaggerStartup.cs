@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.TypeFinder;
 using NetPro.Swagger;
 using Microsoft.AspNetCore.Hosting;
+using System.NetPro;
 
 namespace NetPro.Swagger
 {
     /// <summary>
     /// Swagger接口文档工具 
     /// </summary>
-    public class SwaggerStartup : INetProStartup
+    public class SwaggerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// /

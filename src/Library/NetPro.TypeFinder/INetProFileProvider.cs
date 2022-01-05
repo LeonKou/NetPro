@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 文件操作抽象类
@@ -150,6 +150,16 @@ namespace NetPro
         /// the specified criteria, or an empty array if no directories are found
         /// </returns>
         string[] GetDirectories(string path, string searchPattern = "", bool topDirectoryOnly = true);
+
+        /// <summary>
+        /// move directories file to target directories
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="isDeleteSource"></param>
+        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
+        /// <exception cref="System.IO.IOException"></exception>
+        void Move(string source, string target,bool isDeleteSource);
 
         /// <summary>
         /// Returns the directory information for the specified path string

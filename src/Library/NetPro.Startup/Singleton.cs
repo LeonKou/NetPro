@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NetPro.Startup
+namespace System.NetPro
 {
     /// <summary>
     /// A statically compiled "singleton" used to store objects throughout the 

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Configuration;
-using NetPro.TypeFinder;
+using System.NetPro;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// 路由中间件加载app.UseRouting(); 
     /// </summary>
-    class RoutingStartup : INetProStartup
+    class RoutingStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

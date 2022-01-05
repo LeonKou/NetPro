@@ -1,4 +1,5 @@
 ﻿using FreeSql;
+using System.NetPro;
 
 namespace XXX.Plugin.FreeSql
 {

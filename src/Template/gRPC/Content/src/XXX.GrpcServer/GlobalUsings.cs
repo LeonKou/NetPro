@@ -4,7 +4,7 @@ global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using NetPro;
-global using NetPro.TypeFinder;
+global using System.NetPro;
 global using System.Linq;
 global using Microsoft.Extensions.Hosting;
 global using AutoMapper;

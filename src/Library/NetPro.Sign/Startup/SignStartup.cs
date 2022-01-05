@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
 using NetPro.Sign;
-using NetPro.TypeFinder;
+using System.NetPro;
 
 namespace NetPro.Sign
 {
@@ -12,7 +12,7 @@ namespace NetPro.Sign
     /// 支持签名
     /// appsetting.json VerifySignOption:Enabled=true 打开签名
     /// </summary>
-    public class SignStartup : INetProStartup
+    public class SignStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 添加 

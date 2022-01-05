@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 
 namespace NetPro.Grpc
 {
-    public class GrpcStartup : INetProStartup
+    public class GrpcStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 0;
 

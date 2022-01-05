@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro.TypeFinder
+namespace System.NetPro
 {
     /// <summary>
     ///应用程序域内 循环类型查找(在bin目录中)
@@ -113,32 +114,26 @@ namespace NetPro.TypeFinder
         /// <param name="mountePath">
         /// plugin path
         /// </param>
-        /// <param name="directoryPaths">
+        /// <param name="binPath">
         /// The physical path to a directory containing dlls to load in the app domain and plugin directory.
         /// </param>
-        protected virtual void LoadMatchingAssemblies(string mountePath, params string[] directoryPaths)
+        protected virtual void LoadMatchingAssemblies(string mountePath, string binPath)
         {
             var loadedAssemblyNames = new List<string>();
             string entryPoint = null;
-            foreach (var directoryPath in directoryPaths)
+
+            foreach (var a in GetAssemblies())
             {
-                if (string.IsNullOrWhiteSpace(directoryPath))
+                if (a.EntryPoint != null)
                 {
-                    continue;
-                }
-                foreach (var a in GetAssemblies())
-                {
-                    if (a.EntryPoint != null)
-                    {
-                        entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
-                    }
-
-                    loadedAssemblyNames.Add(a.FullName);
+                    entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
                 }
 
-                //load root directory
-                _LoadDll(directoryPath, loadedAssemblyNames);
+                loadedAssemblyNames.Add(a.FullName);
             }
+
+            //load root directory
+            _LoadDll(binPath, loadedAssemblyNames);
 
             //load root sub directory
             if (!_fileProvider.DirectoryExists($"{mountePath}/{entryPoint}"))
@@ -157,6 +152,8 @@ namespace NetPro.TypeFinder
                 }
                 _LoadDll(subDirectories[i], loadedAssemblyNames);
             }
+
+            _fileProvider.Move(mountePath, $"{binPath}",false);
         }
 
         private void _LoadDll(string directory, List<string> loadedAssemblyNames)
@@ -335,6 +332,59 @@ namespace NetPro.TypeFinder
             AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
             return assemblies;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
+        /// <exception cref="System.IO.IOException"></exception>
+        public void Move(string source, string target)
+        {
+            if (!Directory.Exists(source))
+            {
+                throw new System.IO.DirectoryNotFoundException("Source directory couldn't be found.");
+            }
+
+            if (Directory.Exists(target))
+            {
+                throw new System.IO.IOException("Target directory already exists.");
+            }
+
+            DirectoryInfo sourceInfo = Directory.CreateDirectory(source);
+            DirectoryInfo targetInfo = Directory.CreateDirectory(target);
+
+            if (sourceInfo.FullName == targetInfo.FullName)
+            {
+                throw new System.IO.IOException("Source and target directories are the same.");
+            }
+
+            Stack<DirectoryInfo> sourceDirectories = new Stack<DirectoryInfo>();
+            sourceDirectories.Push(sourceInfo);
+
+            Stack<DirectoryInfo> targetDirectories = new Stack<DirectoryInfo>();
+            targetDirectories.Push(targetInfo);
+
+            while (sourceDirectories.Count > 0)
+            {
+                DirectoryInfo sourceDirectory = sourceDirectories.Pop();
+                DirectoryInfo targetDirectory = targetDirectories.Pop();
+
+                foreach (FileInfo file in sourceDirectory.GetFiles())
+                {
+                    file.CopyTo(Path.Combine(targetDirectory.FullName, file.Name), overwrite: true);
+                }
+
+                foreach (DirectoryInfo subDirectory in sourceDirectory.GetDirectories())
+                {
+                    sourceDirectories.Push(subDirectory);
+                    targetDirectories.Push(targetDirectory.CreateSubdirectory(subDirectory.Name));
+                }
+            }
+
+            sourceInfo.Delete(true);
         }
 
         #endregion

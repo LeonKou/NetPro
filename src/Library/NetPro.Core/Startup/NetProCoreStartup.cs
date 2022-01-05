@@ -9,17 +9,17 @@ using Microsoft.Extensions.Hosting;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
 using NetPro.Core.Infrastructure.Mapper;
-using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.NetPro;
 
 namespace NetPro.Core.Startup
 {
-    public class NetProCoreStartup : INetProStartup
+    public class NetProCoreStartup : INetProStartup, System.NetPro.Startup.__._
     {
         //public double Order = 0;
 

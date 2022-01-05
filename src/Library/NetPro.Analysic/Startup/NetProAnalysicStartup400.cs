@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 using NetPro.Analysic;
 using NetPro.Core.Infrastructure;
 using NetPro.CsRedis;
-using NetPro.TypeFinder;
+using System.NetPro;
 
 namespace NetPro.Analysic
 {
-    public class NetProAnalysicStartup400 : INetProStartup
+    public class NetProAnalysicStartup400 : INetProStartup, System.NetPro.Startup.__._
     {
         private static bool enabled = true;
         /// <summary>

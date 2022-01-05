@@ -2,13 +2,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.NetPro;
 
 namespace NetPro.MongoDb
 {
     /// <summary>
     /// mongobd
     /// </summary>
-    public class NetProMongoDBMultiStartup : INetProStartup
+    public class NetProMongoDBMultiStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

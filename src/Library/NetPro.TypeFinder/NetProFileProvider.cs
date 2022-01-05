@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace NetPro.TypeFinder
+namespace System.NetPro
 {
     /// <summary>
     /// IO functions using the on-disk file system
@@ -278,6 +278,62 @@ namespace NetPro.TypeFinder
 
             return Directory.GetDirectories(path, searchPattern,
                 topDirectoryOnly ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
+        }
+
+        /// <summary>
+        /// move directories file to target directories
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <param name="isDeleteSource"></param>
+        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
+        /// <exception cref="System.IO.IOException"></exception>
+        public void Move(string source, string target, bool isDeleteSource = true)
+        {
+            if (!Directory.Exists(source))
+            {
+                throw new System.IO.DirectoryNotFoundException("Source directory couldn't be found.");
+            }
+
+            //if (Directory.Exists(target))
+            //{
+            //    throw new System.IO.IOException("Target directory already exists.");
+            //}
+
+            DirectoryInfo sourceInfo = Directory.CreateDirectory(source);
+            DirectoryInfo targetInfo = Directory.CreateDirectory(target);
+
+            //if (sourceInfo.FullName == targetInfo.FullName)
+            //{
+            //    throw new System.IO.IOException("Source and target directories are the same.");
+            //}
+
+            Stack<DirectoryInfo> sourceDirectories = new Stack<DirectoryInfo>();
+            sourceDirectories.Push(sourceInfo);
+
+            Stack<DirectoryInfo> targetDirectories = new Stack<DirectoryInfo>();
+            targetDirectories.Push(targetInfo);
+
+            while (sourceDirectories.Count > 0)
+            {
+                DirectoryInfo sourceDirectory = sourceDirectories.Pop();
+                DirectoryInfo targetDirectory = targetDirectories.Pop();
+
+                foreach (FileInfo file in sourceDirectory.GetFiles())
+                {
+                    file.CopyTo(Path.Combine(targetDirectory.FullName, file.Name), overwrite: true);
+                }
+
+                foreach (DirectoryInfo subDirectory in sourceDirectory.GetDirectories())
+                {
+                    sourceDirectories.Push(subDirectory);
+                    targetDirectories.Push(targetDirectory.CreateSubdirectory(subDirectory.Name));
+                }
+            }
+            if (isDeleteSource)
+            {
+                sourceInfo.Delete(true);
+            }
         }
 
         /// <summary>

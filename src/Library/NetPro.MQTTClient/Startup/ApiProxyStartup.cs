@@ -4,13 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using System.NetPro;
 
 namespace NetPro.MQTTClient
 {
     /// <summary>
     /// MQTTClient
     /// </summary>
-    public class MQTTClientStartup : INetProStartup
+    public class MQTTClientStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.NetPro.Startup._;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
@@ -16,11 +17,9 @@ using BetterConsoles.Tables.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Startup;
-using NetPro.TypeFinder;
 
 [assembly: HostingStartup(typeof(Startup))]
-namespace NetPro.Startup
+namespace System.NetPro.Startup._
 {
     internal class _
     {
@@ -49,6 +48,7 @@ namespace NetPro.Startup
             IConfiguration _configuration = null;
             List<_> instancesByOrder = null;
             List<_> instances = null;
+            List<string> defaultStartupNames = null;
             var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
 
             builder.ConfigureAppConfiguration((config, builder) =>
@@ -73,8 +73,11 @@ namespace NetPro.Startup
                 services.AddFileProcessService(option);
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
                 var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
+                var defaultStartup = _typeFinder.FindClassesOfType<System.NetPro.Startup.__._>().ToList();
 
-                //create and sort instances of startup configurations                 
+                defaultStartupNames = defaultStartup.Select(s => s.Name).ToList();
+
+                //create and sort instances of startup configurations
                 instances = startupConfigurations
                   .Select(startup => new _ { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Type = startup })
                   .OrderBy(startup => startup.NetProStartupImplement.Order)
@@ -161,11 +164,15 @@ namespace NetPro.Startup
                 string FormatData(string text)
                 {
                     //高亮原生中间件，方便识别中间件顺序
-                    if ("RoutingStartup200-EndpointsStartup1000-StaticFilesStartup100-ErrorHandlerStartup0".Contains(text))
+                    if (defaultStartupNames.Where(s => s == text).Any())
                     {
                         return $"{text}(default)".ForegroundColor(Color.FromArgb(0, 255, 0));
                     }
-                    return text;
+                    else
+                    {
+                        return $"{text}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
+                    }
+                    
                 }
 
                 Table table = new TableBuilder(headerFormat)
@@ -174,10 +181,6 @@ namespace NetPro.Startup
               .AddColumn("Path").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126))
               .AddColumn("Assembly").RowFormatter<string>((x) =>
                 {
-                    if (!x.Contains("NetPro"))
-                    {
-                        return $"{x}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
-                    }
                     return x;
                 }).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
              .AddColumn("Version").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)

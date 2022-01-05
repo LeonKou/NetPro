@@ -1,5 +1,5 @@
 ﻿using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 using System;
 using System.Data;
 using System.Xml;

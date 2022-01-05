@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 using NetPro.Checker;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
 using System.Collections.Generic;
 using System.Net;
+using System.NetPro;
 
 namespace NetPro.Checker
 {
-    public class CheckerStartup : INetProStartup
+    public class CheckerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

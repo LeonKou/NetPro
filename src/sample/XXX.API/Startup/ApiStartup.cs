@@ -1,6 +1,6 @@
 ﻿using HealthChecks.UI.Client;
 using NetPro.Checker;
-using NetPro.TypeFinder;
+using System.NetPro;
 
 namespace XXX.API
 {

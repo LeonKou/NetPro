@@ -4,13 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using System.NetPro;
 
 namespace NetPro.ConsulClient
 {
     /// <summary>
     /// consul
     /// </summary>
-    public class ConsulStartup : INetProStartup
+    public class ConsulStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

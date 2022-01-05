@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace NetPro.TypeFinder
+namespace System.NetPro
 {
     /// <summary>
     ///  Web程序域内 循环类型查找(在bin目录中)

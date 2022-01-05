@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace NetPro.Startup
+namespace System.NetPro
 {
     /// <summary>
     ///定义程序启动初始化配置、服务、模块、组件等注入

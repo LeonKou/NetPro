@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetPro.TypeFinder;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System;
+using System.NetPro;
 
 namespace NetPro.ShareRequestBody
 {
-    public class ShareBodyStartup : INetProStartup
+    public class ShareBodyStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

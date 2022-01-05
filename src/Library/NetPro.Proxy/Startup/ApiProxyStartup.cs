@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 using NetPro.Proxy;
 using Microsoft.AspNetCore.Hosting;
 
@@ -12,7 +12,7 @@ namespace NetPro.Proxy
     /// Proxy远程请求组件
     /// MicroServicesEndpoint:Assembly配置当前Proxy接口所在程序集名称
     /// </summary>
-    public class ApiProxyStartup : INetProStartup
+    public class ApiProxyStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 0;
 

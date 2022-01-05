@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.NetPro;
 
 namespace NetPro.Cors
 {
@@ -17,7 +17,7 @@ namespace NetPro.Cors
     /// 跨域
     /// application.UseCors();
     /// </summary>
-    class CorsStartup : INetProStartup
+    class CorsStartup : INetProStartup, System.NetPro.Startup.__._
     {
         bool enabled = true;
 

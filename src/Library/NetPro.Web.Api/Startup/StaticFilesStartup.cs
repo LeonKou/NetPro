@@ -5,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
-using NetPro.TypeFinder;
+using System.NetPro;
 using System.Linq;
+using System.NetPro;
 
 namespace NetPro.Web.Api
 {
@@ -14,7 +15,7 @@ namespace NetPro.Web.Api
     /// 文件中间件
     /// app.UseStaticFiles(); 
     /// </summary>
-    public class StaticFilesStartup : INetProStartup
+    public class StaticFilesStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

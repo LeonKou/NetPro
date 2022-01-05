@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
 using NetPro.Core.Infrastructure;
-using NetPro.TypeFinder;
+using System.NetPro;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Net;
 
 namespace NetPro.ResponseCache
 {
-    public class GlobalizationStartup : INetProStartup
+    public class GlobalizationStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

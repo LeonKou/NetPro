@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 程序启动时配置、中间件服务 注册依赖 接口定义
@@ -24,11 +24,18 @@ namespace NetPro
         /// </summary>
         /// <param name="app">用于配置应用程序请求管道的构建器</param>
         /// <param name="env">执行环境</param>
-        void Configure(IApplicationBuilder app, IWebHostEnvironment env=null);
+        void Configure(IApplicationBuilder app, IWebHostEnvironment env = null);
 
         /// <summary>
         /// 依赖注入执行顺序
         /// </summary>
         double Order { get; set; }
+    }
+}
+
+namespace System.NetPro.Startup.__
+{
+    public interface _
+    {
     }
 }

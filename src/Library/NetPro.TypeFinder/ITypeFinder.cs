@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
-    /// 实现此接口的类提供关于类型的信息      
+    /// 实现此接口的类提供关于类型的信息
     /// </summary>
     public interface ITypeFinder
     {
