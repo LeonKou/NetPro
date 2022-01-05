@@ -11,6 +11,9 @@ using System.Text.RegularExpressions;
 
 namespace NetPro.Proxy
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class HttpProxyServiceExtensions
     {
         /// <summary>
@@ -19,34 +22,42 @@ namespace NetPro.Proxy
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <param name="typeFinder"></param>
-        /// <param name="assemblyFullName">程序集完成名称</param>
+        /// <param name="assemblyPattern ">匹配使用NetPro.Proxy远程请求功能的程序集名称的正则表达式</param>
         /// <returns></returns>
-        public static IServiceCollection AddHttpProxy(this IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder, string assemblyFullName = null)
+        public static IServiceCollection AddHttpProxy(this IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder, string assemblyPattern = null, string interfacePattern = null)
         {
             var types = new List<Assembly>();
-            if (string.IsNullOrWhiteSpace(assemblyFullName))
+            if (string.IsNullOrWhiteSpace(assemblyPattern))
             {
                 types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件程序集名称为空,Proxy结尾的程序集为: {string.Join(';',types.Select(s => s.GetName().Name))}");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient)远程请求程序集默认模式，程序集名称: {string.Join(';',types.Select(s => s.GetName().Name))}");
             }
             else
             {
-                types = typeFinder.GetAssemblies().Where(s => s.GetName().Name == assemblyFullName).ToList();
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy组件配置的程序集名为:{assemblyFullName}");
+                types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, assemblyPattern)).ToList();
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient))远程请求组件已经指定生效的程序集，程序集名称: {string.Join(';', types.Select(s => s.GetName().Name))}");
             }
 
             var cookieContainer = new CookieContainer();
+            if (string.IsNullOrWhiteSpace(interfacePattern))
+            {
+                interfacePattern = "Proxy$";
+            }
             foreach (var type in types)
             {
                 if (type != null)
                 {
+                    //var typeConfigurations = type.GetTypes().Where(type =>
+                    //     type.IsInterface).Where(t => t.Name.EndsWith("Proxy"));
                     var typeConfigurations = type.GetTypes().Where(type =>
-                         type.IsInterface).Where(t => t.Name.EndsWith("Proxy"));
+                        type.IsInterface).Where(r => IsMatch(r.Name, interfacePattern));
+
                     foreach (var item in typeConfigurations)
                     {
                         services.AddHttpApi(item, s =>
                         {
-                            var servicename = GetValue(item.Name, "I(.*)Proxy", "$1");
+                            //var servicename = GetValue(item.Name, "I(.*)Proxy", "$1");
+                            var servicename = item.Name;
                             var host = configuration.GetValue<string>($"NetProProxyOption:{servicename}");
                             if (string.IsNullOrWhiteSpace(host))
                             {

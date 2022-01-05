@@ -13,9 +13,10 @@
 - 增加以下配置节点
 ```json
 "NetProProxyOption": {
-		"Assembly": null,//程序集完整名称，批量注入
-		"Example": "http://localhost:5000",//命名规则为请求接口去除结尾Proxy与I关键字，例如此项对应请求接口IExampleProxy
-		"Baidu": "http://baidu.com"
+		"AssemblyPattern": "^XXX.*.Proxy$",//批量注入程序集的正则,此处表示将XXX开头，Proxy结尾的程序集中使用了NetProProxy功能的接口批量注入
+		"InterfacePattern": "^I.*.Proxy$", //I开头，Proxy结尾的接口
+        "IExampleProxy": "http://localhost:5000",//名称要与具体定义的接口名称一致,例如此项对应的接口定义为 public interface IExampleProxy{}
+		"IBaiduProxy": "http://baidu.com"
 	}
 ```
 #### 启用服务
@@ -111,6 +112,8 @@ public void ConfigureServices(IServiceCollection services)
         public override Task OnRequestAsync(ApiRequestContext context)
         {
             //请求开始前做的拦截
+             var uri= context.HttpContext.RequestMessage.RequestUri;
+                Console.WriteLine($"request uri is：{uri}");
             return Task.CompletedTask;
         }
 

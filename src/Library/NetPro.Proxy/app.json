@@ -1,7 +1,8 @@
 ﻿{
 	"NetProProxyOption": {
-		"Assembly": null,
-		"Example": "http://localhost:5000",
-		"Baidu": "http://baidu.com"
+		"AssemblyPattern": "^XXX.*.Proxy$", //XXX开头，Proxy结尾的程序集
+		"InterfacePattern": "^I.*.Proxy$", //I开头，Proxy结尾的接口
+		"IExampleProxy": "http://localhost:5000",
+		"IBaiduProxy": "http://baidu.com"
 	}
 }

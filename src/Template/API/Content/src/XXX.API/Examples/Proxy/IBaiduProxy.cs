@@ -6,11 +6,14 @@ using HttpGetAttribute = WebApiClientCore.Attributes.HttpGetAttribute;
 
 namespace XXX.API.Controllers
 {
-    public interface IBaiduProxy: IHttpApi
+    ///获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
+    //[HttpHost("https://ug.baidu.com/")]
+    public interface IBaiduProxy
     {
-        [HttpGet("")]
+        [HttpGet("/")]
         [WebApiClientFilter]
-        ITask<dynamic> GetAsync([Parameter(Kind.Query)] string account);
+        //[RawReturn]
+        ITask<string> SharepageAsync([Parameter(Kind.Query)] string queryparameter);
 
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
@@ -81,6 +84,8 @@ namespace XXX.API.Controllers
 
         public override Task OnRequestAsync(ApiRequestContext context)
         {
+            var uri= context.HttpContext.RequestMessage.RequestUri;
+                Console.WriteLine($"request uri is：{uri}");
             return Task.CompletedTask;
         }
 

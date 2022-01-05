@@ -18,6 +18,7 @@ namespace XXX.API.Controllers
         private readonly ILogger<MiddlewareDemoController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IConsulClient _consulClient;
+        private readonly IBaiduProxy _baiduProxy;
 
         /// <summary>
         /// 
@@ -26,16 +27,19 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="consulClient"></param>
+        /// <param name="baiduProxy"></param>
         public MiddlewareDemoController(IHostEnvironment hostEnvironment
             , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
             , IConsulClient consulClient
+            , IBaiduProxy baiduProxy
             )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
             _localizer = localizer;
             _consulClient = consulClient;
+            _baiduProxy = baiduProxy;
         }
 
         /// <summary>
@@ -50,6 +54,17 @@ namespace XXX.API.Controllers
             var result1 = await _consulClient.Catalog.DiscoveryAsync(serviceName);
             var result2 = await _consulClient.DiscoveryAsync(serviceName);
             return Ok(new { result, result1, result2 });
+        }
+
+        /// <summary>
+        /// 远程请求api,此处以请求远程baidu为例
+        /// </summary>
+        [HttpGet("RemoteRequestApi")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> RemoteRequestApi()
+        {
+            var result = await _baiduProxy.SharepageAsync("请求query");
+            return Ok(result);
         }
     }
 }
