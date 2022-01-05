@@ -21,11 +21,11 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.NUGET_AUTH_TOKEN}}
     - name: Install dependencies
-      run: dotnet restore src/sample/XXX.Api/XXX.API.csproj
+      run: dotnet restore src/sample/XXX.API/XXX.API.csproj
     - name: Build
-      run: dotnet build src/sample/XXX.Api/XXX.API.csproj --configuration Release --no-restore
+      run: dotnet build src/sample/XXX.API/XXX.API.csproj --configuration Release --no-restore
     - name: Test
-      run: dotnet test src/sample/XXX.Api/XXX.API.csproj --no-restore --verbosity normal
+      run: dotnet test src/sample/XXX.API/XXX.API.csproj --no-restore --verbosity normal
     - name: Pack
       run: dotnet pack src/NetProMicroservice.sln --output publish -c Release
     - name: Push Pack
