@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProAuthentication)</Version>
-		
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 			NetProAuthentication

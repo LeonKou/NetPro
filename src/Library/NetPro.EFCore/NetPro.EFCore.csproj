@@ -3,7 +3,7 @@
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<Version>$(NetProEFCore)</Version>
-		
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>

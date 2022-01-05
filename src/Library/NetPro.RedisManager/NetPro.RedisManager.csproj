@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProRedisManager)</Version>
-		
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>

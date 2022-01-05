@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	  <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 	  <Version>$(NetProMQTTClient)</Version>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <Authors>$(Authors)</Authors>
-	  <IsPackable>false</IsPackable>
+	  <IsPackable>true</IsPackable>
 	  <Description>
 	  </Description>
 	  <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
@@ -11,6 +12,13 @@
 	  <AssemblyName>$(NetProMQTTClientAssemblyName)</AssemblyName>
 	  <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(PackageIconPath)">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />

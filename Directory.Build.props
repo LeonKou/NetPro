@@ -90,6 +90,8 @@
 		<NetProResponseResult>6.0.1</NetProResponseResult>
 		<NetProResponseResultAssemblyName>NetPro.ResponseResult</NetProResponseResultAssemblyName>
 
+		<NetProMQTTClient>1.0.1</NetProMQTTClient>
+		<NetProMQTTClientAssemblyName>NetPro.MQTTClient</NetProMQTTClientAssemblyName>
 
 	</PropertyGroup>
 

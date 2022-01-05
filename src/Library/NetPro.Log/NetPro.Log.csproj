@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
+	<PropertyGroup>
+		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<Version>$(NetProLog)</Version>
-		
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
 		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-	  <PackageIcon>$(PackageIcon)</PackageIcon>
-	  <AssemblyName>$(NetProLogAssemblyName)</AssemblyName>
+		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<AssemblyName>$(NetProLogAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
-  </PropertyGroup>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Log.xml</DocumentationFile>
@@ -41,7 +41,7 @@
 		<!--<PackageReference Include="AutofacSerilogIntegration" Version="4.0.0" />-->
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
 		<PackageReference Include="Sentry.Serilog" Version="3.11.1" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />			 
+		<PackageReference Include="Serilog.Sinks.Seq" Version="5.1.0" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
