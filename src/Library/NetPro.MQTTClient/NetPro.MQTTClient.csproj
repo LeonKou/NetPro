@@ -2,7 +2,7 @@
   <PropertyGroup>
 	  <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 	  <Version>$(NetProMQTTClient)</Version>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
 	  <Authors>$(Authors)</Authors>
 	  <IsPackable>true</IsPackable>
 	  <Description>

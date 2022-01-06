@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProChecker)</Version>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 			for checking the  complex environment of application in the microservice environment.

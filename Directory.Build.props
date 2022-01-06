@@ -3,6 +3,7 @@
 	<PropertyGroup Label="SDK Versions">
 		<NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
 		<NetCoreTargetVersion>net6.0</NetCoreTargetVersion>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<MicrosoftNETTestSdk>16.5.0</MicrosoftNETTestSdk>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>

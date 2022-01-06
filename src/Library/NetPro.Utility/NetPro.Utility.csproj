@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProUtility)</Version>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>

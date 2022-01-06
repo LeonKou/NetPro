@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProCore)</Version>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
 		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
