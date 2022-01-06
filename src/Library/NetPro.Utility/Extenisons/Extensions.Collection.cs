@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 集合类型扩展方法

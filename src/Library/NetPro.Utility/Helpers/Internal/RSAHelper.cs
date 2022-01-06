@@ -3,16 +3,11 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
-    /// RSA加解密 使用OpenSSL的公钥加密/私钥解密
-    /// 
-    /// 公私钥请使用openssl生成  ssh-keygen -t rsa 命令生成的公钥私钥是不行的
-    /// 
-    /// 作者：李志强
-    /// 时间：2017年10月30日15:50:14
-    /// QQ:501232752
+    /// RSA加解密 使用OpenSSL的公钥加密/私钥解密 
+    /// 公私钥请使用openssl生成  ssh-keygen -t rsa 命令生成的公钥私钥是不行的   
     /// </summary>
     internal class RsaHelper
     {

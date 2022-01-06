@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.NetPro;
 
 namespace NetPro.Web.Api.Controllers
 {

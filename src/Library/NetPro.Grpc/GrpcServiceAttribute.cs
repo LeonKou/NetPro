@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
     public class GrpcServiceAttribute : Attribute
     {

@@ -152,8 +152,7 @@ namespace System.NetPro.Startup._
                 }
             //configure services
             nofile:
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine($"Service injection sequence：", System.Drawing.Color.FromArgb(1, 212, 1));
+                Console.WriteLine($"Service injection sequence", System.Drawing.Color.FromArgb(1, 212, 1));
 
                 CellFormat headerFormat = new CellFormat()
                 {
@@ -172,7 +171,7 @@ namespace System.NetPro.Startup._
                     {
                         return $"{text}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
                     }
-                    
+
                 }
 
                 Table table = new TableBuilder(headerFormat)

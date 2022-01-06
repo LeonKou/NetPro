@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 实体验证基类

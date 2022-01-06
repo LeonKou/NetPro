@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 分页实现

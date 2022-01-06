@@ -6,13 +6,20 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// IdentityExtensions
     /// </summary>
     public static partial class Extensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="identity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
         {
             if (identity == null)

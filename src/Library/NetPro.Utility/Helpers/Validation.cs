@@ -1,4 +1,4 @@
-﻿namespace NetPro
+﻿namespace System.NetPro
 {
     /// <summary>
     /// 验证操作

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Consul;
 using Consul.Filtering;
 
-namespace Consul
+namespace System.NetPro
 {
     /// <summary>
     /// consul service address

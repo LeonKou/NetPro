@@ -133,10 +133,12 @@ namespace NetPro.Web.Core.Filters
                 var result = _verifySignCommon.GetSignhHash(utf8Request, _verifySignCommon.GetSignSecret(appIdString), encryptEnum);
                 if (_verifySignOption.IsDebug)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     _logger.LogInformation($"方式：[VerifySign] 请求接口地址：{request.Request.Path}");
                     _logger.LogInformation($"方式：[VerifySign] 服务器签名前重新排序后的值{Convert.ToBase64String(Encoding.Default.GetBytes(utf8Request))}");
                     _logger.LogInformation($"方式：[VerifySign] 摘要比对： 服务器签名结果={result}   客户端签名结果={signvalue };equal={signvalue == result}");
                     _logger.LogInformation($"方式：[VerifySign] encryptEnum={encryptEnum}密钥={_verifySignCommon.GetSignSecret(appIdString)}");
+                    Console.ResetColor();
                 }
                 else if (signvalue != result)
                 {

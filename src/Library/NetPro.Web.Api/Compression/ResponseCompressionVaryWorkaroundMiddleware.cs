@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using System.NetPro;
 using System.Threading.Tasks;
 
 namespace NetPro.Web.Api

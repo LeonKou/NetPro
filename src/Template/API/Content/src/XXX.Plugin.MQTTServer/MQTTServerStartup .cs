@@ -9,6 +9,7 @@ using MQTTnet.Protocol;
 using MQTTnet.Server;
 using NetPro;
 using System.Net;
+using System.NetPro;
 using System.Text;
 
 namespace XXX.Plugin.MQTTServer

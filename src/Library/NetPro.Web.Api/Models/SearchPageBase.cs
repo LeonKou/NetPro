@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
+    /// <summary>
+    /// 查询分页请求接口基类
+    /// </summary>
     public class SearchPageBase
     {
         /// <summary>

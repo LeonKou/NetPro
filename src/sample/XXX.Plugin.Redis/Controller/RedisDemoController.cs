@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetPro;
+using System.NetPro;
 
 namespace XXX.Plugin.Redis
 {

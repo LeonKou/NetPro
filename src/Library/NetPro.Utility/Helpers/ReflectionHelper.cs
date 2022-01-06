@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 反射操作

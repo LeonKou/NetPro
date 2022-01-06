@@ -1,8 +1,9 @@
 ﻿using NetPro.Utility.Helpers;
 using System;
 using System.Collections.Generic;
+using System.NetPro;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 系统扩展 - 公共

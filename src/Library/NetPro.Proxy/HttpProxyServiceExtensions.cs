@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.NetPro;
 
 namespace NetPro.Proxy
 {
@@ -24,6 +23,7 @@ namespace NetPro.Proxy
         /// <param name="configuration"></param>
         /// <param name="typeFinder"></param>
         /// <param name="assemblyPattern ">匹配使用NetPro.Proxy远程请求功能的程序集名称的正则表达式</param>
+        /// <param name="interfacePattern ">匹配使用NetPro.Proxy远程请求功能定义的接口名称的正则表达式</param>
         /// <returns></returns>
         public static IServiceCollection AddHttpProxy(this IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder, string assemblyPattern = null, string interfacePattern = null)
         {
@@ -31,7 +31,7 @@ namespace NetPro.Proxy
             if (string.IsNullOrWhiteSpace(assemblyPattern))
             {
                 types = typeFinder.GetAssemblies().Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient)远程请求程序集默认模式，程序集名称: {string.Join(';',types.Select(s => s.GetName().Name))}");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient)远程请求程序集默认模式，程序集名称: {string.Join(';', types.Select(s => s.GetName().Name))}");
             }
             else
             {
@@ -59,10 +59,10 @@ namespace NetPro.Proxy
                         {
                             //var servicename = GetValue(item.Name, "I(.*)Proxy", "$1");
                             var servicename = item.Name;
-                            var host = configuration.GetValue<string>($"NetProProxyOption:{servicename}");
+                            var host = configuration.GetValue<string>($"{nameof(NetProProxyOption)}:{servicename}");
                             if (string.IsNullOrWhiteSpace(host))
                             {
-                                throw new ArgumentNullException($"NetProProxyOption:{servicename}", $"未检测到服务终结点NetProProxyOption:{servicename},请检查配置文件中是否包含NetProProxyOption节点");
+                                throw new ArgumentNullException($"{nameof(NetProProxyOption)}:{servicename}", $"未检测到服务终结点NetProProxyOption:{servicename},请检查配置文件中是否包含NetProProxyOption节点");
                             }
                             s.HttpHost = new Uri(host);
                         }).ConfigurePrimaryHttpMessageHandler(() =>

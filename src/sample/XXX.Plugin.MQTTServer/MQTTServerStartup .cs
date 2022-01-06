@@ -74,7 +74,9 @@ namespace XXX.Plugin.MQTTServer
                              }
 
                              c.ReasonCode = MqttConnectReasonCode.Success;
+                             Console.ForegroundColor = ConsoleColor.DarkGreen;
                              Console.WriteLine($"客户端[{c.ClientId}]验证通过");
+                             Console.ResetColor();
                          })
                         //订阅拦截器
                         .WithSubscriptionInterceptor(
@@ -122,7 +124,9 @@ namespace XXX.Plugin.MQTTServer
             {
                 if (mqttServer.IsStarted)
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine("MQTT服务启动完成！");
+                    Console.ResetColor();
                 }
             }
             void OnMqttServerStopped(EventArgs e)
@@ -134,11 +138,15 @@ namespace XXX.Plugin.MQTTServer
             }
             void OnMqttServerClientConnected(MqttServerClientConnectedEventArgs e)
             {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine($"客户端[{e.ClientId}]已连接");
+                Console.ResetColor();
             }
             void OnMqttServerClientDisconnected(MqttServerClientDisconnectedEventArgs e)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"客户端[{e.ClientId}]已断开连接！");
+                Console.ResetColor();
             }
             void OnMqttServerClientSubscribedTopic(MqttServerClientSubscribedTopicEventArgs e)
             {

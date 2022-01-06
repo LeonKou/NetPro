@@ -11,8 +11,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using NetPro;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// Represents a web helper

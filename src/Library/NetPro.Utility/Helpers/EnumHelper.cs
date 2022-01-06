@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NetPro;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 枚举操作

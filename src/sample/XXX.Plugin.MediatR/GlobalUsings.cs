@@ -11,3 +11,4 @@ global using System;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.AspNetCore.Hosting;
 global using NetPro;
+global using System.NetPro;

@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 常用公共操作

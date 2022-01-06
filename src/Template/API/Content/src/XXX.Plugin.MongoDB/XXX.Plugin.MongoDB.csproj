@@ -24,8 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.MongoDb" Version="6.0.2" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.2" />
+		<!--<PackageReference Include="NetPro.MongoDb" Version="6.0.1" />-->
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.MongoDb\NetPro.MongoDb.csproj" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />
 	</ItemGroup>
 
 </Project>

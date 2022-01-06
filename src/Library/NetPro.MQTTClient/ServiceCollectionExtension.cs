@@ -64,12 +64,16 @@ namespace NetPro.MQTTClient
                         //https://github.com/chkr1011/MQTTnet/issues/929
                         mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(e =>
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
                             System.Console.WriteLine("Client Connected");
+                            Console.ResetColor();
                         });
 
                         mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(arg =>
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             System.Console.WriteLine("Client disconnected, ClientWasConnected=" + arg.ClientWasConnected.ToString());
+                            Console.ResetColor();
                         });
 
                         //mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>

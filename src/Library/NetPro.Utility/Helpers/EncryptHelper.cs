@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NetPro;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 加密操作

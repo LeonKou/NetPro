@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// Linq帮助类

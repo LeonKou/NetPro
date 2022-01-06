@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using TimeZoneConverter;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 时间操作

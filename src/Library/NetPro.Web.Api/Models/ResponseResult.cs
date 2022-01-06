@@ -1,4 +1,4 @@
-﻿namespace NetPro
+﻿namespace System.NetPro
 {
     /// <summary>
     /// 非Controller返回数据结构!!!

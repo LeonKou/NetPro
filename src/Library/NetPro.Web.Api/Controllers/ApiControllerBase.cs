@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NetPro;
 using NetPro.Core.Consts;
 using NetPro.Core.Infrastructure;
 using System;
 using System.Linq;
 using System.NetPro;
 
-namespace NetPro.Web.Api.Controllers
+namespace System.NetPro
 {
     /// <summary>
     /// api 基类

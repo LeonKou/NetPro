@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NetPro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.NetPro;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 类型转换

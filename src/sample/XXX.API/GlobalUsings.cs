@@ -18,4 +18,5 @@ global using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 //非微软官方空间引用
 global using NetPro;
+global using System.NetPro;
 global using FreeSql;

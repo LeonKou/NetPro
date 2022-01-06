@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NetPro.Web.Api
+namespace System.NetPro
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static partial class Extensions
     {
         /// <summary>

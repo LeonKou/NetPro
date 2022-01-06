@@ -1,4 +1,6 @@
-﻿namespace XXX.Plugin.Redis
+﻿using System.NetPro;
+
+namespace XXX.Plugin.Redis
 {
     public class RedisStartup : INetProStartup
     {

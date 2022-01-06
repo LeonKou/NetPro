@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using NetPro;
 
-namespace NetPro.Web.Api.Controllers
+namespace System.NetPro
 {
     /// <summary>
     /// 需要认证api基类

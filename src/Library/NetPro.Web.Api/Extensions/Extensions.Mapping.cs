@@ -2,7 +2,7 @@ using NetPro.Core.Infrastructure.Mapper;
 using System;
 using System.Collections.Generic;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 对象转换 

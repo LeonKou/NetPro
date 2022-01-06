@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using MongoDbGenericRepository;
 using System.Collections.Concurrent;
+using System.NetPro;
 
 namespace XXX.Plugin.MongoDB
 {
