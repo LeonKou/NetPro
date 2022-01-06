@@ -22,6 +22,6 @@
 	<ItemGroup>
 		<!--<PackageReference Include="NetPro.MQTTClient" Version="1.0.1" />-->
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.MQTTClient\NetPro.MQTTClient.csproj" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.1" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.2" />
 	</ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NetPro;
+using System.NetPro;
 using System.Threading;
 using XXX.Plugin.MediatR;
 using XXX.Plugin.MediatR.Model;

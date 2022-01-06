@@ -94,6 +94,9 @@
 		<NetProMQTTClient>6.0.2</NetProMQTTClient>
 		<NetProMQTTClientAssemblyName>NetPro.MQTTClient</NetProMQTTClientAssemblyName>
 
+		<NetProConsulClient>6.0.2</NetProConsulClient>
+		<NetProConsulClientAssemblyName>NetPro.ConsulClient</NetProConsulClientAssemblyName>
+
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">
