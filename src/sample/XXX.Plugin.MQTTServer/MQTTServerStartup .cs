@@ -8,6 +8,7 @@ using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
 using NetPro;
+using System.Collections.Concurrent;
 using System.Net;
 using System.NetPro;
 using System.Text;
@@ -96,7 +97,7 @@ namespace XXX.Plugin.MQTTServer
                         .WithPersistentSessions();
 
             //接收到的所有消息集合
-            List<MqttApplicationMessage> messages = new List<MqttApplicationMessage>();
+            ConcurrentQueue<MqttApplicationMessage> messages = new ConcurrentQueue<MqttApplicationMessage>();
 
             //服务端
             IMqttServer mqttServer = new MqttFactory().CreateMqttServer();
@@ -158,8 +159,14 @@ namespace XXX.Plugin.MQTTServer
             }
             void OnMqttServerApplicationMessageReceived(MqttApplicationMessageReceivedEventArgs e)
             {
+                messages.Enqueue(e.ApplicationMessage);
                 //持久化，记录,更丰富操处理...
-                messages.Add(e.ApplicationMessage);
+                if (messages.Count > 2)//例如此处限定只持久化2条
+                {
+                    messages.TryDequeue(out MqttApplicationMessage removeMqttApplicationMessage);
+                    Console.WriteLine($"已移除队列中过期消息{removeMqttApplicationMessage.Topic}");
+                }
+
                 Console.WriteLine(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss:fff"));
                 Console.WriteLine($"客户端[{e.ClientId}]>> Topic[{e.ApplicationMessage.Topic}] Payload[{Encoding.UTF8.GetString(e.ApplicationMessage.Payload ?? new byte[] { })}] Qos[{e.ApplicationMessage.QualityOfServiceLevel}] Retain[{e.ApplicationMessage.Retain}]");
             }

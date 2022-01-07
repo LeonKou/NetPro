@@ -31,7 +31,7 @@ namespace System.NetPro
         public WebAppTypeFinder(
             TypeFinderOption typeFinderOption,
             IConfiguration configuration
-            , INetProFileProvider fileProvider = null) : base(fileProvider)
+            , INetProFileProvider fileProvider = null) : base(fileProvider, typeFinderOption)
         {
             _typeFinderOption = typeFinderOption;
             _configuration = configuration;

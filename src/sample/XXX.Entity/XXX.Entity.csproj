@@ -15,10 +15,10 @@
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="FreeSql.DbContext" Version="2.6.100" />
-		<PackageReference Include="FreeSql.Provider.MySql" Version="1.7.1" />
-		<PackageReference Include="FreeSql.Repository" Version="1.7.1" />
-		<PackageReference Include="FreeSql.Provider.Sqlite" Version="2.6.100" />
+		<PackageReference Include="FreeSql.DbContext" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Provider.MySql" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Repository" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.0.100" />
 		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>

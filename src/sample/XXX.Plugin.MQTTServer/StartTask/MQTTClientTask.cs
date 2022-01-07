@@ -3,6 +3,7 @@ using MQTTnet.Client;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
 using NetPro;
+using NetPro.MQTTClient;
 using System.NetPro;
 using System.Threading;
 
@@ -13,13 +14,13 @@ namespace XXX.Plugin.MQTTServer.StartTask
     /// </summary>
     public class MQTTClientTask : IStartupTask
     {
-        private readonly IdleBus<IMqttClient> _mqttClientIds;
+        private readonly MqttClientMulti _mqttClientMulti;
         public MQTTClientTask()
         {
-            _mqttClientIds = EngineContext.Current.Resolve<IdleBus<IMqttClient>>();
+            _mqttClientMulti = EngineContext.Current.Resolve<MqttClientMulti>();
         }
 
-        public int Order => 0;
+        public int Order => 2;
 
         public void Execute()
         {
@@ -29,13 +30,30 @@ namespace XXX.Plugin.MQTTServer.StartTask
                 QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce,
 
             };
-            var _mqttClient = _mqttClientIds.Get("1");
-            var result = _mqttClient.SubscribeAsync(filter);
+            var _mqttClient = _mqttClientMulti["1"];
+            var result = _mqttClient.SubscribeAsync(filter).ConfigureAwait(false).GetAwaiter().GetResult();
             //消费消息
             _mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>
             {
                 string payload = System.Text.Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
                 System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
+            });
+
+            Task.Run(() =>
+            {
+                var _mqttPublishClient = _mqttClientMulti["1"];
+                while (true)
+                {
+                    var messagePayload = new MqttApplicationMessageBuilder()
+                                         .WithTopic("netpro")
+                                         .WithPayload("发布消息")
+                                         .WithExactlyOnceQoS()
+                                         .WithRetainFlag(true)
+                                         .Build();
+                    _mqttPublishClient.PublishAsync(messagePayload);
+                    Console.WriteLine("消息发布成功");
+                    Thread.Sleep(2000);
+                }
             });
         }
     }

@@ -8,14 +8,140 @@ using MQTTnet.Client.Options;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Server;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.NetPro;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NetPro.MQTTClient
 {
+    public class MqttClientMulti
+    {
+        internal static MQTTClientOption MQTTClientOption;
+        private MqttClientMulti()
+        {
+
+        }
+
+        internal static MqttClientMulti Instance
+        {
+            get
+            {
+                MqttClients = new ConcurrentDictionary<string, IMqttClient>();
+                return new MqttClientMulti();
+            }
+        }
+
+        /// <summary>
+        ///  通过key获取IMqttClient；连接对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public IMqttClient Get(string key)
+        {
+            return CreateInstanceByKey(key);
+        }
+
+        /// <summary>
+        /// 通过key获取IMqttClient；连接对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public IMqttClient this[string key]
+        {
+            get
+            {
+                return CreateInstanceByKey(key);
+            }
+        }
+
+        private IMqttClient CreateInstanceByKey(string key)
+        {
+            if (MqttClients.TryGetValue(key, out IMqttClient client))
+            {
+                return client;
+            }
+            else
+            {
+                if (MQTTClientOption == null)
+                {
+                    MQTTClientOption = EngineContext.Current.Resolve<MQTTClientOption>();
+                }
+
+                var value = MQTTClientOption.ConnectionString.Where(s => s.Key == key).FirstOrDefault()?.Value;
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException($"Could not find connection string for key = {key}");
+                }
+
+                try
+                {
+                    var mqttClient = new MqttFactory().CreateMqttClient() as IMqttClient;
+                    var clientid = _GetItemValueFromConnectionString(value, "clientid");
+                    var username = _GetItemValueFromConnectionString(value, "username");
+                    var password = _GetItemValueFromConnectionString(value, "password");
+                    var host = _GetItemValueFromConnectionString(value, "host");
+                    var protString = _GetItemValueFromConnectionString(value, "port");
+                    var succeedPort = int.TryParse(protString, out int port);
+
+                    if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host) || !succeedPort)
+                    {
+                        throw new ArgumentException($"[mqttclient]mqttclient配置信息缺失;clientid={clientid};host={host};Port={protString}");
+                    }
+                    var option = new MqttClientOptionsBuilder()
+                    .WithClientId(clientid)
+                    .WithTcpServer(host, port);
+
+                    if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+                    {
+                        option.WithCredentials(username, password);
+                    }
+
+                    //https://github.com/chkr1011/MQTTnet/issues/929
+                    mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(e =>
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        System.Console.WriteLine("[mqttclient]Client Connected");
+                        Console.ResetColor();
+                    });
+
+                    mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(arg =>
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        System.Console.WriteLine($"[mqttclient]Client disconnected, exception={arg.Exception}");
+                        Console.ResetColor();
+                    });
+                    //https://www.cnblogs.com/ccsharppython/archive/2019/07/28/11261069.html
+                    //await will get a successful connection
+                    mqttClient.ConnectAsync(option.Build()).ConfigureAwait(false).GetAwaiter().GetResult();
+                    MqttClients.TryAdd(key, mqttClient);
+                    return mqttClient;
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException($"[mqttclient]初始化有误{ex}");
+                }
+            }
+
+            string _GetItemValueFromConnectionString(string connectionString, string itemName)
+            {
+                if (!connectionString.EndsWith(";"))
+                    connectionString += ";";
+
+                // \s* 匹配0个或多个空白字符
+                // .*? 匹配0个或多个除 "\n" 之外的任何字符(?指尽可能少重复)
+                string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
+                Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
+                Match mc = r.Match(connectionString);
+                return mc.Groups["key"].Value;
+            }
+        }
+        private static ConcurrentDictionary<string, IMqttClient> MqttClients { get; set; }
+    }
     public static class ServiceCollectionExtension
     {
         /// <summary>
@@ -33,81 +159,8 @@ namespace NetPro.MQTTClient
                 return services;
             }
             services.AddSingleton(mqtttClientOptions);
-            var idleBus = new IdleBus<IMqttClient>(TimeSpan.FromMinutes(10));
-            foreach (var item in mqtttClientOptions.ConnectionString)
-            {
-                idleBus.Register(item.Key, () =>
-                {
-                    try
-                    {
-                        var mqttClient = new MqttFactory().CreateMqttClient() as MqttClient;
-                        var clientid = _GetItemValueFromConnectionString(item.Value, "clientid");
-                        var username = _GetItemValueFromConnectionString(item.Value, "username");
-                        var password = _GetItemValueFromConnectionString(item.Value, "password");
-                        var host = _GetItemValueFromConnectionString(item.Value, "host");
-                        var protString = _GetItemValueFromConnectionString(item.Value, "port");
-                        var succeedPort = int.TryParse(protString, out int port);
-
-                        if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host) || !succeedPort)
-                        {
-                            throw new ArgumentException($"mqttclient配置信息缺失;clientid={clientid};host={host};Port={protString}");
-                        }
-                        var option = new MqttClientOptionsBuilder()
-                        .WithClientId(clientid)
-                        .WithTcpServer(host, port);
-
-                        if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
-                        {
-                            option.WithCredentials(username, password);
-                        }
-
-                        //https://github.com/chkr1011/MQTTnet/issues/929
-                        mqttClient.ConnectedHandler = new MqttClientConnectedHandlerDelegate(e =>
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            System.Console.WriteLine("Client Connected");
-                            Console.ResetColor();
-                        });
-
-                        mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(arg =>
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkRed;
-                            System.Console.WriteLine("Client disconnected, ClientWasConnected=" + arg.ClientWasConnected.ToString());
-                            Console.ResetColor();
-                        });
-
-                        //mqttClient.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(arg =>
-                        //{
-                        //    string payload = System.Text.Encoding.UTF8.GetString(arg.ApplicationMessage.Payload);
-                        //    System.Console.WriteLine("Message received, topic [" + arg.ApplicationMessage.Topic + "], payload [" + payload + "]");
-                        //});
-
-                        mqttClient.ConnectAsync(option.Build());//.GetAwaiter().GetResult();
-                        return mqttClient;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new ArgumentException($"mqttclient初始化有误{ex}");
-                    }
-                });
-            }
-            services.AddSingleton(idleBus);
-            //https://www.cnblogs.com/ccsharppython/archive/2019/07/28/11261069.html
+            services.AddSingleton(MqttClientMulti.Instance);
             return services;
-
-            string _GetItemValueFromConnectionString(string connectionString, string itemName)
-            {
-                if (!connectionString.EndsWith(";"))
-                    connectionString += ";";
-
-                // \s* 匹配0个或多个空白字符
-                // .*? 匹配0个或多个除 "\n" 之外的任何字符(?指尽可能少重复)
-                string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
-                Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
-                Match mc = r.Match(connectionString);
-                return mc.Groups["key"].Value;
-            }
-
         }
     }
 }

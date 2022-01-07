@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<!--<Nullable>enable</Nullable>-->
 		<!--可空检测，6.0以下升级上来的不建议打开，影响业务逻辑-->
 	</PropertyGroup>

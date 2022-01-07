@@ -11,6 +11,7 @@
 		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProSwaggerAssemblyName)</AssemblyName>
 		<WarningLevel>3</WarningLevel>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Swagger.xml</DocumentationFile>

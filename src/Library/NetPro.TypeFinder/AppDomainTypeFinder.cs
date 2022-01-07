@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -17,8 +18,10 @@ namespace System.NetPro
         #region Fields
 
         private readonly bool _ignoreReflectionErrors = true;
-        Dictionary<string, string> dicDll = new Dictionary<string, string>();
+        Dictionary<string, string> loadedDll = new Dictionary<string, string>();
+
         private readonly INetProFileProvider _fileProvider;
+        private readonly TypeFinderOption _typeFinderOption;
 
         #endregion
 
@@ -28,9 +31,12 @@ namespace System.NetPro
         /// 
         /// </summary>
         /// <param name="fileProvider"></param>
-        public AppDomainTypeFinder(INetProFileProvider fileProvider)
+        /// <param name="typeFinderOption"></param>
+        public AppDomainTypeFinder(INetProFileProvider fileProvider, TypeFinderOption typeFinderOption)
         {
             _fileProvider = fileProvider;// ?? CoreHelper.DefaultFileProvider;
+            _typeFinderOption = typeFinderOption;
+
         }
 
         #endregion
@@ -45,7 +51,8 @@ namespace System.NetPro
         private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
             //AssemblyLoadContext.Default.Assemblies
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            var currentAssemblies = AssemblyLoadContext.Default.Assemblies;//AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in currentAssemblies)
             {
                 if (!Matches(assembly.FullName))
                     continue;
@@ -83,7 +90,7 @@ namespace System.NetPro
         /// The name of the assembly to check.
         /// </param>
         /// <returns>
-        /// True if the assembly should be loaded into Nop.
+        /// True if the assembly should be loaded into NetPro.
         /// </returns>
         public virtual bool Matches(string assemblyFullName)
         {
@@ -119,21 +126,17 @@ namespace System.NetPro
         /// </param>
         protected virtual void LoadMatchingAssemblies(string mountePath, string binPath)
         {
-            var loadedAssemblyNames = new List<string>();
             string entryPoint = null;
 
-            foreach (var a in GetAssemblies())
+            var customAssembly = GetAssemblies();
+            foreach (var a in customAssembly)
             {
                 if (a.EntryPoint != null)
                 {
                     entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
                 }
-
-                loadedAssemblyNames.Add(a.FullName);
+                loadedDll[a.GetName().Name] = a.Location;
             }
-
-            //load root directory
-            _LoadDll(binPath, loadedAssemblyNames);
 
             //load root sub directory
             if (!_fileProvider.DirectoryExists($"{mountePath}/{entryPoint}"))
@@ -142,43 +145,55 @@ namespace System.NetPro
                 _fileProvider.WriteAllText($"{mountePath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
             }
 
-            //Excluding the bin directory
-            var subDirectories = _fileProvider.GetDirectories(mountePath);
-            for (int i = 1; i < subDirectories.Count(); i++)
-            {
-                if ("runtimes".Equals(subDirectories[i]))
-                {
-                    continue;
-                }
-                _LoadDll(subDirectories[i], loadedAssemblyNames);
-            }
+            _fileProvider.Move(mountePath, $"{binPath}", false);
 
-            _fileProvider.Move(mountePath, $"{binPath}",false);
+            //load bin directory
+            _LoadDll(binPath);
         }
 
-        private void _LoadDll(string directory, List<string> loadedAssemblyNames)
+        private void _LoadDll(string directory)
         {
-            foreach (var dllPath in _fileProvider.GetFiles(directory, "*.dll"))
+            _(directory);
+            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => s != "runtimes").ToList();
+            for (int i = 0; i < subDirectories.Count(); i++)
             {
-                try
+                _(subDirectories[i]);
+            }
+
+            void _(string _directory)
+            {
+                var currentAssemblies = AssemblyLoadContext.Default.Assemblies;
+                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", true);
+                foreach (var dllPath in dllFiles)
                 {
-                    var an = AssemblyName.GetAssemblyName(dllPath);
-                    if (dicDll.ContainsKey(an.Name) || "Microsoft.CodeAnalysis.resources".Contains(an.Name))
+                    try
                     {
-                        continue;
+                        var an = AssemblyName.GetAssemblyName(dllPath);
+                        if (currentAssemblies.Where(s => s.GetName().Name != an.Name).Any() && !loadedDll.ContainsKey(an.Name))
+                        {
+                            //https://cloud.tencent.com/developer/article/1520894
+                            //https://cloud.tencent.com/developer/article/1581619?from=article.detail.1520894
+                            AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
+                            //Domain.LoadPlugin(dllPath);
+                            loadedDll[an.Name] = dllPath;
+                            //App.Load(an);
+                        }
+                        if (loadedDll.ContainsKey(an.Name) || "Microsoft.CodeAnalysis.resources".Contains(an.Name))
+                        {
+                            try
+                            {
+                                _fileProvider.DeleteFile(dllPath);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            continue;
+                        }
                     }
-                    if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
+                    catch (BadImageFormatException ex)
                     {
-                        //https://cloud.tencent.com/developer/article/1520894
-                        //https://cloud.tencent.com/developer/article/1581619?from=article.detail.1520894
-                        Domain.LoadPlugin(dllPath);
-                        dicDll[an.Name] = dllPath;
-                        //App.Load(an);
+                        Trace.TraceError(ex.ToString());
                     }
-                }
-                catch (BadImageFormatException ex)
-                {
-                    Trace.TraceError(ex.ToString());
                 }
             }
         }
@@ -324,67 +339,28 @@ namespace System.NetPro
         /// <returns>A list of assemblies</returns>
         public virtual IList<Assembly> GetAssemblies()
         {
-            var addedAssemblyNames = new List<string>();
             var assemblies = new List<Assembly>();
 
-            if (LoadAppDomainAssemblies)
-                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
-            AddConfiguredAssemblies(addedAssemblyNames, assemblies);
+            //** 获取自定义的程序集
+            var currentAssemblies = AssemblyLoadContext.Default.Assemblies;//AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in currentAssemblies)
+            {
+                if (string.IsNullOrWhiteSpace(_typeFinderOption.CustomDllPattern))
+                {
+                    if (!Matches(assembly.GetName().Name))
+                        continue;
+                }
+                else
+                {
+                    if (!Matches(assembly.GetName().Name, _typeFinderOption.CustomDllPattern))
+                        continue;
+                }
+
+                assemblies.Add(assembly);
+            }
+            //**
 
             return assemblies;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
-        /// <exception cref="System.IO.IOException"></exception>
-        public void Move(string source, string target)
-        {
-            if (!Directory.Exists(source))
-            {
-                throw new System.IO.DirectoryNotFoundException("Source directory couldn't be found.");
-            }
-
-            if (Directory.Exists(target))
-            {
-                throw new System.IO.IOException("Target directory already exists.");
-            }
-
-            DirectoryInfo sourceInfo = Directory.CreateDirectory(source);
-            DirectoryInfo targetInfo = Directory.CreateDirectory(target);
-
-            if (sourceInfo.FullName == targetInfo.FullName)
-            {
-                throw new System.IO.IOException("Source and target directories are the same.");
-            }
-
-            Stack<DirectoryInfo> sourceDirectories = new Stack<DirectoryInfo>();
-            sourceDirectories.Push(sourceInfo);
-
-            Stack<DirectoryInfo> targetDirectories = new Stack<DirectoryInfo>();
-            targetDirectories.Push(targetInfo);
-
-            while (sourceDirectories.Count > 0)
-            {
-                DirectoryInfo sourceDirectory = sourceDirectories.Pop();
-                DirectoryInfo targetDirectory = targetDirectories.Pop();
-
-                foreach (FileInfo file in sourceDirectory.GetFiles())
-                {
-                    file.CopyTo(Path.Combine(targetDirectory.FullName, file.Name), overwrite: true);
-                }
-
-                foreach (DirectoryInfo subDirectory in sourceDirectory.GetDirectories())
-                {
-                    sourceDirectories.Push(subDirectory);
-                    targetDirectories.Push(targetDirectory.CreateSubdirectory(subDirectory.Name));
-                }
-            }
-
-            sourceInfo.Delete(true);
         }
 
         #endregion
@@ -392,21 +368,22 @@ namespace System.NetPro
         #region Properties
 
         /// <summary>The app domain to look for types in.</summary>
+        ///  AssemblyLoadContext.Default
         //public virtual AppDomain App => AppDomain.CurrentDomain;
 
-        public virtual NatashaAssemblyDomain Domain => new NatashaAssemblyDomain("Default");//The system must be in Default  
+        //public virtual NatashaAssemblyDomain Domain => new NatashaAssemblyDomain("Default");//The system must be in Default  
 
-        /// <summary>Gets or sets whether Nop should iterate assemblies in the app domain when loading Nop types. Loading patterns are applied when loading these assemblies.</summary>
+        /// <summary>Gets or sets whether NetPro should iterate assemblies in the app domain when loading NetPro types. Loading patterns are applied when loading these assemblies.</summary>
         public bool LoadAppDomainAssemblies { get; set; } = true;
 
         /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
         public IList<string> AssemblyNames { get; set; } = new List<string>();
 
         /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
-        public string AssemblySkipLoadingPattern { get; set; } = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+        public string AssemblySkipLoadingPattern { get; set; } = "^BetterConsole|^Com.Ctrip.Framework.Apollo|^Figgle|^netstandard|^Serilog|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
         /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
-        /// <remarks>If you change this so that Nop assemblies aren't investigated (e.g. by not including something like "^Nop|..." you may break core functionality.</remarks>
+        /// <remarks>If you change this so that NetPro assemblies aren't investigated (e.g. by not including something like "^NetPro|..." you may break core functionality.</remarks>
         public string AssemblyRestrictToLoadingPattern { get; set; } = ".*";
 
         #endregion

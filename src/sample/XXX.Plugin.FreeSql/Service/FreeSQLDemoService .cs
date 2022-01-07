@@ -71,6 +71,7 @@ namespace XXX.Plugin.FreeSql
             var userEntity = _mapper.Map<UserInsertAo, User>(userInsertAo);
 
             // Insert方法多个重载，支持单对象、集合对象 
+            _fsql.Change("mysql");
             var affrows = await _fsql.Insert(userEntity).ExecuteAffrowsAsync();
             _logger.LogInformation("新增成功");
             return affrows;
