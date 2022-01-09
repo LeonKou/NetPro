@@ -16,9 +16,12 @@ public partial class MultiFreeSql<TDBKey> : BaseDbProvider, IFreeSql
     BaseDbProvider _ormCurrent => _ib.Get(object.Equals(_dbkeyCurrent.Value, default(TDBKey)) ? _dbkeyMaster : _dbkeyCurrent.Value) as BaseDbProvider;
     internal IdleBus<TDBKey, IFreeSql> _ib;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public MultiFreeSql()
     {
-        _ib = new IdleBus<TDBKey, IFreeSql>();
+        _ib = new IdleBus<TDBKey, IFreeSql>();// (TimeSpan.FromMinutes(10));
         _ib.Notice += (_, __) => { };
     }
 

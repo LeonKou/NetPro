@@ -1,4 +1,34 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿/*
+summary: 
+//https://www.cnblogs.com/znlgis/p/4930990.html
+//https://github.com/SeppPenner/NetCoreMQTTExampleCluster/tree/master/src/NetCoreMQTTExampleCluster.Cluster
+共享订阅由三部分组成：
+
+静态共享标识符 （$queue 与 $share）
+组标识符（可选）
+实际接收消息的主题
+$queue和$share的差异：
+
+$queue 之后的主题中所有消息将轮流发送到客户端，
+$queue/topic
+
+$share 之后，您可以添加不同的组，例如:
+
+$share/group_1/topic
+$share/group_2/topic
+$share/group_3/topic
+
+主题格式：
+topic通过'/'分割层级，
+订阅者支持'+','#'通配符
+
+'+':通配一个层级，例如a/+,匹配 a/x,a/y
+'#':统配多个层级，例如a/#,匹配a/x,a/b/c/d
+
+消息质量Qos：
+常用0和1,level2非必须情况请勿使用
+*/
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 

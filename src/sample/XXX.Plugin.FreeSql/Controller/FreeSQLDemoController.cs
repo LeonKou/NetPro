@@ -39,7 +39,7 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         [HttpPost("MultiFreeSql")]
         [ProducesResponseType(200, Type = typeof(string))]
-        public async Task<string> MultiFreeSqlAsync(string dbKey)
+        public async Task<string> MultiFreeSqlAsync(string dbKey = "sqlite")
         {
             var constring = await _userService.MultiFreeSqlAsync(dbKey);
             return constring;
@@ -50,9 +50,9 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         [HttpPost("insert")]
         [ProducesResponseType(200, Type = typeof(int))]
-        public async Task<int> InsertAsync(UserInsertAo userInsertAo)
+        public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.InsertAsync(userInsertAo);
+            var result = await _userService.InsertAsync(userInsertAo, dbKey);
             return result;
         }
 
@@ -61,9 +61,9 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         [HttpDelete("delete")]
         [ProducesResponseType(200, Type = typeof(int))]
-        public async Task<int> DeleteAsync(uint id)
+        public async Task<int> DeleteAsync(uint id, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.DeleteAsync(id);
+            var result = await _userService.DeleteAsync(id,dbKey);
             return result;
         }
 
@@ -72,9 +72,9 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         [HttpPatch("update")]
         [ProducesResponseType(200, Type = typeof(int))]
-        public async Task<int> UpdatePatchAsync(uint id, uint age)
+        public async Task<int> UpdatePatchAsync(uint id, uint age, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.UpdatePatchAsync(id, age);
+            var result = await _userService.UpdatePatchAsync(id, age, dbKey);
             return result;
         }
 
@@ -83,9 +83,9 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         [HttpPost("update")]
         [ProducesResponseType(200, Type = typeof(int))]
-        public async Task<int> UpdateAsync(UserUpdateAo user)
+        public async Task<int> UpdateAsync(UserUpdateAo user, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.UpdateAsync(user);
+            var result = await _userService.UpdateAsync(user, dbKey);
             return result;
         }
 
@@ -94,9 +94,9 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         [HttpGet("searchjoin")]
         [ProducesResponseType(200, Type = typeof(PagedList<User>))]
-        public async Task<PagedList<User>> SearchJoinAsync([FromQuery] UserSearchAo search)
+        public async Task<PagedList<User>> SearchJoinAsync([FromQuery] UserSearchAo search, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.SearchJoinAsync(search);
+            var result = await _userService.SearchJoinAsync(search, dbKey);
             return result;
         }
 
@@ -109,9 +109,9 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         [HttpGet("graphql")]
         [ProducesResponseType(200, Type = typeof(PagedList<User>))]
-        public async Task<PagedList<User>> GraphQLAsync([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase)
+        public async Task<PagedList<User>> GraphQLAsync([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.GraphQLAsync(dyfilter, searchPageBase);
+            var result = await _userService.GraphQLAsync(dyfilter, searchPageBase, dbKey);
             return result;
         }
 
@@ -123,9 +123,9 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         [HttpGet("GenerateSqlByLinq")]
         [ProducesResponseType(200, Type = typeof(string))]
-        public async Task<string> GenerateSqlByLinq([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase)
+        public async Task<string> GenerateSqlByLinq([FromQuery] DynamicFilterInfo dyfilter, [FromQuery] SearchPageBase searchPageBase, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.GenerateSqlByLinq(dyfilter, searchPageBase);
+            var result = await _userService.GenerateSqlByLinq(dyfilter, searchPageBase, dbKey);
             return result;
         }
 
@@ -136,9 +136,9 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         [HttpGet("Transaction")]
         [ProducesResponseType(200, Type = typeof(bool))]
-        public bool Transaction()
+        public bool Transaction([FromQuery] string dbKey = "sqlite")
         {
-            var succeed = _userService.Transaction();
+            var succeed = _userService.Transaction(dbKey);
             return succeed;
         }
     }

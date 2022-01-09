@@ -145,10 +145,7 @@ namespace XXX.Plugin.MQTTServer.StartTask
                 //持久化，记录,更丰富操处理...
                 messages.Add(e.ApplicationMessage);
                 Console.WriteLine(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-                Console.WriteLine(@$"客户端[{e.ClientId}]>> Topic[{e.ApplicationMessage.Topic}]
-                                    Payload[{Encoding.UTF8.GetString(e.ApplicationMessage.Payload ?? new byte[] { })}]
-                                    Qos[{e.ApplicationMessage.QualityOfServiceLevel}] 
-                                    Retain[{e.ApplicationMessage.Retain}]");
+                Console.WriteLine($"客户端[{e.ClientId}]>> Topic[{e.ApplicationMessage.Topic}] Payload[{Encoding.UTF8.GetString(e.ApplicationMessage.Payload ?? new byte[] { })}] Qos[{e.ApplicationMessage.QualityOfServiceLevel}] Retain[{e.ApplicationMessage.Retain}]");
             }
         }
     }

@@ -7,6 +7,7 @@ using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Server;
+using NetPro.MQTTClient;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace NetPro.MQTTClient
+namespace System.NetPro
 {
     public class MqttClientMulti
     {
@@ -58,13 +59,30 @@ namespace NetPro.MQTTClient
             }
         }
 
+        /// <summary>
+        /// 
+        /// https://github.com/dotnet/MQTTnet/wiki/Client
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         private IMqttClient CreateInstanceByKey(string key)
         {
             if (MqttClients.TryGetValue(key, out IMqttClient client))
             {
+                if (!client.IsConnected)
+                {
+                    var succeed = MqttClients.TryAdd(key, client);
+                    return _(key);
+                }
                 return client;
             }
             else
+            {
+                return _(key);
+            }
+
+            IMqttClient _(string key)
             {
                 if (MQTTClientOption == null)
                 {
@@ -85,20 +103,49 @@ namespace NetPro.MQTTClient
                     var username = _GetItemValueFromConnectionString(value, "username");
                     var password = _GetItemValueFromConnectionString(value, "password");
                     var host = _GetItemValueFromConnectionString(value, "host");
-                    var protString = _GetItemValueFromConnectionString(value, "port");
-                    var succeedPort = int.TryParse(protString, out int port);
+                    var timeoutString = _GetItemValueFromConnectionString(value, "timeout");
+                    var keepaliveString = _GetItemValueFromConnectionString(value, "keepalive");
+                    var cleansessionString = _GetItemValueFromConnectionString(value, "cleansession");
+                    var succeedtimeout = int.TryParse(timeoutString, out int timeout);
+                    var succeedCleansession = bool.TryParse(cleansessionString, out bool cleansession);
+                    var succeedKeepalive = int.TryParse(keepaliveString, out int keepalive);
 
-                    if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host) || !succeedPort)
+                    if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host))
                     {
-                        throw new ArgumentException($"[mqttclient]mqttclient配置信息缺失;clientid={clientid};host={host};Port={protString}");
+                        throw new ArgumentException(@$"[mqttclient]mqttclient配置信息缺失;
+                                                    clientid={clientid};host={host};
+                                                    标准格式实例---> clientid=netpro;host=mqtt://localhost:1883;username=netpro;password=netpro;timeout=5000;cleansession=true;");
                     }
                     var option = new MqttClientOptionsBuilder()
-                    .WithClientId(clientid)
-                    .WithTcpServer(host, port);
+                    .WithClientId(clientid);
+                    if (Uri.IsWellFormedUriString(host, UriKind.RelativeOrAbsolute))
+                    {
+                        var mqttUri = new Uri(host);
+                        //mqttUri.Scheme //mqtt;mqtts;ws;wss
+                        option.WithTcpServer(mqttUri.Host, mqttUri.Port);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"[mqttclient]host配置有误;host={host}");
+                    }
 
                     if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
                     {
                         option.WithCredentials(username, password);
+                    }
+                    if (succeedtimeout)
+                    {
+                        //通信超时配置，服务器一般默认15秒
+                        option.WithCommunicationTimeout(TimeSpan.FromSeconds(timeout));
+                    }
+                    if (succeedKeepalive)
+                    {
+                        //https://support.huaweicloud.com/devg-iothub/iot_02_2132.html
+                        option.WithKeepAlivePeriod(TimeSpan.FromSeconds(keepalive));
+                    }
+                    if (succeedCleansession)
+                    {
+                        option.WithCleanSession(cleansession);
                     }
 
                     //https://github.com/chkr1011/MQTTnet/issues/929
@@ -109,16 +156,24 @@ namespace NetPro.MQTTClient
                         Console.ResetColor();
                     });
 
-                    mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(arg =>
+                    mqttClient.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(async arg =>
                     {
                         Console.ForegroundColor = ConsoleColor.DarkRed;
-                        System.Console.WriteLine($"[mqttclient]Client disconnected, exception={arg.Exception}");
+                        System.Console.WriteLine($"[mqttclient]Client disconnected; messsage={arg.Exception?.Message};Reason={arg.Reason}");
                         Console.ResetColor();
+                        //重新订阅方案：
+                        //1、调用ReconnectAsync()重新连接后，重新调用订阅主题方法SubscribeAsync()，在clientid保持不变的前提下，会重新接收订阅消息
+                        //2、设置客户端WithCleanSession(false);在调用ReconnectAsync()重新连接后，在clientid保持不变的前提下，会重新接收订阅消息
+
+                        //只是重连，但是消息需要重新订阅;也可设置CleanSession为false，重连依旧启用之前的订阅。
+                        var reconnectResult = await mqttClient.ReconnectAsync();
+                        System.Console.WriteLine($"[mqttclient]Client reconnected");
                     });
                     //https://www.cnblogs.com/ccsharppython/archive/2019/07/28/11261069.html
                     //await will get a successful connection
                     mqttClient.ConnectAsync(option.Build()).ConfigureAwait(false).GetAwaiter().GetResult();
-                    MqttClients.TryAdd(key, mqttClient);
+                    MqttClients.TryRemove(key, out IMqttClient _outMqttClient);
+                    var succeed = MqttClients.TryAdd(key, mqttClient);
                     return mqttClient;
                 }
                 catch (Exception ex)
@@ -140,6 +195,7 @@ namespace NetPro.MQTTClient
                 return mc.Groups["key"].Value;
             }
         }
+
         private static ConcurrentDictionary<string, IMqttClient> MqttClients { get; set; }
     }
     public static class ServiceCollectionExtension

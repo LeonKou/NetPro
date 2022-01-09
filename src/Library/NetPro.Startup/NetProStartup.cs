@@ -57,12 +57,22 @@ namespace System.NetPro.Startup._
                 config.HostingEnvironment.ApplicationName = Assembly.GetEntryAssembly().GetName().Name;
 
                 var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
+
+                if (!File.Exists($"customeconfig/custom.{env}.json"))
+                {
+                    Directory.CreateDirectory("customeconfig");
+                    using (var writer = File.CreateText($"customeconfig/custom.{env}.json"))
+                    {
+                        writer.WriteLine("{}");
+                    }
+                }
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
                 builder.SetBasePath(Directory.GetCurrentDirectory())
-                            .AddJsonFile("appsettings.json", true, true)
-                            .AddJsonFile($"appsettings.{env}.json", true, true)
-                            //.AddJsonFile("startup.json", true, true)
+                            .AddJsonFile("appsettings.json", true, true)//base config
+                            .AddJsonFile($"appsettings.{env}.json", true, true) //inherit base config
+                            .AddJsonFile($"customeconfig/custom.{env}.json", true, true)//custome config
                             .AddEnvironmentVariables();
+
                 _configuration = builder.Build();
             });
 
@@ -121,11 +131,22 @@ namespace System.NetPro.Startup._
                             foreach (var instance in instances)
                             {
                                 var startupName = instance.NetProStartupImplement.GetType().Name;
+                                // startup file is as the criterion
                                 if (jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).Any())
                                 {
                                     instance.NetProStartupImplement.Order = jsonObj.Where(s => s.Key.ToLower() == startupName.ToLower()).FirstOrDefault().Value;
-                                    jsonObj.Remove(startupName);
+                                    //jsonObj.Remove(startupName);
                                 }
+                                else
+                                {
+                                    jsonObj.Add(startupName, instance.NetProStartupImplement.Order);
+                                }
+                            }
+
+                            using (var writer = File.CreateText(jsonPath))
+                            {
+                                var jsonString = JsonSerializer.Serialize(jsonObj.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value), new JsonSerializerOptions { WriteIndented = true });
+                                writer.WriteLine(jsonString);
                             }
                         }
                     }
