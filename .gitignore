@@ -349,3 +349,5 @@ healthchecksdb
 /src/Template/API/Content/src/XXX.API/Plugin
 /src/Template/API/Content/src/XXX.API/startup.json
 /src/sample/XXX.API/customeconfig
+/src/sample/XXX.db
+/src/sample/XXX.API/startup.json

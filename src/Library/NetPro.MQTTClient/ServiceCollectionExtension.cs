@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.NetPro;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace System.NetPro
@@ -24,7 +26,6 @@ namespace System.NetPro
         internal static MQTTClientOption MQTTClientOption;
         private MqttClientMulti()
         {
-
         }
 
         internal static MqttClientMulti Instance
@@ -166,8 +167,14 @@ namespace System.NetPro
                         //2、设置客户端WithCleanSession(false);在调用ReconnectAsync()重新连接后，在clientid保持不变的前提下，会重新接收订阅消息
 
                         //只是重连，但是消息需要重新订阅;也可设置CleanSession为false，重连依旧启用之前的订阅。
+                        //推荐方案1，减少服务器session存储。每次连接都是新session
                         var reconnectResult = await mqttClient.ReconnectAsync();
-                        System.Console.WriteLine($"[mqttclient]Client reconnected");
+                        Console.WriteLine("[mqttclient] reconnectResult=" + JsonSerializer.Serialize(reconnectResult, new JsonSerializerOptions
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                        }));
+                        Console.WriteLine($"[mqttclient]Client reconnected");
                     });
                     //https://www.cnblogs.com/ccsharppython/archive/2019/07/28/11261069.html
                     //await will get a successful connection

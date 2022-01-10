@@ -47,7 +47,7 @@ namespace XXX.Plugin.MQTTServer.StartTask
                 {
                     //只是重连，但是消息需要重新订阅;也可设置CleanSession为false，重连依旧启用之前的订阅。
                     var reconnectResult = await _mqttClient.ReconnectAsync();
-                    //_Subscribe(); //CleanSession设置为false后，可不必重复订阅。
+                    _Subscribe(); //CleanSession设置为false后，可不必重复订阅。
                 });
             }
 
