@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using NetTools;
 
 namespace NetPro.Checker
 {
@@ -20,13 +21,12 @@ namespace NetPro.Checker
         /// inclued: EnvCheck ;InfoCheck
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="openIp">Whether external access is allowed</param>
         /// <param name="envPath"></param>
         /// <param name="infoPath"></param>
-        public static void UseCheck(this IApplicationBuilder app, bool openIp = true, string envPath = "/env", string infoPath = "/info")
+        public static void UseCheck(this IApplicationBuilder app, string envPath = "/env", string infoPath = "/info")
         {
-            app.UseEnvCheck(openIp, envPath);
-            app.UseInfoCheck(openIp, infoPath);
+            app.UseEnvCheck( envPath);
+            app.UseInfoCheck( infoPath);
             //app.UseHealthCheck("/check");
         }
 
@@ -34,9 +34,8 @@ namespace NetPro.Checker
         /// 
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="openIp"></param>
         /// <param name="path"></param>
-        public static void UseEnvCheck(this IApplicationBuilder app, bool openIp = true, string path = "/env")
+        public static void UseEnvCheck(this IApplicationBuilder app, string path = "/env")
         {
             var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
@@ -44,8 +43,10 @@ namespace NetPro.Checker
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-
-                    if (IPAddress.IsLoopback(remoteIp) || openIp)
+                    var rangeA = IPAddressRange.Parse("192.168.0.0 - 192.168.255.255");
+                    var rangeB = IPAddressRange.Parse("172.16.0.0 - 172.31.255.255");
+                    var rangeC = IPAddressRange.Parse("10.0.0.0 - 10.255.255.255");
+                    if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp)|| rangeB.Contains(remoteIp)|| rangeC.Contains(remoteIp))
                     {
                         var env = AppEnvironment.GetAppEnvironment();
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
@@ -65,9 +66,8 @@ namespace NetPro.Checker
         /// 
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="openIp"></param>
         /// <param name="path"></param>
-        public static void UseInfoCheck(this IApplicationBuilder app, bool openIp = true, string path = "/info")
+        public static void UseInfoCheck(this IApplicationBuilder app, string path = "/info")
         {
             var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
@@ -75,8 +75,10 @@ namespace NetPro.Checker
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-
-                    if (IPAddress.IsLoopback(remoteIp) || openIp)
+                    var rangeA = IPAddressRange.Parse("192.168.0.0 - 192.168.255.255");
+                    var rangeB = IPAddressRange.Parse("172.16.0.0 - 172.31.255.255");
+                    var rangeC = IPAddressRange.Parse("10.0.0.0 - 10.255.255.255");
+                    if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp) || rangeB.Contains(remoteIp) || rangeC.Contains(remoteIp))
                     {
                         var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
                         var info = AppInfo.GetAppInfo(configuration);
@@ -104,8 +106,10 @@ namespace NetPro.Checker
                 s.Run(async context =>
                 {
                     var remoteIp = context.Connection.RemoteIpAddress;
-
-                    if (IPAddress.IsLoopback(remoteIp) || config.GetValue<bool>($"{nameof(CheckOption)}:OpenIp"))
+                    var rangeA = IPAddressRange.Parse("192.168.0.0 - 192.168.255.255");
+                    var rangeB = IPAddressRange.Parse("172.16.0.0 - 172.31.255.255");
+                    var rangeC = IPAddressRange.Parse("10.0.0.0 - 10.255.255.255");
+                    if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp) || rangeB.Contains(remoteIp) || rangeC.Contains(remoteIp))
                     {
                         HealthCheckRegistry.HealthStatus status = await Task.Run(() => HealthCheckRegistry.GetStatus());
 
