@@ -69,7 +69,8 @@ namespace System.NetPro
         /// <returns>Result</returns>
         public override IList<Assembly> GetAssemblies()
         {
-            if (EnsureBinFolderAssembliesLoaded && !_binFolderAssembliesLoaded)
+            //load bin folder
+            if (!_binFolderAssembliesLoaded)
             {
                 _binFolderAssembliesLoaded = true;
                 var binPath = GetBinDirectory();

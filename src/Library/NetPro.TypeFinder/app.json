@@ -1,0 +1,6 @@
+﻿{
+	"TypeFinderOption": {
+		"MountePath": "./Plugin", //windows默认目录： C:/opt/netpro ; linux环境：/opt/netpro
+		"CustomDllPattern": "^XXX.*" //自定义的程序dll正则表达式,此处表示XXX开头的程序集
+	}
+}

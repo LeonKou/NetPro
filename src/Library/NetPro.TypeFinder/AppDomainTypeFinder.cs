@@ -19,6 +19,7 @@ namespace System.NetPro
 
         private readonly bool _ignoreReflectionErrors = true;
         Dictionary<string, string> loadedDll = new Dictionary<string, string>();
+        private static HashSet<Assembly> _CustomeAssembliesHashSet = new HashSet<Assembly>();
 
         private readonly INetProFileProvider _fileProvider;
         private readonly TypeFinderOption _typeFinderOption;
@@ -339,7 +340,7 @@ namespace System.NetPro
         /// <returns>A list of assemblies</returns>
         public virtual IList<Assembly> GetAssemblies()
         {
-            var assemblies = new List<Assembly>();
+            //var assemblies = new List<Assembly>();
 
             //** 获取自定义的程序集
             var currentAssemblies = AssemblyLoadContext.Default.Assemblies;//AppDomain.CurrentDomain.GetAssemblies();
@@ -347,20 +348,24 @@ namespace System.NetPro
             {
                 if (string.IsNullOrWhiteSpace(_typeFinderOption.CustomDllPattern))
                 {
-                    if (!Matches(assembly.GetName().Name))
+                    if (Matches(assembly.GetName().Name))
                         continue;
                 }
                 else
                 {
-                    if (!Matches(assembly.GetName().Name, _typeFinderOption.CustomDllPattern))
+                    if (!Matches(assembly.GetName().Name, _typeFinderOption.CustomDllPattern)
+                        && !Matches(assembly.GetName().Name, "^NetPro.*"))
+                    {
                         continue;
+                    }
                 }
-
-                assemblies.Add(assembly);
+                //add custome assembly
+                _CustomeAssembliesHashSet.Add(assembly);
+                
+                //assemblies.Add(assembly);
             }
-            //**
-
-            return assemblies;
+            var result = _CustomeAssembliesHashSet.ToList();
+            return result;
         }
 
         #endregion
