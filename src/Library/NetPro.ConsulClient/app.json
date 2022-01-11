@@ -1,9 +1,9 @@
 ﻿{
   "ConsulOption": {
-    "Enabled": false,
+    "Enabled": false, //是否开启,不配置默认开启
     "HealthPath": "/HealthCheck",
     "ServiceName": "xxx.api",
     "EndPoint": "http://localhost:8500",
-    "Tags": [ "HUHU"]
+    "Tags": [ "HUHU" ]
   }
 }

@@ -15,7 +15,7 @@ PORT 端口号 PORT=5000
 - 增加以下配置节点
 ```json
 "ConsulOption": {
-        "Enabled": false,//是否开启
+        "Enabled": false,//是否开启,不配置默认开启，不影响启动
 		"HealthPath": "/HealthCheck",//可空不填，默认HealthCheck
 		"ServiceName": "xxx.api",//可空不填，取运行时程序集名称
 		"EndPoint": "http://localhost:8500" consul服务地址
