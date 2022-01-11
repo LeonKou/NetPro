@@ -46,6 +46,7 @@ namespace System.NetPro
 
         /// <summary>
         /// 返回当前应用所有的程序集
+        /// 自定义程序集包含NetPro基础程序集
         /// </summary>
         /// <returns>A list of assemblies</returns>
         IList<Assembly> GetAssemblies();

@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.2" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.1" />
 	</ItemGroup>
 
 </Project>

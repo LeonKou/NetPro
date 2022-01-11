@@ -101,10 +101,9 @@ namespace NetPro.Web.Api
             //add fluent validation
             mvcBuilder.AddFluentValidation(configuration =>
             {
-                //register all available validators from netpro assemblies               
+                //register all available validators from netpro assemblies
 
-
-                var assemblies = typeFinder.GetAssemblies(); ;// AppDomain.CurrentDomain.GetAssemblies();
+                var assemblies = typeFinder.GetAssemblies();// AppDomain.CurrentDomain.GetAssemblies();
                 //var assemblies = mvcBuilder.PartManager.ApplicationParts
                 //    .OfType<AssemblyPart>()
                 //    //.Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))

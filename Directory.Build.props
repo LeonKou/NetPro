@@ -82,7 +82,7 @@
 		<NetProGrpc>6.0.3-beta.1</NetProGrpc>
 		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>
 
-		<NetProProxy>6.0.3-beta.1</NetProProxy>
+		<NetProProxy>6.0.3-beta.2</NetProProxy>
 		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>
 
 		<NetProStartup>6.0.3-beta.1</NetProStartup>

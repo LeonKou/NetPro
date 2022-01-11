@@ -31,14 +31,14 @@ namespace NetPro.Proxy
             if (string.IsNullOrWhiteSpace(assemblyPattern))
             {
                 var assemblies = typeFinder.GetAssemblies();
-                assemblys = assemblies.Where(r => IsMatch(r.GetName().Name, $"Proxy$")).ToList();
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient)远程请求程序集默认模式，程序集名称: {string.Join(';', assemblys.Select(s => s.GetName().Name))}");
+                assemblys = assemblies.Where(r => !IsMatch(r.GetName().Name, $"^NetPro.*$")).ToList();
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient)远程请求程序集默认模式，注入程序集集合,已排除NetPro前缀程序集: {string.Join(';', assemblys.Select(s => s.GetName().Name))}");
             }
             else
             {
                 var assemblies = typeFinder.GetAssemblies();
                 assemblys = assemblies.Where(r => IsMatch(r.GetName().Name, assemblyPattern)).ToList();
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient))远程请求组件已经指定生效的程序集，程序集名称: {string.Join(';', assemblys.Select(s => s.GetName().Name))}");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss} HttpProxy(WebApiClient))远程请求组件已经指定生效的程序集，注入程序集集合,已排除NetPro前缀程序集: {string.Join(';', assemblys.Select(s => s.GetName().Name))}");
             }
 
             var cookieContainer = new CookieContainer();
