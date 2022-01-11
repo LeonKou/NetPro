@@ -1,5 +1,4 @@
-﻿using HealthChecks.UI.Client;
-using NetPro.Checker;
+﻿using NetPro.Checker;
 using System.NetPro;
 
 namespace XXX.API

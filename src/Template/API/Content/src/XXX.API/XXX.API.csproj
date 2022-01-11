@@ -18,7 +18,7 @@
 		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.1" />
 		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.2" />-->
 		<PackageReference Include="NetPro.Cors" Version="6.0.3-beta.1" />
-		<PackageReference Include="NetPro.Checker" Version="6.0.3-beta.1" />
+		<PackageReference Include="NetPro.Checker" Version="6.0.3-beta.2" />
 		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.1" />
 		<PackageReference Include="NetPro.Swagger" Version="6.0.3-beta.1" />
 		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.1" />
