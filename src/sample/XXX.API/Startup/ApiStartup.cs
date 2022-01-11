@@ -1,7 +1,4 @@
-﻿using HealthChecks.UI.Client;
-using NetPro.Checker;
-using System.NetPro;
-
+﻿
 namespace XXX.API
 {
     /// <summary>
@@ -26,8 +23,6 @@ namespace XXX.API
             //批量注入(可正则匹配注入所有子程序集，也可在每个子程序集中独立注入)
             services.BatchInjection("^XXX.", "Service$"); //批量注入以XXX前缀的程序集，Service结尾的类
             services.BatchInjection("^XXX.", "Repository$");//批量注入以XXX前缀的程序集，Repository结尾的类
-
-            services.AddHealthChecks();
         }
 
         /// <summary>
@@ -37,15 +32,6 @@ namespace XXX.API
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            //健康检查(应该限制外网访问或者注释此段)
-            application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-
-            //环境检查(应该限制外网访问或者注释此段)
-            application.UseCheck(envPath: "/env", infoPath: "/info");//envPath:应用环境地址；infoPath:应用自身信息地址
         }
     }
 }

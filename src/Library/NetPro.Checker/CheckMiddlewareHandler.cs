@@ -25,9 +25,9 @@ namespace NetPro.Checker
         /// <param name="infoPath"></param>
         public static void UseCheck(this IApplicationBuilder app, string envPath = "/env", string infoPath = "/info")
         {
-            app.UseEnvCheck( envPath);
-            app.UseInfoCheck( infoPath);
-            //app.UseHealthCheck("/check");
+            app.UseEnvCheck(envPath);
+            app.UseInfoCheck(infoPath);
+            app.UseHealthCheck("/check");
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace NetPro.Checker
                     var rangeA = IPAddressRange.Parse("192.168.0.0 - 192.168.255.255");
                     var rangeB = IPAddressRange.Parse("172.16.0.0 - 172.31.255.255");
                     var rangeC = IPAddressRange.Parse("10.0.0.0 - 10.255.255.255");
-                    if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp)|| rangeB.Contains(remoteIp)|| rangeC.Contains(remoteIp))
+                    if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp) || rangeB.Contains(remoteIp) || rangeC.Contains(remoteIp))
                     {
                         var env = AppEnvironment.GetAppEnvironment();
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;

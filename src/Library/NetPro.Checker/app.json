@@ -1,0 +1,8 @@
+{
+  "NetProCheckerOption": {
+    "Enabled": true,
+    "HealthPath": "/health",
+    "InfoPath": "/info",
+    "EnvPath": "/Env"
+  }
+}
