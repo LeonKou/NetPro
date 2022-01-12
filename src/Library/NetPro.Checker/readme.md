@@ -3,9 +3,24 @@
 
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Checker.svg)](https://nuget.org/packages/NetPro.Checker)
 
-对Microsoft.AspNetCore.Diagnostics.HealthChecks的强化和redis，mongodb检查的完善
+各类检查，环境信息检测，支持 对Microsoft.AspNetCore.Diagnostics.HealthChecks的强化和redis，mongodb检查的完善
 
 ## 使用
+
+- 基于NetPro.Startup为基座的程序，如果已添加环境变量ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup      启用自动初始化，添加appsetting.json 配置即可
+#### appsetting.json 
+
+- 增加以下配置节点
+```json
+ "NetProCheckerOption": {
+    "Enabled": true,
+    "HealthPath": "/health",
+    "InfoPath": "/info",
+    "EnvPath": "/Env"
+  }
+```
+
+- 基于原生使用，需要按以下方式注入服务，并添加上一条appsetting.json 节点配置即可
 
 ### 启用服务
 
@@ -36,13 +51,7 @@ public void ConfigureServices(IServiceCollection services)
 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
-    application.UseHealthChecks("/health", new HealthCheckOptions()//健康检查服务地址
-    {
-        Predicate = _ => true,
-        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-    });
-
-    application.UseCheck(envPath:"/env",infoPath:"/info");//envPath:应用环境地址；infoPath:应用自身信息地址
+    application.UseCheck(envPath:"/env",infoPath:"/info",health:"/health");//envPath:应用环境地址；infoPath:应用自身信息地址;health:健康检查地址
 }
 ```
 
@@ -288,9 +297,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ```
 
 ```json
-"CheckOption": {
-    "OpenIp": true  //是否开启所有IP访问，默认只支持回环地址
-  },
+"NetProCheckerOption": {
+    "Enabled": true,
+    "HealthPath": "/health",
+    "InfoPath": "/info",
+    "EnvPath": "/Env"
+  }
 ```
 
 > [ASP.NET Core的健康检查](https://blog.zhaytam.com/2020/04/30/health-checks-aspnetcore/)

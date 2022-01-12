@@ -23,11 +23,12 @@ namespace NetPro.Checker
         /// <param name="app"></param>
         /// <param name="envPath"></param>
         /// <param name="infoPath"></param>
-        public static void UseCheck(this IApplicationBuilder app, string envPath = "/env", string infoPath = "/info")
+        /// <param name="health"></param>
+        public static void UseCheck(this IApplicationBuilder app, string envPath = "/env", string infoPath = "/info", string health = "/check")
         {
             app.UseEnvCheck(envPath);
             app.UseInfoCheck(infoPath);
-            app.UseHealthCheck("/check");
+            app.UseHealthCheck(health);
         }
 
         /// <summary>
@@ -42,6 +43,7 @@ namespace NetPro.Checker
             {
                 s.Run(async context =>
                 {
+                    //ip可篡改，只作为基础限制，实际建议nginx处配置路由映射的方式限制
                     var remoteIp = context.Connection.RemoteIpAddress;
                     var rangeA = IPAddressRange.Parse("192.168.0.0 - 192.168.255.255");
                     var rangeB = IPAddressRange.Parse("172.16.0.0 - 172.31.255.255");

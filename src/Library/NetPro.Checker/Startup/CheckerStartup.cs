@@ -21,6 +21,7 @@ namespace NetPro.Checker
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
+        /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             var mqtttClientOptions = new NetProCheckerOption(configuration);
