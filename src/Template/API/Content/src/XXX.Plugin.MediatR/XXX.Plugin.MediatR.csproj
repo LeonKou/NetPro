@@ -21,7 +21,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.1" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Service\" />
