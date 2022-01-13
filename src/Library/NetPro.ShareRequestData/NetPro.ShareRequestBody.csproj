@@ -2,14 +2,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProShareRequestBody)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProShareRequestBodyAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.ShareRequestBody.xml</DocumentationFile>
@@ -24,11 +20,19 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
+	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>

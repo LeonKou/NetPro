@@ -3,15 +3,29 @@
 	<PropertyGroup Label="SDK Versions">
 		<NetStandardTargetVersion>netstandard2.1</NetStandardTargetVersion>
 		<NetCoreTargetVersion>net6.0</NetCoreTargetVersion>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		
+		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<MicrosoftNETTestSdk>16.5.0</MicrosoftNETTestSdk>
 		<LangVersion>latest</LangVersion>
+		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<PropertyGroup Label="Package information">
 		<Authors>Leon</Authors>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/LeonKou/NetPro</RepositoryUrl>
+
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<!--生成.symbols.nupkg-->
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--运行dotnet pack时自动运行dotnet build-->
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>© 2019  LeonKou All rights reserved.</Copyright>
+
 		<PackageIcon>logo2.png</PackageIcon>
-		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>
+		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>		
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">
@@ -29,7 +43,7 @@
 		<NetProCoreAssemblyName>NetPro.Core</NetProCoreAssemblyName>
 
 		<NetProCors>6.0.3-beta.1</NetProCors>
-		<NetProCorsAssemblyName>NetPro.Cors</NetProCorsAssemblyName>		
+		<NetProCorsAssemblyName>NetPro.Cors</NetProCorsAssemblyName>
 
 		<NetProDapper>6.0.3-beta.1</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>

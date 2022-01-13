@@ -3,14 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProCsRedis)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProCsRedisAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.CsRedis.xml</DocumentationFile>		
@@ -25,13 +21,21 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
+	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CSRedisCore" Version="3.6.6" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CSRedisCore" Version="3.6.8" />
 		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 	</ItemGroup>

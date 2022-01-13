@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.NetPro;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace NetPro.Swagger
 {
     public static class NetProSwaggerServiceExtensions
     {
-        public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder = null)
         {
             var loggerFactory = services.BuildServiceProvider().GetService<ILoggerFactory>();
             ILogger logger = null;
@@ -55,13 +56,13 @@ namespace NetPro.Swagger
 
                 //batch find xml file of swagger
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;//get app root path
-                List<string> xmlComments = GetXmlComments();
+                List<string> xmlComments = GetXmlComments(typeFinder);
                 xmlComments.ForEach(r =>
                 {
-                    string filePath = Path.Combine(basePath, r);
-                    if (File.Exists(filePath))
+                    //string filePath = Path.Combine(basePath, r);
+                    if (File.Exists(r))
                     {
-                        c.IncludeXmlComments(filePath);
+                        c.IncludeXmlComments(r);
                     }
                 });
 
@@ -118,7 +119,7 @@ namespace NetPro.Swagger
                             Password = new OpenApiOAuthFlow()
                             {
                                 TokenUrl = new Uri($"{swaggerOption.OAuth2.Server}/connect/token"),
-                                Scopes = swaggerOption.OAuth2.Scopes.ToDictionary(x=>x.Key,y=>y.Value)// swaggerOption.OAuth2.Scopes
+                                Scopes = swaggerOption.OAuth2.Scopes.ToDictionary(x => x.Key, y => y.Value)// swaggerOption.OAuth2.Scopes
                             }
                         }
                     });
@@ -143,17 +144,20 @@ namespace NetPro.Swagger
         /// 所有xml默认当作swagger文档注入swagger
         /// </summary>
         /// <returns></returns>
-        private static List<string> GetXmlComments()
+        private static List<string> GetXmlComments(ITypeFinder typeFinder = null)
         {
-            //var pattern = $"^{netProOption.ProjectPrefix}.*({netProOption.ProjectSuffix}|Domain)$";
-            //List<string> assemblyNames = ReflectionHelper.GetAssemblyNames(pattern);
             List<string> assemblyNames = AppDomain.CurrentDomain.GetAssemblies().Select(s => s.GetName().Name).ToList();
-            List<string> xmlFiles = new List<string>();
-            assemblyNames.ForEach(r =>
+
+            if (typeFinder != null)
             {
-                string fileName = $"{r}.xml";
-                xmlFiles.Add(fileName);
-            });
+                var xmlpaths = typeFinder.GetAssemblies()
+               .Where(s => !s.GetName().Name.StartsWith("NetPro."))
+               .Select(s => s.Location.Replace(".dll", ".xml"));
+                return xmlpaths.ToList();
+            }
+            var basePath = PlatformServices.Default.Application.ApplicationBasePath;//get app root path
+
+            var xmlFiles = Directory.GetFiles(basePath, "*.xml").ToList();
             return xmlFiles;
         }
     }

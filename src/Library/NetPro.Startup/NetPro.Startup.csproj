@@ -2,14 +2,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProStartup)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProStartupAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\netcoreapp3.1\NetPro.Startup.xml</DocumentationFile>
@@ -33,14 +29,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="BetterConsoleTables" Version="2.0.2-rc1" />
 		<!--<PackageReference Include="ConsoleTables" Version="2.4.2" />-->
 		<PackageReference Include="Figgle" Version="0.4.0" />
-		<PackageReference Include="Scrutor" Version="3.2.2" />
+		<PackageReference Include="Scrutor" Version="3.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="readme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

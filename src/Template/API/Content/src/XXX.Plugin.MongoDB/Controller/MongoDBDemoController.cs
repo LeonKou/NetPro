@@ -30,9 +30,9 @@ namespace XXX.Plugin.MongoDB
         /// </summary>
         /// <param name="key">数据库别名key</param>
         /// <returns></returns>
-        [HttpGet("InsertOne")]
+        [HttpPost("InsertOne")]
         [ProducesResponseType(200)]
-        public IActionResult InsertOne(string key)
+        public IActionResult InsertOne([FromQuery] string key = "mongo1")
         {
             _mongoDBService.InsertOne(key);
             return Ok();
@@ -43,9 +43,9 @@ namespace XXX.Plugin.MongoDB
         /// </summary>
         /// <param name="key">数据库别名key</param>
         /// <returns></returns>
-        [HttpGet("DeleteOne")]
+        [HttpDelete("DeleteOne")]
         [ProducesResponseType(200)]
-        public IActionResult DeleteOne(string key)
+        public IActionResult DeleteOne([FromQuery] string key = "mongo1")
         {
             _mongoDBService.DeleteOne(key);
             return Ok();
@@ -56,9 +56,9 @@ namespace XXX.Plugin.MongoDB
         /// </summary>
         /// <param name="key">数据库别名key</param>
         /// <returns></returns>
-        [HttpGet("ReplaceOne")]
+        [HttpPost("ReplaceOne")]
         [ProducesResponseType(200)]
-        public IActionResult ReplaceOne(string key)
+        public IActionResult ReplaceOne([FromQuery] string key = "mongo1")
         {
             _mongoDBService.ReplaceOne(key);
             return Ok();
@@ -71,7 +71,7 @@ namespace XXX.Plugin.MongoDB
         /// <returns></returns>
         [HttpGet("Find")]
         [ProducesResponseType(200)]
-        public IActionResult Find(string key)
+        public IActionResult Find(string key = "mongo1")
         {
             _mongoDBService.Find(key);
             return Ok();

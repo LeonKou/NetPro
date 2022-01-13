@@ -66,5 +66,18 @@ namespace XXX.API.Controllers
             var result = await _baiduProxy.SharepageAsync("请求query");
             return Ok(result);
         }
+
+        /// <summary>
+        /// 强制GC
+        /// </summary>
+        /// <param name="generation">代数</param>
+        /// <returns></returns>
+        [HttpGet("gc")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public IActionResult GC([FromQuery] int generation = 2)
+        {
+            System.GC.Collect(generation);
+            return Ok();
+        }
     }
 }

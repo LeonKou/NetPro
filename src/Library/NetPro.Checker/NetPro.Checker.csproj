@@ -2,17 +2,13 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProChecker)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 			for checking the  complex environment of application in the microservice environment.
 			provide the system environment information of the current application.
 			and Checking the health of application information and components
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProCheckerAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Checker.xml</DocumentationFile>
@@ -29,12 +25,21 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="IPAddressRange" Version="4.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-		<PackageReference Include="MongoDB.Driver" Version="2.11.3" />
+		<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="StackExchange.Redis" Version="2.1.58" />
+		<PackageReference Include="StackExchange.Redis" Version="2.2.88" />
 		<!--<PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.3" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.2" />-->
 	</ItemGroup>

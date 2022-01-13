@@ -1,5 +1,4 @@
-﻿using IdentityModel;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,6 +12,15 @@ namespace System.NetPro
     /// </summary>
     public static partial class Extensions
     {
+        //
+        // 摘要:
+        //     Unique Identifier for the End-User at the Issuer.
+        private const string Subject = "sub";
+
+        //
+        // 摘要:
+        //     The role
+        private const string Role = "role";
         /// <summary>
         /// 
         /// </summary>
@@ -32,7 +40,7 @@ namespace System.NetPro
                 string claimValue;
                 if (claim == null)
                 {
-                    claimValue = identity.GetClaimValue(JwtClaimTypes.Subject);
+                    claimValue = identity.GetClaimValue(Subject);
                 }
                 else
                 {
@@ -60,7 +68,7 @@ namespace System.NetPro
             }
             if (identity is ClaimsIdentity claimsIdentity)// 等价于 ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
             {
-                return claimsIdentity.GetClaimValue(JwtClaimTypes.Role);
+                return claimsIdentity.GetClaimValue(Role);
             }
             return string.Empty;
         }

@@ -3,14 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 		<Version>$(NetProAnalysic)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
-		<Description>
-		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
+		<Description>Request analysis component, analysis of requests with custom policies, fusing, etc.</Description>
 		<AssemblyName>$(NetProAnalysicAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageTags>NetPro;Analysic;请求分析;</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,18 +26,31 @@
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-	  <ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
+		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+		<ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>
-
+	<!--<PropertyGroup>
+		<PostBuildEvent>xcopy "$(TargetPath)" "$(SolutionDir)\Dependencies" /f /s /y</PostBuildEvent>
+	</PropertyGroup>-->
 </Project>

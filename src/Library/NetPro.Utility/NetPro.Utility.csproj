@@ -2,14 +2,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProUtility)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProUtilityAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<!--<PackageReadmeFile>readme.md</PackageReadmeFile>-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,18 +23,17 @@
 		</None>
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Utility.xml</DocumentationFile>
-	</PropertyGroup>
-
 	<ItemGroup>
-		<PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.NPOI" Version="1.2.3" />
 		<PackageReference Include="IdGen" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.12" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
-		<PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-		<PackageReference Include="TimeZoneConverter" Version="3.3.0" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="TimeZoneConverter" Version="5.0.0" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

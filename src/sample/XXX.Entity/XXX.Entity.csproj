@@ -5,6 +5,7 @@
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Entity.xml</DocumentationFile>

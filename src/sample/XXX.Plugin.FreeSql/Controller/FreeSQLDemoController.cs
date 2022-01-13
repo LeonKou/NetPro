@@ -22,7 +22,6 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="webHelper"></param>
-        /// <param name="redisService"></param>
         /// <param name="userService"></param>
         public FreeSQLDemoController(ILogger<FreeSQLDemoController> logger,
             IWebHelper webHelper
@@ -36,6 +35,7 @@ namespace XXX.Plugin.FreeSql
         /// <summary>
         /// 多库操作示例(切换数据库)
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         /// <returns></returns>
         [HttpPost("MultiFreeSql")]
         [ProducesResponseType(200, Type = typeof(string))]
@@ -48,6 +48,7 @@ namespace XXX.Plugin.FreeSql
         /// <summary>
         /// 新增示例
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         [HttpPost("insert")]
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
@@ -59,17 +60,19 @@ namespace XXX.Plugin.FreeSql
         /// <summary>
         /// 删除示例
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         [HttpDelete("delete")]
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> DeleteAsync(uint id, [FromQuery] string dbKey = "sqlite")
         {
-            var result = await _userService.DeleteAsync(id,dbKey);
+            var result = await _userService.DeleteAsync(id, dbKey);
             return result;
         }
 
         /// <summary>
         /// 更新单个值示例
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         [HttpPatch("update")]
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> UpdatePatchAsync(uint id, uint age, [FromQuery] string dbKey = "sqlite")
@@ -81,6 +84,7 @@ namespace XXX.Plugin.FreeSql
         /// <summary>
         /// 更新整个对象示例
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         [HttpPost("update")]
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> UpdateAsync(UserUpdateAo user, [FromQuery] string dbKey = "sqlite")
@@ -92,6 +96,7 @@ namespace XXX.Plugin.FreeSql
         /// <summary>
         /// 关联查询示例
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         [HttpGet("searchjoin")]
         [ProducesResponseType(200, Type = typeof(PagedList<User>))]
         public async Task<PagedList<User>> SearchJoinAsync([FromQuery] UserSearchAo search, [FromQuery] string dbKey = "sqlite")
@@ -106,6 +111,7 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         /// <param name="dyfilter"></param>
         /// <param name="searchPageBase"></param>
+        /// <param name="dbKey">数据库别名标识</param>
         /// <returns></returns>
         [HttpGet("graphql")]
         [ProducesResponseType(200, Type = typeof(PagedList<User>))]
@@ -120,6 +126,7 @@ namespace XXX.Plugin.FreeSql
         /// </summary>
         /// <param name="dyfilter"></param>
         /// <param name="searchPageBase"></param>
+        /// <param name="dbKey">数据库别名标识</param>
         /// <returns></returns>
         [HttpGet("GenerateSqlByLinq")]
         [ProducesResponseType(200, Type = typeof(string))]
@@ -133,6 +140,7 @@ namespace XXX.Plugin.FreeSql
         /// 事务示例
         /// reference：https://github.com/dotnetcore/FreeSql/wiki/事务
         /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
         /// <returns></returns>
         [HttpGet("Transaction")]
         [ProducesResponseType(200, Type = typeof(bool))]

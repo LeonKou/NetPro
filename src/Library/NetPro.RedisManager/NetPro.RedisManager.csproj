@@ -2,14 +2,10 @@
 	<PropertyGroup>
 		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
 		<Version>$(NetProRedisManager)</Version>
-		<GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-		<Authors>$(Authors)</Authors>
 		<Description>
 		</Description>
-		<PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-		<PackageIcon>$(PackageIcon)</PackageIcon>
 		<AssemblyName>$(NetProRedisManagerAssemblyName)</AssemblyName>
-		<WarningLevel>3</WarningLevel>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.RedisManager.xml</DocumentationFile>
@@ -25,13 +21,22 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="StackExchange.Redis" Version="2.1.58" />
-		<PackageReference Include="RedLock.net" Version="2.2.0" />
-		<PackageReference Include="CSRedisCore" Version="3.6.5" />
+		<PackageReference Include="StackExchange.Redis" Version="2.2.88" />
+		<PackageReference Include="RedLock.net" Version="2.3.1" />
+		<PackageReference Include="CSRedisCore" Version="3.6.8" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 		<!--<PackageReference Include="System.Text.Json" Version="4.7.2" />-->

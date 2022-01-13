@@ -2,15 +2,10 @@
   <PropertyGroup>
 	  <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
 	  <Version>$(NetProMQTTClient)</Version>
-	  <GeneratePackageOnBuild>$(GeneratePackageOnBuild)</GeneratePackageOnBuild>
-	  <Authors>$(Authors)</Authors>
-	  <IsPackable>true</IsPackable>
 	  <Description>
 	  </Description>
-	  <PackageProjectUrl>$(PackageProjectUrl)</PackageProjectUrl>
-	  <PackageIcon>$(PackageIcon)</PackageIcon>
 	  <AssemblyName>$(NetProMQTTClientAssemblyName)</AssemblyName>
-	  <WarningLevel>3</WarningLevel>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -19,7 +14,15 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-	
+	<ItemGroup>
+		<None Update="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<!--<PackageReference Include="IdleBus" Version="1.5.2" />-->

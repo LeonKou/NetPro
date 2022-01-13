@@ -34,7 +34,7 @@ namespace NetPro.Swagger
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddNetProSwagger(configuration);
+            services.AddNetProSwagger(configuration, typeFinder);
         }
     }
 }
