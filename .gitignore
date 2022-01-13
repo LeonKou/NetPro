@@ -351,3 +351,4 @@ healthchecksdb
 /src/sample/XXX.API/customeconfig
 /src/sample/XXX.db
 /src/sample/XXX.API/startup.json
+*.snupkg

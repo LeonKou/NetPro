@@ -70,6 +70,6 @@
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>
-
 </Project>
