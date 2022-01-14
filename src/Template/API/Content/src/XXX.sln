@@ -11,6 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.Redis", "XXX.Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.FreeSql", "XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj", "{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.MediatR", "XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj", "{F772E244-0022-4D39-8E62-5CACB6030814}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.ZeroMQ", "XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj", "{44F19703-409A-4756-AEBF-FD287FD499B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.MQTTServer", "XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj", "{593EB12A-35E1-49F7-AE23-2EC3246F00D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.MongoDB", "XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj", "{51F23EA5-7339-4774-B215-55AC06286FA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +41,22 @@ Global
 		{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8A0ADF3-2717-4609-9C43-BA192D41BA9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F772E244-0022-4D39-8E62-5CACB6030814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F772E244-0022-4D39-8E62-5CACB6030814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F772E244-0022-4D39-8E62-5CACB6030814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F772E244-0022-4D39-8E62-5CACB6030814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F19703-409A-4756-AEBF-FD287FD499B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F19703-409A-4756-AEBF-FD287FD499B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F19703-409A-4756-AEBF-FD287FD499B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F19703-409A-4756-AEBF-FD287FD499B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593EB12A-35E1-49F7-AE23-2EC3246F00D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593EB12A-35E1-49F7-AE23-2EC3246F00D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593EB12A-35E1-49F7-AE23-2EC3246F00D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593EB12A-35E1-49F7-AE23-2EC3246F00D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F23EA5-7339-4774-B215-55AC06286FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F23EA5-7339-4774-B215-55AC06286FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F23EA5-7339-4774-B215-55AC06286FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F23EA5-7339-4774-B215-55AC06286FA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

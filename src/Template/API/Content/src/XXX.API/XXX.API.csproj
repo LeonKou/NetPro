@@ -15,13 +15,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="NetMQ" Version="4.0.1.7-pre" />
-		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.2" />
+		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.3" />
 		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.2" />-->
-		<PackageReference Include="NetPro.Cors" Version="6.0.3-beta.2" />
-		<PackageReference Include="NetPro.Checker" Version="6.0.3-beta.3" />
-		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.2" />
-		<PackageReference Include="NetPro.Swagger" Version="6.0.3-beta.2" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.2" />
+		<PackageReference Include="NetPro.Cors" Version="6.0.3-beta.3" />
+		<PackageReference Include="NetPro.Checker" Version="6.0.3-beta.4" />
+		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.3" />
+		<PackageReference Include="NetPro.Swagger" Version="6.0.3-beta.3" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.3" />
 		<PackageReference Include="NetPro.Proxy" Version="6.0.3-beta.3" />
 	</ItemGroup>
 

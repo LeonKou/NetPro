@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	 <IsPackable>false</IsPackable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <!--<Nullable>enable</Nullable>-->
-	  <EnableDynamicLoading>true</EnableDynamicLoading>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Redis.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
@@ -18,11 +18,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="MQTTnet" Version="3.1.1" />
+		<PackageReference Include="MQTTnet" Version="3.1.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<!--<PackageReference Include="NetPro.MQTTClient" Version="1.0.1" />-->
 		<ProjectReference Include="..\..\..\..\..\Library\NetPro.MQTTClient\NetPro.MQTTClient.csproj" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.2" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.3" />
 	</ItemGroup>
 </Project>
