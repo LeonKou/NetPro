@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
-using NetPro.ShareRequestBody;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.NetPro;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +22,13 @@ namespace NetPro.Web.Api
         readonly NetProOption _config;
         readonly IWebHelper _webHelper;
         readonly IConfiguration _configuration;
-        readonly RequestCacheData _requestCacheData;
 
-        public BenchmarkActionFilter(ILogger<BenchmarkActionFilter> logger, NetProOption config, IWebHelper webHelper, IConfiguration configuration, RequestCacheData requestCacheData)
+        public BenchmarkActionFilter(ILogger<BenchmarkActionFilter> logger, NetProOption config, IWebHelper webHelper, IConfiguration configuration)
         {
             _logger = logger;
             _config = config;
             _webHelper = webHelper;
             _configuration = configuration;
-            _requestCacheData = requestCacheData;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -57,11 +56,23 @@ namespace NetPro.Web.Api
                 {
                     if (method.Equals("GET", StringComparison.OrdinalIgnoreCase))
                     {
-
+                        _logger.LogWarning("请求时间超过阈值.执行时间:{0}秒.请求url:{1},请求IP:{2},服务器名称:{3}",
+                           stopWatch.ElapsedMilliseconds / 1000, url, requestIp, macName);//formate格式日志对{索引}有颜色支持
                     }
-                    var bytes = Encoding.UTF8.GetBytes(_requestCacheData.Body ?? "");
-                    _logger.LogWarning("请求时间超过阈值.执行时间:{0}秒.请求url:{1},请求Body:{2},请求IP:{3},服务器名称:{4}",
-                        stopWatch.ElapsedMilliseconds / 1000, url, Convert.ToBase64String(bytes), requestIp, macName);//formate格式日志对{索引}有颜色支持
+                    else
+                    {
+                        if (!request.Body.CanSeek)
+                        {
+                            request.EnableBuffering();
+                        }
+                        request.Body.Seek(0L, SeekOrigin.Begin);
+
+                        StreamReader stream = new StreamReader(request.Body);
+                        string body = await stream.ReadToEndAsync();
+
+                        _logger.LogWarning("请求时间超过阈值.执行时间:{0}秒.请求url:{1},请求Body:{2},请求IP:{3},服务器名称:{4}",
+                            stopWatch.ElapsedMilliseconds / 1000, url, body, requestIp, macName);//formate格式日志对{索引}有颜色支持
+                    }
                 }
                 if (!context.HttpContext.Response.Headers.ContainsKey("x-time-elapsed"))
                 {

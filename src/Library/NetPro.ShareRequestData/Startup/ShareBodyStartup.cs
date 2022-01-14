@@ -25,13 +25,11 @@ namespace NetPro.ShareRequestBody
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
             services.AddShareRequestBody();
-            //services.AddResponseCachingExtension();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseShareRequestBody();
-            //app.UseGetResponseCaching();
         }
 
         /// <summary>

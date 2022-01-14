@@ -164,13 +164,12 @@ namespace NetPro.Web.Api
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            application.Use(async (context, next) =>
-            {
-                context.Request.EnableBuffering();
-                await next();
-            });
+            //application.Use(async (context, next) =>
+            //{
+            //    context.Request.EnableBuffering();
+            //    await next();
+            //});
 
-            //application.UseNetProSwagger();
             //TODO流量分析等其他中间件
             //
             application.UseRouting();

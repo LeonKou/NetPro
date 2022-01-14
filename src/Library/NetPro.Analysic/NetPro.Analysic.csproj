@@ -51,6 +51,7 @@
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>
+	<!--vs自带全局宏 https://docs.microsoft.com/en-us/cpp/build/reference/common-macros-for-build-commands-and-properties?redirectedfrom=MSDN&view=msvc-170-->
 	<!--<PropertyGroup>
 		<PostBuildEvent>xcopy "$(TargetPath)" "$(SolutionDir)\Dependencies" /f /s /y</PostBuildEvent>
 	</PropertyGroup>-->

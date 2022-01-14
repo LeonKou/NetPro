@@ -21,7 +21,7 @@ namespace XXX.Plugin.FreeSql
             #region Freesql初始化
             //多数据库初始化
             var fsql = new MultiFreeSql();
-
+            
             //reference：https://github.com/dotnetcore/FreeSql/issues/44
             //第一个注册的实例是默认实例，使用时如没指定dbkey则默认连接此处第一个注册的数据库实例
             fsql.Register("sqlite", () =>

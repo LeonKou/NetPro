@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NetMQ;
 using NetMQ.Sockets;
+using System.Runtime.Loader;
 using System.Threading;
 
 namespace XXX.API.Controllers
@@ -76,8 +77,9 @@ namespace XXX.API.Controllers
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public IActionResult GC([FromQuery] int generation = 2)
         {
+            var assemblies = AssemblyLoadContext.Default.Assemblies;
             System.GC.Collect(generation);
-            return Ok();
+            return Ok(assemblies.Count());
         }
     }
 }

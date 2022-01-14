@@ -16,7 +16,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
+		<!--<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />-->
 		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />		

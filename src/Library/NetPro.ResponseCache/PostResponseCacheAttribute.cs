@@ -83,7 +83,7 @@ namespace NetPro.ResponseCache
             {
                 goto gotoNext;
             }
-            context.HttpContext.Request.EnableBuffering();
+            //context.HttpContext.Request.EnableBuffering();
             var _logger = serviceProvider.GetRequiredService<ILogger<PostResponseCacheAttribute>>();
             var _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var _memorycache = serviceProvider.GetService<IMemoryCache>();

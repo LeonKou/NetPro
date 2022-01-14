@@ -139,13 +139,13 @@ namespace System.NetPro
                 loadedDll[a.GetName().Name] = a.Location;
             }
 
-            //load root sub directory
+            //check plugin directory
             if (!_fileProvider.DirectoryExists($"{mountePath}/{entryPoint}"))
             {
                 _fileProvider.CreateDirectory($"{mountePath}/{entryPoint}");
                 _fileProvider.WriteAllText($"{mountePath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
             }
-
+            //move plugin directory to bin folder
             _fileProvider.Move(mountePath, $"{binPath}", false);
 
             //load bin directory
@@ -154,46 +154,55 @@ namespace System.NetPro
 
         private void _LoadDll(string directory)
         {
-            _(directory);
+            __(directory);//load bin dlls
             var subDirectories = _fileProvider.GetDirectories(directory).Where(s => s != "runtimes").ToList();
             for (int i = 0; i < subDirectories.Count(); i++)
             {
+                //load plugin dlls
                 _(subDirectories[i]);
+            }
+
+            void __(string _directory)
+            {
+                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", true);
+                foreach (var dllPath in dllFiles)
+                {
+                    try
+                    {                       
+                        AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
+                    }
+                    catch (BadImageFormatException ex)
+                    {
+                        Trace.TraceError(ex.Message);
+                    }
+                }
             }
 
             void _(string _directory)
             {
-                var currentAssemblies = AssemblyLoadContext.Default.Assemblies;
                 var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", true);
                 foreach (var dllPath in dllFiles)
                 {
                     try
                     {
                         var an = AssemblyName.GetAssemblyName(dllPath);
-                        if (currentAssemblies.Where(s => s.GetName().Name != an.Name).Any() && !loadedDll.ContainsKey(an.Name))
-                        {
-                            //https://cloud.tencent.com/developer/article/1520894
-                            //https://cloud.tencent.com/developer/article/1581619?from=article.detail.1520894
-                            AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
-                            //Domain.LoadPlugin(dllPath);
-                            loadedDll[an.Name] = dllPath;
-                            //App.Load(an);
-                        }
-                        if (loadedDll.ContainsKey(an.Name) || "Microsoft.CodeAnalysis.resources".Contains(an.Name))
+                        if (AssemblyLoadContext.Default.Assemblies.Where(s => s.GetName().Name == an.Name).Any())
                         {
                             try
                             {
                                 _fileProvider.DeleteFile(dllPath);
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
+                                Trace.TraceError($"load inpugin dlls occur error:{ex.Message}");
                             }
                             continue;
                         }
+                        AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
                     }
                     catch (BadImageFormatException ex)
                     {
-                        Trace.TraceError(ex.ToString());
+                        Trace.TraceError(ex.Message);
                     }
                 }
             }
@@ -361,7 +370,7 @@ namespace System.NetPro
                 }
                 //add custome assembly
                 _CustomeAssembliesHashSet.Add(assembly);
-                
+
                 //assemblies.Add(assembly);
             }
             var result = _CustomeAssembliesHashSet.ToList();
