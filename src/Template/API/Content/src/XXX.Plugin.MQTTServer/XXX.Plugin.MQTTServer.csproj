@@ -21,8 +21,7 @@
 		<PackageReference Include="MQTTnet" Version="3.1.1" />
 	</ItemGroup>
 	<ItemGroup>
-		<!--<PackageReference Include="NetPro.MQTTClient" Version="1.0.1" />-->
-		<ProjectReference Include="..\..\..\..\..\Library\NetPro.MQTTClient\NetPro.MQTTClient.csproj" />
+		<PackageReference Include="NetPro.MQTTClient" Version="6.0.3-beta.3" />
 		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.3" />
 	</ItemGroup>
 </Project>
