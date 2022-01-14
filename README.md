@@ -104,7 +104,7 @@ PackageReference:`<PackageReference Include="NetPro.Web.Api" Version="3.1.2" />`
 
 ## 通过脚手架创建项目(推荐)
 
-### 1、安装netproapi脚手架
+### 1、安装netproapi[![NuGet](https://img.shields.io/nuget/v/netproapi.svg)](https://nuget.org/packages/netproapi)脚手架
 执行以下命令安装脚手架
 ```
 dotnet new -i netproapi::* 
