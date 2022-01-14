@@ -67,7 +67,7 @@ nuget pack  xxx/xxx.nuspec -NoDefaultExcludes -OutputDirectory .
 - 4、上传nuget到服务器
 - 5、以nuget方式安装脚手架,执行以下命令安装
 ```
- dotnet new -i netproapi::*   # -i：安装 
+ dotnet new -i netproapi::*   # -i：安装 ；*可替换为指定版本号，例如dotnet new -i netproapi::1.2.beta-1
 ```
 
 - 6、使用模板脚手架
