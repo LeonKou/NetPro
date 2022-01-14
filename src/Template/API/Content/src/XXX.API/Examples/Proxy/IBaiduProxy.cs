@@ -1,4 +1,5 @@
 ﻿using System;
+using System.NetPro;
 using System.Threading.Tasks;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
@@ -11,18 +12,18 @@ namespace XXX.API.Controllers
     public interface IBaiduProxy
     {
         [HttpGet("/")]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         //[RawReturn]
         ITask<string> SharepageAsync([Parameter(Kind.Query)] string queryparameter);
 
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
         // POST api/user 
         [HttpPost("api/user")]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> AddAsync([FormContent] dynamic user);
 
         /// <summary>
@@ -36,24 +37,24 @@ namespace XXX.API.Controllers
         [Timeout(10 * 1000)] // 10s超时
         [JsonReturn(Enable = false)]
         [Cache(60 * 1000)]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
     }
 
     public interface IExampleProxy
     {
         [HttpGet("")]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> GetAsync([Parameter(Kind.Query)] string account);
 
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
         // POST api/user 
         [HttpPost("api/user")]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> AddAsync([FormContent] dynamic user);
 
         /// <summary>
@@ -67,41 +68,7 @@ namespace XXX.API.Controllers
         [Timeout(10 * 1000)] // 10s超时
         [JsonReturn(Enable = false)]
         [Cache(60 * 1000)]
-        [WebApiClientFilter]
+        [ApiClientFilter]
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
-    }
-
-    /// <summary>
-    /// 过滤器
-    /// </summary>
-    public class WebApiClientFilter : ApiFilterAttribute
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-
-        public override Task OnRequestAsync(ApiRequestContext context)
-        {
-            var uri= context.HttpContext.RequestMessage.RequestUri;
-                Console.WriteLine($"request uri is：{uri}");
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnResponseAsync(ApiResponseContext context)
-        {
-            Console.WriteLine($"HasResult：{context.ResultStatus}");
-            Console.WriteLine($"context.Result：{context.Result}");
-
-            var resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
-            Console.WriteLine($"ReadAsStringAsync()：   {resultString}");
-            Console.WriteLine($"StatusCode：   {context.HttpContext.ResponseMessage.StatusCode}");
-        }
     }
 }
