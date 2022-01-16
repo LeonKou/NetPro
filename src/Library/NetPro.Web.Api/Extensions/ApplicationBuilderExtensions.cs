@@ -6,15 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
+using System;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.NetPro;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.IO;
-using System;
-using System.Linq;
-using System.NetPro;
 
 namespace NetPro.Web.Api
 {
@@ -33,12 +32,13 @@ namespace NetPro.Web.Api
             var hostingEnvironment = application.ApplicationServices.GetService<IWebHostEnvironment>();
 
             var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
-           
+
             if (hostingEnvironment.IsDevelopment())
             {
                 //get detailed exceptions for developing and testing purposes
                 application.UseDeveloperExceptionPage();
-            }else
+            }
+            else
             {
 
                 {

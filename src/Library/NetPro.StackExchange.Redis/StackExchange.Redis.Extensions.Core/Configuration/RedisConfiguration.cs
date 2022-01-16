@@ -1,9 +1,8 @@
-﻿using System;
+﻿using StackExchange.Redis.Profiling;
+using System;
 using System.Collections.Generic;
 using System.Net.Security;
 using System.Security.Authentication;
-
-using StackExchange.Redis.Profiling;
 
 namespace StackExchange.Redis.Extensions.Core.Configuration
 {

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using StackExchange.Redis.Extensions.Core.Abstractions;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace StackExchange.Redis.Extensions.Core.Implementations
 {

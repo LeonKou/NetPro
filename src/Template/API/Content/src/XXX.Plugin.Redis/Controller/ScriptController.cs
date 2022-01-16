@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XXX.Plugin.Redis;
-
-namespace XXX.Plugin.Redis
+﻿namespace XXX.Plugin.Redis
 {
     /// <summary>
     /// 执行脚本示例(等价于命令行)
@@ -35,7 +28,7 @@ namespace XXX.Plugin.Redis
         /// <returns></returns>
         [HttpPost("ExecutePython")]
         [ProducesResponseType(200)]
-        public IActionResult ExecutePython([FromBody]string cmd, string args)
+        public IActionResult ExecutePython([FromBody] string cmd, string args)
         {
             _redisService.ExecutePython(cmd, args);
             return Ok();

@@ -2,11 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetPro.CsRedis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace NetPro.CsRedis
 {
@@ -77,7 +73,7 @@ namespace NetPro.CsRedis
 
             //CSRedisClient csredis;
 
-           var idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromMinutes(10));
+            var idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromMinutes(10));
             foreach (var item in option.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>

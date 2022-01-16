@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Models;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace StackExchange.Redis.Extensions.Core.Implementations
 {

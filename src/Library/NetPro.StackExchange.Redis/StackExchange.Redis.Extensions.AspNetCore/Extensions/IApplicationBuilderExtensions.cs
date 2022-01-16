@@ -1,8 +1,5 @@
-﻿using System;
-
-using Microsoft.AspNetCore.Builder;
-
-using StackExchange.Redis.Extensions.AspNetCore.Midllewares;
+﻿using StackExchange.Redis.Extensions.AspNetCore.Midllewares;
+using System;
 
 namespace Microsoft.AspNetCore.Builder
 {

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using StackExchange.Redis.Extensions.Core.Abstractions;
+using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
-
-using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace StackExchange.Redis.Extensions.Core.Implementations
 {

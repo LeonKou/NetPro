@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NetPro;
-using XXX.Plugin.MongoDB.Service;
+﻿using XXX.Plugin.MongoDB.Service;
 
 namespace XXX.Plugin.MongoDB
 {
@@ -32,7 +29,7 @@ namespace XXX.Plugin.MongoDB
         /// <returns></returns>
         [HttpPost("InsertOne")]
         [ProducesResponseType(200)]
-        public IActionResult InsertOne([FromQuery]string key = "mongo1")
+        public IActionResult InsertOne([FromQuery] string key = "mongo1")
         {
             _mongoDBService.InsertOne(key);
             return Ok();

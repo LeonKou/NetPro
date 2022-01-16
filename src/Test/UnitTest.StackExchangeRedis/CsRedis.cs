@@ -1,17 +1,8 @@
 using CSRedis;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetPro.CsRedis;
-using StackExchange.Redis;
-using StackExchange.Redis.Extensions.Core.Abstractions;
-using StackExchange.Redis.Extensions.Core.Configuration;
-using StackExchange.Redis.Extensions.Core.Implementations;
-using StackExchange.Redis.Extensions.System.Text.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace UnitTest.StackExchangeRedis

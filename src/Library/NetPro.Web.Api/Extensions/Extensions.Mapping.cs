@@ -1,5 +1,4 @@
 using NetPro.Core.Infrastructure.Mapper;
-using System;
 using System.Collections.Generic;
 
 namespace System.NetPro

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Hosting;
 using NetMQ;
 using NetMQ.Sockets;
-using RedisManager;
 using System;
 using System.IO;
 using System.Threading;

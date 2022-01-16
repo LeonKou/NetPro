@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using StackExchange.Redis;
-using StackExchange.Redis.Extensions.Core.Models;
 
 namespace StackExchange.Redis.Extensions.Core.Abstractions
 {

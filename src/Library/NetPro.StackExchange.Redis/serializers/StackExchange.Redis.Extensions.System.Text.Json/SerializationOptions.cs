@@ -1,7 +1,6 @@
-﻿using System.Text.Encodings.Web;
+﻿using StackExchange.Redis.Extensions.System.Text.Json.Converters;
+using System.Text.Encodings.Web;
 using System.Text.Json;
-
-using StackExchange.Redis.Extensions.System.Text.Json.Converters;
 
 namespace StackExchange.Redis.Extensions.System.Text.Json
 {

@@ -1,7 +1,5 @@
 ﻿using Localization.SqlLocalizer;
 using Localization.SqlLocalizer.DbStringLocalizer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace NetPro.Globalization
 {

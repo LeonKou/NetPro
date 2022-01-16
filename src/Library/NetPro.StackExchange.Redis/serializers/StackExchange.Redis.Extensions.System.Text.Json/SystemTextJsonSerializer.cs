@@ -1,12 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using StackExchange.Redis.Extensions.Core;
+using System;
 using System.Text;
 using System.Text.Json;
-
-using StackExchange.Redis.Extensions.Core;
 
 namespace StackExchange.Redis.Extensions.System.Text.Json
 {

@@ -4,14 +4,11 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
-using System.NetPro;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using NetPro;
 
 namespace System.NetPro
 {

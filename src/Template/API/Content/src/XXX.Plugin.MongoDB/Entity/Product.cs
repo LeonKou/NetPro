@@ -2,11 +2,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDbGenericRepository.Attributes;
 using MongoDbGenericRepository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XXX.Plugin.MongoDB
 {

@@ -1,6 +1,4 @@
-﻿using NetPro;
-using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;

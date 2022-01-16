@@ -1,9 +1,6 @@
-﻿using System;
+﻿using StackExchange.Redis.Extensions.Core.Configuration;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-
-using StackExchange.Redis.Extensions.Core.Configuration;
 
 namespace StackExchange.Redis.Extensions.Core.ServerIteration
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.RedisManager
+﻿namespace NetPro.RedisManager
 {
     /// <summary>
     /// 序列化

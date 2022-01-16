@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
-using NetPro.RedisManager;
+﻿using NetPro.RedisManager;
 using Newtonsoft.Json;
+using System;
+using System.Text;
 
 namespace SNetPro.RedisManager
 {

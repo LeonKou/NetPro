@@ -1,7 +1,4 @@
-﻿using System;
-using System.NetPro;
-using System.Threading.Tasks;
-using WebApiClientCore;
+﻿using WebApiClientCore;
 using WebApiClientCore.Attributes;
 using HttpGetAttribute = WebApiClientCore.Attributes.HttpGetAttribute;
 

@@ -1,6 +1,5 @@
-﻿using System;
-
-using StackExchange.Redis.Extensions.Core.Models;
+﻿using StackExchange.Redis.Extensions.Core.Models;
+using System;
 
 namespace StackExchange.Redis.Extensions.Core.Abstractions
 {

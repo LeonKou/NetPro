@@ -16,7 +16,7 @@ namespace NetPro.Authentication
                 builder.UseAuthentication();
                 builder.UseAuthorization();
             }
-                
+
             return builder;
         }
     }

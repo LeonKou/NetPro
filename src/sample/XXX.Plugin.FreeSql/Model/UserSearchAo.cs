@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace XXX.Plugin.FreeSql
+﻿namespace XXX.Plugin.FreeSql
 {
     /// <summary>
     /// 查询条件类

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace System.NetPro
+﻿namespace System.NetPro
 {
     /// <summary>
     /// Interface which should be implemented by tasks run on startup

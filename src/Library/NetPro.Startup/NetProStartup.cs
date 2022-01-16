@@ -1,4 +1,11 @@
-﻿using System;
+﻿using BetterConsoles.Colors.Extensions;
+using BetterConsoles.Tables;
+using BetterConsoles.Tables.Builders;
+using BetterConsoles.Tables.Configuration;
+using BetterConsoles.Tables.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,14 +16,6 @@ using System.NetPro.Startup._;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
-using BetterConsoles.Colors.Extensions;
-using BetterConsoles.Tables;
-using BetterConsoles.Tables.Builders;
-using BetterConsoles.Tables.Configuration;
-using BetterConsoles.Tables.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 [assembly: HostingStartup(typeof(Startup))]
 namespace System.NetPro.Startup._

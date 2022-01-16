@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -168,7 +166,7 @@ namespace System.NetPro
                 foreach (var dllPath in dllFiles)
                 {
                     try
-                    {                       
+                    {
                         AssemblyLoadContext.Default.LoadFromAssemblyPath(dllPath);
                     }
                     catch (BadImageFormatException ex)

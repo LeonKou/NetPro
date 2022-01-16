@@ -1,11 +1,9 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis.Extensions.Core.Abstractions;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace StackExchange.Redis.Extensions.AspNetCore.Midllewares
 {

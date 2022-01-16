@@ -1,15 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDbGenericRepository;
-using NetPro;
+﻿using MongoDbGenericRepository;
 using NetPro.MongoDb;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.NetPro;
-using System.Text;
-using System.Threading;
 
 /// <summary>
 /// 

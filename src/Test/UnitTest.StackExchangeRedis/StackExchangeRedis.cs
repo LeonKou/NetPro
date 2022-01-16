@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
@@ -7,7 +6,6 @@ using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
 using StackExchange.Redis.Extensions.System.Text.Json;
 using System;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -141,7 +139,7 @@ namespace UnitTest.StackExchangeRedis
         {
             var result = _redisDatabase.Publish("publish", "这是消息");
             var channel = new RedisChannel(Encoding.UTF8.GetBytes("publish"), RedisChannel.PatternMode.Auto);
-           
+
             _redisDatabase.Subscribe(channel, (c, v) =>
             {
                 Console.WriteLine($"{channel} 发布订阅 value  {v}");
@@ -160,7 +158,7 @@ namespace UnitTest.StackExchangeRedis
         public async Task HashSetAsync()
         {
             string key = "HashSet";
-            var result =await  _redisDatabase.HashSetAsync<dynamic>(key, $"{Guid.NewGuid()}", new { Id = 1, Name = "ddd" });
+            var result = await _redisDatabase.HashSetAsync<dynamic>(key, $"{Guid.NewGuid()}", new { Id = 1, Name = "ddd" });
             Assert.AreEqual(true, result);
         }
 
@@ -168,10 +166,10 @@ namespace UnitTest.StackExchangeRedis
         public async Task HashLength()
         {
             string key = "HashSet";
-            var result =  _redisDatabase.HashLength(key);
+            var result = _redisDatabase.HashLength(key);
             await _redisDatabase.HashSetAsync<dynamic>(key, $"{Guid.NewGuid()}", new { Id = 1, Name = "ddd" });
             var result2 = _redisDatabase.HashLength(key);
-            Assert.AreEqual(result, result2-1);
+            Assert.AreEqual(result, result2 - 1);
         }
 
     }

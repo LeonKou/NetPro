@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQMiddleware.Configuration;
-using MQMiddleware.AuthUtil;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -410,10 +409,10 @@ namespace MQMiddleware
 
                     if (exchange.Options.ConsumeFailedAction == ConsumeFailedAction.RETRY)
                     {
-                        Channel.BasicNack(@event.DeliveryTag, false,true);
+                        Channel.BasicNack(@event.DeliveryTag, false, true);
                         _logger.LogInformation("The failed message has been requeued.");
                     }
-                    else if (exchange.Options.ConsumeFailedAction== ConsumeFailedAction.RETRY_ONCE
+                    else if (exchange.Options.ConsumeFailedAction == ConsumeFailedAction.RETRY_ONCE
                         && !string.IsNullOrEmpty(exchange.Options.DeadLetterExchange)
                         && !@event.BasicProperties.Headers.ContainsKey("requeued"))
                     {

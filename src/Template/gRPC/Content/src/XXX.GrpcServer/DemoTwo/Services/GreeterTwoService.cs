@@ -1,6 +1,4 @@
 using Grpc.Core;
-using NetPro.Grpc;
-using XXX.GrpcServer;
 using XXX.GrpcServer.DemoOne.Services;
 
 namespace XXX.GrpcServer.DemoTwo.Services

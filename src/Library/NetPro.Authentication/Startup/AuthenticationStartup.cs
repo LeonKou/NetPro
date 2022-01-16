@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Authentication;
-using NetPro.Core.Infrastructure;
 using System.NetPro;
 
 namespace NetPro.Authentication

@@ -1,5 +1,4 @@
 ﻿using CSRedis;
-using Microsoft.AspNetCore.Server.Kestrel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -135,7 +134,7 @@ namespace NetPro.CsRedis
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        List<T> SortedSetRangeByRank<T>(string key,long start= 0, long stop = -1, string dbKey = default);
+        List<T> SortedSetRangeByRank<T>(string key, long start = 0, long stop = -1, string dbKey = default);
 
         /// <summary>
         /// 通过索引区间返回有序集合成指定区间内的成员
@@ -355,7 +354,7 @@ namespace NetPro.CsRedis
         /// </summary>
         /// <param name="channels">管道</param>
         /// <returns>收到的消息</returns>
-        void Subscribe(string dbKey = default,params(string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels);
+        void Subscribe(string dbKey = default, params (string, Action<CSRedisClient.SubscribeMessageEventArgs>)[] channels);
 
         //
         // Summary:

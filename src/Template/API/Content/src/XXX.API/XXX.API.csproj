@@ -15,10 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.4" />
-		<PackageReference Include="NetPro.Cors" Version="6.0.3-beta.4" />
-		<PackageReference Include="NetPro.Checker" Version="6.0.3-beta.5" />
 		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.4" />
-		<PackageReference Include="NetPro.Swagger" Version="6.0.3-beta.4" />
 		<PackageReference Include="NetPro.Proxy" Version="6.0.3-beta.4" />
 	</ItemGroup>
 

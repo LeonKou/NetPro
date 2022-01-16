@@ -1,14 +1,6 @@
 ﻿using CSRedis;
-using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.NetPro;
-using System.Text;
-using System.Threading.Tasks;
-using static CSRedis.CSRedisClient;
 
 namespace XXX.Plugin.Redis
 {

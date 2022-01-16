@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using System.Threading;
 
 namespace XXX.Plugin.MediatR
 {

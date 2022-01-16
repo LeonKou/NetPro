@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text;
-
-using Newtonsoft.Json;
 
 namespace NetPro.CsRedis
 {

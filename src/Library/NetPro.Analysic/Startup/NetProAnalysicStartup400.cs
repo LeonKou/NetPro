@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetPro.Analysic;
-using NetPro.Core.Infrastructure;
 using NetPro.CsRedis;
 using System.NetPro;
 

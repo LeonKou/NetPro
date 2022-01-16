@@ -1,12 +1,9 @@
 ﻿using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
-using NetPro;
 using System.NetPro;
 using System.Text;
-using System.Threading;
 
 namespace XXX.Plugin.MQTTServer.StartTask
 {
@@ -29,9 +26,9 @@ namespace XXX.Plugin.MQTTServer.StartTask
                          .WithConnectionValidator(
                           c =>
                           {
-                             //比对连接的账户密码与配置是否匹配
-                             //c.ClientId //针对于clientid做校验
-                             var currentUser = new { UserName = "netpro", Password = "netpro" };
+                              //比对连接的账户密码与配置是否匹配
+                              //c.ClientId //针对于clientid做校验
+                              var currentUser = new { UserName = "netpro", Password = "netpro" };
 
                               if (currentUser == null)
                               {

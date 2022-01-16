@@ -2,13 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Infrastructure;
-using System.NetPro;
 using Serilog;
-using System;
-using System.Collections.Generic;
+using System.NetPro;
 using System.Reflection;
-using System.Text;
 
 namespace NetPro.Grpc
 {

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Infrastructure;
 using System.NetPro;
-using NetPro.Proxy;
-using Microsoft.AspNetCore.Hosting;
 
 namespace NetPro.Proxy
 {

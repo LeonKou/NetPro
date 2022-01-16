@@ -1,15 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NetPro.Checker;
-using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure;
-using System.Collections.Generic;
-using System.Net;
 using System.NetPro;
 
 namespace NetPro.Checker
@@ -71,7 +63,7 @@ namespace NetPro.Checker
             {
                 if (!_mqtttClientOptions.EnvPath.StartsWith("/"))
                 {
-                    _mqtttClientOptions.EnvPath = "/"+_mqtttClientOptions.EnvPath;
+                    _mqtttClientOptions.EnvPath = "/" + _mqtttClientOptions.EnvPath;
                 }
                 application.UseEnvCheck(_mqtttClientOptions.EnvPath);
                 if (!_mqtttClientOptions.InfoPath.StartsWith("/"))

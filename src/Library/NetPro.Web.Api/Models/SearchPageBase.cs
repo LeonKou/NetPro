@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace System.NetPro
+﻿namespace System.NetPro
 {
     /// <summary>
     /// 查询分页请求接口基类

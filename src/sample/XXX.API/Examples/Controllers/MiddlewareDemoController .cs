@@ -1,10 +1,7 @@
 ﻿using Consul;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using NetMQ;
-using NetMQ.Sockets;
 using System.Runtime.Loader;
-using System.Threading;
 
 namespace XXX.API.Controllers
 {

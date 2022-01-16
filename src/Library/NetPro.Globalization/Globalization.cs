@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NetPro.Globalization
+﻿namespace NetPro.Globalization
 {
     public class Globalization
     {

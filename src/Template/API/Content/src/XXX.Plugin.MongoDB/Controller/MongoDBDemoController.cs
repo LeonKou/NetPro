@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NetPro;
-using XXX.Plugin.MongoDB.Service;
+﻿using XXX.Plugin.MongoDB.Service;
 
 namespace XXX.Plugin.MongoDB
 {

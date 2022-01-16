@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace StackExchange.Redis.Extensions.Core
+﻿namespace StackExchange.Redis.Extensions.Core
 {
     /// <summary>
     /// 序列化
@@ -14,12 +12,12 @@ namespace StackExchange.Redis.Extensions.Core
         /// <returns></returns>
         byte[] Serialize(object item);
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <typeparam name="T"></typeparam>
-       /// <param name="serializedObject"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializedObject"></param>
+        /// <returns></returns>
         T Deserialize<T>(byte[] serializedObject);
     }
 }

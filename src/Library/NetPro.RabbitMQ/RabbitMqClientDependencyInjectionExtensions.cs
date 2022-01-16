@@ -230,7 +230,7 @@ namespace MQMiddleware
         /// <param name="services">Service collection.</param>
         /// <param name="routingKeys">Routing keys.</param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddAsyncMessageHandlerSingleton<T>(this IServiceCollection services, IEnumerable<string> routingKeys)  where T : class, IAsyncMessageHandler =>
+        public static IServiceCollection AddAsyncMessageHandlerSingleton<T>(this IServiceCollection services, IEnumerable<string> routingKeys) where T : class, IAsyncMessageHandler =>
             services.AddInstanceSingleton<IAsyncMessageHandler, T>(routingKeys.ToList());
 
         /// <summary>

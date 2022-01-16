@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.NetPro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.NetPro;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Net.Http;
 
 namespace NetPro.Proxy
 {

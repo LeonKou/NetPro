@@ -12,7 +12,7 @@ namespace NetPro.CsRedis
                 PropertyNameCaseInsensitive = true,
                 AllowTrailingCommas = true,
                 //IgnoreNullValues = true,
-                DefaultIgnoreCondition=  System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
                 WriteIndented = false,
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };

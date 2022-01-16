@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Net;
-
-using Microsoft.AspNetCore.Http;
 
 namespace StackExchange.Redis.Extensions.AspNetCore.Midllewares
 {

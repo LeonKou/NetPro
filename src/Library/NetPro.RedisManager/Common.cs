@@ -2,8 +2,6 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics.SymbolStore;
 using System.Text;
 
 namespace NetPro.RedisManager

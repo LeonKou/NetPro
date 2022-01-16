@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetPro.CsRedis;
-using NetPro.ResponseCache;
 using NetPro.ShareRequestBody;
 using System;
 using System.IO;
@@ -138,7 +137,7 @@ namespace NetPro.ResponseCache
                     if (responseCacheOption.IgnoreVaryByQueryKeys.Any())
                     {
                         IgnoreVaryByQueryKeys = responseCacheOption.IgnoreVaryByQueryKeys.ToArray();
-                    }                        
+                    }
                 }
 
                 foreach (var item in IgnoreVaryByQueryKeys ?? new string[0])
@@ -306,7 +305,7 @@ namespace NetPro.ResponseCache
                 }
             }
 
-            gotoNext:
+        gotoNext:
             await next();
         }
 

@@ -1,6 +1,5 @@
 ﻿using NetMQ;
 using NetMQ.Sockets;
-using System.Threading;
 
 namespace XXX.Plugin.ZeroMQ.StartTask
 {

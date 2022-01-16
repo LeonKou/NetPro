@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using NetPro.Core.Configuration;
-using System.NetPro;
 using System.Linq;
 using System.NetPro;
 
@@ -30,13 +29,13 @@ namespace NetPro.Web.Api
             //add options feature
             services.AddOptions();
 
-           // //批量注入Repository
-           // services.Scan(scan => scan
-           //.FromAssemblies(typeFinder.GetAssemblies().Where(s =>
-           //      s.GetName().Name.EndsWith("Repository")).ToArray()) //搜索Repository程序集
-           //.AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))//搜索Repository结尾的类
-           //.AsImplementedInterfaces()
-           //.WithScopedLifetime());
+            // //批量注入Repository
+            // services.Scan(scan => scan
+            //.FromAssemblies(typeFinder.GetAssemblies().Where(s =>
+            //      s.GetName().Name.EndsWith("Repository")).ToArray()) //搜索Repository程序集
+            //.AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))//搜索Repository结尾的类
+            //.AsImplementedInterfaces()
+            //.WithScopedLifetime());
         }
 
         /// <summary>

@@ -1,5 +1,3 @@
-using NetPro.Core.Consts;
-
 namespace NetPro.Core.Configuration
 {
     /// <summary>
@@ -40,7 +38,7 @@ namespace NetPro.Core.Configuration
         /// 是否是调试模式
         /// </summary>
         public bool IsDebug { get; set; }
-        
+
         /// <summary>
         /// 全局路由前缀
         /// </summary>

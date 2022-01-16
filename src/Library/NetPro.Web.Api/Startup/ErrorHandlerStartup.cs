@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Infrastructure;
-using System.NetPro;
-using Serilog;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Hosting;
+using Serilog;
 using System.NetPro;
+using System.Threading.Tasks;
 
 namespace NetPro.Web.Api
 {

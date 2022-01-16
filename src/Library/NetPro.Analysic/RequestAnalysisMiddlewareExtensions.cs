@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetPro.CsRedis;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using NetPro.CsRedis;
 
 namespace NetPro.Analysic
 {
@@ -137,7 +136,7 @@ namespace NetPro.Analysic
                 await Task.CompletedTask;
                 return;
             }
-            gotoNext:
+        gotoNext:
             await _next(context);
         }
 

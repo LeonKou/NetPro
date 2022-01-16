@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using NetPro;
 
 namespace System.NetPro
 {

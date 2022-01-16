@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.NetPro;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NetPro.Web.Api

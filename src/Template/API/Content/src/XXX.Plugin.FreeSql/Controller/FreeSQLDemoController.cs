@@ -1,8 +1,4 @@
 ﻿using FreeSql.Internal.Model;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NetPro;
-using System.ComponentModel.DataAnnotations;
 
 namespace XXX.Plugin.FreeSql
 {

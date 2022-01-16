@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetPro.ResponseResult
+﻿namespace NetPro.ResponseResult
 {
     public interface IResponseResult
     {

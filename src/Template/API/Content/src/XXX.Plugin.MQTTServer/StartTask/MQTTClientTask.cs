@@ -3,8 +3,6 @@ using MQTTnet.Client;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
-using NetPro;
-using NetPro.MQTTClient;
 using System.NetPro;
 
 namespace XXX.Plugin.MQTTServer.StartTask

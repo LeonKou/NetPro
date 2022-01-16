@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.FileProviders;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -159,7 +158,7 @@ namespace System.NetPro
         /// <param name="isDeleteSource"></param>
         /// <exception cref="System.IO.DirectoryNotFoundException"></exception>
         /// <exception cref="System.IO.IOException"></exception>
-        void Move(string source, string target,bool isDeleteSource);
+        void Move(string source, string target, bool isDeleteSource);
 
         /// <summary>
         /// Returns the directory information for the specified path string

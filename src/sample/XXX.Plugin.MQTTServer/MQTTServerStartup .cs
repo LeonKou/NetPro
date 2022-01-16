@@ -3,13 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
-using NetPro;
 using System.Collections.Concurrent;
-using System.Net;
 using System.NetPro;
 using System.Text;
 

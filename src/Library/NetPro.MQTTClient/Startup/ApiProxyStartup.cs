@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using System.Reflection;
 using System.NetPro;
 
 namespace NetPro.MQTTClient

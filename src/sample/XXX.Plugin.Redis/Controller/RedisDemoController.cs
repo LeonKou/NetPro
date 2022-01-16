@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NetPro;
-using System.NetPro;
-
-namespace XXX.Plugin.Redis
+﻿namespace XXX.Plugin.Redis
 {
     /// <summary>
     /// Redis 操作示例

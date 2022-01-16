@@ -1,8 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using System.Text;
-
-namespace XXX.API
+﻿namespace XXX.API
 {
     /// <summary>
     /// 自定义启动类

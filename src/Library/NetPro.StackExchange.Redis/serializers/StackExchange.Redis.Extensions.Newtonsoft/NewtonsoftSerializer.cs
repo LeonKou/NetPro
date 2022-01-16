@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text;
-
-using Newtonsoft.Json;
-
+﻿using Newtonsoft.Json;
 using StackExchange.Redis.Extensions.Core;
+using System;
+using System.Text;
 
 namespace StackExchange.Redis.Extensions.Newtonsoft
 {

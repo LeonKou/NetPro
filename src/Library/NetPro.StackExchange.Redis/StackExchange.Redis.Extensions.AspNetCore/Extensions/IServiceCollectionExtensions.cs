@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using StackExchange.Redis;
+﻿using Microsoft.Extensions.Configuration;
 using StackExchange.Redis.Extensions.Core;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
