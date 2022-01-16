@@ -180,7 +180,7 @@ namespace System.NetPro
 
             void _(string _directory)
             {
-                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", true);
+                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", false);
                 foreach (var dllPath in dllFiles)
                 {
                     try

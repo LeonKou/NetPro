@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -44,6 +45,17 @@ namespace NetPro.Checker
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
+            //application.MapWhen(context =>
+            //context.Request.Path == "/", (appBuilder) =>
+            //{
+            //    appBuilder.Run(async (context) =>
+            //    {
+            //        context.Response.StatusCode = 200;
+            //        context.Response.ContentType = "text/html; charset=utf-8";
+            //        await context.Response.WriteAsync("");
+            //    });
+            //});
+
             //var config = EngineContext.Current.Resolve<NetProOption>();
 
             //if (!config.EnabledHealthCheck) return;

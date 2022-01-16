@@ -53,7 +53,11 @@ namespace NetPro.Globalization
 
             var globalization = configuration.GetSection(nameof(Globalization)).Get<Globalization>();
 
-            var sqlConnectionString = globalization?.ConnectionString;
+            var sqlConnectionString = $"Data Source ={nameof(Globalization)}.db";
+            if (!string.IsNullOrWhiteSpace(globalization?.ConnectionString))
+            {
+                sqlConnectionString = globalization.ConnectionString;
+            }
 
             if (globalization != null)
             {

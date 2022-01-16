@@ -146,8 +146,6 @@ namespace NetPro.Swagger
         /// <returns></returns>
         private static List<string> GetXmlComments(ITypeFinder typeFinder = null)
         {
-            List<string> assemblyNames = AppDomain.CurrentDomain.GetAssemblies().Select(s => s.GetName().Name).ToList();
-
             if (typeFinder != null)
             {
                 var xmlpaths = typeFinder.GetAssemblies()

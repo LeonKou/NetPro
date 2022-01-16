@@ -13,7 +13,7 @@ namespace XXX.Plugin.MQTTServer.StartTask
     /// <summary>
     /// MQTTClientTask
     /// </summary>
-    public class MQTTServerTask //: IStartupTask
+    public class MQTTServerTask : IStartupTask
     {
         public MQTTServerTask()
         {

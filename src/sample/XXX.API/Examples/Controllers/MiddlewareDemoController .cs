@@ -27,19 +27,17 @@ namespace XXX.API.Controllers
         /// <param name="hostEnvironment"></param>
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
-        /// <param name="consulClient"></param>
         /// <param name="baiduProxy"></param>
         public MiddlewareDemoController(IHostEnvironment hostEnvironment
             , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
-            , IConsulClient consulClient
             , IBaiduProxy baiduProxy
             )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
             _localizer = localizer;
-            _consulClient = consulClient;
+            _consulClient = EngineContext.Current.Resolve<IConsulClient>();//避开平台初始化的依赖检查
             _baiduProxy = baiduProxy;
         }
 
