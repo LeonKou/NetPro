@@ -48,7 +48,7 @@
 		<NetProCors>6.0.3-beta.4</NetProCors>
 		<NetProCorsAssemblyName>NetPro.Cors</NetProCorsAssemblyName>
 
-		<NetProDapper>6.0.3-beta.4</NetProDapper>
+		<NetProDapper>6.0.1</NetProDapper>
 		<NetProDapperAssemblyName>NetPro.Dapper</NetProDapperAssemblyName>
 
 		<NetProLog>6.0.1</NetProLog>
