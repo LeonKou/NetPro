@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
+//using Serilog;
 using System.NetPro;
 using System.Threading.Tasks;
 
@@ -31,7 +31,7 @@ namespace NetPro.Web.Api
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            application.UseSerilogRequestLogging();
+            //application.UseSerilogRequestLogging();//<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
             //异常处理
             application.UseNetProExceptionHandler();
             //404处理

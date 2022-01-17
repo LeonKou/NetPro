@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NetPro.Core.Consts;
 using System.Linq;
 
@@ -10,6 +11,16 @@ namespace System.NetPro
     [ApiController] //模型验证失败，会在全局过滤器前返回，故无法通过全局过滤器统一返回，借助ConfigureApiBehaviorOptions可解决
     public abstract class ApiControllerBase : ControllerBase
     {
+        private readonly ILogger<ApiControllerBase> _logger;
+        /// <summary>
+        /// 
+        /// </summary>
+        public ApiControllerBase()
+        {
+            var logger = EngineContext.Current.Resolve<ILogger<ApiControllerBase>>();
+            _logger = logger;
+        }
+
         #region api返回结果封装
         /// <summary>
         /// 错误返回
@@ -100,7 +111,14 @@ namespace System.NetPro
             }
             catch (Exception ex)
             {
-                Serilog.Log.Error("BaseApiController.GetPattern", ex);
+                if (_logger != null)
+                {
+                    _logger.LogError("BaseApiController.GetPattern", ex);
+                }
+                else
+                {
+                    Console.WriteLine($"ILogger<ApiControllerBase> is null;{ex.Message}");
+                }
             }
             return EnumAppPlatform.None;
         }

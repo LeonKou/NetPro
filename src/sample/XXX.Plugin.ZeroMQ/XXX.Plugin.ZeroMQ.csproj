@@ -19,7 +19,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-		<PackageReference Include="NetMQ" Version="4.0.1.6" />
+		<PackageReference Include="NetMQ" Version="4.0.1.7-pre" />
 	</ItemGroup>
 	
 </Project>

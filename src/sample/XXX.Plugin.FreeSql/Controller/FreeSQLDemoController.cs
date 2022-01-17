@@ -50,6 +50,7 @@ namespace XXX.Plugin.FreeSql
         public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
         {
             var result = await _userService.InsertAsync(userInsertAo, dbKey);
+            _logger.LogInformation($"新增结果是{result}");
             return result;
         }
 

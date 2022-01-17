@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Core.Configuration;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -214,13 +213,14 @@ namespace NetPro.Web.Api
     {
         /// <summary>
         /// 配置日志组件初始化
+        /// 已移除，由程序自行决定使用日志驱动
         /// </summary>
         /// <param name="configuration"></param>
         internal static void ConfigureSerilogConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            Serilog.Log.Logger = new LoggerConfiguration()
-              .ReadFrom.Configuration(configuration)
-              .CreateLogger();
+            //Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+            //  .ReadFrom.Configuration(configuration)
+            //  .CreateLogger();
         }
     }
 }
