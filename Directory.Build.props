@@ -84,7 +84,7 @@
 		<NetProResponseCache>6.0.3-beta.5</NetProResponseCache>
 		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
 
-		<NetProWebApi>6.0.3-beta.5</NetProWebApi>
+		<NetProWebApi>6.0.3-beta.6</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
 		<NetProEFCore>3.1.13</NetProEFCore>
