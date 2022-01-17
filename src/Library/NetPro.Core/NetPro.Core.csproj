@@ -47,8 +47,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="10.1.1" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1" />
 		<PackageReference Include="ConsoleTables" Version="2.4.2" />		
 	</ItemGroup>

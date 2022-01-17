@@ -354,3 +354,4 @@ healthchecksdb
 *.snupkg
 /src/Template/API/Content/src/XXX.db
 /src/Template/API/Content/src/XXX.API/customeconfig/custom.Development.json
+/src/sample/XXX.API/Globalization.db
