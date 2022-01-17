@@ -153,7 +153,7 @@ namespace System.NetPro
         private void _LoadDll(string directory)
         {
             __(directory);//load bin dlls
-            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => s != "runtimes").ToList();
+            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes")).ToList();
             for (int i = 0; i < subDirectories.Count(); i++)
             {
                 //load plugin dlls
@@ -192,6 +192,7 @@ namespace System.NetPro
                             }
                             catch (Exception ex)
                             {
+                                Console.WriteLine($"delete unnecessary dll occur error:{ex.Message}");
                                 Trace.TraceError($"load inpugin dlls occur error:{ex.Message}");
                             }
                             continue;
