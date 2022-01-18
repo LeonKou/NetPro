@@ -4,13 +4,12 @@ using Microsoft.Extensions.Localization;
 namespace XXX.API.Controllers
 {
     /// <summary>
-    /// 单程序集开发方式： RedisController 
+    /// 单程序集开发方式
     /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class TimeZoneDemoController : ControllerBase
     {
-
         private readonly ILogger<TimeZoneDemoController> _logger;
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
 
@@ -59,5 +58,4 @@ namespace XXX.API.Controllers
             return Ok();
         }
     }
-
 }

@@ -4,8 +4,11 @@ using HttpGetAttribute = WebApiClientCore.Attributes.HttpGetAttribute;
 
 namespace XXX.API.Controllers
 {
-    ///获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
-    //[HttpHost("https://ug.baidu.com/")]
+    /// <summary>
+    /// 主机地址配置在 appsetting.json >NetProProxyOption
+    /// 获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
+    /// [HttpHost("https://ug.baidu.com/")]
+    /// </summary>
     public interface IBaiduProxy
     {
         [HttpGet("/")]
@@ -38,6 +41,9 @@ namespace XXX.API.Controllers
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IExampleProxy
     {
         [HttpGet("")]

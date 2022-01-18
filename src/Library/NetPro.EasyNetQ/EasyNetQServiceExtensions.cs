@@ -28,7 +28,7 @@ namespace System.NetPro
             var option = new EasyNetQOption(configuration);
             services.AddSingleton(option);
 
-            var idleBus = new IdleBus<IBus>(TimeSpan.FromMinutes(10));
+            var idleBus = new IdleBus<IBus>(TimeSpan.FromSeconds(option.Idle==0?60: option.Idle));
             foreach (var item in option.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>

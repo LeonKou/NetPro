@@ -31,6 +31,12 @@ namespace System.NetPro
         }
 
         /// <summary>
+        /// 空闲时间
+        /// 单位秒，默认60秒
+        /// </summary>
+        public int Idle { get; set; }
+
+        /// <summary>
         /// 连接串集合
         /// </summary>
         public List<ConnectionString> ConnectionString { get; set; }

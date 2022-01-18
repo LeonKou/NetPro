@@ -8,7 +8,9 @@ namespace System.NetPro
 {
     /// <summary>
     /// WebApiClientCore过滤器
+    /// 响应为流时使用此特性会导致多次读流产生异常
     /// </summary>
+    /// <exception cref="System.Exception">occur error  when the return type is stream.</exception>
     public class ApiClientFilter : ApiFilterAttribute
     {
         /// <summary>
@@ -32,39 +34,55 @@ namespace System.NetPro
         public override async Task OnResponseAsync(ApiResponseContext context)
         {
             var _logger = context.HttpContext.ServiceProvider.GetService<ILogger<ApiClientFilter>>();
-            if (_logger != null)
-            {
-                _logger.LogInformation($"HasResult：{context.ResultStatus}");
-                _logger.LogInformation($"context.Result：{context.Result}");
-            }
-            else
-            {
-                Console.WriteLine($"HasResult：{context.ResultStatus}");
-                Console.WriteLine($"context.Result：{context.Result}");
-            }
 
-            if (context.ResultStatus == ResultStatus.HasException)
+            try
             {
-                var errorMessage = context.HttpContext.ResponseMessage.Content.ReadAsStringAsync().Result;
                 if (_logger != null)
-                    _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={errorMessage};StatusCode={context.HttpContext.ResponseMessage.StatusCode}");
-            }
-            var resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
-            var statusCode = context.HttpContext.ResponseMessage.StatusCode;
-            if (_logger != null)
-            {
-                _logger.LogInformation($"ReadAsStringAsync()：   {resultString}");
-                _logger.LogInformation($"StatusCode：   {statusCode}");
-            }
-            else
-            {
-                Console.WriteLine($"ReadAsStringAsync()：   {resultString}");
-                Console.WriteLine($"StatusCode：   {statusCode}");
-            }
+                {
+                    _logger.LogInformation($"HasResult：{context.ResultStatus}");
+                    _logger.LogInformation($"context.Result：{context.Result}");
+                }
+                else
+                {
+                    Console.WriteLine($"HasResult：{context.ResultStatus}");
+                    Console.WriteLine($"context.Result：{context.Result}");
+                }
 
-            if (context.ResultStatus == ResultStatus.None)
+                var resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
+                if (context.ResultStatus == ResultStatus.HasException)
+                {
+                    if (_logger != null)
+                        _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={resultString};StatusCode={context.HttpContext.ResponseMessage.StatusCode}");
+                }
+
+                var statusCode = context.HttpContext.ResponseMessage.StatusCode;
+                if (_logger != null)
+                {
+                    _logger.LogInformation($"ReadAsStringAsync()：   {resultString}");
+                    _logger.LogInformation($"StatusCode：   {statusCode}");
+                }
+                else
+                {
+                    Console.WriteLine($"ReadAsStringAsync()：   {resultString}");
+                    Console.WriteLine($"StatusCode：   {statusCode}");
+                }
+
+                if (context.ResultStatus == ResultStatus.None)
+                {
+                    context.Exception = new Exception($"message={resultString};statusCode={statusCode}");
+                }
+
+            }
+            catch (Exception ex)
             {
-                context.Exception = new Exception($"message={resultString};statusCode={statusCode}");
+                if (_logger != null)
+                {
+                    _logger.LogError(ex,$"{ex.Message}");
+                }
+                else
+                {
+                    Console.WriteLine($"Error：{ex.Message}");
+                }
             }
         }
     }

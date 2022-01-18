@@ -115,9 +115,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.ZeroMQ", "sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.MQTTServer", "sample\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj", "{07741184-F09D-4993-9AE3-1BC47718640A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXX.Plugin.EasyNetQ", "sample\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj", "{20509644-25DB-4CCD-8FB7-40D8BBD90ED2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.EasyNetQ", "sample\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj", "{20509644-25DB-4CCD-8FB7-40D8BBD90ED2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetPro.EasyNetQ", "Library\NetPro.EasyNetQ\NetPro.EasyNetQ.csproj", "{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.EasyNetQ", "Library\NetPro.EasyNetQ\NetPro.EasyNetQ.csproj", "{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.EasyNetQ", "Template\API\Content\src\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj", "{C206A079-A70E-429D-80F7-DCD7CD94FA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -305,6 +307,10 @@ Global
 		{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C206A079-A70E-429D-80F7-DCD7CD94FA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C206A079-A70E-429D-80F7-DCD7CD94FA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C206A079-A70E-429D-80F7-DCD7CD94FA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C206A079-A70E-429D-80F7-DCD7CD94FA42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -357,6 +363,7 @@ Global
 		{07741184-F09D-4993-9AE3-1BC47718640A} = {631F494D-9DFB-42A7-84C7-270C95B7EC2E}
 		{20509644-25DB-4CCD-8FB7-40D8BBD90ED2} = {631F494D-9DFB-42A7-84C7-270C95B7EC2E}
 		{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
+		{C206A079-A70E-429D-80F7-DCD7CD94FA42} = {6FF77493-DCAA-4305-84A6-41726FB6412B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A47D5791-DD56-46F9-B40F-AF963F95E93F}

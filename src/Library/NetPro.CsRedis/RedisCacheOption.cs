@@ -42,6 +42,12 @@ namespace NetPro.CsRedis
         ///true:启用，false:禁用
         /// </summary>
         public bool Enabled { get; set; }
+
+        /// <summary>
+        /// 空闲时间
+        /// 单位秒，默认60秒
+        /// </summary>
+        public int Idle { get; set; }
     }
 
     /// <summary>

@@ -16,6 +16,7 @@ using System.NetPro.Startup._;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 [assembly: HostingStartup(typeof(Startup))]
 namespace System.NetPro.Startup._
@@ -75,7 +76,7 @@ namespace System.NetPro.Startup._
                 _configuration = builder.Build();
             });
 
-            builder.ConfigureServices((context, services) =>
+            builder.ConfigureServices(async (context, services) =>
             {
                 //Inject the file lookup component
                 var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
@@ -238,6 +239,8 @@ namespace System.NetPro.Startup._
                 //run startup tasks
                 RunStartupTasks(_typeFinder);
 
+                await RunStartupTasksAsync(_typeFinder);
+
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             });
@@ -275,6 +278,23 @@ namespace System.NetPro.Startup._
 
             foreach (var task in instances)
                 task.Execute();
+        }
+
+        /// <summary>
+        /// Run startupAsync tasks
+        /// </summary>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual async Task RunStartupTasksAsync(ITypeFinder typeFinder)
+        {
+            //***IStartupTaskAsync***
+            var startupAsyncTasks = typeFinder.FindClassesOfType<IStartupTaskAsync>();
+
+            var instancesAsync = startupAsyncTasks
+                .Select(startupTask => (IStartupTaskAsync)Activator.CreateInstance(startupTask))
+                .OrderBy(startupTask => startupTask.Order);
+
+            foreach (var task in instancesAsync)
+                await task.ExecuteAsync();
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
