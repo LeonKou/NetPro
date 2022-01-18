@@ -114,6 +114,9 @@
 		<NetProConsulClient>6.0.3-beta.5</NetProConsulClient>
 		<NetProConsulClientAssemblyName>NetPro.ConsulClient</NetProConsulClientAssemblyName>
 
+		<NetProEasyNetQ>6.0.3-beta.5</NetProEasyNetQ>
+		<NetProEasyNetQAssemblyName>NetPro.EasyNetQ</NetProEasyNetQAssemblyName>
+		
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">

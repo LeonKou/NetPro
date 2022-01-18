@@ -1,0 +1,10 @@
+{
+	"EasyNetQOption": {
+		"ConnectionString": [
+			{
+				"Key": "1", //连接串key别名，唯一
+				"Value": "host=192.168.18.129:5672;virtualHost=/;username=admin;password=123456;timeout=60" //别名key对应的连接串
+			}
+		]
+	}
+}

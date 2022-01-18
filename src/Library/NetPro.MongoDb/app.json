@@ -1,5 +1,5 @@
 {
-	"MongoDbOptions": {
+	"MongoDbOption": {
 		"ConnectionString": [
 			{
 				"Key": "1", //连接串key别名，唯一
