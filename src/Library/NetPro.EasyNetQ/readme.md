@@ -1,5 +1,5 @@
 
-## Mongodb使用
+## EasyNetQ使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.EasyNetQ.svg)](https://nuget.org/packages/NetPro.EasyNetQ)
 
 对EasyNetQ的封装，简化使用，支持多库
@@ -80,5 +80,6 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 #### 更新中...
-reference [使用rabbitmq消息队列——EasyNetQ插件介绍](https://www.cnblogs.com/shanfeng1000/p/12359190.html)
+reference
+ [使用rabbitmq消息队列——EasyNetQ插件介绍](https://www.cnblogs.com/shanfeng1000/p/12359190.html)
 
