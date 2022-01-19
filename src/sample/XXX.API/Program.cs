@@ -12,6 +12,7 @@ var host = Host.CreateDefaultBuilder(args)
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    
                     //webBuilder.UseSerilog();
                     webBuilder.ConfigureKestrel(options =>
                     {

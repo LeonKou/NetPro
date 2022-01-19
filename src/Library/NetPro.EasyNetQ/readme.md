@@ -29,8 +29,7 @@
 IConfiguration Configuration;
 
 public void ConfigureServices(IServiceCollection services)
-{
-    
+{    
        services.AddEasyNetQ(Configuration);
 }
 ```
@@ -42,12 +41,9 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
  public class RabbitmqService : IRabbitmqService
     {
-        private readonly IdleBus<IBus> _idbus ;
         private readonly EasyNetQMulti _easyNetQMulti
-        public MongoDBService(IdleBus<IBus> bus,
         EasyNetQMulti easyNetQMulti)
         {
-            _idbus  = bus ;
             _easyNetQMulti=easyNetQMulti;
         }
 

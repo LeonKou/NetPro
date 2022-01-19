@@ -23,10 +23,20 @@ namespace XXX.Plugin.EasyNetQ
             _easyNetQMulti = easyNetQMulti;
         }
 
-        public async Task PublishAsync(string dbKey= "rabbit1")
+        public async Task PublishAsync(string dbKey = "rabbit1")
         {
-            var bus = _idbus.Get(dbKey);
-            await bus.PubSub.PublishAsync(new RabbitMessageModel { Text = "this is a message" });
+            Task.Factory.StartNew(() =>
+            {
+                var bus2 = _easyNetQMulti[dbKey];
+                while (true)
+                {
+                    Task.Delay(300);
+                    //using (var bus2 = _easyNetQMulti[dbKey])
+                    {
+                        bus2.PubSub.PublishAsync(new RabbitMessageModel { Text = "this is a message" });
+                    }
+                }
+            }, TaskCreationOptions.LongRunning);
         }
     }
 

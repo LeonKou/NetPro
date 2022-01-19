@@ -9,7 +9,7 @@ namespace System.NetPro
     /// </summary>
     public class EasyNetQMulti
     {
-        internal static EasyNetQOption MongoDbOption;
+        internal static EasyNetQOption EasyNetQOption;
         private EasyNetQMulti()
         {
         }
@@ -56,13 +56,12 @@ namespace System.NetPro
         /// <returns></returns>
         private static IBus CreateInstanceByKey(string key)
         {
-            //MongoDbOptions mongoDbOptions;
-            if (MongoDbOption == null)
+            if (EasyNetQOption == null)
             {
-                MongoDbOption = EngineContext.Current.Resolve<EasyNetQOption>();
+                EasyNetQOption = EngineContext.Current.Resolve<EasyNetQOption>();
             }
 
-            var connectionString = MongoDbOption.ConnectionString.Where(s => s.Key == key).FirstOrDefault()?.Value;
+            var connectionString = EasyNetQOption.ConnectionString.Where(s => s.Key == key).FirstOrDefault()?.Value;
 
             if (string.IsNullOrWhiteSpace(connectionString))
             {

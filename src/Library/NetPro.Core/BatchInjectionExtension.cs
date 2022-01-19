@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Linq;
 using System.NetPro;
 using System.Text.RegularExpressions;
@@ -26,11 +27,33 @@ namespace NetPro
         /// </remarks>
         public static void BatchInjection(this IServiceCollection services, string assemblyPattern, string classNamePattern = "Service$")
         {
-            var typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
+            var typeFinder = services.BuildServiceProvider().GetService<ITypeFinder>();
 
             services.Scan(scan => scan
                 .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.IsValidName(assemblyPattern)))
-                .AddClasses(classes => classes.Where(type => type.Name.IsValidName(classNamePattern)))
+                .AddClasses(classes =>
+                classes.Where(type =>
+                {
+                    if (type == typeof(BackgroundService))
+                    {
+                        return false;
+                    }
+                    if (type.BaseType == typeof(BackgroundService))
+                    {
+                        return false;
+                    }
+                    if (type.BaseType?.BaseType!=null&& type.BaseType?.BaseType == typeof(BackgroundService))
+                    {
+                        return false;
+                    }
+                    if (type.BaseType == typeof(IHostedService))
+                    {
+                        return false;
+                    }
+                    var succeed=  type.Name.IsValidName(classNamePattern) && type.IsClass&&!type.IsAbstract;
+                    return succeed;
+                }
+                ))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

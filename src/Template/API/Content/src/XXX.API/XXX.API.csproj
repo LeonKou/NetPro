@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
