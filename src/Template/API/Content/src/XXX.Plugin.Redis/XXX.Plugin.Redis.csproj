@@ -24,8 +24,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.CsRedis" Version="6.0.3-beta.5" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.6" />
+		<PackageReference Include="NetPro.CsRedis" Version="6.0.3-beta.6" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.7" />
 	</ItemGroup>
 
 </Project>

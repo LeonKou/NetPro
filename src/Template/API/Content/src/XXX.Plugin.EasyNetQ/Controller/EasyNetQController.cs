@@ -37,7 +37,6 @@ namespace XXX.Plugin.EasyNetQ
         public async Task<IActionResult> PublishAsync(string dbKey = "rabbit1")
         {
             await _easyNetQServicel.PublishAsync(dbKey);
-            Thread.Sleep(500);
             return Ok();
         }
     }

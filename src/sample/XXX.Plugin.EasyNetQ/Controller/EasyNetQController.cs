@@ -31,13 +31,13 @@ namespace XXX.Plugin.EasyNetQ
         /// 发布消息
         /// </summary>
         /// <param name="dbKey">rabbitmq别名标识</param>
+        /// <param name="stop">是否停止发布消息</param>
         /// <returns></returns>
         [HttpPost("Publishc")]
         [ProducesResponseType(200, Type = typeof(string))]
-        public async Task<IActionResult> PublishAsync(string dbKey = "rabbit1")
+        public async Task<IActionResult> PublishAsync(string dbKey = "rabbit1", bool stop = false)
         {
-            await _easyNetQServicel.PublishAsync(dbKey);
-            Thread.Sleep(500);
+            await _easyNetQServicel.PublishAsync(dbKey, stop);
             return Ok();
         }
     }

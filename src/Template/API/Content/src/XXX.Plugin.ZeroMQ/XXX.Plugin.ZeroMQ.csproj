@@ -18,7 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.6" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.7" />
 		<PackageReference Include="NetMQ" Version="4.0.1.7-pre" />
 	</ItemGroup>
 	

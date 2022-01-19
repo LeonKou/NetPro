@@ -14,11 +14,9 @@ namespace XXX.Plugin.EasyNetQ
     /// </summary>
     internal class RabbitMqStartTask : IStartupTask
     {
-        private readonly IdleBus<IBus> _idbus;
         private readonly EasyNetQMulti _easyNetQMulti;
         public RabbitMqStartTask()
         {
-            _idbus = EngineContext.Current.Resolve<IdleBus<IBus>>();
             _easyNetQMulti = EngineContext.Current.Resolve<EasyNetQMulti>();
         }
         public int Order => 0;
