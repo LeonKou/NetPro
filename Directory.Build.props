@@ -25,7 +25,7 @@
 		
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<Copyright>© 2019  LeonKou All rights reserved.</Copyright>
+		<Copyright>Copyright© 2019  LeonKou All rights reserved.</Copyright>
 
 		<PackageIcon>logo2.png</PackageIcon>
 		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>		
