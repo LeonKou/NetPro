@@ -1,19 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-	  <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-	  <Version>$(NetProMQTTClient)</Version>
-	  <Description>
-	  </Description>
-	  <AssemblyName>$(NetProMQTTClientAssemblyName)</AssemblyName>
-	  <PackageReadmeFile>readme.md</PackageReadmeFile>
-  </PropertyGroup>
-	
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<Version>$(NetProTdengine)</Version>
+		<Description>
+		</Description>
+		<AssemblyName>$(NetProTdengineAssemblyName)</AssemblyName>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.MQTTClient.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Taos.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.MQTTClient.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Taos.xml</DocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
@@ -28,12 +27,12 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Maikebing.Data.Taos" Version="2.0.357" />
+		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
-		<!--<PackageReference Include="IdleBus" Version="1.5.2" />-->
-		<PackageReference Include="MQTTnet" Version="3.1.1" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

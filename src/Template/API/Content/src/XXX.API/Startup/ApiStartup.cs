@@ -1,7 +1,4 @@
-﻿using XXX.API.StartTask;
-using XXX.Plugin.EasyNetQ;
-
-namespace XXX.API
+﻿namespace XXX.API
 {
     /// <summary>
     /// 自定义启动类

@@ -22,46 +22,42 @@
  *  SOFTWARE.
  */
 
-using EasyNetQ;
-using Microsoft.Extensions.Configuration;
+using Maikebing.Data.Taos;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace System.NetPro
+namespace NetPro.Taos
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class EasyNetQServiceExtensions
+    /// <remarks>
+    /// ConnectionString formate: Data Source=taos;DataBase=db_20220120125645;Username=root;Password=taosdata;Port=6030
+    /// </remarks>
+    public static class TaosServiceExtensions
     {
         /// <summary>
-        /// 启动EasyNetQ
+        /// AddTaos
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
+        /// <param name="taosOption"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddEasyNetQ(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddTaos(this IServiceCollection services, TaosOption taosOption)
         {
-            // connectionstring format "host=192.168.18.129;virtualHost=/;username=admin;password=123456;timeout=60"
-            //1、The first way
-            services.AddSingleton(EasyNetQMulti.Instance);
-            //2、The second way
-            var option = new EasyNetQOption(configuration);
-            services.AddSingleton(option);
-
-            var idleBus = new IdleBus<IBus>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
-            foreach (var item in option.ConnectionString)
+            services.AddSingleton(taosOption);
+            var idleBus = new IdleBus<TaosConnection>();
+            foreach (var item in taosOption.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>
                 {
                     try
                     {
-                        var bus = RabbitHutch.CreateBus(item.Value);
-                        return bus;
+                        return new TaosConnection(item.Value);
                     }
                     catch (Exception ex)
                     {
-                        throw new ArgumentException($"{ex}");
+                        throw new ArgumentException($"请检查是否为非密码模式,Password必须为空字符串;请检查Database是否为0,只能在非集群模式下才可配置Database大于0；{ex}");
                     }
                 });
             }

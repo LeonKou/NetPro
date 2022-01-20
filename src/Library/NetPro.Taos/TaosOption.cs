@@ -2,32 +2,31 @@
 using System;
 using System.Collections.Generic;
 
-namespace NetPro.MongoDb
-{
-    /// <summary>
-    /// TaosOption配置
-    /// </summary>
-    public class MongoDbOption
+namespace NetPro.Taos
+{/// <summary>
+ /// TaosOption配置
+ /// </summary>
+    public class TaosOption
     {
         /// <summary>
         /// 
         /// </summary>
-        public MongoDbOption()
+        public TaosOption()
         {
         }
 
         /// <summary>
-        /// 
+        /// root node is Redis
         /// </summary>
         /// <param name="config"></param>
-        public MongoDbOption(IConfiguration config)
+        public TaosOption(IConfiguration config)
         {
             if (config == null)
             {
                 throw new ArgumentNullException(nameof(config));
             }
 
-            config.GetSection(nameof(MongoDbOption)).Bind(this);
+            config.GetSection(nameof(TaosOption)).Bind(this);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 
 ## RedisManager使用
 
-支持CsRedis，支持分布式锁
+支持CsRedis，支持分布式锁,支持多个Redis server
 
 ### appsetting.json
 

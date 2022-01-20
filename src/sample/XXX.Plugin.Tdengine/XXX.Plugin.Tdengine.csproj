@@ -1,9 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Tdengine.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.Tdengine.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="TDengine.Connector" Version="1.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Taos\NetPro.Taos.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+	</ItemGroup>
 
 </Project>

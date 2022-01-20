@@ -1,9 +1,4 @@
 ﻿using EasyNetQ;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XXX.Plugin.EasyNetQ
 {
@@ -45,7 +40,7 @@ namespace XXX.Plugin.EasyNetQ
         }
     }
 
-    [Queue("my_queue_name", ExchangeName = "my_exchange_name")]
+    [Queue("my_queue_name", ExchangeName = "my_exchange_name_")]
     public class RabbitMessageModel
     {
         /// <summary>

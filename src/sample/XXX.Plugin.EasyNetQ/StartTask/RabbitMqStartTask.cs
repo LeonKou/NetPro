@@ -1,11 +1,4 @@
 ﻿using EasyNetQ;
-using Microsoft.Extensions.Hosting;
-using NetPro.EasyNetQ;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XXX.Plugin.EasyNetQ
 {
@@ -29,7 +22,7 @@ namespace XXX.Plugin.EasyNetQ
             //订阅需要保持长连接，请使用EasyNetQMulti获取连接对象并且不用使用using和调用dispose()
             var bus = _easyNetQMulti["rabbit1"];
             //同交换机，同队列下subscriptionId为订阅唯一标识，相同标识会依次收到订阅消息，类似于广播
-            bus.PubSub.Subscribe<RabbitMessageModel>("subscriptionId", tm =>
+            bus.PubSub.Subscribe<RabbitMessageModel>("subscriptionId_", tm =>
             {
                 Console.WriteLine("Recieve Message: {0}", tm.Text);
             });

@@ -77,7 +77,7 @@ namespace System.NetPro
             {
                 if (_logger != null)
                 {
-                    _logger.LogError(ex,$"{ex.Message}");
+                    _logger.LogError(ex, $"{ex.Message}");
                 }
                 else
                 {

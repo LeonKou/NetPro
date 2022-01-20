@@ -66,7 +66,7 @@ namespace NetPro
                     {
                         return false;
                     }
-                    if (type.BaseType?.BaseType!=null&& type.BaseType?.BaseType == typeof(BackgroundService))
+                    if (type.BaseType?.BaseType != null && type.BaseType?.BaseType == typeof(BackgroundService))
                     {
                         return false;
                     }
@@ -74,7 +74,7 @@ namespace NetPro
                     {
                         return false;
                     }
-                    var succeed=  type.Name.IsValidName(classNamePattern) && type.IsClass&&!type.IsAbstract;
+                    var succeed = type.Name.IsValidName(classNamePattern) && type.IsClass && !type.IsAbstract;
                     return succeed;
                 }
                 ))

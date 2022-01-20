@@ -1,7 +1,5 @@
 ﻿using EasyNetQ;
-using System;
 using System.Linq;
-using System.NetPro;
 namespace System.NetPro
 {
     /// <summary>
