@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-		<Version>$(NetProTdengine)</Version>
+		<Version>$(NetProTaos)</Version>
 		<Description>
 		</Description>
-		<AssemblyName>$(NetProTdengineAssemblyName)</AssemblyName>
+		<AssemblyName>$(NetProTaosAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,9 +25,11 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Update="Data.Taos\taos.cfg">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Maikebing.Data.Taos" Version="2.0.357" />
 		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>

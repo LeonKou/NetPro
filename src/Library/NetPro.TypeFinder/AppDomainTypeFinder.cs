@@ -177,7 +177,7 @@ namespace System.NetPro
         private void _LoadDll(string directory)
         {
             __(directory);//load bin dlls
-            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes")).ToList();
+            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes")&& !s.Contains("ref")).ToList();
             for (int i = 0; i < subDirectories.Count(); i++)
             {
                 //load plugin dlls

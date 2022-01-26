@@ -40,8 +40,6 @@ namespace XXX.Plugin.FreeSql
             var mysqlConnection = configuration.GetConnectionString("MysqlConnection");
             using (var connection = new MySqlConnection(mysqlConnection.Replace("Database=netpro_microservice_demo;", "")))// "Data Source=LocalizationRecords.sqlite"
             {
-                if (connection.Ping())
-                {
                     connection.Open();  //  <== The database file is created here.
                     using var cmd = new MySqlCommand(@$"Create Database If Not Exists {_getvaluebyConnectstring(mysqlConnection, "Server")} Character Set UTF8", connection);
                     cmd.ExecuteScalar();
@@ -56,7 +54,6 @@ namespace XXX.Plugin.FreeSql
                         Match mc = r.Match(connectionString);
                         return mc.Groups["key"].Value;
                     }
-                }
             }
             fsql.Register("mysql", () =>
             {
