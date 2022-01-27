@@ -1,5 +1,5 @@
 
-## ANetPro.Analysic使用
+## NetPro.Analysic使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic)
 
 同ip下对请求流量的精确控制，可控制1天 或者1小时内的错误数正确数
