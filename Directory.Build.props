@@ -14,7 +14,7 @@
 	</PropertyGroup>
 	<PropertyGroup Label="Package information">
 		<Authors>Leon</Authors>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
+		<!--<PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>-->
 		<RepositoryUrl>https://github.com/LeonKou/NetPro</RepositoryUrl>
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>

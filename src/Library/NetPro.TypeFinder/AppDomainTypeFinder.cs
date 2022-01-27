@@ -162,13 +162,14 @@ namespace System.NetPro
             }
 
             //check plugin directory
-            if (!_fileProvider.DirectoryExists($"{mountePath}/{entryPoint}"))
+            var pluginPath= $"{mountePath}/{entryPoint}";
+            if (!_fileProvider.DirectoryExists(pluginPath))
             {
-                _fileProvider.CreateDirectory($"{mountePath}/{entryPoint}");
+                _fileProvider.CreateDirectory(pluginPath);
                 _fileProvider.WriteAllText($"{mountePath}/readme.text", @"This directory contains DLLs, and the system will retrieve the DLLS in the current directory ", Encoding.UTF8);
             }
             //move plugin directory to bin folder
-            _fileProvider.Move(mountePath, $"{binPath}", false);
+            _fileProvider.Move(pluginPath, $"{binPath}", false);
 
             //load bin directory
             _LoadDll(binPath);
@@ -176,7 +177,7 @@ namespace System.NetPro
 
         private void _LoadDll(string directory)
         {
-            __(directory);//load bin dlls
+            __(directory);//load bin dlls,Only loaded DLLS can be get assembly by AppDomain.CurrentDomain.GetAssemblies()
             var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes")&& !s.Contains("ref")).ToList();
             for (int i = 0; i < subDirectories.Count(); i++)
             {
@@ -202,7 +203,7 @@ namespace System.NetPro
 
             void _(string _directory)
             {
-                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", false);
+                var dllFiles = _fileProvider.GetFiles(_directory, "*.dll", true);
                 foreach (var dllPath in dllFiles)
                 {
                     try
@@ -212,7 +213,7 @@ namespace System.NetPro
                         {
                             try
                             {
-                                _fileProvider.DeleteFile(dllPath);
+                                //_fileProvider.DeleteFile(dllPath);
                             }
                             catch (Exception ex)
                             {

@@ -7,6 +7,7 @@
 		</Description>
 		<AssemblyName>$(NetProResponseCacheAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.ResponseCache</PackageProjectUrl>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.ResponseCache.xml</DocumentationFile>

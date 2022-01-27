@@ -40,20 +40,20 @@ namespace XXX.Plugin.FreeSql
             var mysqlConnection = configuration.GetConnectionString("MysqlConnection");
             using (var connection = new MySqlConnection(mysqlConnection.Replace("Database=netpro_microservice_demo;", "")))// "Data Source=LocalizationRecords.sqlite"
             {
-                    connection.Open();  //  <== The database file is created here.
-                    using var cmd = new MySqlCommand(@$"Create Database If Not Exists {_getvaluebyConnectstring(mysqlConnection, "Server")} Character Set UTF8", connection);
-                    cmd.ExecuteScalar();
+                connection.Open();  //  <== The database file is created here.
+                using var cmd = new MySqlCommand(@$"Create Database If Not Exists {_getvaluebyConnectstring(mysqlConnection, "Database")} Character Set UTF8", connection);
+                cmd.ExecuteScalar();
 
-                    string _getvaluebyConnectstring(string connectionString, string itemName)
-                    {
-                        if (!connectionString.EndsWith(";"))
-                            connectionString += ";";
+                string _getvaluebyConnectstring(string connectionString, string itemName)
+                {
+                    if (!connectionString.EndsWith(";"))
+                        connectionString += ";";
 
-                        string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
-                        Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
-                        Match mc = r.Match(connectionString);
-                        return mc.Groups["key"].Value;
-                    }
+                    string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
+                    Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
+                    Match mc = r.Match(connectionString);
+                    return mc.Groups["key"].Value;
+                }
             }
             fsql.Register("mysql", () =>
             {

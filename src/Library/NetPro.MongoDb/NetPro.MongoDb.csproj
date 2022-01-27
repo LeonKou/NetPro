@@ -6,6 +6,7 @@
 		</Description>
 		<AssemblyName>$(NetProMongoDbAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.MongoDb</PackageProjectUrl>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

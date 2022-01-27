@@ -7,6 +7,7 @@
 		<Description>NetProAuthentication</Description>
 		<AssemblyName>$(NetProAuthenticationAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Authentication</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">

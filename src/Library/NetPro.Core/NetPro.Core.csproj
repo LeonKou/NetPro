@@ -7,6 +7,7 @@
 		</Description>
 		<AssemblyName>$(NetProCoreAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Core</PackageProjectUrl>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Core.xml</DocumentationFile>

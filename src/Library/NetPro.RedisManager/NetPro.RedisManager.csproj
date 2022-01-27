@@ -6,6 +6,7 @@
 		</Description>
 		<AssemblyName>$(NetProRedisManagerAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.RedisManager</PackageProjectUrl>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.RedisManager.xml</DocumentationFile>

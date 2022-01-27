@@ -7,6 +7,7 @@
 		<PackageTags>NetPro,Api,MicroService,Swagger</PackageTags>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<WarningLevel>3</WarningLevel>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Web.Api</PackageProjectUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
