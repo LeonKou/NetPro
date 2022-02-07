@@ -384,7 +384,7 @@ Swagger地址：[/swagger/index.html](ip:port/docs/index.html)
 
 环境信息 [/env](/env)
 
-## 问题汇总
+## 问题处理指南
 
 ### 1. 如何覆盖系统异常处理
 
@@ -394,8 +394,12 @@ var mvcBuilder = services.AddControllers(config =>
     config.Filters.Add(typeof(CustomerExceptionFilter),2);//自定义全局异常过滤器//100是order值，越大越靠后加载
 });
 ```
-### ...
+ ...
 
+ ## 性能指标
+
+![](docs/images/performance.png)
+在6核16G内存15秒内执行maridb数据库插入，qps可达到一万七，并且可根据场景调整内存和性能方面的平衡，这就是依赖最小化带来的好处，简单高效，依赖越小问题越清晰。
 ## 高级配置 
 
 ### CLR配置
