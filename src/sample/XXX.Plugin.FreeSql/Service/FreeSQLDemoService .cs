@@ -23,21 +23,25 @@ namespace XXX.Plugin.FreeSql
     public class FreeSQLDemoService : IFreeSQLDemoService
     {
         private readonly ILogger<FreeSQLDemoService> _logger;
-        private readonly IFreeSql _fsql;
+        //private readonly IFreeSql _fsql;
+        private readonly IdleBus<IFreeSql> _fsql;
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// ctor
+        /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="fsql"></param>
+        /// <param name="idleFsql"></param>
         /// <param name="mapper"></param>
         public FreeSQLDemoService(ILogger<FreeSQLDemoService> logger
-            , IFreeSql fsql
+            //, IFreeSql fsql
+            , IdleBus<IFreeSql> idleFsql
             , IMapper mapper)
         {
             _logger = logger;
-            _fsql = fsql;
+            //_fsql = fsql;
+            _fsql = idleFsql;
             _mapper = mapper;
         }
 
@@ -48,17 +52,12 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         public async Task<string> MultiFreeSqlAsync(string dbKey = "sqlite")
         {
-            var sqliteInstance = await _fsql.Select<User>().ToListAsync();
-            _logger.LogInformation($"当前默认数据库实例连接字符串 {_fsql.Ado.ConnectionString}");
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
-
-            _logger.LogInformation($"执行切库后的数据库实例连接字符串 {_fsql.Ado.ConnectionString}");
-            var mysqlInstance = await _fsql.Select<User>().ToListAsync();
-            return _fsql.Ado.ConnectionString;
+            var freesql = _fsql.Get(dbKey);
+            var sqliteInstance = await freesql.Select<User>().ToListAsync();
+            _logger.LogInformation($"当前默认数据库实例连接字符串 {freesql.Ado.ConnectionString}");
+            var mysqlInstance = await freesql.Select<User>().ToListAsync();
+            return freesql.Ado.ConnectionString;
         }
 
         /// <summary>
@@ -73,12 +72,9 @@ namespace XXX.Plugin.FreeSql
             var userEntity = _mapper.Map<UserInsertAo, User>(userInsertAo);
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
+            var freesql = _fsql.Get(dbKey);
             // Insert方法多个重载，支持单对象、集合对象 
-            var affrows = await _fsql.Insert(userEntity).ExecuteAffrowsAsync();
+            var affrows = await freesql.Insert(userEntity).ExecuteAffrowsAsync();
             _logger.LogInformation("新增成功");
             return affrows;
         }
@@ -92,11 +88,8 @@ namespace XXX.Plugin.FreeSql
         public async Task<int> DeleteAsync(uint id, string dbKey = "sqlite")
         {
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
-            var affrows = await _fsql.Delete<User>(id)
+            var freesql = _fsql.Get(dbKey);
+            var affrows = await freesql.Delete<User>(id)
                 .Where(x => x.Id == id)
                 .ExecuteAffrowsAsync();
             _logger.LogError("删除成功 ");
@@ -113,12 +106,9 @@ namespace XXX.Plugin.FreeSql
         public async Task<int> UpdatePatchAsync(uint id, uint age, string dbKey = "sqlite")
         {
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
+            var freesql = _fsql.Get(dbKey);
             //UpdateDiy方法只能通过GetRepository获取到Repository对象才可使用
-            var affrows = await _fsql.GetRepository<User>().UpdateDiy
+            var affrows = await freesql.GetRepository<User>().UpdateDiy
                 //.Set(s => new User { Age = age }) //将Age值覆盖
                 .Set(s => s.Age + age)              //在数据库执行age数据的累加，原子操作
                 .Where(x => x.Id == id)
@@ -141,11 +131,8 @@ namespace XXX.Plugin.FreeSql
             try
             {
                 //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-                if (!string.IsNullOrWhiteSpace(dbKey))
-                {
-                    _fsql.Change(dbKey);
-                }
-                affrows = await _fsql.GetRepository<User>()
+                var freesql = _fsql.Get(dbKey);
+                affrows = await freesql.GetRepository<User>()
                .UpdateAsync(userEntity);
             }
             catch (Exception ex)
@@ -170,12 +157,9 @@ namespace XXX.Plugin.FreeSql
         public async Task<PagedList<User>> SearchJoinAsync(UserSearchAo search, string dbKey = "sqlite")
         {
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
+            var freesql = _fsql.Get(dbKey);
             //方式一：通过Repository间接操作
-            var list = await _fsql.GetRepository<User>().Select.From<UserRelation, Company>((user, userRe, comp) => user
+            var list = await freesql.GetRepository<User>().Select.From<UserRelation, Company>((user, userRe, comp) => user
             //方式二：直接操作
             //var list = await _fsql.Select<User>().From<UserRelation, Company>((user, userRe, comp) => user
             .InnerJoin(u => u.Id == userRe.UserId).InnerJoin(a => userRe.CompanyId == comp.Id))
@@ -223,11 +207,8 @@ namespace XXX.Plugin.FreeSql
                 }");
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
-            var list = _fsql.Select<User>().WhereDynamicFilter(dyfilter)
+            var freesql = _fsql.Get(dbKey);
+            var list = freesql.Select<User>().WhereDynamicFilter(dyfilter)
                  .Page(searchPageBase.PageIndex, searchPageBase.PageSize)//分页
                  .Count(out long totalCount)
                  .ToList();
@@ -265,11 +246,8 @@ namespace XXX.Plugin.FreeSql
                 }");
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-            if (!string.IsNullOrWhiteSpace(dbKey))
-            {
-                _fsql.Change(dbKey);
-            }
-            var sqlString = _fsql.Select<User>().WhereDynamicFilter(dyfilter)
+            var freesql = _fsql.Get(dbKey);
+            var sqlString = freesql.Select<User>().WhereDynamicFilter(dyfilter)
                   .Page(searchPageBase.PageIndex, searchPageBase.PageSize)//分页
                   .Count(out long totalCount)
                   .ToSql();//生成SQL
@@ -290,12 +268,9 @@ namespace XXX.Plugin.FreeSql
             try
             {
                 //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
-                if (!string.IsNullOrWhiteSpace(dbKey))
-                {
-                    _fsql.Change(dbKey);
-                }
+                var freesql = _fsql.Get(dbKey);
                 //此种事务只能使用同步方法，其他事务用法参考:https://github.com/dotnetcore/FreeSql/wiki/事务
-                _fsql.Transaction(() =>
+                freesql.Transaction(() =>
                 {
                     //_fsql.Ado.TransactionCurrentThread //获得当前事务对象
 
@@ -305,7 +280,7 @@ namespace XXX.Plugin.FreeSql
                         Name = "公司1",
                         Region = "SZ"
                     };
-                    var affrows = _fsql.Insert<Company>(company).ExecuteAffrows();
+                    var affrows = freesql.Insert<Company>(company).ExecuteAffrows();
 
                     if (affrows < 1)
                         throw new Exception("企业数据插入失败，回滚事务，事务退出");
@@ -322,7 +297,7 @@ namespace XXX.Plugin.FreeSql
                         CreateTime = DateTimeOffset.Now.ToUnixTimeSeconds(),
                         Pwd = "密码就是不断提高"
                     };
-                    affrows = _fsql.Insert<User>(user).ExecuteAffrows();
+                    affrows = freesql.Insert<User>(user).ExecuteAffrows();
 
                     if (affrows < 1)
                         throw new Exception("用户数据插入失败，回滚事务，事务退出");
@@ -334,7 +309,7 @@ namespace XXX.Plugin.FreeSql
                         CompanyId = company.Id,
                         UserId = company.Id,
                     };
-                    affrows = _fsql.Insert<UserRelation>(userRelation).ExecuteAffrows();
+                    affrows = freesql.Insert<UserRelation>(userRelation).ExecuteAffrows();
 
                     if (affrows < 1)
                         throw new Exception("用户企业关系表插入失败，回滚事务，事务退出");

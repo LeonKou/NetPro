@@ -184,7 +184,10 @@ namespace NetPro.Web.Api
         {
             application.UseEndpoints(s =>
             {
-                s.MapControllers();
+                //对于请求的配置都可在此处
+                s.MapControllers()
+                //.RequireAuthorization() //全局添加认证授权
+                ;
             });
         }
 
@@ -395,6 +398,7 @@ var mvcBuilder = services.AddControllers(config =>
 
 ## 高级配置 
 
+### CLR配置
 [Runtime configuration options for garbage collection](https://docs.microsoft.com/zh-cn/dotnet/core/runtime-config/garbage-collector)
 通过配置文件控制运行状态
 runtimeconfig.template.json
@@ -414,6 +418,46 @@ runtimeconfig.template.json
   }
 }
 ```
+
+### CLR监控
+[CLR 全局工具](https://docs.microsoft.com/zh-cn/dotnet/core/diagnostics/dotnet-counters)
+常用clr命令行工具
+
+- dotnet-counters [Performance monitoring](https://www.stefangeiger.ch/2020/05/07/dotnet-diagnostics-tools-counters.html)
+- dotnet-monitor [configuration](dotnet-monitor)
+- dotnet-gcdump
+- dotnet-trace
+
+dotnet-monitor 自带api服务，方便restful 调用，推荐使用此工具
+安装:
+dotnet tool install -g dotnet-monitor
+配置: [dotnet-monitor configuration](https://github.com/dotnet/dotnet-monitor/blob/main/documentation/configuration.md)
+
+使用 `dotnet monitor config show` 打印配置
+
+覆盖配置：
+windows：`C:\Users\username\.dotnet-monitor\settings.json`
+
+```
+{
+    "Metrics": {
+      "Endpoints": "http://localhost:5009",
+      "MetricCount": 3      
+    }
+  }
+```
+启动:
+dotnet monitor collect
+
+注意：
+
+通常dotnet monitor在容器中使用时利用边车模式运行，故需要配置共享volume，即通过IPC实现容器间共享内存通信来收集目标进程中诊断数据
+[.NET 6's dotnet monitor](https://www.cnblogs.com/stulzq/archive/2021/12/06/15650277.html)
+
+[github:dotnet-monitor-ui](https://github.com/SachiraChin/dotnet-monitor-ui)
+
+[dotnet-monitor-ui](https://dotnet-monitor-ui.dev/)
+
 ## Target
 
 - 可视化安装卸载组件

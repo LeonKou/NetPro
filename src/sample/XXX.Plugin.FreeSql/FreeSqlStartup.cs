@@ -19,53 +19,64 @@ namespace XXX.Plugin.FreeSql
         {
             #region Freesql初始化
             //多数据库初始化
-            var fsql = new MultiFreeSql();
+            var idleBus = new IdleBus<IFreeSql>(TimeSpan.FromSeconds(60));
 
             //reference：https://github.com/dotnetcore/FreeSql/issues/44
             //第一个注册的实例是默认实例，使用时如没指定dbkey则默认连接此处第一个注册的数据库实例
-            fsql.Register("sqlite", () =>
+            idleBus.Register("sqlite", () =>
             {
                 var sqlConnectionString = configuration.GetConnectionString("SqliteConnection");
+
                 using (var connection = new SQLiteConnection(sqlConnectionString))// "Data Source=LocalizationRecords.sqlite"
                 {
                     connection.Open();  //  <== The database file is created here.
                 }
-                //Register方法注册一个名为sqlite的数据库实例
                 return new FreeSqlBuilder()
-                .UseConnectionString(DataType.Sqlite, sqlConnectionString)
-                .UseAutoSyncStructure(true) //true:自动同步实体结构到数据库
-                .Build();
+             .UseConnectionString(DataType.Sqlite, sqlConnectionString)
+             .UseAutoSyncStructure(true) //true:自动同步实体结构到数据库；false:默认不迁移数据
+             .Build();
             });
-
-            var mysqlConnection = configuration.GetConnectionString("MysqlConnection");
-            using (var connection = new MySqlConnection(mysqlConnection.Replace("Database=netpro_microservice_demo;", "")))// "Data Source=LocalizationRecords.sqlite"
+            idleBus.Register("mysql", () =>
             {
-                connection.Open();  //  <== The database file is created here.
-                using var cmd = new MySqlCommand(@$"Create Database If Not Exists {_getvaluebyConnectstring(mysqlConnection, "Database")} Character Set UTF8", connection);
-                cmd.ExecuteScalar();
+                var mysqlConnection = configuration.GetConnectionString("MysqlConnection");
 
-                string _getvaluebyConnectstring(string connectionString, string itemName)
+                using (var connection = new MySqlConnection(mysqlConnection.Replace("Database=netpro_microservice_demo;", "").Replace("database=netpro_microservice_demo;", "")))// "Data Source=LocalizationRecords.sqlite"
                 {
-                    if (!connectionString.EndsWith(";"))
-                        connectionString += ";";
+                    bool valid = true;
+                    try
+                    {
+                        connection.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        valid = false;
+                        Console.WriteLine($"mysql连接错误--{ex.Message}");
+                    }
+                    if (valid)
+                    {
+                        using var cmd = new MySqlCommand(@$"Create Database If Not Exists {_getvaluebyConnectstring(mysqlConnection, "Database")} Character Set UTF8", connection);
+                        cmd.ExecuteScalar();
 
-                    string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
-                    Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
-                    Match mc = r.Match(connectionString);
-                    return mc.Groups["key"].Value;
+                        string _getvaluebyConnectstring(string connectionString, string itemName)
+                        {
+                            if (!connectionString.EndsWith(";"))
+                                connectionString += ";";
+
+                            string regexStr = itemName + @"\s*=\s*(?<key>.*?);";
+                            Regex r = new Regex(regexStr, RegexOptions.IgnoreCase);
+                            Match mc = r.Match(connectionString);
+                            return mc.Groups["key"].Value;
+                        }
+                        connection.Close();
+                    }
                 }
-            }
-            fsql.Register("mysql", () =>
-            {
                 return new FreeSqlBuilder()
-                .UseConnectionString(DataType.MySql, mysqlConnection)
-                .UseAutoSyncStructure(true) //true:自动同步实体结构到数据库；false:默认不迁移数据
-                .Build();
+             .UseConnectionString(DataType.MySql, mysqlConnection)
+             .UseAutoSyncStructure(true) //true:自动同步实体结构到数据库；false:默认不迁移数据
+             .Build();
             });
+            services.AddSingleton(idleBus);
 
-            //可注册多个fsql.Register("db2",()=>{})...
-
-            services.AddSingleton<IFreeSql>(fsql);
             #endregion
         }
 
