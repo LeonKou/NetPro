@@ -392,9 +392,30 @@ var mvcBuilder = services.AddControllers(config =>
 });
 ```
 ### ...
+
+## 高级配置 
+
+[Runtime configuration options for garbage collection](https://docs.microsoft.com/zh-cn/dotnet/core/runtime-config/garbage-collector)
+通过配置文件控制运行状态
+runtimeconfig.template.json
+```json
+{
+   {
+      "configProperties": {
+       "System.GC.Server": true,//站点专用配置,默认false
+       "System.GC.HeapHardLimit": 83886080,堆上限，单位字节
+       "System.GC.HeapHardLimitPercent": 5,//堆上限，单位百分比，建议与HeapHardLimit二选一
+       "System.GC.LOHThreshold": 1048576,//大对象定义，单位字节
+       "System.GC.Concurrent": true,//后台回收，默认true
+       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,
+       "System.Threading.ThreadPool.MinThreads": 200
+      }
+    }
+  }
+}
+```
 ## Target
 
-- Microsoft.SourceLink.Github 加入
 - 可视化安装卸载组件
 
 # ...

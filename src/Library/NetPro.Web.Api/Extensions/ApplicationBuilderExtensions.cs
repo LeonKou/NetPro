@@ -40,7 +40,6 @@ namespace NetPro.Web.Api
             }
             else
             {
-
                 {
                     var webHelper = application.ApplicationServices.GetRequiredService<IWebHelper>();
                     //The global default handles exceptions
@@ -53,11 +52,14 @@ namespace NetPro.Web.Api
                             var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                             if (contextFeature != null)
                             {
-                                var exceptionHandlerPathFeature =
-                                context.Features.Get<IExceptionHandlerPathFeature>();
-                                if (exceptionHandlerPathFeature?.Error != null)
+                                //var exceptionHandlerPathFeature =
+                                //context.Features.Get<IExceptionHandlerPathFeature>();
+                                if (contextFeature.Error != null)
                                 {
-                                    if (!exceptionHandlerPathFeature.Error.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
+                                    //Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException
+                                    var exError = contextFeature.Error;
+
+                                    if (!exError.Message?.Replace(" ", string.Empty).ToLower().Contains("unexpectedendofrequestcontent") ?? true)
                                     {
                                         string body = null;
                                         string userInfo = context?.User.Identity.Name;
@@ -77,7 +79,7 @@ namespace NetPro.Web.Api
                                                 logger.LogError($"Global exception capture is error for reads the body", ex);
                                             }
                                         }
-                                        logger.LogError(exceptionHandlerPathFeature?.Error, @$"[{DateTime.Now:HH:mm:ss}] [Global system exception]
+                                        logger.LogError(exError, @$"[{DateTime.Now:HH:mm:ss}] [Global system exception]
                                     RequestIp=> {webHelper?.GetCurrentIpAddress()}
                                     HttpMethod=> {context?.Request.Method}
                                     Path=> {context.Request.Host.Value}{context?.Request.Path}{context?.Request.QueryString}
@@ -88,7 +90,7 @@ namespace NetPro.Web.Api
                                     ");
                                     }
                                 }
-                                context.Response.Headers.Add("error", $"{exceptionHandlerPathFeature?.Error.Message}");
+                                context.Response.Headers.Add("error", $"{contextFeature.Error.Message}");
                                 await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"System exception, please try again later", Result = "" }, new JsonSerializerOptions
                                 {
                                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

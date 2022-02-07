@@ -12,10 +12,10 @@ var host = Host.CreateDefaultBuilder(args)
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
                     //webBuilder.UseSerilog();
                     webBuilder.ConfigureKestrel(options =>
                     {
+                        //options.Limits.MaxRequestBodySize = null;// Ïû³ýÒì³£ Unexpected end of request content.
                     });
                 });
 

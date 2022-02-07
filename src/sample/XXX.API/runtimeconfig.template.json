@@ -1,0 +1,11 @@
+{
+  "configProperties": {
+    "System.GC.Server": true,
+    //"System.GC.HeapHardLimit": 50886080, //80M 83886080
+    "System.GC.HeapHardLimitPercent": 2, //堆上限，单位百分比，建议与HeapHardLimit二选一
+    "System.GC.LOHThreshold": 548576, //1M 1048576
+    "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,
+    "System.GC.Concurrent": true,
+    "System.Threading.ThreadPool.MinThreads": 200
+  }
+}

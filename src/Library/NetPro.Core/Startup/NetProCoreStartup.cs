@@ -47,18 +47,24 @@ namespace NetPro.Core.Startup
             AddAutoMapper(services, typeFinder);
 
             //----------------
-
-            if (netProOption.ThreadMinCount > 2)
-            {
-                if (ThreadPool.SetMinThreads(Environment.ProcessorCount * netProOption.ThreadMinCount, Environment.ProcessorCount * netProOption.ThreadMinCount))
-                {
-                    ThreadPool.GetMinThreads(out int work, out int comple);
-                    ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
-                    Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
-                }
-                else
-                    Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 最小线程数设置大于系统提供，设置失效！！");
+            //由runtimeconfig.template.json 提供配置
+            /*
+              {
+                "configProperties": {
+                 "System.GC.Server": true,//站点专用配置,默认false
+                 "System.GC.HeapHardLimit": 83886080,堆上限，单位字节
+                 "System.GC.HeapHardLimitPercent": 2,//堆上限，单位百分比
+                 "System.GC.LOHThreshold": 1048576,//大对象定义，单位字节
+                 "System.GC.Concurrent": true,//后台回收，默认true
+                 "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,
+                 "System.Threading.ThreadPool.MinThreads": 200
+               }
             }
+             */
+            ThreadPool.GetMinThreads(out int work, out int comple);
+            ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
+            Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
+
 
             if (configuration.GetValue<bool>("Apollo:Enabled", false))
             {
