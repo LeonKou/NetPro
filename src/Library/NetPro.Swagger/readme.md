@@ -15,7 +15,13 @@
  "MaxDisplayedTags":"100"//最多显示几个Controller,不写默认100
  "ServerPrefix": "lu/", //json endpoint，用于反向代理场景使用
  "OAuth2":{
-      "Server":"www.baidu.com"//开启Oauth2功能
+      "Server":"www.baidu.com",//开启Oauth2功能
+      "Scopes": [
+				{
+					"Key": "d",
+					"Value": "b"
+				}
+			]
  }
  "Description": "this is swagger for netcore",
  "Title": "Demo swagger",

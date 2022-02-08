@@ -3,7 +3,15 @@
 		"Enabled": true,
 		"IsDarkTheme": true,
 		"MiniProfilerEnabled": false,
-		//"XmlComments": [ "", "" ],
+		"OAuth2": {
+			"Server": "http://localhost",
+			"Scopes": [
+				{
+					"Key": "d",
+					"Value": "b"
+				}
+			]
+		},
 		"RoutePrefix": "swagger",
 		"ServerPrefix": "lu", //json endpoint
 		"Description": "this is swagger for netcore",
