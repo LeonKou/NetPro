@@ -68,7 +68,7 @@ namespace XXX.Plugin.FreeSql
         /// <returns></returns>
         public async Task<int> InsertAsync(UserInsertAo userInsertAo, string dbKey = "sqlite")
         {
-            //AO实体隐射为数据库DO实体
+            //AO实体映射数据库DO实体
             var userEntity = _mapper.Map<UserInsertAo, User>(userInsertAo);
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
