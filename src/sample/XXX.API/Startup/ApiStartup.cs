@@ -21,6 +21,8 @@ namespace XXX.API
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
+            var dd= configuration.GetValue<int>("liuy2");
+            
             //services.AddHostedService<TimedHostedService>();//后台服务
             //批量注入(可正则匹配注入所有子程序集，也可在每个子程序集中独立注入)
             services.BatchInjection("^XXX.", "Service$"); //批量注入以XXX前缀的程序集，Service结尾的类           

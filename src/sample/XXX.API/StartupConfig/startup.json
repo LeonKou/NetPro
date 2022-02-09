@@ -1,0 +1,20 @@
+{
+  "NetProCoreStartup": 0,
+  "CheckerStartup": 0,
+  "NetProMongoDBMultiStartup": 0,
+  "ApiProxyStartup": 0,
+  "NetProTaosMultiStartup": 0,
+  "ErrorHandlerStartup": 0,
+  "SwaggerStartup": 100,
+  "StaticFilesStartup": 100,
+  "RoutingStartup": 200,
+  "CorsStartup": 300,
+  "GlobalizationStartup": 900,
+  "EndpointsStartup": 1000,
+  "ApiStartup": 2147483647,
+  "ConsulStartup": 2147483647,
+  "NetProCsRedisStartup": 2147483647,
+  "FreeSqlStartup": 2147483647,
+  "MediatRStartup": 2147483647,
+  "MongoDBDemoStartup": 2147483647
+}

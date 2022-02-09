@@ -24,6 +24,7 @@
 		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

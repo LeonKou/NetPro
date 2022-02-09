@@ -14,22 +14,26 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.3-beta.8" />
+		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.7" />
+		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.7" />
+		<PackageReference Include="NetPro.Proxy" Version="6.0.3-beta.7" />
+		<PackageReference Include="NetPro.MongoDb" Version="6.0.3-beta.7" />
+		<PackageReference Include="NetPro.CsRedis" Version="6.0.3-beta.7" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
-		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3-beta.7" />
-		<PackageReference Include="NetPro.Globalization" Version="6.0.3-beta.7" />
-		<PackageReference Include="NetPro.Proxy" Version="6.0.3-beta.7" />
-	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />
+		<PackageReference Include="FreeSql.DbContext" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Provider.MySql" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Repository" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.0.100" />
+		<PackageReference Include="IdleBus" Version="1.5.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 </Project>

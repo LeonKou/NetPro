@@ -90,13 +90,23 @@ namespace System.NetPro.Startup._
                         writer.WriteLine("{}");
                     }
                 }
+
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
                 builder.SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("appsettings.json", true, true)//base config
-                            .AddJsonFile($"appsettings.{env}.json", true, true) //inherit base config
-                            .AddJsonFile($"customeconfig/custom.{env}.json", true, true)//custome config
-                            .AddEnvironmentVariables();
+                            .AddJsonFile($"appsettings.{env}.json", true, true); //inherit base config
 
+                //The Customeconfig folder is the custom configuration directory,contains two dots that are environment placeholders by default
+                foreach (var file in Directory.GetFiles("customeconfig", $"*.json"))
+                {
+                    //ignore json file
+                    if (file.Contains("runtimeconfig.template.json") || (file.Where(s => s == '.').Count() == 2 && !file.Contains($"{env}.json")))
+                        continue;
+
+                    builder.AddJsonFile(file, true, true);//custome config
+                }
+
+                builder.AddEnvironmentVariables();
                 _configuration = builder.Build();
             });
 
@@ -118,7 +128,7 @@ namespace System.NetPro.Startup._
                   .ToList();
 
                 //try to read startup.jsonfile
-                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"startup.json");
+                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"StartupConfig/startup.json");
                 if (File.Exists(jsonPath))
                 {
                     var startupJson = File.ReadAllText(jsonPath);
@@ -176,7 +186,7 @@ namespace System.NetPro.Startup._
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"startup.json exception: {ex.Message}");
+                        Console.WriteLine($"StartupConfig/startup.json exception: {ex.Message}");
                         goto nofile;
                     }
 
@@ -184,6 +194,8 @@ namespace System.NetPro.Startup._
                 }
                 else
                 {
+                    Directory.CreateDirectory("StartupConfig");
+
                     using (var writer = File.CreateText(jsonPath))
                     {
                         foreach (var instance in instances)
