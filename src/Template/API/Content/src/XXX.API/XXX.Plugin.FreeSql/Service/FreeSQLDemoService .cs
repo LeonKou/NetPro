@@ -1,4 +1,5 @@
-﻿using FreeSql.Internal.Model;
+﻿using AutoMapper;
+using FreeSql.Internal.Model;
 using Newtonsoft.Json;
 
 namespace XXX.Plugin.FreeSql
@@ -23,7 +24,6 @@ namespace XXX.Plugin.FreeSql
     public class FreeSQLDemoService : IFreeSQLDemoService
     {
         private readonly ILogger<FreeSQLDemoService> _logger;
-        //private readonly IFreeSql _fsql;
         private readonly IdleBus<IFreeSql> _fsql;
         private readonly IMapper _mapper;
 
@@ -35,12 +35,10 @@ namespace XXX.Plugin.FreeSql
         /// <param name="idleFsql"></param>
         /// <param name="mapper"></param>
         public FreeSQLDemoService(ILogger<FreeSQLDemoService> logger
-            //, IFreeSql fsql
             , IdleBus<IFreeSql> idleFsql
             , IMapper mapper)
         {
             _logger = logger;
-            //_fsql = fsql;
             _fsql = idleFsql;
             _mapper = mapper;
         }

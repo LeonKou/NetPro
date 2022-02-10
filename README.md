@@ -54,15 +54,15 @@
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api) [NetPro.Web.Api](https://github.com/LeonKou/NetPro.Web.Api) （NetPro.Web.Api）
 
-- [![NuGet](https://img.shields.io/nuget/v/NetPro.MQTTClient.svg)](https://nuget.org/packages/NetPro.
-MQTTClient) [NetPro.MQTTClient](https://github.com/LeonKou/NetPro.MQTTClient) （物联网MQTTClient客户端）
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.MQTTClient.svg)](https://nuget.org/packages/NetPro.MQTTClient) [NetPro.MQTTClient](https://github.com/LeonKou/NetPro.MQTTClient) （物联网MQTTClient客户端）
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Globalization.svg)](https://nuget.org/packages/NetPro.Globalization) [NetPro.Globalization](https://github.com/LeonKou/NetPro.Globalization) （多语言全球化）
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Cors.svg)](https://nuget.org/packages/NetPro.Cors) [NetPro.Cors](https://github.com/LeonKou/NetPro.Cors) （NetPro.Cors 跨域配置）
 
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.ConsulClient.svg)](https://nuget.org/packages/NetPro.ConsulClient) [NetPro.ConsulClient](https://github.com/LeonKou/NetPro.ConsulClient) （NetPro.ConsulClient 服务注册发现组件，只需引用即可无需额外操作）
 
-NetPro.ConsulClient
+
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.TypeFinder.svg)](https://nuget.org/packages/NetPro.TypeFinder) [NetPro.TypeFinder](https://github.com/LeonKou/NetPro.TypeFinder) （dll检索，反射）
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Utility.svg)](https://nuget.org/packages/NetPro.Utility) [NetPro.Utility](https://github.com/LeonKou/NetPro.Utility) （包含常用帮助类）
