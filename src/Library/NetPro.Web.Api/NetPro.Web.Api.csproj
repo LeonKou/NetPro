@@ -10,14 +10,6 @@
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Web.Api</PackageProjectUrl>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Web.Api.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Web.Api.xml</DocumentationFile>
-	</PropertyGroup>
-
 	<ItemGroup>
 	  <Compile Remove="Startup\NetProCoreStartup1000.cs" />
 	  <Compile Remove="Startup\NetProCoreStartupMin.cs" />

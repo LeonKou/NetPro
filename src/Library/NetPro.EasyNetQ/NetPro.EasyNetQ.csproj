@@ -9,13 +9,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.EasyNetQ</PackageProjectUrl>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.EasyNetQ.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.EasyNetQ.xml</DocumentationFile>
-	</PropertyGroup>
+	
 	<ItemGroup>
 		<PackageReference Include="EasyNetQ" Version="6.3.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />

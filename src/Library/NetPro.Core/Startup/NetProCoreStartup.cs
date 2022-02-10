@@ -1,14 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetPro.Core.Configuration;
-using NetPro.Core.Infrastructure.Mapper;
 using System;
-using System.Linq;
 using System.NetPro;
 using System.Reflection;
 using System.Threading;
@@ -44,7 +41,7 @@ namespace NetPro.Core.Startup
 
             //--------------- AutoMapper
 
-            AddAutoMapper(services, typeFinder);
+            //AddAutoMapper(services, typeFinder);
 
             //----------------
             //由runtimeconfig.template.json 提供配置
@@ -64,7 +61,6 @@ namespace NetPro.Core.Startup
             ThreadPool.GetMinThreads(out int work, out int comple);
             ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
-
 
             if (configuration.GetValue<bool>("Apollo:Enabled", false))
             {
@@ -89,34 +85,7 @@ namespace NetPro.Core.Startup
             }
         }
 
-        /// <summary>
-        /// Register and configure AutoMapper
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual void AddAutoMapper(IServiceCollection services, ITypeFinder typeFinder)
-        {
-            //find mapper configurations provided by other assemblies
-            var mapperConfigurations = typeFinder.FindClassesOfType<IOrderedMapperProfile>();
 
-            //create and sort instances of mapper configurations
-            var instances = mapperConfigurations
-                .Select(mapperConfiguration => (IOrderedMapperProfile)Activator.CreateInstance(mapperConfiguration))
-                .OrderBy(mapperConfiguration => mapperConfiguration.Order);
-
-            //create AutoMapper configuration
-            var config = new MapperConfiguration(cfg =>
-            {
-                foreach (var instance in instances)
-                {
-                    cfg.AddProfile(instance.GetType());
-                }
-            });
-
-            //register
-            AutoMapperConfiguration.Init(config);
-            services.AddSingleton(AutoMapperConfiguration.Mapper);
-        }
     }
 
     internal static class _Helper

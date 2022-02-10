@@ -16,13 +16,6 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Analysic.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Analysic.xml</DocumentationFile>
-	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

@@ -1,4 +1,4 @@
-using NetPro.Core.Infrastructure.Mapper;
+using NetPro.AutoMapper;
 using System.Collections.Generic;
 
 namespace System.NetPro

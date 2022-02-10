@@ -107,6 +107,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXX.Plugin.Tdengine", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.Taos", "Library\NetPro.Taos\NetPro.Taos.csproj", "{D1BAF2D8-1059-4A47-94B4-F693629E7A3E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetPro.AutoMapper", "Library\NetPro.AutoMapper\NetPro.AutoMapper.csproj", "{E375554B-6235-40D2-AF46-1636E24B5049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -269,6 +271,10 @@ Global
 		{D1BAF2D8-1059-4A47-94B4-F693629E7A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1BAF2D8-1059-4A47-94B4-F693629E7A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1BAF2D8-1059-4A47-94B4-F693629E7A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E375554B-6235-40D2-AF46-1636E24B5049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E375554B-6235-40D2-AF46-1636E24B5049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E375554B-6235-40D2-AF46-1636E24B5049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E375554B-6235-40D2-AF46-1636E24B5049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -315,6 +321,7 @@ Global
 		{6AAC39A2-3F5E-4E85-9DAB-A997F1D43372} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
 		{411A1D71-4220-4CE6-A1AC-4F9847A14256} = {631F494D-9DFB-42A7-84C7-270C95B7EC2E}
 		{D1BAF2D8-1059-4A47-94B4-F693629E7A3E} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
+		{E375554B-6235-40D2-AF46-1636E24B5049} = {03CF2756-3B2A-4007-B4CA-2D3081F13C09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A47D5791-DD56-46F9-B40F-AF963F95E93F}

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace NetPro.Core.Infrastructure.Mapper
+namespace NetPro.AutoMapper
 {
     /// <summary>
     /// AutoMapper configuration

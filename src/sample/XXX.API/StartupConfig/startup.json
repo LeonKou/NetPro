@@ -5,6 +5,7 @@
   "ApiProxyStartup": 0,
   "NetProTaosMultiStartup": 0,
   "ErrorHandlerStartup": 0,
+  "AutoMapperStartup": 0,
   "SwaggerStartup": 100,
   "StaticFilesStartup": 100,
   "RoutingStartup": 200,
