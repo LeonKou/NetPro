@@ -355,3 +355,5 @@ healthchecksdb
 /src/Template/API/Content/src/XXX.db
 /src/Template/API/Content/src/XXX.API/customeconfig/custom.Development.json
 /src/sample/XXX.API/Globalization.db
+/src/Template/API/Content/src/XXX.API/Logs
+/src/Template/API/Content/src/XXX.API/StartupConfig/startup.json

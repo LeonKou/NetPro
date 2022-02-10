@@ -19,8 +19,8 @@
 		<PackageReference Include="NetPro.Globalization" Version="6.0.3" />
 		<PackageReference Include="NetPro.MongoDb" Version="6.0.3" />
 		<PackageReference Include="NetPro.CsRedis" Version="6.0.3" />
-		<!--<PackageReference Include="NetPro.Swagger" Version="6.0.3" />-->
-		<!--<PackageReference Include="NetPro.Consul" Version="6.0.3" />-->
+		<PackageReference Include="NetPro.Swagger" Version="6.0.3" />
+		<PackageReference Include="NetPro.ConsulClient" Version="6.0.3" />
 		<!--<PackageReference Include="NetPro.Checker" Version="6.0.3" />-->
 		<!--<PackageReference Include="NetPro.EasyNetQ" Version="6.0.3" />-->
 		<!--<PackageReference Include="NetPro.Grpc" Version="6.0.3" />-->
