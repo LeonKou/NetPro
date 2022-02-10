@@ -6,18 +6,19 @@
 ![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
 
 
-### 🕰️ 项目请参照 
+### 🕰️ 活跃分支
 
 * 👉[*dev_6.0* branch](https://github.com/LeonKou/NetPro/tree/dev_3.1)
 
 ## 简要
 
-.NetpPro 是一个基于.NetCore的插件化开发脚手架，支持以搭“积木”方式实现业务模块的开发，支持`net6.0`，核心包`NetPro.Startup` 只有16k即可支撑整个框架以插件方式进行开发。NetPro项目在基于核心包`NetPro.Startup`基础上提供了其他周边常用中间件，其核心封装逻辑也是尽可能的暴露原生方法，不对开发人员产生过多不必要的学习成本。
+.NetpPro 是一个基于.NetCore的最小依赖并支持插件化开发脚手架，支持按需引用，引用即自动初始化，免去各类中间件繁琐初始化操作，支持`net6.0`，
+核心包`NetPro.Startup` 只有16k即可支撑整个框架以增强启动模式进行开发。NetPro项目在基于核心包`NetPro.Startup`基础上提供了其他周边常用中间件，其核心封装逻辑也是尽可能的暴露原生方法，不对开发人员产生过多不必要的学习成本。
 基于`NetPro.Startup`的有两个关键插件包：
 - `NetPro.Web.Api` 用于开发webapi项目
 - `NetPro.Grpc` 用于开发grpc项目
 
-其他的所有NetPro中间件都是可插拔，按需引用，每个组件都相对轻量，没有强关联NetPro，即使非.NetPro框架也可使用。如果基于`NetPro.Web.Api`或 `NetPro.Grpc`引用的NetPro中间件，支持引用即`自动执行`初始化逻辑。
+其他的所有[NetPro](https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library)中间件都是可插拔，按需引用，每个组件都相对轻量，没有强关联NetPro，即使非.NetPro框架也可使用。如果基于`NetPro.Web.Api`或 `NetPro.Grpc`引用的NetPro中间件，支持引用即`自动执行`初始化逻辑。
 
 
 ### 架构图
@@ -127,17 +128,14 @@ dotnet new netproapi -n IAM
 *  修改`Program.cs`
 
 ```csharp
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Serilog;
+
+Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "NetPro.Startup");
 
 var host = Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) => ApolloClientHelper.ApolloConfig(hostingContext, config, args))
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    webBuilder.ConfigureKestrel(options =>
-                    {
-                    });
-                }).UseSerilog();
+                    ApolloClientHelper.ApolloConfig(hostingContext, config, args);
+                });
 
 host.Build().Run();
 
@@ -245,13 +243,6 @@ namespace NetPro.Web.Api
 
 ```
 
-* 启动前设置环境变量开启增强启动
-```csharp
-Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "NetPro.Startup")
-```
-
-
-
 * Controller使用
 
 `Controller`继承原生`ControllerBase`即可，使用也参考官方原生接口开发
@@ -345,7 +336,7 @@ info: NetProSwaggerServiceExtensions[0]
 | 2147483647 | ApiStartup-2                 | XXX.Plugin.Web.Manager.ApiStartup        | XXX.Plugin.Web.Manager (custom) |  1.0.0.0  |
 
 ```
-第一次初始化会自动在程序当前目录生成`startup.json`文件可修改对应Order来覆盖各中间件默认执行顺序
+第一次初始化会自动在程序当前目录生成`StartupConfig/startup.json`文件可修改对应Order来覆盖各中间件默认执行顺序
 ```json
 {
   "NetProCoreStartup": 0,
