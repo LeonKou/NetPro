@@ -7,27 +7,27 @@ namespace Maikebing.Data.Taos
     /// <summary>
     ///     Represents the type affinities used by columns in Taos tables.
     /// </summary>
-  
+
     public enum TaosType
     {
         /// <summary>
         ///     A signed integer.
         /// </summary>
-        Integer , 
+        Integer,
 
         /// <summary>
         ///     A floating point value.
         /// </summary>
-        Real  ,
+        Real,
 
         /// <summary>
         ///     A text string.
         /// </summary>
-        Text ,
+        Text,
 
         /// <summary>
         ///     A blob of data.
         /// </summary>
-        Blob 
+        Blob
     }
 }

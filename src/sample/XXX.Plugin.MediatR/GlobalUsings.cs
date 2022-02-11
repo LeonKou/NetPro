@@ -5,7 +5,6 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
-global using NetPro;
 global using System;
 global using System.NetPro;
 global using System.Threading.Tasks;

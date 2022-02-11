@@ -148,16 +148,16 @@ namespace NetPro.Swagger
                         }
                     });
 
-                    //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                    //{
-                    //    {
-                    //        new OpenApiSecurityScheme
-                    //        {
-                    //            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-                    //        }
-                    //       ,new[] { "" }
-                    //    }
-                    //});
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                            }
+                           ,new[] { "" }
+                        }
+                    });
                 }
             });
             services.AddSwaggerGenNewtonsoftSupport();

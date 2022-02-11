@@ -1,4 +1,4 @@
-﻿using XXX.Plugin.Tdengine;
+﻿using XXX.Plugin.Tdengine.Proxy;
 
 namespace XXX.Plugin.Tdengine
 {
@@ -12,6 +12,7 @@ namespace XXX.Plugin.Tdengine
         private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<TaosController> _logger;
         private readonly ITaosService _taosService;
+        private readonly ITaosProxy _taosProxy;
 
         /// <summary>
         /// 
@@ -19,15 +20,18 @@ namespace XXX.Plugin.Tdengine
         /// <param name="hostEnvironment"></param>
         /// <param name="logger"></param>
         /// <param name="taosService"></param>
+        /// <param name="taosProxy"></param>
         public TaosController(
             IHostEnvironment hostEnvironment,
             ILogger<TaosController> logger,
-            ITaosService taosService
+            ITaosService taosService,
+            ITaosProxy taosProxy
             )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
             _taosService = taosService;
+            _taosProxy = taosProxy;
         }
 
         /// <summary>
@@ -38,10 +42,26 @@ namespace XXX.Plugin.Tdengine
         /// <returns></returns>
         [HttpPut("insert")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> Insert(TaosAo taosAo, string dbKey = "taos1")
+        public async Task<IActionResult> InsertAsync(TaosAo taosAo, string dbKey = "taos1")
         {
             await _taosService.InsertAsync(taosAo, dbKey);
             return Ok();
+        }
+
+        /// <summary>
+        /// 数据插入
+        /// </summary>
+        /// <param name="taosAo"></param>
+        /// <param name="dbKey"></param>
+        /// <returns></returns>
+        [HttpPut("insertbyrestful")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> InsertByRestfulAsync(TaosAo taosAo, string dbKey = "taos1")
+        {
+            var command = "show databases";
+
+            var result = await _taosProxy.ExecuteSql(command);
+            return Ok(result);
         }
 
         /// <summary>

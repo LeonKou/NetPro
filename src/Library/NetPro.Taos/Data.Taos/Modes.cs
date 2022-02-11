@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Maikebing.Data.Taos
+﻿namespace Maikebing.Data.Taos
 {
     internal class _SHOWDATABASES
     {

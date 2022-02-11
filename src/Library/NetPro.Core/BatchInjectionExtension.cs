@@ -25,10 +25,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
-using System.NetPro;
 using System.Text.RegularExpressions;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 批量注入

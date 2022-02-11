@@ -1,14 +1,13 @@
 ﻿global using AutoMapper;
+global using FreeSql.DataAnnotations;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
-global using NetPro;
+global using Newtonsoft.Json;
 global using System;
 global using System.NetPro;
 global using System.Threading.Tasks;
 global using XXX.Entity;
-global using FreeSql.DataAnnotations;
-global using Newtonsoft.Json;

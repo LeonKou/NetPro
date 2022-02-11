@@ -1,7 +1,6 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace NetPro
+namespace System.NetPro
 {
     /// <summary>
     /// 系统扩展 - 反射

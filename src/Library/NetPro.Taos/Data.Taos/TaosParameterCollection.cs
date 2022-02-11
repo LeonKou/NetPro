@@ -4,10 +4,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
-using System.Reflection;
 
 namespace Maikebing.Data.Taos
 {
@@ -327,7 +325,7 @@ namespace Maikebing.Data.Taos
         protected override void SetParameter(string parameterName, DbParameter value)
             => SetParameter(IndexOfChecked(parameterName), value);
 
-      
+
 
         private int IndexOfChecked(string parameterName)
         {

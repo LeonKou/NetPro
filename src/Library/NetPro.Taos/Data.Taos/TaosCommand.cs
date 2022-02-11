@@ -3,14 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using TDengineDriver;
@@ -27,7 +23,7 @@ namespace Maikebing.Data.Taos
 
         private TaosConnection _connection;
         private string _commandText;
-        private IntPtr _taos =>_connection._taos;
+        private IntPtr _taos => _connection._taos;
         /// <summary>
         ///     Initializes a new instance of the <see cref="TaosCommand" /> class.
         /// </summary>
@@ -233,7 +229,7 @@ namespace Maikebing.Data.Taos
             {
                 throw new InvalidOperationException($"CallRequiresSetCommandText{nameof(Prepare)}");
             }
- 
+
         }
 
         /// <summary>
@@ -278,7 +274,7 @@ namespace Maikebing.Data.Taos
                     throw new InvalidOperationException($"CallRequiresOpenConnection{nameof(ExecuteReader)}");
                 }
             }
-           if (!_connection.SelectedDataBase)
+            if (!_connection.SelectedDataBase)
             {
                 _connection.ChangeDatabase(_connection.Database);
             }
@@ -288,8 +284,8 @@ namespace Maikebing.Data.Taos
                 throw new InvalidOperationException($"CallRequiresSetCommandText{nameof(ExecuteReader)}");
             }
 
-         
-            var unprepared=false; 
+
+            var unprepared = false;
             TaosDataReader dataReader = null;
             var closeConnection = (behavior & CommandBehavior.CloseConnection) != 0;
             try
@@ -298,7 +294,7 @@ namespace Maikebing.Data.Taos
                 Debug.WriteLine($"_commandText:{_commandText}");
 #endif
                 var _endcommandtext = _commandText;
-                if (  _parameters.IsValueCreated /*&& _commandText?.ToLower().TrimStart().StartsWith("insert")==true*/)
+                if (_parameters.IsValueCreated /*&& _commandText?.ToLower().TrimStart().StartsWith("insert")==true*/)
                 {
                     var pms = _parameters.Value;
                     for (int i = 0; i < pms.Count; i++)
@@ -308,7 +304,7 @@ namespace Maikebing.Data.Taos
                         switch (TypeInfo.GetTypeCode(tp.Value?.GetType()))
                         {
                             case TypeCode.Boolean:
-                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName,((tp.Value as bool?).GetValueOrDefault().ToString().ToLower()));
+                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, ((tp.Value as bool?).GetValueOrDefault().ToString().ToLower()));
                                 break;
                             case TypeCode.Byte:
                             case TypeCode.Char:
@@ -335,7 +331,7 @@ namespace Maikebing.Data.Taos
                                 _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as short?).GetValueOrDefault()}");
                                 break;
                             case TypeCode.Int32:
-                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as int ?).GetValueOrDefault()}");
+                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as int?).GetValueOrDefault()}");
                                 break;
                             case TypeCode.Int64:
                                 _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as long?).GetValueOrDefault()}");
@@ -344,17 +340,17 @@ namespace Maikebing.Data.Taos
                                 _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as ushort?).GetValueOrDefault()}");
                                 break;
                             case TypeCode.UInt32:
-                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as uint ?).GetValueOrDefault()}");
+                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as uint?).GetValueOrDefault()}");
                                 break;
                             case TypeCode.UInt64:
                                 _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as ulong?).GetValueOrDefault()}");
                                 break;
                             case TypeCode.String:
                             default:
-                                    _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as string)}");
+                                _endcommandtext = _endcommandtext.Replace(tp.ParameterName, $"{(tp.Value as string)}");
                                 break;
                         }
-                     
+
                     }
                 }
                 else
@@ -379,7 +375,7 @@ namespace Maikebing.Data.Taos
                     }
                     dataReader = new TaosDataReader(this, metas, closeConnection, code.Result);
                 }
-                else if (isok &&      TDengine.ErrorNo(code.Result)  != 0)
+                else if (isok && TDengine.ErrorNo(code.Result) != 0)
                 {
                     TaosException.ThrowExceptionForRC(_endcommandtext, new TaosErrorResult() { Code = TDengine.ErrorNo(code.Result), Error = TDengine.Error(code.Result) });
                 }
@@ -536,6 +532,6 @@ namespace Maikebing.Data.Taos
         {
         }
 
-      
+
     }
 }

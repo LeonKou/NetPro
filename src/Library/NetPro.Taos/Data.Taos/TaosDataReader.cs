@@ -498,7 +498,7 @@ namespace Maikebing.Data.Taos
 
         }
 
-    
+
         private static bool IsUTF8Bytes(byte[] data)
         {
             int charByteCounter = 1; //计算当前正分析的字符应还有的字节数
@@ -614,7 +614,7 @@ namespace Maikebing.Data.Taos
                             {
                                 byte[] bf = new byte[meta.size];
                                 Marshal.Copy(data, bf, 0, meta.size);
-                              
+
                                 if (IsUTF8Bytes(bf) || (bf[0] == 0xEF && bf[1] == 0xBB && bf[2] == 0xBF))
                                 {
                                     v10 = System.Text.Encoding.UTF8.GetString(bf)?.RemoveNull();
@@ -636,7 +636,7 @@ namespace Maikebing.Data.Taos
             }
             return result;
         }
-    
+
         private DateTime GetDateTimeFrom(IntPtr data)
         {
             var val = Marshal.ReadInt64(data);

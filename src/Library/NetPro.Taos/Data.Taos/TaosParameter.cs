@@ -207,6 +207,6 @@ namespace Maikebing.Data.Taos
             TaosType = TaosType.Text;
         }
 
-        
+
     }
 }

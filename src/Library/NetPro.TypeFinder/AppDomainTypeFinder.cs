@@ -162,7 +162,7 @@ namespace System.NetPro
             }
 
             //check plugin directory
-            var pluginPath= $"{mountePath}/{entryPoint}";
+            var pluginPath = $"{mountePath}/{entryPoint}";
             if (!_fileProvider.DirectoryExists(pluginPath))
             {
                 _fileProvider.CreateDirectory(pluginPath);
@@ -178,7 +178,7 @@ namespace System.NetPro
         private void _LoadDll(string directory)
         {
             __(directory);//load bin dlls,Only loaded DLLS can be get assembly by AppDomain.CurrentDomain.GetAssemblies()
-            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes")&& !s.Contains("ref")).ToList();
+            var subDirectories = _fileProvider.GetDirectories(directory).Where(s => !s.Contains("runtimes") && !s.Contains("ref")).ToList();
             for (int i = 0; i < subDirectories.Count(); i++)
             {
                 //load plugin dlls

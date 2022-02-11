@@ -79,7 +79,6 @@ namespace NetPro.Web.Api
                         "x-time-elapsed",
                         stopWatch.Elapsed.ToString());
                 }
-
             }
             catch (Exception ex)
             {

@@ -41,11 +41,11 @@ namespace Maikebing.Data.Taos
         private static readonly IReadOnlyDictionary<string, Keywords> _keywords;
 
         private string _dataSource = string.Empty;
-        private string _dataBase=string.Empty;
+        private string _dataBase = string.Empty;
         private string _userName = string.Empty;
         private string _charset = System.Text.Encoding.UTF8.EncodingName;
         private string _password = string.Empty;
-        private int  _port =6030;
+        private int _port = 6030;
         static TaosConnectionStringBuilder()
         {
             var validKeywords = new string[6];
@@ -53,7 +53,7 @@ namespace Maikebing.Data.Taos
             validKeywords[(int)Keywords.DataBase] = DataBaseKeyword;
             validKeywords[(int)Keywords.Username] = UserNameKeyword;
             validKeywords[(int)Keywords.Password] = PasswordKeyword;
-            validKeywords[(int)Keywords.Charset] =CharsetKeyword;
+            validKeywords[(int)Keywords.Charset] = CharsetKeyword;
             validKeywords[(int)Keywords.Port] = PortKeyword;
             _validKeywords = validKeywords;
 
@@ -112,7 +112,7 @@ namespace Maikebing.Data.Taos
             get => _password;
             set => base[PasswordKeyword] = _password = value;
         }
-        public virtual int  Port
+        public virtual int Port
         {
             get => _port;
             set => base[PortKeyword] = _port = value;
@@ -145,7 +145,7 @@ namespace Maikebing.Data.Taos
             }
         }
 
-      
+
         public virtual string DataBase
         {
             get => _dataBase;
@@ -178,7 +178,7 @@ namespace Maikebing.Data.Taos
                         DataSource = Convert.ToString(value, CultureInfo.InvariantCulture);
                         return;
                     case Keywords.Username:
-                        Username= Convert.ToString(value, CultureInfo.InvariantCulture);
+                        Username = Convert.ToString(value, CultureInfo.InvariantCulture);
                         return;
                     case Keywords.Password:
                         Password = Convert.ToString(value, CultureInfo.InvariantCulture);
@@ -342,7 +342,7 @@ namespace Maikebing.Data.Taos
                     _dataBase = string.Empty;
                     return;
                 case Keywords.Port:
-                    _port=6060;
+                    _port = 6060;
                     return;
                 case Keywords.Charset:
                     _charset = System.Text.Encoding.UTF8.EncodingName;

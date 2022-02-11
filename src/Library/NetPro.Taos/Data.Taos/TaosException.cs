@@ -27,11 +27,11 @@ namespace Maikebing.Data.Taos
         }
 
 
-   
 
-      
+
+
         public override string Message => _taosError?.Error;
-        public override int ErrorCode =>   (int) _taosError?.Code;
+        public override int ErrorCode => (int)_taosError?.Code;
         /// <summary>
         ///     Throws an exception with a specific Taos error code value.
         /// </summary>

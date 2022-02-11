@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace NetPro
+namespace System.NetPro
 {
     public static partial class Extensions
     {
@@ -18,6 +17,18 @@ namespace NetPro
             byte[] compressAfterByte = compressBeforeByte.Compress();
             string compressString = Convert.ToBase64String(compressAfterByte);
             return compressString;
+        }
+
+        /// <summary>
+        /// 转base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string Base64(this string input)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(input);
+            string str = Convert.ToBase64String(bytes);
+            return str;
         }
 
         /// <summary>

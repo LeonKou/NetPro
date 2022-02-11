@@ -6,11 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using TDengineDriver;
 
 namespace Maikebing.Data.Taos
@@ -28,8 +24,8 @@ namespace Maikebing.Data.Taos
         private ConnectionState _state;
         internal IntPtr _taos;
 
-        private static bool  _dll_isloaded=false;
-     
+        private static bool _dll_isloaded = false;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="TaosConnection" /> class.
         /// </summary>
@@ -63,7 +59,7 @@ namespace Maikebing.Data.Taos
             }
         }
 
-       
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="TaosConnection" /> class.
         /// </summary>
@@ -130,16 +126,16 @@ namespace Maikebing.Data.Taos
             {
                 if (_taos == IntPtr.Zero)
                 {
-                    TaosException.ThrowExceptionForRC(-10005, "Connection is not open",null);
+                    TaosException.ThrowExceptionForRC(-10005, "Connection is not open", null);
                 }
-               else  if (string.IsNullOrEmpty(_version))
+                else if (string.IsNullOrEmpty(_version))
                 {
                     _version = Marshal.PtrToStringAnsi(TDengine.GetServerInfo(_taos));
                 }
                 return _version;
             }
         }
-        public   string ClientVersion
+        public string ClientVersion
         {
             get
             {
@@ -192,7 +188,7 @@ namespace Maikebing.Data.Taos
         /// <exception cref="TaosException">A Taos error occurs while opening the connection.</exception>
         public override void Open()
         {
-       
+
             if (State == ConnectionState.Open)
             {
                 return;
@@ -202,8 +198,8 @@ namespace Maikebing.Data.Taos
                 throw new InvalidOperationException("Open Requires Set ConnectionString");
             }
 
-            this._taos = TDengine.Connect(this.DataSource, ConnectionStringBuilder.Username, ConnectionStringBuilder.Password,"", (short)ConnectionStringBuilder.Port);
-           if (this._taos == IntPtr.Zero)
+            this._taos = TDengine.Connect(this.DataSource, ConnectionStringBuilder.Username, ConnectionStringBuilder.Password, "", (short)ConnectionStringBuilder.Port);
+            if (this._taos == IntPtr.Zero)
             {
                 TaosException.ThrowExceptionForRC(_taos);
             }
@@ -213,7 +209,7 @@ namespace Maikebing.Data.Taos
                 this.ChangeDatabase(ConnectionStringBuilder.DataBase);
             }
         }
-      
+
         /// <summary>
         ///     Closes the connection to the database. Open transactions are rolled back.
         /// </summary>
@@ -353,14 +349,14 @@ namespace Maikebing.Data.Taos
         }
         internal string _nowdatabase = string.Empty;
 
-        internal bool SelectedDataBase => _nowdatabase != string.Empty ;
+        internal bool SelectedDataBase => _nowdatabase != string.Empty;
         /// <summary>
         ///     Changes the current database.  
         /// </summary>
         /// <param name="databaseName">The name of the database to use.</param>
         public override void ChangeDatabase(string databaseName)
         {
-            if (!SelectedDataBase   ||   _nowdatabase!= databaseName)
+            if (!SelectedDataBase || _nowdatabase != databaseName)
             {
                 int result = TDengine.SelectDatabase(_taos, databaseName);
                 if (result == 0)

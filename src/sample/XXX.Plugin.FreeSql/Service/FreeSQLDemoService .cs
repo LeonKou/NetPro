@@ -1,5 +1,4 @@
 ﻿using FreeSql.Internal.Model;
-using Newtonsoft.Json;
 
 namespace XXX.Plugin.FreeSql
 {

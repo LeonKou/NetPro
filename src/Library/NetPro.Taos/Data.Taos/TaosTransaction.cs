@@ -1,7 +1,6 @@
 // Copyright (c)  maikebing All rights reserved.
 //// Licensed under the MIT License, See License.txt in the project root for license information.
 
-using System;
 using System.Data;
 using System.Data.Common;
 
@@ -19,18 +18,18 @@ namespace Maikebing.Data.Taos
 
         internal TaosTransaction(TaosConnection connection, IsolationLevel isolationLevel)
         {
-             
+
 
             _connection = connection;
             _isolationLevel = isolationLevel;
 
-            
+
 
             //connection.ExecuteNonQuery(
             //    IsolationLevel == IsolationLevel.Serializable
             //        ? "BEGIN IMMEDIATE;"
             //        : "BEGIN;");
-          
+
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace Maikebing.Data.Taos
         /// </summary>
         /// <value>The isolation level for the transaction.</value>
         public override IsolationLevel IsolationLevel => IsolationLevel.Unspecified;
-         
+
 
         /// <summary>
         ///     Applies the changes made in the transaction.
@@ -67,7 +66,7 @@ namespace Maikebing.Data.Taos
             //{
             //    throw new InvalidOperationException(Resources.TransactionCompleted);
             //}
- 
+
             //_connection.ExecuteNonQuery("COMMIT;");
             Complete();
         }
@@ -103,7 +102,7 @@ namespace Maikebing.Data.Taos
 
         private void Complete()
         {
-            if (_connection!=null)_connection.Transaction = null;
+            if (_connection != null) _connection.Transaction = null;
             _connection = null;
             _completed = true;
         }

@@ -22,11 +22,7 @@ using System.Text;
 namespace TDengineDriver
 {
     using TAOS = System.IntPtr;
-    using TAOS_STMT = System.IntPtr;
     using TAOS_RES = System.IntPtr;
-    using TAOS_STREAM = System.IntPtr;
-    using TAOS_SUB = System.IntPtr;
-    using TAOS_ROW = System.IntPtr;
 
     public enum TSDB_CODE : int
     {
@@ -540,13 +536,13 @@ namespace TDengineDriver
         public static extern int SelectDatabase(TAOS taos, string db);
 
         [DllImport("taos", EntryPoint = "taos_result_precision", CallingConvention = CallingConvention.Cdecl)]
-        public static extern  int ResultPrecision(TAOS taos);
+        public static extern int ResultPrecision(TAOS taos);
 
         [DllImport("taos", EntryPoint = "taos_is_null", CallingConvention = CallingConvention.Cdecl)]
-        public  static extern  bool IsNull(TAOS_RES res,int row,int col );
+        public static extern bool IsNull(TAOS_RES res, int row, int col);
 
         [DllImport("taos", EntryPoint = "taos_validate_sql", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ValidateSQL(TAOS taos,  string sql);
+        public static extern int ValidateSQL(TAOS taos, string sql);
 
         [DllImport("taos", EntryPoint = "taos_num_fields", CallingConvention = CallingConvention.Cdecl)]
         public static extern int NumFields(TAOS_RES res);
