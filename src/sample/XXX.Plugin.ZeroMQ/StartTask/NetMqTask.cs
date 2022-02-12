@@ -24,13 +24,15 @@ namespace XXX.Plugin.ZeroMQ.StartTask
             Task.Run(() =>
                     {
                         using (var publisher = new PublisherSocket())
-                        {   //发布是由于本机承载故配回环地址即可
+                        {   
+                            //发布是由于本机承载故配回环地址即可
+                            //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
                             publisher.Bind("tcp://*:81");
 
                             while (true)
                             {
                                 publisher
-                               .SendMoreFrame("A") // Topic
+                               .SendMoreFrame("A:b:g") // Topic;//支持/;:符号分割
                                .SendFrame(DateTimeOffset.Now.ToString()); // Message
                                 Thread.Sleep(1000);
                             }
@@ -46,7 +48,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     ////随机端口方式
                     //var port = subscriber.BindRandomPort("tcp://localhost");
                     subscriber.Connect("tcp://localhost:81");
-                    subscriber.Subscribe("A");
+                    subscriber.Subscribe("A:b:#");//支持/;:符号分割
                     while (true)
                     {
                         var topic = subscriber.ReceiveFrameString();
@@ -58,21 +60,23 @@ namespace XXX.Plugin.ZeroMQ.StartTask
 
             #region //推数据样板代码
             //https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
-            /*
-                    Task.Run(() =>
-                    {
-                        using (var pushSocket = new PushSocket())
-                        {   //推要指定远程地址，故不能使用回环地址
-                            pushSocket.Connect("tcp://localhost:82");
-                            while (true)
-                            {
-                                pushSocket.SendFrame("Hello Clients");
-                                Console.WriteLine("Hello Clients");
-                                Thread.Sleep(1000);
-                            }
-                        }
-                    });
-             */
+
+            //Task.Run(() =>
+            //{
+            //    using (var pushSocket = new PushSocket())
+            //    {   
+            //        //发布是由于本机承载故配回环地址即可
+            //        //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+            //        //var port = pushSocket.BindRandomPort("tcp://localhost");
+            //        pushSocket.Bind("tcp://*:82");
+            //        while (true)
+            //        {
+            //            pushSocket.SendFrame("Hello Clients");
+            //            Console.WriteLine("Hello Clients");
+            //            Thread.Sleep(1000);
+            //        }
+            //    }
+            //});
 
             #endregion
             //ZeroMQ推拉模式拉取角色，没有启动顺序依赖
@@ -80,12 +84,28 @@ namespace XXX.Plugin.ZeroMQ.StartTask
             {
                 using (var pullSocket = new PullSocket())
                 {
-                    pullSocket.Bind("tcp://localhost:82");
+                    //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+                    pullSocket.Connect("tcp://localhost:82");
                     while (true)
                     {
                         var topic = pullSocket.ReceiveFrameString();
                         var msg = pullSocket.ReceiveFrameString();
-                        Console.WriteLine($"推拉模式-拉取成功：{msg}");
+                        Console.WriteLine($"推拉模式1-拉取成功：{msg}");
+                    }
+                }
+            }, TaskCreationOptions.LongRunning);
+
+            Task.Factory.StartNew(() =>
+            {
+                using (var pullSocket = new PullSocket())
+                {
+                    //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+                    pullSocket.Connect("tcp://localhost:82");
+                    while (true)
+                    {
+                        var topic = pullSocket.ReceiveFrameString();
+                        var msg = pullSocket.ReceiveFrameString();
+                        Console.WriteLine($"推拉模式2-拉取成功：{msg}");
                     }
                 }
             }, TaskCreationOptions.LongRunning);

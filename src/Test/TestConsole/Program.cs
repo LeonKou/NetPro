@@ -27,39 +27,40 @@ namespace TestConsole
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    ////发布订阅
-                    //Task.Run(() =>
-                    //{
-                    //    using (var publisher = new PublisherSocket())
-                    //    {
-                    //        //发布是由于本机承载故配回环地址即可
-                    //        publisher.Bind("tcp://*:81");
-
-                    //        while (true)
-                    //        {
-                    //            publisher
-                    //           .SendMoreFrame("A") // Topic
-                    //           .SendFrame(DateTimeOffset.Now.ToString()); // Message
-                    //            Thread.Sleep(1000);
-                    //        }
-                    //    }
-                    //});
-
-                    //推拉
+                    //发布订阅
                     Task.Run(() =>
                     {
-                        using (var pushSocket = new PushSocket())
+                        using (var publisher = new PublisherSocket())
                         {
-                            //推要指定远程地址，故不能使用回环地址
-                            pushSocket.Connect("tcp://localhost:82");
+                            //发布是由于本机承载故配回环地址即可
+                            //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+                            publisher.Bind("tcp://*:81");
                             while (true)
                             {
-                                pushSocket.SendFrame("Hello Clients");
-                                Console.WriteLine("Hello Clients");
-                                Thread.Sleep(1000);
+                                publisher
+                               .SendMoreFrame("A:b:g") // Topic
+                               .SendFrame(DateTimeOffset.Now.ToString()); // Message
+                                Console.WriteLine("发布队列-Hello Clients");
+                                //Thread.Sleep(1000);
                             }
                         }
                     });
+
+                    ////推拉
+                    //Task.Run(() =>
+                    //{
+                    //    using (var pushSocket = new PushSocket())
+                    //    {
+                    //        //发布是由于本机承载故配回环地址即可
+                    //        //发布者优先使用bind方法
+                    //        pushSocket.Bind("tcp://*:82");
+                    //        while (true)
+                    //        {
+                    //            pushSocket.SendFrame("Hello Clients");
+                    //            Console.WriteLine("推送-Hello Clients");
+                    //        }
+                    //    }
+                    //});
 
                     //var option = new RedisCacheOption();
                     //var tt = hostContext.Configuration.GetSection("Redis").Get<RedisCacheOption>();
