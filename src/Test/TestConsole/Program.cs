@@ -30,6 +30,7 @@ namespace TestConsole
                     //发布订阅
                     Task.Run(() =>
                     {
+                        //https://netmq.readthedocs.io/en/latest/
                         using (var publisher = new PublisherSocket())
                         {
                             //发布是由于本机承载故配回环地址即可
@@ -39,9 +40,14 @@ namespace TestConsole
                             {
                                 publisher
                                .SendMoreFrame("A:b:g") // Topic
-                               .SendFrame(DateTimeOffset.Now.ToString()); // Message
-                                Console.WriteLine("发布队列-Hello Clients");
+                               .SendFrame($"A:b:g--{DateTimeOffset.Now.ToString()}"); // Message
+                                Console.WriteLine("发布队列-A:b:g-Hello Clients");
                                 //Thread.Sleep(1000);
+
+                               // publisher
+                               //.SendMoreFrame("A:c:g") // Topic
+                               //.SendFrame($"A:c:g--{DateTimeOffset.Now.ToString()}"); // Message
+                               // Console.WriteLine("发布队列-A:c:g-Hello Clients");
                             }
                         }
                     });

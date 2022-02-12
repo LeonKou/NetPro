@@ -24,7 +24,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
             Task.Run(() =>
                     {
                         using (var publisher = new PublisherSocket())
-                        {   
+                        {                               
                             //发布是由于本机承载故配回环地址即可
                             //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
                             publisher.Bind("tcp://*:81");
@@ -32,7 +32,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                             while (true)
                             {
                                 publisher
-                               .SendMoreFrame("A:b:g") // Topic;//支持/;:符号分割
+                               .SendMoreFrame("A:b:g") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
                                .SendFrame(DateTimeOffset.Now.ToString()); // Message
                                 Thread.Sleep(1000);
                             }
@@ -40,7 +40,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     });
             */
             #endregion
-            //ZeroMQ订阅者，订阅者必须在生产者之后启动
+            //ZeroMQ订阅者，订阅者与发布者无先后顺序
             Task.Factory.StartNew(() =>
             {
                 using (var subscriber = new SubscriberSocket())
@@ -48,7 +48,12 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     ////随机端口方式
                     //var port = subscriber.BindRandomPort("tcp://localhost");
                     subscriber.Connect("tcp://localhost:81");
-                    subscriber.Subscribe("A:b:#");//支持/;:符号分割
+                    //可同时订阅多个主题，
+                    //subscriber.Subscribe("A:b:g");//支持/;:符号分割
+                    subscriber.Subscribe("A:b");//订阅A:b前缀开头的topic
+                    subscriber.Subscribe("A:c");//订阅A:c前缀开头的topic
+
+                    //subscriber.Subscribe("");//空字符串订阅所有
                     while (true)
                     {
                         var topic = subscriber.ReceiveFrameString();
