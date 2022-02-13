@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Threading.Tasks;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
@@ -48,14 +49,19 @@ namespace System.NetPro
                     Console.WriteLine($"context.Result：{context.Result}");
                 }
 
-                var resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
+                string resultString = null;
+                HttpStatusCode statusCode = HttpStatusCode.BadRequest;
+                if (context.HttpContext.ResponseMessage != null)
+                {
+                    resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
+                    statusCode = context.HttpContext.ResponseMessage.StatusCode;
+                }
                 if (context.ResultStatus == ResultStatus.HasException)
                 {
                     if (_logger != null)
-                        _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={resultString};StatusCode={context.HttpContext.ResponseMessage.StatusCode}");
+                        _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={resultString};StatusCode={statusCode}");
                 }
 
-                var statusCode = context.HttpContext.ResponseMessage.StatusCode;
                 if (_logger != null)
                 {
                     _logger.LogInformation($"ReadAsStringAsync()：   {resultString}");

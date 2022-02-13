@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
 using HttpPostAttribute = WebApiClientCore.Attributes.HttpPostAttribute;
@@ -21,7 +22,7 @@ namespace XXX.Plugin.Tdengine.Proxy
         /// <returns></returns>
         [HttpPost("/rest/sql/{database}")]
         [ApiClientFilter]
-        ITask<dynamic> ExecuteSql([Parameter(Kind.Json)] string sql, string database="test");
+        ITask<dynamic> ExecuteSql([RawStringContent("text/plain")] string sql, string database = "test");
     }
 
     public class ApiClientFilter : ApiFilterAttribute
@@ -39,7 +40,7 @@ namespace XXX.Plugin.Tdengine.Proxy
             configuration.GetValue<string>("Taos:Pwd");
             string name = "root";
             string pwd = "taosdata";
-           
+
             string token = $"{name}:{pwd}".Base64();
 
             context.HttpContext.RequestMessage.Headers.Add("Authorization", $"Basic {token}");
@@ -65,14 +66,20 @@ namespace XXX.Plugin.Tdengine.Proxy
                     Console.WriteLine($"context.Result：{context.Result}");
                 }
 
-                var resultString = await context.HttpContext.ResponseMessage?.Content.ReadAsStringAsync();
+                string resultString = null;
+                HttpStatusCode statusCode = HttpStatusCode.BadRequest;
+                if (context.HttpContext.ResponseMessage != null)
+                {
+                    resultString = await context.HttpContext.ResponseMessage.Content.ReadAsStringAsync();
+                    statusCode = context.HttpContext.ResponseMessage.StatusCode;
+                }
+
                 if (context.ResultStatus == ResultStatus.HasException)
                 {
                     if (_logger != null)
-                        _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={resultString};StatusCode={context.HttpContext.ResponseMessage.StatusCode}");
+                        _logger.LogError($"远程调用异常：{context.HttpContext.RequestMessage.RequestUri}--errorMessage={resultString};StatusCode={statusCode}");
                 }
 
-                var statusCode = context.HttpContext.ResponseMessage.StatusCode;
                 if (_logger != null)
                 {
                     _logger.LogInformation($"ReadAsStringAsync()：   {resultString}");

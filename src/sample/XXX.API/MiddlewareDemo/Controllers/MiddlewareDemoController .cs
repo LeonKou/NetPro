@@ -1,7 +1,10 @@
 ﻿using Consul;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
+using System.Net.Http;
 using System.Runtime.Loader;
+using System.Text;
 
 namespace XXX.API.Controllers
 {
@@ -17,6 +20,7 @@ namespace XXX.API.Controllers
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IConsulClient _consulClient;
         private readonly IBaiduProxy _baiduProxy;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         /// <summary>
         /// 
@@ -25,10 +29,12 @@ namespace XXX.API.Controllers
         /// <param name="logger"></param>
         /// <param name="localizer"></param>
         /// <param name="baiduProxy"></param>
+        /// <param name="httpClientFactory"></param>
         public MiddlewareDemoController(IHostEnvironment hostEnvironment
             , ILogger<MiddlewareDemoController> logger
             , IStringLocalizer<NetPro.Globalization.Globalization> localizer
             , IBaiduProxy baiduProxy
+            , IHttpClientFactory httpClientFactory
             )
         {
             _hostEnvironment = hostEnvironment;
@@ -36,6 +42,7 @@ namespace XXX.API.Controllers
             _localizer = localizer;
             _consulClient = EngineContext.Current.Resolve<IConsulClient>();//避开平台初始化的依赖检查
             _baiduProxy = baiduProxy;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -61,6 +68,37 @@ namespace XXX.API.Controllers
         {
             var result = await _baiduProxy.SharepageAsync("请求query");
             return Ok(result);
+        }
+
+        /// <summary>
+        /// 远程请求api(原生HttpClient方式)
+        /// </summary>
+        [HttpPost("RemoteNative")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> RemoteNativeAsync()
+        {
+            var command = @"
+                            show databases";
+            var client = _httpClientFactory.CreateClient();
+
+            string name = "root";
+            string pwd = "taosdata";
+            string token = $"{name}:{pwd}".Base64();
+            client.DefaultRequestHeaders.Add("Authorization", $"Basic {token}");
+            var request = new HttpRequestMessage
+            {
+                //rest/sql
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("http://localhost:31181/rest/sql"),
+                Content = new StringContent(command, Encoding.UTF8, "application/json"),
+            };
+            var response = await client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                return Ok(JsonConvert.DeserializeObject<dynamic>(responseString));
+            }
+            return BadRequest();
         }
 
         /// <summary>
