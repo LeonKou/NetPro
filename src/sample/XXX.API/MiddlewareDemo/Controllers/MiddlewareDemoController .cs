@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Runtime.Loader;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace XXX.API.Controllers
@@ -99,6 +100,18 @@ namespace XXX.API.Controllers
                 return Ok(JsonConvert.DeserializeObject<dynamic>(responseString));
             }
             return BadRequest();
+        }
+
+        /// <summary>
+        /// 随机数生成
+        /// </summary>
+        [HttpPost("RandomGenerate")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public IActionResult RandomGenerate()
+        {
+            var number = RandomNumberGenerator.GetInt32(0, 100);
+
+            return Ok(number);
         }
 
         /// <summary>

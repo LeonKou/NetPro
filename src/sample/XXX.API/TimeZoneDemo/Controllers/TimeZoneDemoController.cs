@@ -35,6 +35,7 @@ namespace XXX.API.Controllers
         {
             var localTime = DateTimeOffset.Now.ToUnixTimeSeconds();
             var utcTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var milliseconds = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             //localTime 与 utcTime等价，没有时差
             _logger.LogInformation($"Now={localTime}");
             _logger.LogInformation($"UtcNow={utcTime}");
