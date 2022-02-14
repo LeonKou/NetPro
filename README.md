@@ -203,40 +203,7 @@ namespace NetPro.Web.Api
 ```json
 {
 	"TypeFinderOption": {
-		"MountePath": ""//插件挂载路径
-	},
-	"Serilog": {
-		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
-		"MinimumLevel": {
-			"Default": "Information",
-			"Override": {
-				"Default": "Error",
-				"Microsoft": "Debug",
-				"System": "Debug",
-				"System.Net.Http.HttpClient": "Debug",
-				"Microsoft.Hosting.Lifetime": "Information"
-			}
-		},
-		"WriteTo:Async": {
-			"Name": "Async",
-			"Args": {
-				"configure": [
-					{ "Name": "Console" }
-				]
-			}
-		},
-		"Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
-		"Properties": {
-			"Application": "Netpro"
-		}
-	},
-
-	//**********以上日志***************
-
-	"AllowedHosts": "*",
-
-	"SwaggerOption": {
-		"Enabled": true
+		"MountePath": ""//插件挂载路径，可默认
 	}
 }
 
