@@ -55,6 +55,14 @@ namespace XXX.API.Controllers
             _logger.LogInformation($"dateTime={dateTime}");
             _logger.LogInformation($"dateTimeOffset={dateTimeOffset}");
 
+            //时间戳转带时区的时间字符串
+            var DateTimeUnix = DateTimeOffset.FromUnixTimeMilliseconds(1643095933633);
+            DateTimeUnix = DateTimeUnix.AddHours(8);
+            //输出为 2021/01/20 10:14:23 +00:00
+            Console.WriteLine(DateTimeUnix);
+            var ddd = new DateTimeOffset(DateTimeUnix.Year, DateTimeUnix.Month, DateTimeUnix.Day, DateTimeUnix.Hour, DateTimeUnix.Minute, DateTimeUnix.Second, TimeSpan.FromHours(8));
+            Console.WriteLine(ddd.ToString("yyyy-MM-ddTHH:mm:sszzz"));
+            //输出为 2021-01-20T10:14:23+08:00    与上一条没有时差
             return Ok();
         }
     }
