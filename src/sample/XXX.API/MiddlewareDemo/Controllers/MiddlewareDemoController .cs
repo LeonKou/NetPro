@@ -1,7 +1,11 @@
 ﻿using Consul;
+using JWT;
+using JWT.Builder;
+using JWT.Serializers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Loader;
 using System.Security.Cryptography;
@@ -112,6 +116,37 @@ namespace XXX.API.Controllers
             var number = RandomNumberGenerator.GetInt32(0, 100);
 
             return Ok(number);
+        }
+
+        /// <summary>
+        /// JWT格式化接口,将token字符串格式化为字典项
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("TokenStringToDic")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public IActionResult TokenStringToDic(string token)
+        {
+            var serializer = new JsonNetSerializer();
+            var urlEncoder = new JwtBase64UrlEncoder();
+            var decoder = new JwtDecoder(serializer, urlEncoder);
+
+            try
+            {
+                JwtHeader header = decoder.DecodeHeader<JwtHeader>(token);
+                dynamic body = decoder.DecodeToObject<dynamic>(token);
+
+                Dictionary<string, dynamic> result = new Dictionary<string, dynamic>();
+                foreach (var item in body)
+                {
+                    result.Add(item.Name, item.Value.Value);
+                }
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("token有误");
+            }
         }
 
         /// <summary>
