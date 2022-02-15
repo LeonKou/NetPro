@@ -5,7 +5,7 @@ using WebApiClientCore;
 using WebApiClientCore.Attributes;
 using HttpPostAttribute = WebApiClientCore.Attributes.HttpPostAttribute;
 
-namespace XXX.Plugin.Tdengine.Proxy
+namespace XXX.Plugin.Tdengine
 {
     /// <summary>
     /// 主机地址配置在 appsetting.json >NetProProxyOption

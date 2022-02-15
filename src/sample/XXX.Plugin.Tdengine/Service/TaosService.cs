@@ -13,9 +13,12 @@ namespace XXX.Plugin.Tdengine
     public class TaosService : ITaosService
     {
         private readonly IdleBus<TaosConnection> _taosdbMulti;
-        public TaosService(IdleBus<TaosConnection> taosdbMulti)
+        private readonly ITaosProxy _taosProxy;
+        public TaosService(IdleBus<TaosConnection> taosdbMulti,
+            ITaosProxy taosProxy)
         {
             _taosdbMulti = taosdbMulti;
+            _taosProxy = taosProxy;
         }
 
         /// <summary>
@@ -31,12 +34,16 @@ namespace XXX.Plugin.Tdengine
             //根据设备找到合适数据库，
             //根据设备找到合适超级表，
             //根据超级表元数据进行准确的数据插入
-            var taos = _taosdbMulti.Get(dbKey);
-            var command = taos.CreateCommand(@$"
-                                 INSERT INTO  {taosAo.DeviceId} 
-                                 USING {"meters"} TAGS (mongo, 67) 
-                                 values ( 1608173534840 2 false 'Channel1.窑.烟囱温度' '烟囱温度' '122.00' );");
-            var reader = await command.ExecuteReaderAsync();
+            var sql = @$"
+                       INSERT INTO  {taosAo.DeviceId} 
+                       USING {"meters"} TAGS (mongo, 67) 
+                       values ( 1608173534840 2 false 'Channel1.窑.烟囱温度' '烟囱温度' '122.00' );";
+            
+            //var taos = _taosdbMulti.Get(dbKey);
+            //var command = taos.CreateCommand(sql);
+            //var reader = await command.ExecuteReaderAsync();
+
+            var result = await _taosProxy.ExecuteSql(sql, "test");
         }
 
         /// <summary>
@@ -47,14 +54,18 @@ namespace XXX.Plugin.Tdengine
         /// <returns></returns>
         public async Task CreateDatabaseAsync(DatabaseConfig database, string dbKey = "taos1")
         {
+            var sql = @$"
+                      CREATE DATABASE {database.Database} 
+                      KEEP {database.Keep} 
+                      DAYS {database.Days} 
+                      BLOCKS {database.Blocks} 
+                      UPDATE {database.AllowUpdate}";
+
             var taos = _taosdbMulti.Get(dbKey);
-            var command = taos.CreateCommand(@$"
-                                 CREATE DATABASE {database.Database} 
-                                 KEEP {database.Keep} 
-                                 DAYS {database.Database} 
-                                 BLOCKS {database.Blocks} 
-                                 UPDATE {database.AllowUpdate};");
+            var command = taos.CreateCommand(sql);
             var reader = await command.ExecuteReaderAsync();
+
+            var result = await _taosProxy.ExecuteSql(sql, "test");
             //记录存储数据库与设备关系，创建超级表和插入数据时需关联到合适的数据库，例如状态类设备灯源，开关存储在存储周期较短的数据库
         }
 
@@ -68,7 +79,7 @@ namespace XXX.Plugin.Tdengine
         {
             //记录存储超级表元数据，用于后续插入数据时找到超级表元数据
             //例如 CREATE STABLE meters (ts timestamp, current float, voltage int, phase float) TAGS (location binary(64), groupId int);
-            var taos = _taosdbMulti.Get(dbKey);
+
             var stringBuilder = new StringBuilder($"( {superTable.TimestampName} timestamp, ");
 
             var fieldCount = superTable.Fields.Count();
@@ -89,11 +100,15 @@ namespace XXX.Plugin.Tdengine
                     stringBuilder.Append($"{superTable.Tags[i]},");
             }
 
-            string fields = string.Empty;
-            var command = taos.CreateCommand(@$"
-                                 CREATE STABLE {superTable.TableName} 
-                                  {stringBuilder};");
-            var reader = await command.ExecuteReaderAsync();
+            var sql = @$"
+                       CREATE STABLE {superTable.TableName} 
+                       {stringBuilder};";
+
+            //var taos = _taosdbMulti.Get(dbKey);
+            //var command = taos.CreateCommand(sql);
+            //var reader = await command.ExecuteReaderAsync();
+
+            var result = await _taosProxy.ExecuteSql(sql, "test");
         }
     }
 }

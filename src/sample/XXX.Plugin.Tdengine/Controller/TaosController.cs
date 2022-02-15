@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
-using XXX.Plugin.Tdengine.Proxy;
 
 namespace XXX.Plugin.Tdengine
 {
@@ -25,6 +24,7 @@ namespace XXX.Plugin.Tdengine
         /// <param name="logger"></param>
         /// <param name="taosService"></param>
         /// <param name="taosProxy"></param>
+        /// <param name="httpClientFactory"></param>
         public TaosController(
             IHostEnvironment hostEnvironment,
             ILogger<TaosController> logger,
@@ -52,26 +52,6 @@ namespace XXX.Plugin.Tdengine
         {
             await _taosService.InsertAsync(taosAo, dbKey);
             return Ok();
-        }
-
-        /// <summary>
-        /// 数据插入
-        /// </summary>
-        /// <param name="taosAo"></param>
-        /// <param name="dbKey"></param>
-        /// <returns></returns>
-        [HttpPut("insertbyrestful")]
-        [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> InsertByRestfulAsync(TaosAo taosAo, string dbKey = "taos1")
-        {
-            //var command = @"show databases";
-            var command = @$"
-                                 INSERT INTO  {taosAo.DeviceId} 
-                                 USING {"meters"} TAGS (mongo, 67) 
-                                 values ( 1608173534840 2 false 'Channel1.窑.烟囱温度' '烟囱温度' '122.00' );";
-
-            var result = await _taosProxy.ExecuteSql(command);
-            return Ok(result);
         }
 
         /// <summary>

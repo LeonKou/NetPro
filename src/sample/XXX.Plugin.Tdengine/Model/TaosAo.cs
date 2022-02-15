@@ -86,7 +86,7 @@
         /// <summary>
         /// 是否允许更新
         /// </summary>
-        public bool AllowUpdate { get; set; } = true;
+        public byte AllowUpdate { get; set; } = 0;
     }
 
     /// <summary>

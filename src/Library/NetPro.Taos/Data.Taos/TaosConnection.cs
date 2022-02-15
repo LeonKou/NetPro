@@ -16,7 +16,8 @@ namespace Maikebing.Data.Taos
     /// </summary>
     public partial class TaosConnection : DbConnection
     {
-        private string configDir = $"{AppContext.BaseDirectory}Data.Taos/Driver";
+        //C:\TDengine\cfg\taos.cfg
+        private string configDir = $"{AppContext.BaseDirectory}Data.Taos";
 
         private readonly IList<WeakReference<TaosCommand>> _commands = new List<WeakReference<TaosCommand>>();
 
@@ -188,7 +189,6 @@ namespace Maikebing.Data.Taos
         /// <exception cref="TaosException">A Taos error occurs while opening the connection.</exception>
         public override void Open()
         {
-
             if (State == ConnectionState.Open)
             {
                 return;
