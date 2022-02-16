@@ -44,10 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="readme.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
+		<None Include="readme.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

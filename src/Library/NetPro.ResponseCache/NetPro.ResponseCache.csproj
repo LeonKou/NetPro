@@ -17,11 +17,8 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.ResponseCache.xml</DocumentationFile>
 	</PropertyGroup>
-	<ItemGroup>																						  
-		<None Include="$(PackageIconPath)">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>																																							 
+	<ItemGroup>
+		<None Include="readme.md" Pack="true" PackagePath="" />																																						 
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="readme.md">
