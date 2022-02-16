@@ -18,13 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="TDengine.Connector" Version="1.0.4" />
-		<PackageReference Include="IdleBus" Version="1.5.2" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Taos\NetPro.Taos.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Tdengine\NetPro.Tdengine.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Utility\NetPro.Utility.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 	</ItemGroup>

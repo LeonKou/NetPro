@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProSwagger)</Version>
 		<Description>
@@ -12,9 +11,6 @@
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Swagger</PackageProjectUrl>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="Index.html" />
-	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="Index.html" />
 		<EmbeddedResource Include="IndexDark.html" />
@@ -28,24 +24,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<None Include="readme.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
 	</ItemGroup>
-
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.1.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Include="readme.md" Pack="true" PackagePath="" />
-	</ItemGroup>
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />

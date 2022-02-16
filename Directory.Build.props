@@ -23,13 +23,13 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<!--生成.symbols.nupkg-->
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		
+
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright© 2019  LeonKou All rights reserved.</Copyright>
 
 		<PackageIcon>logo2.png</PackageIcon>
-		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>		
+		<PackageIconPath>../../../docs/images/logo2.png</PackageIconPath>
 	</PropertyGroup>
 
 	<PropertyGroup Label="NetPro SDK Versions">
@@ -120,7 +120,10 @@
 
 		<NetProAutoMapper>6.0.5-beta.1</NetProAutoMapper>
 		<NetProAutoMapperAssemblyName>NetPro.AutoMapper</NetProAutoMapperAssemblyName>
-		
+
+		<NetProTaos>6.0.5-beta.1</NetProTaos>
+		<NetProTaosAssemblyName>NetPro.AutoMapper</NetProTaosAssemblyName>
+
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">

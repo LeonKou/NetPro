@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 
 namespace NetPro.Taos
-{/// <summary>
- /// TaosOption配置
- /// </summary>
+{
+    /// <summary>
+    /// TaosOption配置
+    /// </summary>
     public class TaosOption
     {
         /// <summary>
