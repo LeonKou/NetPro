@@ -9,7 +9,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Taos</PackageProjectUrl>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
@@ -23,7 +23,6 @@
 		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Maikebing.Data.Taos" Version="2.0.357" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
