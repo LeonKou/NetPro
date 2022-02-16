@@ -24,7 +24,7 @@ namespace NetPro.Tdengine
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddTaos(new TaosOption(configuration));
+            services.AddTaos(new TdengineOption(configuration));
         }
 
         /// <summary>

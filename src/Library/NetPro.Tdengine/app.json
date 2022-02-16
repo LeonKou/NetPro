@@ -1,0 +1,10 @@
+﻿{
+  "TdengineOption": {
+    "ConnectionString": [
+      {
+        "Key": "taos1", //连接串key别名，唯一
+        "Value": "Data Source=taos;DataBase=db_20220120141621;Username=root;Password=taosdata;Port=6030" //别名key对应的连接串
+      }
+    ]
+  }
+}

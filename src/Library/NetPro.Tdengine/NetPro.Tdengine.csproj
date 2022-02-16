@@ -1,6 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
+		<Version>$(NetProTdengine)</Version>
+		<Description>
+		</Description>
+		<AssemblyName>$(NetProTdengineAssemblyName)</AssemblyName>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetProTdengine</PackageProjectUrl>
+	</PropertyGroup>
+
+	<PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -20,4 +30,9 @@
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 </Project>

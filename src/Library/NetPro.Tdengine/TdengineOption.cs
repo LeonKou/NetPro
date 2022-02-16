@@ -5,14 +5,14 @@ using System.Collections.Generic;
 namespace NetPro.Tdengine
 {
     /// <summary>
-    /// TaosOption配置
+    /// TdengineOption配置
     /// </summary>
-    public class TaosOption
+    public class TdengineOption
     {
         /// <summary>
         /// 
         /// </summary>
-        public TaosOption()
+        public TdengineOption()
         {
         }
 
@@ -20,14 +20,14 @@ namespace NetPro.Tdengine
         /// root node is Redis
         /// </summary>
         /// <param name="config"></param>
-        public TaosOption(IConfiguration config)
+        public TdengineOption(IConfiguration config)
         {
             if (config == null)
             {
                 throw new ArgumentNullException(nameof(config));
             }
 
-            config.GetSection(nameof(TaosOption)).Bind(this);
+            config.GetSection(nameof(TdengineOption)).Bind(this);
         }
 
         /// <summary>

@@ -121,8 +121,8 @@
 		<NetProAutoMapper>6.0.5-beta.1</NetProAutoMapper>
 		<NetProAutoMapperAssemblyName>NetPro.AutoMapper</NetProAutoMapperAssemblyName>
 
-		<NetProTaos>6.0.5-beta.1</NetProTaos>
-		<NetProTaosAssemblyName>NetPro.AutoMapper</NetProTaosAssemblyName>
+		<NetProTdengine>6.0.5-beta.1</NetProTdengine>
+		<NetProTdengineAssemblyName>NetPro.Tdengine</NetProTdengineAssemblyName>
 
 	</PropertyGroup>
 

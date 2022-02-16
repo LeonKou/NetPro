@@ -43,11 +43,11 @@ namespace NetPro.Tdengine
         /// <param name="taosOption"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddTaos(this IServiceCollection services, TaosOption taosOption)
+        public static IServiceCollection AddTaos(this IServiceCollection services, TdengineOption tdengineOption)
         {
-            services.AddSingleton(taosOption);
+            services.AddSingleton(tdengineOption);
             var idleBus = new IdleBus<TaosConnection>();
-            foreach (var item in taosOption.ConnectionString)
+            foreach (var item in tdengineOption.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>
                 {

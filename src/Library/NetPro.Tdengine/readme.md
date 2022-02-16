@@ -1,6 +1,6 @@
 
-## NetPro.Taos使用
- [![NuGet](https://img.shields.io/nuget/v/NetPro.Taos.svg)](https://nuget.org/packages/NetPro.Taos)
+## NetPro.Tdengine使用
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.Tdengine.svg)](https://nuget.org/packages/NetPro.Tdengine)
 
 对[涛思数据](https://www.taosdata.com/cn/)库连接对象的简易封装，使用单例TaosConnection对象
 
@@ -9,7 +9,7 @@
 #### appsetting.json 
 
 ```json
-"TaosOption": {
+"TdengineOption": {
     "ConnectionString": [
       {
         "Key": "taos1", //连接串key别名，唯一
