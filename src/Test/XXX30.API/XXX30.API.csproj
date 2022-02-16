@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
+    <ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
+    <ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+  </ItemGroup>
+
+
+</Project>

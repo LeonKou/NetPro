@@ -13,5 +13,10 @@
         /// 例如：zh-CN
         /// </summary>
         public string[] Cultures { get; set; }
+
+        /// <summary>
+        /// 是否打开注册数据注解本地化服务，默认打开
+        /// </summary>
+        public bool Annotations { get; set; } = true;
     }
 }

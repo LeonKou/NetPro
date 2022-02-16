@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
+		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProStackExchangeRedis)</Version>
 		<Description>
 		</Description>
@@ -30,14 +31,12 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="RedLock.net" Version="2.3.1" />
 		<PackageReference Include="StackExchange.Redis" Version="2.2.88" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

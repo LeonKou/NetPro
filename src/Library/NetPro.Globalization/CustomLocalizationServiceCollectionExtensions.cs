@@ -134,9 +134,12 @@ namespace NetPro.Globalization
             //});
 
             //注册mvc
-            services.AddControllers()
+            var builder = services.AddControllers();
             //注册数据注解本地化服务
-            .AddDataAnnotationsLocalization();
+            if (globalization.Annotations)
+            {
+                builder.AddDataAnnotationsLocalization();
+            }
 
             return services;
         }

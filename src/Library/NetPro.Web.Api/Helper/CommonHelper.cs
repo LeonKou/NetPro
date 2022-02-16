@@ -150,10 +150,13 @@ namespace System.NetPro
         /// <returns>随机数字</returns>
         public static int GenerateRandomInteger(int min = 0, int max = int.MaxValue)
         {
-            //var randomNumberBuffer = new byte[10];
-
+#if NET6_0_OR_GREATER
             byte[] randomNumberBuffer = RandomNumberGenerator.GetBytes(10);
-            //new RNGCryptoServiceProvider().GetBytes(randomNumberBuffer);
+#else
+            var randomNumberBuffer = new byte[10];
+            new RNGCryptoServiceProvider().GetBytes(randomNumberBuffer);
+#endif
+
             return new Random(BitConverter.ToInt32(randomNumberBuffer, 0)).Next(min, max);
         }
 

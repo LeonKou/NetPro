@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
+		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProGlobalization)</Version>
 		<Description>
 		</Description>
@@ -22,13 +23,19 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
+	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-	</ItemGroup>
-	<ItemGroup>
 	  <PackageReference Include="Localization.SqlLocalizer" Version="3.1.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
 	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.3" />
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 	</ItemGroup>

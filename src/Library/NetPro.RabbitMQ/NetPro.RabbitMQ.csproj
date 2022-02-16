@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>
+		<!--<TargetFramework>$(NetStandardTargetVersion)</TargetFramework>-->
+		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProRabbitMQ)</Version>
 		<Description>
 		</Description>

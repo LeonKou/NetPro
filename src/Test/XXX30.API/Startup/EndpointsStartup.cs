@@ -3,6 +3,7 @@
 // </auto-generated>
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.NetPro;
@@ -12,7 +13,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// Endpoints 
     /// </summary>
-    public class EndpointsStartup //: INetProStartup
+    public class EndpointsStartup : INetProStartup
     {
         /// <summary>
         /// 
@@ -26,10 +27,12 @@ namespace NetPro.Web.Api
         }
 
         /// <summary>
-        /// 
+        /// Endpoints请求管道;
+        /// Order执行顺序保证在RoutingStartup（200）之后即可
         /// </summary>
         /// <param name="application"></param>
-        public void Configure(IApplicationBuilder application)
+        /// <param name="env"></param>
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
             application.UseEndpoints(s =>
             {
@@ -38,7 +41,7 @@ namespace NetPro.Web.Api
         }
 
         /// <summary>
-        /// UseEndpoints should be loaded last
+        /// UseEndpoints can be executed after RoutingStartup
         /// </summary>
         public double Order { get; set; } = 1000;
     }

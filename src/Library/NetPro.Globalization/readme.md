@@ -47,7 +47,8 @@ appsetting.json
 		"Cultures": [
 			"zh-CN",
 			"en-US"
-		]
+		],
+        "Annotations": true //是否打开注册数据注解本地化服务
 	}
 }
 
@@ -66,7 +67,8 @@ appsetting.json
 		"Cultures": [
 			"zh-CN",
 			"en-US"
-		]
+		],
+        "Annotations": true //是否打开注册数据注解本地化服务
 	}
 }
 ```

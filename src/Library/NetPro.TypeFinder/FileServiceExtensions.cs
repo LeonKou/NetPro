@@ -16,6 +16,10 @@ namespace System.NetPro
         public static IServiceCollection AddFileProcessService(this IServiceCollection services, TypeFinderOption typeFinderOption = null)
         {
             //services.AddSingleton(new TypeFinderOption { MountePath = typeFinderOption?.MountePath, CustomDllPattern = typeFinderOption?.CustomDllPattern });
+            if (typeFinderOption == null)
+            {
+                typeFinderOption = new TypeFinderOption {  };
+            }
             services.AddSingleton(typeFinderOption);
             //var hostEnvironment = services.BuildServiceProvider().GetRequiredService<IHostEnvironment>();
 

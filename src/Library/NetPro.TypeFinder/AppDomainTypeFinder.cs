@@ -381,11 +381,13 @@ namespace System.NetPro
             {
                 if (string.IsNullOrWhiteSpace(_typeFinderOption.CustomDllPattern))
                 {
-                    if (Matches(assembly.GetName().Name))
+                    //跳过过滤脏程序集(与内置脏模板匹配的程序集)
+                    if (Matches(assembly.GetName().Name) && !Matches(assembly.GetName().Name, "^NetPro.*"))
                         continue;
                 }
                 else
                 {
+                    //跳过过滤脏程序集(与模板不匹配并且不等于^NetPro.*的程序集)
                     if (!Matches(assembly.GetName().Name, _typeFinderOption.CustomDllPattern)
                         && !Matches(assembly.GetName().Name, "^NetPro.*"))
                     {

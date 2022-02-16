@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<!--<Import Project="../../package.props"/>-->
 	<PropertyGroup>
-		<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
+		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
+		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProCore)</Version>
 		<Description>
 		</Description>
@@ -34,14 +35,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\netstandard2.0\NetPro.Core.xml</DocumentationFile>
-	</PropertyGroup>
-
-	<ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1" />
-		<PackageReference Include="ConsoleTables" Version="2.4.2" />		
-	</ItemGroup>
+		<PackageReference Include="ConsoleTables" Version="2.4.2" />
+	</ItemGroup>	
 
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />

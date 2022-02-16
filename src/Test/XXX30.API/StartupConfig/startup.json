@@ -1,0 +1,10 @@
+{
+  "NetProCoreStartup": 0,
+  "CheckerStartup": 0,
+  "ErrorHandlerStartup": 0,
+  "SwaggerStartup": 100,
+  "StaticFilesStartup": 100,
+  "RoutingStartup": 200,
+  "EndpointsStartup": 1000,
+  "ApiStartup": 2147483647
+}
