@@ -23,7 +23,6 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<!--生成.symbols.nupkg-->
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
 		
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
