@@ -6,6 +6,8 @@
 		<Description>
 		</Description>
 		<AssemblyName>$(NetProSwaggerAssemblyName)</AssemblyName>
+		<!--https://github.com/dotnet/aspnetcore/issues/14370-->
+		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Swagger</PackageProjectUrl>
