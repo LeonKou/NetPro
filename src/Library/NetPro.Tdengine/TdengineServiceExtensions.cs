@@ -46,7 +46,7 @@ namespace NetPro.Tdengine
         public static IServiceCollection AddTaos(this IServiceCollection services, TdengineOption tdengineOption)
         {
             services.AddSingleton(tdengineOption);
-            var idleBus = new IdleBus<TaosConnection>();
+            var idleBus = new IdleBus<TaosConnection>(TimeSpan.FromSeconds(tdengineOption.Idle));
             foreach (var item in tdengineOption.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>

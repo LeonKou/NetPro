@@ -1,5 +1,6 @@
 ﻿{
   "TdengineOption": {
+    "Idle": 120,
     "ConnectionString": [
       {
         "Key": "taos1", //连接串key别名，唯一

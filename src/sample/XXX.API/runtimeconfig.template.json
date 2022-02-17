@@ -1,7 +1,7 @@
 {
   "configProperties": {
     "System.GC.Server": true,
-    "System.GC.HeapHardLimit": 83886080, //80M 83886080
+    //"System.GC.HeapHardLimit": 83886080, //80M 83886080
     // "System.GC.HeapHardLimitPercent": 50, 
     // "System.GC.LOHThreshold": 548576, //1M 1048576
     "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false,

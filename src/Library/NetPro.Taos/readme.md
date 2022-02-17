@@ -10,6 +10,7 @@
 
 ```json
 "TaosOption": {
+    "Idle": 120,//空闲时间，单位秒
     "ConnectionString": [
       {
         "Key": "taos1", //连接串key别名，唯一

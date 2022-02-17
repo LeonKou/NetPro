@@ -31,6 +31,12 @@ namespace NetPro.Taos
         }
 
         /// <summary>
+        /// 空闲时间
+        /// 单位秒，默认120秒
+        /// </summary>
+        public int Idle { get; set; } = 120;
+
+        /// <summary>
         /// 连接串集合
         /// </summary>
         public List<ConnectionString> ConnectionString { get; set; }

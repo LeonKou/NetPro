@@ -46,7 +46,7 @@ namespace NetPro.Taos
         public static IServiceCollection AddTaos(this IServiceCollection services, TaosOption taosOption)
         {
             services.AddSingleton(taosOption);
-            var idleBus = new IdleBus<TaosConnection>();
+            var idleBus = new IdleBus<TaosConnection>(TimeSpan.FromSeconds(taosOption.Idle));
             foreach (var item in taosOption.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>

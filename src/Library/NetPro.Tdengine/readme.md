@@ -38,6 +38,7 @@ Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 ```json
 "TdengineOption": {
+    "Idle": 120,//空间时间，单位秒
     "ConnectionString": [
       {
         "Key": "taos1", //连接串key别名，唯一
@@ -76,10 +77,10 @@ public void ConfigureServices(IServiceCollection services)
         public void Executesql(string sql)
         {
             var taos= _taosdbMulti.Get("taos1");
-            var command= taos.CreateCommand(@"INSERT INTO  data_history_67 
+            using var command= taos.CreateCommand(@"INSERT INTO  data_history_67 
                                  USING datas TAGS (mongo, 67) 
                                  values ( 1608173534840 2 false 'Channel1.窑.烟囱温度' '烟囱温度' '122.00' );");
-            command.ExecuteReader();
+            using var reader= command.ExecuteReader();//command和reader都必须using
         }
     }
 ```

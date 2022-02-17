@@ -41,6 +41,18 @@ namespace XXX.Plugin.Tdengine
         }
 
         /// <summary>
+        /// 数据插入方便测试demo
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("inserttest")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public async Task<IActionResult> InsertAsync()
+        {
+            await _taosService.InsertTestAsync();
+            return Ok();
+        }
+
+        /// <summary>
         /// 数据插入
         /// </summary>
         /// <param name="taosAo"></param>
