@@ -35,16 +35,16 @@ namespace XXX.Plugin.Tdengine
             //根据设备找到合适超级表，
             //根据超级表元数据进行准确的数据插入
             var sql = @$"
-                       INSERT INTO power.device_{taosAo.DeviceId} 
+                       INSERT INTO power.device_{"db001"} 
                        USING {dbKey}.meters
                        TAGS ('device_{taosAo.DeviceId}') 
-                       VALUES({taosAo.Timestamp},{taosAo.att[0].Value})(1546272060000,72)";
-            
-            //var taos = _taosdbMulti.Get(dbKey);
-            //var command = taos.CreateCommand(sql);
-            //var reader = await command.ExecuteReaderAsync();
+                       VALUES({DateTimeOffset.Now.ToUnixTimeMilliseconds()},{taosAo.att[0].Value})(1546272060000,72)";
 
-            var result = await _taosProxy.ExecuteSql(sql, "test");
+            var taos = _taosdbMulti.Get(dbKey);
+            var command = taos.CreateCommand(sql);
+            var reader = await command.ExecuteReaderAsync();
+
+            //var result = await _taosProxy.ExecuteSql(sql, "test");
         }
 
         /// <summary>
