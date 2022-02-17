@@ -1,6 +1,7 @@
 ﻿using Maikebing.Data.Taos;
 using System.Security.Cryptography;
 using System.Text;
+using System.Data;
 
 namespace XXX.Plugin.Tdengine
 {
@@ -14,9 +15,9 @@ namespace XXX.Plugin.Tdengine
 
     public class TaosService : ITaosService
     {
-        private readonly IdleBus<TaosConnection> _taosdbMulti;
+        private readonly TdengineMulti _taosdbMulti;
         private readonly ITaosProxy _taosProxy;
-        public TaosService(IdleBus<TaosConnection> taosdbMulti,
+        public TaosService(TdengineMulti taosdbMulti,
             ITaosProxy taosProxy)
         {
             _taosdbMulti = taosdbMulti;
@@ -36,9 +37,13 @@ namespace XXX.Plugin.Tdengine
                        TAGS ('device_db001') 
                        VALUES({DateTimeOffset.Now.ToUnixTimeMilliseconds()},{number})";
 
-            var taos = _taosdbMulti.Get("power");
+            using var taos = _taosdbMulti.Get("power");
             using var command = taos.CreateCommand(sql);
             using var reader = await command.ExecuteReaderAsync();
+            if (reader.Read())
+            {
+                var ts = reader.GetDateTime("ts");
+            }
         }
 
         /// <summary>
@@ -60,9 +65,13 @@ namespace XXX.Plugin.Tdengine
                        TAGS ('device_{taosAo.DeviceId}') 
                        VALUES({DateTimeOffset.Now.ToUnixTimeMilliseconds()},{taosAo.att[0].Value})(1546272060000,72)";
 
-            var taos = _taosdbMulti.Get(dbKey);
+            using var taos = _taosdbMulti.Get("power");
             using var command = taos.CreateCommand(sql);
             using var reader = await command.ExecuteReaderAsync();
+            if (reader.Read())
+            {
+                var ts = reader.GetDateTime("ts");
+            }
 
             //var result = await _taosProxy.ExecuteSql(sql, "test");
         }
@@ -82,9 +91,13 @@ namespace XXX.Plugin.Tdengine
                       BLOCKS {database.Blocks} 
                       UPDATE {database.AllowUpdate}";
 
-            var taos = _taosdbMulti.Get(dbKey);
+            using var taos = _taosdbMulti.Get("power");
             using var command = taos.CreateCommand(sql);
             using var reader = await command.ExecuteReaderAsync();
+            if (reader.Read())
+            {
+                var ts = reader.GetDateTime("ts");
+            }
 
             var result = await _taosProxy.ExecuteSql(sql, "test");
             //记录存储数据库与设备关系，创建超级表和插入数据时需关联到合适的数据库，例如状态类设备灯源，开关存储在存储周期较短的数据库

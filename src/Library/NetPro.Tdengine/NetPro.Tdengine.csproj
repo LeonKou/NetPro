@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProTdengine)</Version>
+		<Nullable>enable</Nullable>
 		<Description>
 		</Description>
 		<AssemblyName>$(NetProTdengineAssemblyName)</AssemblyName>
@@ -20,7 +21,6 @@
 		<None Include="readme.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Maikebing.Data.Taos" Version="2.0.357" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>

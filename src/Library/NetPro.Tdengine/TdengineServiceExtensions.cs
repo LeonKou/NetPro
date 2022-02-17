@@ -23,6 +23,7 @@
  */
 
 using Maikebing.Data.Taos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -37,31 +38,31 @@ namespace NetPro.Tdengine
     public static class TdengineServiceExtensions
     {
         /// <summary>
-        /// AddTaos
+        ///  依赖注入TdengineDb服务扩展方法
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="taosOption"></param>
+        /// <param name="optionsAction"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddTaos(this IServiceCollection services, TdengineOption tdengineOption)
+        public static IServiceCollection AddTdengineDb(this IServiceCollection services, TdengineOption optionsAction)
         {
-            services.AddSingleton(tdengineOption);
-            var idleBus = new IdleBus<TaosConnection>(TimeSpan.FromSeconds(tdengineOption.Idle));
-            foreach (var item in tdengineOption.ConnectionString)
-            {
-                idleBus.Register(item.Key, () =>
-                {
-                    try
-                    {
-                        return new TaosConnection(item.Value);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                });
-            }
-            services.AddSingleton(idleBus);
+            TdengineMulti.TdengineOption = optionsAction;
+            services.AddSingleton(optionsAction);
+            services.AddSingleton(TdengineMulti.Instance);
+            return services;
+        }
+
+        /// <summary>
+        ///  依赖注入TdengineDb服务扩展方法
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddTdengineDb(this IServiceCollection services, IConfiguration configuration)
+        {
+            var mongoDbOptions = new TdengineOption(configuration);
+            TdengineMulti.TdengineOption = mongoDbOptions;
+            services.AddSingleton(mongoDbOptions);
+            services.AddSingleton(TdengineMulti.Instance);
 
             return services;
         }

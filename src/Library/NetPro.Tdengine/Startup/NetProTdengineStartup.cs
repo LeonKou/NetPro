@@ -7,7 +7,7 @@ using System.NetPro;
 namespace NetPro.Tdengine
 {
     /// <summary>
-    /// Taos
+    /// Tdengine
     /// </summary>
     public class NetProTdengineStartup : INetProStartup, System.NetPro.Startup.__._
     {
@@ -24,7 +24,7 @@ namespace NetPro.Tdengine
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddTaos(new TdengineOption(configuration));
+            services.AddTdengineDb(new TdengineOption(configuration));
         }
 
         /// <summary>

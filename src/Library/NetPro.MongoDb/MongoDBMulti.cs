@@ -30,7 +30,7 @@ public class MongoDBMulti
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public static MongoDbContext Get(string key)
+    public MongoDbContext Get(string key)
     {
         //find mongodb connectionString by key
         return CreateInstanceByKey(key);
