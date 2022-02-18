@@ -47,7 +47,7 @@ namespace NetPro.Tdengine
         {
             TdengineMulti.TdengineOption = optionsAction;
             services.AddSingleton(optionsAction);
-            services.AddSingleton(TdengineMulti.Instance);
+            services.AddSingleton<ITdengineMulti>(TdengineMulti.Instance);
             return services;
         }
 
@@ -62,7 +62,7 @@ namespace NetPro.Tdengine
             var mongoDbOptions = new TdengineOption(configuration);
             TdengineMulti.TdengineOption = mongoDbOptions;
             services.AddSingleton(mongoDbOptions);
-            services.AddSingleton(TdengineMulti.Instance);
+            services.AddSingleton<ITdengineMulti>(TdengineMulti.Instance);
 
             return services;
         }

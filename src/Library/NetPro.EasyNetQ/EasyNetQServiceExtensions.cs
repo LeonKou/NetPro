@@ -25,8 +25,9 @@
 using EasyNetQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace System.NetPro
+namespace NetPro.EasyNetQ
 {
     /// <summary>
     /// 
@@ -42,13 +43,13 @@ namespace System.NetPro
         /// <exception cref="ArgumentException"></exception>
         public static IServiceCollection AddEasyNetQ(this IServiceCollection services, IConfiguration configuration)
         {
-            // connectionstring format "host=192.168.18.129;virtualHost=/;username=admin;password=123456;timeout=60"
-            //1、The first way
-            services.AddSingleton(EasyNetQMulti.Instance);
-            //2、The second way
             var option = new EasyNetQOption(configuration);
             services.AddSingleton(option);
+            // connectionstring format "host=192.168.18.129;virtualHost=/;username=admin;password=123456;timeout=60"
+            //1、The first way
+            services.AddSingleton<IEasyNetQMulti>(EasyNetQMulti.Instance);
 
+            //2、The second way
             var idleBus = new IdleBus<IBus>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
             foreach (var item in option.ConnectionString)
             {

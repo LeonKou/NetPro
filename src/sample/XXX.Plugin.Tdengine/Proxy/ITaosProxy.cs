@@ -10,17 +10,18 @@ namespace XXX.Plugin.Tdengine
     /// <summary>
     /// 主机地址配置在 appsetting.json >NetProProxyOption
     /// 获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
-    /// [HttpHost("https://ug.baidu.com/")]
+    /// [HttpHost("https://www.taosdata.com/docs/cn/v2.0/connector#restful")]
     /// </summary>
     public interface ITaosProxy
     {
         /// <summary>
         /// 执行sql
+        /// https://www.taosdata.com/docs/cn/v2.0/connector#restful
         /// </summary>
         /// <param name="sql"></param>
         /// <param name="database"></param>
         /// <returns></returns>
-        [HttpPost("/rest/sql/{database}")]
+        [HttpPost("/rest/sqlt/{database}")]
         [ApiClientFilter]
         ITask<dynamic> ExecuteSql([RawStringContent("text/plain")] string sql, string database = "test");
     }

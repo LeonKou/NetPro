@@ -59,8 +59,8 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
  public class MongoDBService : IMongoDBService
     {
-        private readonly MongoDBMulti _mongoDBMulti;
-        public MongoDBService(MongoDBMulti mongoDBMulti)
+        private readonly IMongoDBMulti _mongoDBMulti;
+        public MongoDBService(IMongoDBMulti mongoDBMulti)
         {
             _mongoDBMulti = mongoDBMulti;
         }

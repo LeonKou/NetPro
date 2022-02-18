@@ -1,7 +1,7 @@
 ## NetPro.Tdengine使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Tdengine.svg)](https://nuget.org/packages/NetPro.Tdengine)
 
-对[涛思数据](https://www.taosdata.com/cn/)库连接对象的简易封装，使用单例TaosConnection对象
+对[涛思数据库](https://www.taosdata.com/cn/)连接对象[Maikebing.Data.Taos](https://www.nuget.org/packages/Maikebing.Data.Taos/)的简易封装，使用单例TaosConnection对象
 
 > [客户端驱动下载地址](https://www.taosdata.com/all-downloads#tdengine_win-list) 客户端与服务器版本必须强一致；
 
@@ -13,7 +13,7 @@ taosd | grep -i fqdn
 ```
 - 修改hosts域名解析 添加服务器ip对应的fqdn值作为域名
 - 修改C:\TDengine\cfg 配置
-- 
+
 ```yaml
 # local fully qualified domain name (FQDN)
 fqdn                      h26.taosdata.com  #taos数据库远程hostname，既fqdn
@@ -31,6 +31,23 @@ serverPort                6030 #客户端连接端口，默认6030，udp
 Welcome to the TDengine shell from Windows, Client Version:2.4.0.7
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 ```
+> Tdengine时区 修改
+
+修改C:\TDengine\cfg下的taos.cfg配置文件中的timezone节点与服务器保持一致；
+特别注意Tdengine执行的时区标准为 unix的时间标准，与传统的东8 是+8不一样，在Tdengine需配置为UTC-8
+
+```
+# system time zone
+timezone              UTC+0  #0时区(伦敦时间)
+
+#timezone              UTC-8  #东八区(北京时间)
+```
+> restful 方式访问Tdengine需注意
+
+[官方restful调用文档](https://www.taosdata.com/docs/cn/v2.0/connector#restful)
+
+调用 rest/sql ，响应时间以服务器时区为准，并且格式为 `2022-02-17 12:31:45.375`
+调用 rest/sqlt，响应时间为unix时间戳
 
 ### 使用
 

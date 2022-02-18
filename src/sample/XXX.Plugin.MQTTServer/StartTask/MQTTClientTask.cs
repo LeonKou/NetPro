@@ -12,10 +12,10 @@ namespace XXX.Plugin.MQTTServer.StartTask
     /// </summary>
     public class MQTTClientTask : IStartupTask
     {
-        private readonly MqttClientMulti _mqttClientMulti;
+        private readonly IMqttClientMulti _mqttClientMulti;
         public MQTTClientTask()
         {
-            _mqttClientMulti = EngineContext.Current.Resolve<MqttClientMulti>();
+            _mqttClientMulti = EngineContext.Current.Resolve<IMqttClientMulti>();
         }
 
         public int Order => 2;

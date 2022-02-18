@@ -14,8 +14,8 @@ namespace XXX.Plugin.MongoDB.Service
 
     public class MongoDBDemoService : IMongoDBDemoService
     {
-        private readonly MongoDBMulti _mongoDBMulti;
-        public MongoDBDemoService(MongoDBMulti mongoDBMulti)
+        private readonly IMongoDBMulti _mongoDBMulti;
+        public MongoDBDemoService(IMongoDBMulti mongoDBMulti)
         {
             _mongoDBMulti = mongoDBMulti;
         }
@@ -44,7 +44,7 @@ namespace XXX.Plugin.MongoDB.Service
         /// </summary>
         public void DeleteOne(string key = "mongo1")
         {
-            var mongodb = _mongoDBMulti[key];
+            var mongodb = _mongoDBMulti.Get(key);
             //1、
             //var filter = Builders<Product>.Filter;
             //mongodb.GetCollection<Product>().DeleteOne(filter.Eq("Name", "11"));

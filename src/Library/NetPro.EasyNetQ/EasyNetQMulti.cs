@@ -1,11 +1,35 @@
 ﻿using EasyNetQ;
+using System;
 using System.Linq;
-namespace System.NetPro
+using System.NetPro;
+
+public interface IEasyNetQMulti
 {
     /// <summary>
-    /// 支持多个rabbitmq server ，不自动销毁
+    /// 根据key标识获取连接对象
     /// </summary>
-    public class EasyNetQMulti
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public IBus Get(string key);
+
+    /// <summary>
+    /// 根据key标识获取连接对象
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public IBus this[string key]
+    {
+        get;
+    }
+}
+
+namespace NetPro.EasyNetQ
+{
+    /// <summary>
+    /// 支持多个rabbitmq server
+    /// 不建议直接使用此类，请使用接口
+    /// </summary>
+    public class EasyNetQMulti : IEasyNetQMulti
     {
         internal static EasyNetQOption EasyNetQOption;
         private EasyNetQMulti()
@@ -19,7 +43,7 @@ namespace System.NetPro
         {
             get
             {
-                return new EasyNetQMulti();
+                return new();
             }
         }
 
@@ -28,9 +52,8 @@ namespace System.NetPro
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static IBus Get(string key)
+        public IBus Get(string key)
         {
-            //find mongodb connectionString by key
             return CreateInstanceByKey(key);
         }
 

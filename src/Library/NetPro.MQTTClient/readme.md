@@ -39,11 +39,11 @@ public void ConfigureServices(IServiceCollection services)
  public class HttpProxyController : ControllerBase
     {
         private readonly ILogger _logger;
-        private readonly  MqttClientMulti _mqttClientMulti;
+        private readonly  IMqttClientMulti _mqttClientMulti;
         //构造函数注入
         public HttpProxyController(
             ILogger<DatabaseCurdController> logger
-            MqttClientMulti _mqttClientMulti)
+            IMqttClientMulti _mqttClientMulti)
         {
             _logger = logger;
             _exampleProxy = exampleProxy;

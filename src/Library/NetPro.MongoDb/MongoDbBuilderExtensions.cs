@@ -41,7 +41,7 @@ public static class MongoDbBuilderExtensions
     {
         MongoDBMulti.MongoDbOption = optionsAction;
         services.AddSingleton(optionsAction);
-        services.AddSingleton(MongoDBMulti.Instance);
+        services.AddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
         return services;
     }
 
@@ -56,7 +56,7 @@ public static class MongoDbBuilderExtensions
         var mongoDbOptions = new MongoDbOption(configuration);
         MongoDBMulti.MongoDbOption = mongoDbOptions;
         services.AddSingleton(mongoDbOptions);
-        services.AddSingleton(MongoDBMulti.Instance);
+        services.AddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
 
         return services;
     }

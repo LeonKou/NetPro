@@ -41,8 +41,8 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
  public class RabbitmqService : IRabbitmqService
     {
-        private readonly EasyNetQMulti _easyNetQMulti
-        EasyNetQMulti easyNetQMulti)
+        private readonly IEasyNetQMulti _easyNetQMulti;
+        public RabbitmqService( IEasyNetQMulti easyNetQMulti)
         {
             _easyNetQMulti=easyNetQMulti;
         }

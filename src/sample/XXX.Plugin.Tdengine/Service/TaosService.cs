@@ -15,9 +15,9 @@ namespace XXX.Plugin.Tdengine
 
     public class TaosService : ITaosService
     {
-        private readonly TdengineMulti _taosdbMulti;
+        private readonly ITdengineMulti _taosdbMulti;
         private readonly ITaosProxy _taosProxy;
-        public TaosService(TdengineMulti taosdbMulti,
+        public TaosService(ITdengineMulti taosdbMulti,
             ITaosProxy taosProxy)
         {
             _taosdbMulti = taosdbMulti;
@@ -37,7 +37,7 @@ namespace XXX.Plugin.Tdengine
                        TAGS ('device_db001') 
                        VALUES({DateTimeOffset.Now.ToUnixTimeMilliseconds()},{number})";
 
-            using var taos = _taosdbMulti.Get("power");
+            using var taos = _taosdbMulti["power"];
             using var command = taos.CreateCommand(sql);
             using var reader = await command.ExecuteReaderAsync();
             if (reader.Read())

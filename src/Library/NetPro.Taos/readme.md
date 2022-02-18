@@ -2,7 +2,10 @@
 ## NetPro.Taos使用
  [![NuGet](https://img.shields.io/nuget/v/NetPro.Taos.svg)](https://nuget.org/packages/NetPro.Taos)
 
-对[涛思数据](https://www.taosdata.com/cn/)库连接对象的简易封装，使用单例TaosConnection对象
+对[涛思数据库](https://www.taosdata.com/cn/)连接对象[Maikebing.Data.Taos](https://www.nuget.org/packages/Maikebing.Data.Taos/)的简易封装，使用单例TaosConnection对象
+
+
+已过时，不推荐使用，请转向[NetPro.Tdengine](https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Tdengine)组件
 
 ### 使用
 

@@ -10,10 +10,10 @@ namespace XXX.Plugin.EasyNetQ
     public class EasyNetQService : IEasyNetQService
     {
         private readonly IdleBus<IBus> _idbus;
-        private readonly EasyNetQMulti _easyNetQMulti;
+        private readonly IEasyNetQMulti _easyNetQMulti;
         private static bool _stop;
         public EasyNetQService(IdleBus<IBus> idbus,
-             EasyNetQMulti easyNetQMulti)
+             IEasyNetQMulti easyNetQMulti)
         {
             _idbus = idbus;
             _easyNetQMulti = easyNetQMulti;

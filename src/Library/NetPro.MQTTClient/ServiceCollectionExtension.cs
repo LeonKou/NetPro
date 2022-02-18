@@ -30,14 +30,36 @@ using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 using NetPro.MQTTClient;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.NetPro;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace System.NetPro
+public interface IMqttClientMulti
 {
-    public class MqttClientMulti
+    /// <summary>
+    /// 根据key标识获取连接对象
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public IMqttClient Get(string key);
+
+    /// <summary>
+    /// 根据key标识获取连接对象
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public IMqttClient this[string key]
+    {
+        get;
+    }
+}
+
+namespace NetPro.MQTTClient
+{
+    public class MqttClientMulti : IMqttClientMulti
     {
         internal static MQTTClientOption MQTTClientOption;
         private MqttClientMulti()
@@ -238,7 +260,7 @@ namespace System.NetPro
                 return services;
             }
             services.AddSingleton(mqtttClientOptions);
-            services.AddSingleton(MqttClientMulti.Instance);
+            services.AddSingleton<IMqttClientMulti>(MqttClientMulti.Instance);
             return services;
         }
     }
