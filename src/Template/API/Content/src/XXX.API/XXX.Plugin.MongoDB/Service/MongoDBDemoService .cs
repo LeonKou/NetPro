@@ -14,8 +14,8 @@ namespace XXX.Plugin.MongoDB.Service
 
     public class MongoDBDemoService : IMongoDBDemoService
     {
-        private readonly MongoDBMulti _mongoDBMulti;
-        public MongoDBDemoService(MongoDBMulti mongoDBMulti)
+        private readonly IMongoDBMulti _mongoDBMulti;
+        public MongoDBDemoService(IMongoDBMulti mongoDBMulti)
         {
             _mongoDBMulti = mongoDBMulti;
         }
