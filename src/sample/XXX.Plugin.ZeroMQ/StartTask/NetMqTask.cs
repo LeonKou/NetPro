@@ -18,28 +18,36 @@ namespace XXX.Plugin.ZeroMQ.StartTask
 
         public void Execute()
         {
-            #region //Publish发布者样板代码
-
-            /*
-            Task.Run(() =>
+            Task.Factory.StartNew(() => {
+                using (var publisher = new PublisherSocket())
+                {
+                    //发布是由于本机承载故配回环地址即可
+                    //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+                    publisher.Bind("tcp://*:81");
+                    while (true)
                     {
-                        using (var publisher = new PublisherSocket())
-                        {                               
-                            //发布是由于本机承载故配回环地址即可
-                            //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
-                            publisher.Bind("tcp://*:81");
+                        publisher
+                  .SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
+                  .SendFrame(DateTimeOffset.Now.ToString()); // Message
+                    }                   
+                }
+            });
 
-                            while (true)
-                            {
-                                publisher
-                               .SendMoreFrame("A:b:g") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
-                               .SendFrame(DateTimeOffset.Now.ToString()); // Message
-                                Thread.Sleep(1000);
-                            }
-                        }
-                    });
-            */
-            #endregion
+            Task.Run(() =>
+            {
+                using (var pushSocket = new PushSocket())
+                {
+                    //发布是由于本机承载故配回环地址即可
+                    //发布者优先使用bind方法
+                    pushSocket.Bind("tcp://*:82");
+                    while (true)
+                    {
+                        pushSocket.SendFrame("Hello Clients");
+                        //Console.WriteLine("推送-Hello Clients");
+                    }
+                }
+            });
+
             //ZeroMQ订阅者，订阅者与发布者无先后顺序
             Task.Factory.StartNew(() =>
             {
@@ -51,7 +59,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     //可同时订阅多个主题，
                     //subscriber.Subscribe("A:b:g");//支持/;:符号分割
                     subscriber.Subscribe("A:b");//订阅A:b前缀开头的topic
-                    subscriber.Subscribe("A:c");//订阅A:c前缀开头的topic
+                    //subscriber.Subscribe("A:c");//订阅A:c前缀开头的topic
 
                     //subscriber.Subscribe("");//空字符串订阅所有
                     while (true)
@@ -62,29 +70,9 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     }
                 }
             }, TaskCreationOptions.LongRunning);
-
-            #region //推数据样板代码
-            //https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
-
-            //Task.Run(() =>
-            //{
-            //    using (var pushSocket = new PushSocket())
-            //    {   
-            //        //发布是由于本机承载故配回环地址即可
-            //        //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
-            //        //var port = pushSocket.BindRandomPort("tcp://localhost");
-            //        pushSocket.Bind("tcp://*:82");
-            //        while (true)
-            //        {
-            //            pushSocket.SendFrame("Hello Clients");
-            //            Console.WriteLine("Hello Clients");
-            //            Thread.Sleep(1000);
-            //        }
-            //    }
-            //});
-
-            #endregion
+            
             //ZeroMQ推拉模式拉取角色，没有启动顺序依赖
+            //拉取模式下多个拉取对象
             Task.Factory.StartNew(() =>
             {
                 using (var pullSocket = new PullSocket())
@@ -99,7 +87,7 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     }
                 }
             }, TaskCreationOptions.LongRunning);
-
+            //拉取模式下多个拉取对象
             Task.Factory.StartNew(() =>
             {
                 using (var pullSocket = new PullSocket())
@@ -114,7 +102,6 @@ namespace XXX.Plugin.ZeroMQ.StartTask
                     }
                 }
             }, TaskCreationOptions.LongRunning);
-
         }
     }
 }
