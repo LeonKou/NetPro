@@ -17,7 +17,7 @@ namespace NetPro.ZeroMQ
         }
 
         /// <summary>
-        /// root node is Redis
+        /// option
         /// </summary>
         /// <param name="config"></param>
         public ZeroMQOption(IConfiguration config)
