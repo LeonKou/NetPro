@@ -49,7 +49,6 @@ namespace XXX.Plugin.FreeSql
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
         {
-            throw new NotImplementedException();
             var result = await _userService.InsertAsync(userInsertAo, dbKey);
             _logger.LogInformation($"新增结果是{result}");
             return result;
