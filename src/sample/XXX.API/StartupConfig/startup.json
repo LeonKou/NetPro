@@ -7,6 +7,7 @@
   "ErrorHandlerStartup": 0,
   "AutoMapperStartup": 0,
   "NetProTdengineStartup": 0,
+  "ZeroMQStartup": 0,
   "SwaggerStartup": 100,
   "StaticFilesStartup": 100,
   "RoutingStartup": 200,

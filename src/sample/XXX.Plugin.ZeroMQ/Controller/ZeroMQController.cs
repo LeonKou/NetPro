@@ -22,6 +22,7 @@ namespace XXX.Plugin.Tdengine
         private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<ZeroMQController> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly PublisherSocket _publisherSocket;
 
         /// <summary>
         /// 
@@ -29,56 +30,45 @@ namespace XXX.Plugin.Tdengine
         /// <param name="hostEnvironment"></param>
         /// <param name="logger"></param>
         /// <param name="httpClientFactory"></param>
+        /// <param name="publisherSocket"></param>
         public ZeroMQController(
             IHostEnvironment hostEnvironment,
             ILogger<ZeroMQController> logger,
-            IHttpClientFactory httpClientFactory
+            IHttpClientFactory httpClientFactory,
+            PublisherSocket publisherSocket
             )
         {
             _hostEnvironment = hostEnvironment;
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _publisherSocket = publisherSocket;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("PublisherSocket")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public async Task<IActionResult> PublisherSocket()
         {
-            Task.Factory.StartNew(() => {
-                using (var publisher = new PublisherSocket())
-                {
-                    //发布是由于本机承载故配回环地址即可
-                    //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
-                    publisher.Bind("tcp://*:81");
-                    publisher
-                   .SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
-                   .SendFrame(DateTimeOffset.Now.ToString()); // Message
-                }
-            });
-           
+            _publisherSocket.SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
+                   .SendFrame(DateTimeOffset.Now.ToString());
+
             return Ok();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("PushSocket")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public async Task<IActionResult> PushSocket()
         {
             //推数据 https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
+            _publisherSocket.SendFrame("Hello Clients"); ;
 
-            Task.Run(() =>
-            {
-                using (var pushSocket = new PushSocket())
-                {
-                    //发布是由于本机承载故配回环地址即可
-                    //发布者优先使用bind方法
-                    pushSocket.Bind("tcp://*:82");
-                    while (true)
-                    {
-                        pushSocket.SendFrame("Hello Clients");
-                        //Console.WriteLine("推送-Hello Clients");
-                    }
-                }
-            });
             return Ok();
         }
     }

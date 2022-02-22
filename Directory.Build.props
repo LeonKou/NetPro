@@ -124,6 +124,9 @@
 		<NetProTdengine>6.0.5-beta.4</NetProTdengine>
 		<NetProTdengineAssemblyName>NetPro.Tdengine</NetProTdengineAssemblyName>
 
+		<NetProZeroMQ>6.0.5-beta.4</NetProZeroMQ>
+		<NetProZeroMQAssemblyName>NetPro.ZeroMQ</NetProZeroMQAssemblyName>
+		
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package Versions">

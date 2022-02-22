@@ -16,11 +16,14 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Plugin.MediatR.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Service\**" />
+	  <EmbeddedResource Remove="Service\**" />
+	  <None Remove="Service\**" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Service\" />
 	</ItemGroup>
 </Project>
