@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 
 namespace NetPro.ZeroMQ
 {
     /// <summary>
-    /// TaosOption配置
+    /// ZeroMQOption配置
     /// </summary>
     public class ZeroMQOption
     {
@@ -17,7 +16,7 @@ namespace NetPro.ZeroMQ
         }
 
         /// <summary>
-        /// root node is Redis
+        /// ZeroMQOption
         /// </summary>
         /// <param name="config"></param>
         public ZeroMQOption(IConfiguration config)

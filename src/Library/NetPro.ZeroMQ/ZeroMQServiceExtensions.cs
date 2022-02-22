@@ -64,7 +64,7 @@ namespace NetPro.ZeroMQ
             PublisherSocket publisher = new();
             //发布是由于本机承载故配回环地址即可
             //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
-            publisher.Bind($"tcp://*:{zeroMQOption.PushPort}");
+            publisher.Bind($"tcp://*:{zeroMQOption.PublishPort}");
 
             services.AddSingleton(publisher);
             return services;

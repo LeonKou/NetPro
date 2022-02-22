@@ -19,38 +19,30 @@ namespace XXX.Plugin.Tdengine
     [Route("[controller]")]
     public class ZeroMQController : ControllerBase
     {
-        private readonly IHostEnvironment _hostEnvironment;
         private readonly ILogger<ZeroMQController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly PublisherSocket _publisherSocket;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="hostEnvironment"></param>
         /// <param name="logger"></param>
-        /// <param name="httpClientFactory"></param>
         /// <param name="publisherSocket"></param>
         public ZeroMQController(
-            IHostEnvironment hostEnvironment,
             ILogger<ZeroMQController> logger,
-            IHttpClientFactory httpClientFactory,
             PublisherSocket publisherSocket
             )
         {
-            _hostEnvironment = hostEnvironment;
             _logger = logger;
-            _httpClientFactory = httpClientFactory;
             _publisherSocket = publisherSocket;
         }
 
         /// <summary>
-        /// 
+        /// 发布zeromq
         /// </summary>
         /// <returns></returns>
         [HttpGet("PublisherSocket")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> PublisherSocket()
+        public IActionResult PublisherSocket()
         {
             _publisherSocket.SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
                    .SendFrame(DateTimeOffset.Now.ToString());
@@ -59,12 +51,12 @@ namespace XXX.Plugin.Tdengine
         }
 
         /// <summary>
-        /// 
+        /// 推zeromq
         /// </summary>
         /// <returns></returns>
         [HttpGet("PushSocket")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
-        public async Task<IActionResult> PushSocket()
+        public IActionResult PushSocket()
         {
             //推数据 https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
             _publisherSocket.SendFrame("Hello Clients"); ;

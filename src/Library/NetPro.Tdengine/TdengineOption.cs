@@ -14,10 +14,11 @@ namespace NetPro.Tdengine
         /// </summary>
         public TdengineOption()
         {
+            ConnectionString = new();
         }
 
         /// <summary>
-        /// root node is Redis
+        ///TdengineOption配置
         /// </summary>
         /// <param name="config"></param>
         public TdengineOption(IConfiguration config)
@@ -26,6 +27,7 @@ namespace NetPro.Tdengine
             {
                 throw new ArgumentNullException(nameof(config));
             }
+            ConnectionString = new();
 
             config.GetSection(nameof(TdengineOption)).Bind(this);
         }

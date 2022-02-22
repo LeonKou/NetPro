@@ -12,6 +12,12 @@ public interface ITdengineMulti
     /// <param name="key"></param>
     /// <returns></returns>
     public TaosConnection Get(string key);
+
+    /// <summary>
+    /// 根据key标识获取连接对象
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
     public TaosConnection this[string key]
     {
         get;

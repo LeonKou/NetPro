@@ -20,7 +20,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ZeroMQ\NetPro.ZeroMQ.csproj" />
-		<PackageReference Include="NetMQ" Version="4.0.1.7-pre" />
 	</ItemGroup>
 	
 </Project>
