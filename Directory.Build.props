@@ -8,7 +8,7 @@
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<!--运行dotnet pack时自动运行dotnet build-->
-
+ 
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<MicrosoftNETTestSdk>16.5.0</MicrosoftNETTestSdk>
 		<LangVersion>latest</LangVersion>
