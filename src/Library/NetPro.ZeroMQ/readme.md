@@ -32,21 +32,42 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
  public class ZeroMQService: IZeroMQService
     {
-         private readonly PublisherSocket _publisherSocket;
-        public TaosService( PublisherSocket publisherSocket)
+        private readonly static object _lock = new();//zeromq socket is thread-unsafe
+        private readonly PublisherSocket _publisherSocket;
+        private readonly PushSocket _pushSocket;
+        public ZeroMQService( PublisherSocket publisherSocket
+                , PushSocket pushSocket)
         {
-              _publisherSocket = publisherSocket;
+            _publisherSocket = publisherSocket;
+            _pushSocket = pushSocket;
         }
 
         /// <summary>
-        /// 发布
+        /// publish-subscribtion
         /// </summary>
         public void Publish(string sql)
         { 
-
+            lock (_lock)
+            {
             _publisherSocket.SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
                    .SendFrame(DateTimeOffset.Now.ToString());
+            }
+        }
 
+        /// <summary>
+        /// push-pull
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("PushSocket")]
+        [ProducesResponseType(200, Type = typeof(ResponseResult))]
+        public IActionResult PushSocket()
+        {
+            lock (_lock)
+            {
+                //推数据 https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
+                _pushSocket.SendFrame("Hello Clients"); ;
+            }
+            return Ok();
         }
     }
 ```

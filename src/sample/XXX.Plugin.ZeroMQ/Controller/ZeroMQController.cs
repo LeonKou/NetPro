@@ -13,7 +13,6 @@ namespace XXX.Plugin.Tdengine
     /// <summary>
     /// zeromq Demo
     /// 81：发布订阅；82：推拉
-    /// scope生命周期不支持zeromq对象
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -21,19 +20,24 @@ namespace XXX.Plugin.Tdengine
     {
         private readonly ILogger<ZeroMQController> _logger;
         private readonly PublisherSocket _publisherSocket;
+        private readonly PushSocket _pushSocket;
+        private readonly static object _lock = new();//zeromq socket is thread-unsafe
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="publisherSocket"></param>
+        /// <param name="pushSocket"></param>
         public ZeroMQController(
             ILogger<ZeroMQController> logger,
-            PublisherSocket publisherSocket
+            PublisherSocket publisherSocket,
+            PushSocket pushSocket
             )
         {
             _logger = logger;
             _publisherSocket = publisherSocket;
+            _pushSocket = pushSocket;
         }
 
         /// <summary>
@@ -44,8 +48,12 @@ namespace XXX.Plugin.Tdengine
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public IActionResult PublisherSocket()
         {
-            _publisherSocket.SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
-                   .SendFrame(DateTimeOffset.Now.ToString());
+            lock (_lock)
+            {
+                _publisherSocket.SendMoreFrame("A:b") // Topic支持特殊符号，topic命名最佳实践：模块名/功能命/功能层级
+                    .SendFrame(DateTimeOffset.Now.ToString());
+            }
+
 
             return Ok();
         }
@@ -58,9 +66,11 @@ namespace XXX.Plugin.Tdengine
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public IActionResult PushSocket()
         {
-            //推数据 https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
-            _publisherSocket.SendFrame("Hello Clients"); ;
-
+            lock (_lock)
+            {
+                //推数据 https://github.com/zeromq/netmq/blob/ea0a5a7e1b77a1ade9311f187f4ff37a20d5d964/src/NetMQ.Tests/PushPullTests.cs
+                _pushSocket.SendFrame("Hello Clients"); ;
+            }
             return Ok();
         }
     }

@@ -42,7 +42,7 @@ namespace NetPro.ZeroMQ
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, int port = 81)
+        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, int port = 81, SocketOptions socketOptions = null)
         {
             PublisherSocket publisher = new();
             //发布是由于本机承载故配回环地址即可
@@ -59,11 +59,13 @@ namespace NetPro.ZeroMQ
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, ZeroMQOption zeroMQOption)
+        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, ZeroMQOption zeroMQOption, SocketOptions socketOptions=null)
         {
             PublisherSocket publisher = new();
             //发布是由于本机承载故配回环地址即可
             //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+            //TODO
+            //publisher.Options.SendHighWatermark = 1000;
             publisher.Bind($"tcp://*:{zeroMQOption.PublishPort}");
 
             services.AddSingleton(publisher);
@@ -76,7 +78,7 @@ namespace NetPro.ZeroMQ
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddZeroMQForPushSocket(this IServiceCollection services, int port = 82)
+        public static IServiceCollection AddZeroMQForPushSocket(this IServiceCollection services, int port = 82, SocketOptions socketOptions = null)
         {
             PushSocket pushSocket = new();
             //发布是由于本机承载故配回环地址即可
@@ -93,11 +95,12 @@ namespace NetPro.ZeroMQ
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddZeroMQForPushSocket(this IServiceCollection services, ZeroMQOption zeroMQOption)
+        public static IServiceCollection AddZeroMQForPushSocket(this IServiceCollection services, ZeroMQOption zeroMQOption, SocketOptions socketOptions = null)
         {
             PushSocket pushSocket = new();
             //发布是由于本机承载故配回环地址即可
             //发布者优先使用bind方法；订阅者和拉取侧优先使用Connect;发布者和推送者优先使用回环地址
+            //publisher.Options.SendHighWatermark = 1000;
             pushSocket.Bind($"tcp://*:{zeroMQOption.PushPort}");
 
             services.AddSingleton(pushSocket);
