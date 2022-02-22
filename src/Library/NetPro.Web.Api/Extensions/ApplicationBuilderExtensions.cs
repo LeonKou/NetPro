@@ -48,7 +48,7 @@ namespace NetPro.Web.Api
                         handler.Run(async context =>
                         {
                             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            context.Response.ContentType = "application/json;charset=utf-8";
+                            context.Response.ContentType = "text/plain; charset=utf-8";
                             var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                             if (contextFeature != null)
                             {
@@ -91,11 +91,12 @@ namespace NetPro.Web.Api
                                     }
                                 }
                                 context.Response.Headers.Add("error", $"{contextFeature.Error.Message}");
-                                await context.Response.WriteAsync(JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"System exception, please try again later", Result = "" }, new JsonSerializerOptions
-                                {
-                                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-                                }), Encoding.UTF8);
+                                await context.Response.WriteAsync("System exception, please try again later");
+                                //    JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"System exception, please try again later", Result = "" }, new JsonSerializerOptions
+                                //{
+                                //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                                //    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+                                //}), Encoding.UTF8);
                                 await Task.CompletedTask;
                                 return;
                             }

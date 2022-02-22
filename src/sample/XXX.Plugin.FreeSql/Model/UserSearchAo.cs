@@ -31,6 +31,7 @@
         /// <summary>
         /// 年龄
         /// </summary>
+        [Range(1,100)]
         public uint Age { get; set; }
 
         /// <summary>

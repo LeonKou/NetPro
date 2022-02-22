@@ -1,4 +1,5 @@
-﻿global using AutoMapper;
+﻿global using System.ComponentModel.DataAnnotations;
+global using AutoMapper;
 global using FreeSql.DataAnnotations;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Hosting;

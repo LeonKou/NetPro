@@ -106,9 +106,12 @@ namespace NetPro.Web.Api
                             stringBuilder.Append(errors[0].ErrorMessage);
                         }
                     }
-                    return new BadRequestObjectResult(new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" })
+                    return new BadRequestObjectResult(
+                        $"validation errors：{stringBuilder}" //return content-type: text/plain;
+                                                      //new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" }
+                        )
                     {
-                        ContentTypes = { "application/problem+json", "application/problem+xml" }
+                        //ContentTypes = { "text/plain; charset=utf-8", "application/problem+json", "application/problem+xml" },                        
                     };
                 };
             });

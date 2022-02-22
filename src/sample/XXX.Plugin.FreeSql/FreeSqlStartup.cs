@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using DataType = FreeSql.DataType;
 
 namespace XXX.Plugin.FreeSql
 {

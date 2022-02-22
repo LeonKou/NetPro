@@ -170,14 +170,15 @@ namespace NetPro.Analysic
             {
                 _iLogger.LogWarning($"[HighRiskIP]IP高危：{GetRequestIp()} 请求警告");
                 context.Response.StatusCode = (int)HttpStatusCode.Conflict;
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = "text/plain; charset=utf-8";
                 context.Response.Headers["WARNING"] = "NetPro.Analysic";
 
-                await context.Response.WriteAsync(JsonSerializer.Serialize(new
-                {
-                    Code = -1,
-                    Msg = $"您的IP已被风控"
-                }), Encoding.UTF8);
+                await context.Response.WriteAsync("您的IP已被风控");
+                //JsonSerializer.Serialize(new
+                //{
+                //    Code = -1,
+                //    Msg = $"您的IP已被风控"
+                //}), Encoding.UTF8);
             }
         }
 
