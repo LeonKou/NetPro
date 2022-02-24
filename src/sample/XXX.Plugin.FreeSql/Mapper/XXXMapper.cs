@@ -14,6 +14,7 @@
             //数据库实体映射AO业务实体,ReverseMap可实现双向映射
             CreateMap<UserInsertAo, User>().ReverseMap();
             CreateMap<UserUpdateAo, User>().ReverseMap();
+            CreateMap<UserInsertAo, UserProfile>().ReverseMap();
         }
 
         /// <summary>

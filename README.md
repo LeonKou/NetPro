@@ -2,8 +2,9 @@
   <img  src="docs/images/netpro2.png">
 </p>
 
-# NetPro
-![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  [![NuGet](https://img.shields.io/nuget/v/NetPro.Web.Api.svg)](https://nuget.org/packages/NetPro.Web.Api)
+# NetPro [Pages](https://leonkou.github.io/NetPro/)
+![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg) 
+
 
 
 ### 🕰️ 活跃分支
@@ -12,8 +13,15 @@
 
 ## 简要
 
-.NetpPro 是一个基于.NetCore的最小依赖并支持插件化开发脚手架，支持按需引用，引用即自动初始化，免去各类中间件繁琐初始化操作，支持`net6.0`，
-核心包`NetPro.Startup` 只有16k即可支撑整个框架以增强启动模式进行开发。NetPro项目在基于核心包`NetPro.Startup`基础上提供了其他周边常用中间件，其核心封装逻辑也是尽可能的暴露原生方法，不对开发人员产生过多不必要的学习成本。
+.NetpPro是一组独立中间件的类库统称，具有轻量级，依赖小，易用使用且高效。
+
+在以往的开发中我们常常封装内置一堆组件作为框架进行使用，项目是否使用这些组件功能都将统统加载，组件无法插拔，往往都是集成度和依赖较高，导致新的学习成本，对于长期维护埋下了很大隐患；而不做封装又要面对杂乱的注入顺序和繁琐重复的的初始化逻辑，有没有办法既可以按需引用又可以避免这些初始化逻辑并且都能以各组件原生的方式调用，
+NetPro就是为解决以上问题而创建。
+
+
+所有组件在[/src/Library](https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library)路径下，每个组件已有详尽的使用说明文档README.md
+
+组件可在任意项目中使用，不强依赖NetPro环境，支持按需引用，引用即自动初始化，免去各类中间件繁琐初始化操作，支持`net3.1` `net6.0`。NetPro项目在基于核心包`NetPro.Startup`基础上提供了其他周边常用中间件，其核心封装逻辑也是尽可能的暴露原生方法，不对开发人员产生过多不必要的学习成本。
 基于`NetPro.Startup`的有两个关键插件包：
 - `NetPro.Web.Api` 用于开发webapi项目
 - `NetPro.Grpc` 用于开发grpc项目
