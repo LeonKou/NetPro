@@ -173,7 +173,7 @@ namespace NetPro.Swagger
             if (typeFinder != null)
             {
                 var xmlpaths = typeFinder.GetAssemblies()
-               .Where(s => !s.GetName().Name.StartsWith("NetPro."))
+               .Where(s => !s.IsDynamic && !s.GetName().Name.StartsWith("NetPro."))
                .Select(s => s.Location.Replace(".dll", ".xml"));
                 return xmlpaths.ToList();
             }

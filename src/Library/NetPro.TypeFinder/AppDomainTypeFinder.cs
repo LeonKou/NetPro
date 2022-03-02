@@ -117,8 +117,9 @@ namespace System.NetPro
         /// </returns>
         public virtual bool Matches(string assemblyFullName)
         {
-            return !Matches(assemblyFullName, AssemblySkipLoadingPattern)
-                   && Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
+            var _ = !Matches(assemblyFullName, AssemblySkipLoadingPattern);
+            var __ = Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
+            return _ && __;
         }
 
         /// <summary>
@@ -379,10 +380,12 @@ namespace System.NetPro
             var currentAssemblies = AssemblyLoadContext.Default.Assemblies;//AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in currentAssemblies)
             {
+                if (_CustomeAssembliesHashSet.Contains(assembly))
+                    continue;
                 if (string.IsNullOrWhiteSpace(_typeFinderOption.CustomDllPattern))
                 {
                     //跳过滤脏程序集(与内置脏模板匹配的程序集)
-                    if (Matches(assembly.GetName().Name) && !Matches(assembly.GetName().Name, "^NetPro.*"))
+                    if (!Matches(assembly.GetName().Name) && !Matches(assembly.GetName().Name, "^NetPro.*"))
                         continue;
                 }
                 else
@@ -420,7 +423,7 @@ namespace System.NetPro
         public IList<string> AssemblyNames { get; set; } = new List<string>();
 
         /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
-        public string AssemblySkipLoadingPattern { get; set; } = "^BetterConsole|^Com.Ctrip.Framework.Apollo|^Figgle|^netstandard|^Serilog|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
+        public string AssemblySkipLoadingPattern { get; set; } = "IdleBus|IdGen|^ICSharpCode.|^Google.|FreeSql.Repository|^FreeSql.Provider.|FreeSql^FreeSql.DbContext|^EasyNetQ|^DnsClient|^Consul|^ConsoleTables|^Clawfoot.Extensions|^Clawfoot.Core|^BouncyCastle.Crypto|^AsyncIO|^System.Private|^Microsoft.Extensions.|^System.Collections|^System.Linq|^Microsoft.Extensions.|^Microsoft.WebTools|^Microsoft.AspNetCore.|^System.Runtime|^BetterConsole|^Com.Ctrip.Framework.Apollo|^Figgle|^netstandard|^Serilog|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
         /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
         /// <remarks>If you change this so that NetPro assemblies aren't investigated (e.g. by not including something like "^NetPro|..." you may break core functionality.</remarks>
