@@ -16,11 +16,6 @@ namespace NetPro.Core.Configuration
         public bool UseResponseCompression { get; set; } = false;
 
         /// <summary>
-        /// 最小线程数(cpu核心数2倍)
-        /// </summary>
-        public int ThreadMinCount { get; set; }
-
-        /// <summary>
         /// 应用程序名称
         /// </summary>
         public string ApplicationName { get; set; }

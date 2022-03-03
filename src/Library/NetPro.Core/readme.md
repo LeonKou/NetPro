@@ -12,8 +12,7 @@
 基础配置
 
 "NetProOption": {     
-      "UseResponseCompression": false,//是否启用响应压缩
-      "ThreadMinCount": 5,//最小线程数
+      "UseResponseCompression": false,//是否启用响应压缩      
       "RequestWarningThreshold": 5, //请求时长的警告临界值
       "RoutePrefix":"api" //全局路由前缀
 	},
