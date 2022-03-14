@@ -1,6 +1,6 @@
 ﻿{
 	"ResponseCacheOption": {
-		"Enabled": true,
+		"Enabled": true, //默认启用
 		"Cluster": false,
 		"Duration": 5,
 		"IgnoreVaryByQueryKeys": [ "sign", "timestamp" ]

@@ -6,9 +6,9 @@ namespace NetPro.Swagger
     public class SwaggerOption
     {
         /// <summary>
-        /// 是否启用swagger
+        /// 是否启用swagger,default is true
         /// </summary>
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = true;
 
         /// <summary>
         /// 是否暗黑主题

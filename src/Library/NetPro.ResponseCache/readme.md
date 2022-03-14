@@ -10,7 +10,7 @@
 
 ```json
 "ResponseCacheOption": {
-"Enabled": true,
+"Enabled": true,//默认启用
 "Cluster":false,
 "Duration": 5,//响应持续时间
 "IgnoreVaryByQueryKeys": [ "sign,timestamp" ]

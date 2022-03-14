@@ -1,6 +1,6 @@
 ﻿{
 	"SwaggerOption": {
-		"Enabled": true,
+		"Enabled": true,//default is true
 		"IsDarkTheme": true,
 		"MiniProfilerEnabled": false,
 		"OAuth2": {

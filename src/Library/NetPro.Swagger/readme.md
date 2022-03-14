@@ -10,7 +10,7 @@
 
 ```json
 "SwaggerOption": {
- "Enabled": true, 
+ "Enabled": true, //默认启用
  "RoutePrefix": "swagger",
  "MaxDisplayedTags":"100"//最多显示几个Controller,不写默认100
  "ServerPrefix": "lu/", //json endpoint，用于反向代理场景使用

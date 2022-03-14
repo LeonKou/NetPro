@@ -1,7 +1,9 @@
 
 ## ShareRequestData使用
 
- [![NuGet](https://img.shields.io/nuget/v/NetPro.ShareRequestData.svg)](https://nuget.org/packages/NetPro.ShareRequestData)
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.ShareRequestData.svg)](https://nuget.org/packages/NetPro.ShareRequestBody)
+
+### `[废弃]`
 
 共享请求何响应中的body，避免各中间件重复解析body流。
 特别注意:ResponseCacheData生命周期为scope
