@@ -6,6 +6,10 @@
 
 ## 使用
 
+### 约定
+默认站点根目录下所有json自动在配置中生效，通过IConfiguration获取配置，有一些例外的json文件不在此生效：
+`runtimeconfig.template.json`；`startup.json`；`global.json`
+
 ### 启用服务
 
 通过添加环境变量ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup，开发环境可以通过设置launchSettings.json来启用NetPro.Satrtup插件

@@ -82,28 +82,29 @@ namespace System.NetPro.Startup._
 
                 var env = config.HostingEnvironment.EnvironmentName; //只要代码写HostingEnvironment就报未实现，但是debug又能去取到数据
 
-                if (!File.Exists($"customeconfig/custom.{env}.json"))
-                {
-                    Directory.CreateDirectory("customeconfig");
-                    using (var writer = File.CreateText($"customeconfig/custom.{env}.json"))
-                    {
-                        writer.WriteLine("{}");
-                    }
-                }
+                //custome json files
+                //if (!File.Exists($"customeconfig/custom.{env}.json"))
+                //{
+                //    Directory.CreateDirectory("customeconfig");
+                //    using (var writer = File.CreateText($"customeconfig/custom.{env}.json"))
+                //    {
+                //        writer.WriteLine("{}");
+                //    }
+                //}
 
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
                 builder.SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("appsettings.json", true, true)//base config
                             .AddJsonFile($"appsettings.{env}.json", true, true); //inherit base config
 
-                //The Customeconfig folder is the custom configuration directory,contains two dots that are environment placeholders by default
-                foreach (var file in Directory.GetFiles("customeconfig", $"*.json"))
+                //Load all jSON-formatted files as configuration
+                foreach (var file in Directory.GetFiles(".", $"*.json"))
                 {
-                    //ignore json file
-                    if (file.Contains("runtimeconfig.template.json") || (file.Where(s => s == '.').Count() == 2 && !file.Contains($"{env}.json")))
+                    if (file.Contains("runtimeconfig.template.json") || file.Contains($"appsettings.{env}.json") || file.Contains($"appsettings.json"))
                         continue;
 
-                    builder.AddJsonFile(file, true, true);//custome config
+                    builder.AddJsonFile(file, true, true);
+                    Console.WriteLine(file);
                 }
 
                 builder.AddEnvironmentVariables();
