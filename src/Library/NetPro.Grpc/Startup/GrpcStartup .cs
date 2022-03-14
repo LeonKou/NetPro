@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using System.NetPro;
 using System.Reflection;
@@ -18,7 +19,7 @@ namespace NetPro.Grpc
 
             application.UseEndpoints(endpoints =>
             {
-                GrpcServiceExtension.AddGrpcServices(endpoints, new string[] { $"{Assembly.GetEntryAssembly().GetName().Name}" });
+                 GrpcServiceExtension.AddGrpcServices(endpoints, new string[] { $"{Assembly.GetEntryAssembly().GetName().Name}" });
             });
         }
 
@@ -26,22 +27,7 @@ namespace NetPro.Grpc
         {
             services.AddGrpc();
 
-            //日志初始化配置
-            services.ConfigureSerilogConfig(configuration);
         }
     }
-
-    internal static class _Helper
-    {
-        /// <summary>
-        /// 配置日志组件初始化
-        /// </summary>
-        /// <param name="configuration"></param>
-        internal static void ConfigureSerilogConfig(this IServiceCollection services, IConfiguration configuration)
-        {
-            Serilog.Log.Logger = new LoggerConfiguration()
-              .ReadFrom.Configuration(configuration)
-              .CreateLogger();
-        }
-    }
+   
 }

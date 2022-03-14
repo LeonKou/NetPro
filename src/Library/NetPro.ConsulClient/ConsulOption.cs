@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace NetPro.ConsulClient
 {
@@ -11,11 +12,6 @@ namespace NetPro.ConsulClient
         /// 是否开启，默认开启
         /// </summary>
         public bool Enabled { get; set; } = true;
-        /// <summary>
-        /// 健康检车接口
-        /// 默认HealthCheck
-        /// </summary>
-        public string HealthPath { get; set; } = "/HealthCheck";
 
         /// <summary>
         /// 
@@ -26,18 +22,27 @@ namespace NetPro.ConsulClient
         /// 服务名称
         /// 默认当前运行程序集名称
         /// </summary>
-        public string ServiceName { get; set; } = Assembly.GetEntryAssembly().GetName().Name;
-
-        /// <summary>
-        /// 当前服务所在地址host:port
-        /// 如："127.0.0.1:5001"
-        /// </summary>
-        //public string SelfAddress { get; set; }//当前服务所在地址只接受外部传入
+        public string ServiceName { get; set; } = Assembly.GetEntryAssembly().GetName().Name;//AppDomain.CurrentDomain.FriendlyName;
 
         /// <summary>
         /// consul服务所在地址
         /// 格式：http://localhost:8500
         /// </summary>
         public string EndPoint { get; set; } = "http://localhost:8500";
+
+        /// <summary>
+        /// The default 30 seconds
+        /// </summary>
+        public TimeSpan? WaitTime { get; set; }// = TimeSpan.FromSeconds(5);
+
+        /// <summary>
+        /// 数据中心，默认空
+        /// </summary>
+        public string Datacenter { get; set; } = null;
+
+        /// <summary>
+        /// Token默认空
+        /// </summary>
+        public string Token { get; set; } = null;
     }
 }

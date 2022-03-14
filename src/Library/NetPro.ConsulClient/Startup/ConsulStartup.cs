@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.NetPro;
 
 namespace NetPro.ConsulClient
@@ -34,7 +35,7 @@ namespace NetPro.ConsulClient
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseConsul();
+
         }
     }
 }

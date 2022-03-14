@@ -1,9 +1,12 @@
-﻿{
+﻿
+{
   "ConsulOption": {
     "Enabled": false, //是否开启,不配置默认开启
-    "HealthPath": "/HealthCheck",
-    "ServiceName": "xxx.api",
+    "ServiceName": "xxx.api", //可留空；留空默认以入口程序名作为servicename
     "EndPoint": "http://localhost:8500",
-    "Tags": [ "HUHU" ]
+    "WaitTime": null,
+    "Tags": [ "HUHU" ], //可留空
+    "Datacenter": null, //可留空
+    "Token": null //可留空
   }
 }

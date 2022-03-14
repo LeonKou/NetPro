@@ -23,18 +23,26 @@
  */
 
 using Consul;
+using Consul.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 
 namespace NetPro.ConsulClient
 {
@@ -44,222 +52,95 @@ namespace NetPro.ConsulClient
     public static class RegisterToConsulExtension
     {
         /// <summary>
-        /// 宿主机ip(环境变量：LANIP)
-        /// 例如192.168.74.58
+        /// IP address of the network adapter
+        /// For example 192.168.74.58
         /// </summary>
         private static string LANIP { get; set; }
 
-        private static int? PORT { get; set; }
+        private static int PORT { get; set; }
         /// <summary>
         /// Add Consul
-        /// 添加consul
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
         public static IServiceCollection AddConsul(this IServiceCollection services, IConfiguration configuration)
         {
-            //配置consul注册地址
             var consulOptionSection = configuration.GetSection(nameof(ConsulOption));
             services.Configure<ConsulOption>(consulOptionSection);
-            var consulOption = services.BuildServiceProvider().GetService<IOptions<ConsulOption>>();
-            if (!consulOption.Value.Enabled)
+            var consulOption = services.BuildServiceProvider().GetService<IOptions<ConsulOption>>().Value;
+            if (!consulOption.Enabled)
             {
                 return services;
             }
-            //http://+:80
-            LANIP = configuration["LANIP"];
-            PORT = configuration.GetValue<int?>("PORT");
 
-            // configuration Consul register address
-            //configuration Consul client
-            //配置consul客户端
-            services.AddSingleton<IConsulClient>(sp => new Consul.ConsulClient(config =>
+            var url = configuration.GetValue<string>("ASPNETCORE_URLS");//not support multi urls
+            if (url.Contains(';'))
             {
-                var consulOptions = sp.GetRequiredService<IOptions<ConsulOption>>().Value;
-                if (!string.IsNullOrWhiteSpace(consulOptions.EndPoint))
-                {
-                    config.Address = new Uri(consulOptions.EndPoint);
-                }
-            }));
+                throw new ArgumentOutOfRangeException("Multiple hosts are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+            }
+            if (url.Contains('*') || url.Contains('+') || url.Contains('['))
+            {
+                throw new ArgumentException("wildcard character (*,+) are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+            }
+
+            var launchEndpoint = new Uri(url);
+
+            PORT = launchEndpoint.Port;
+            LANIP = launchEndpoint.Host;
+
+            if (LANIP.Contains("0.0.0.0") || LANIP.Contains("127.0.0.1") || LANIP.Contains("localhost"))
+            {
+                LANIP = EndpointExtension.GetEndpointIp(services).FirstOrDefault();//There is only one network adapter by default
+            }
+            var serviceId = $"{consulOption.ServiceName}_{LANIP}:{PORT}";
+
+            services.AddConsul(options =>
+            {
+                options.Datacenter = consulOption.Datacenter;
+                options.Address = new Uri(consulOption.EndPoint);
+                options.Token = consulOption.Token;
+                options.WaitTime = consulOption.WaitTime;
+
+            }).AddConsulServiceRegistration(options =>
+            {
+                options.ID = serviceId;
+                options.Name = consulOption.ServiceName;
+                options.Address = LANIP;
+                options.Name = consulOption.ServiceName;
+                options.Port = PORT;
+                options.Tags = consulOption.Tags;
+            });
 
             return services;
         }
+    }
 
-        /// <summary>
-        /// use Consul
-        /// 使用consul
-        /// The default health check interface format is http://host:port/HealthCheck
-        /// 默认的健康检查接格式是 http://host:port/HealthCheck
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseConsul(this IApplicationBuilder app)
+
+    internal static class EndpointExtension
+    {
+        internal static string[] GetEndpointIp(IServiceCollection services)
         {
-            IOptions<ConsulOption> serviceOptions = app.ApplicationServices.GetRequiredService<IOptions<ConsulOption>>();
-            if (!serviceOptions.Value.Enabled)
-            {
-                return app;
-            }
-            //***
-
-            Microsoft.Extensions.Hosting.IHostApplicationLifetime appLife = app.ApplicationServices.GetRequiredService<Microsoft.Extensions.Hosting.IHostApplicationLifetime>();
-
-            var features = app.ServerFeatures;
-
-            IConsulClient consul = app.ApplicationServices.GetRequiredService<IConsulClient>();
-
-            if (!PORT.HasValue)
-            {
-                var addresses = features.Get<IServerAddressesFeature>().Addresses;
-                var uriString = addresses.FirstOrDefault();
-                var uri = new Uri(uriString);
-                PORT = uri.Port;
-                if (!(uri.Host.Contains("0.0.0.0") || uri.Host.Contains("+") || uri.Host.Contains("*")))//http://+:80
-                {
-                    LANIP = uri.Host;
-                }
-            }
-
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"application port is :{PORT.Value}");
             var addressIpv4Hosts = NetworkInterface.GetAllNetworkInterfaces()
-            .OrderByDescending(c => c.Speed)
-            .Where(c => c.NetworkInterfaceType != NetworkInterfaceType.Loopback && c.OperationalStatus == OperationalStatus.Up);
 
-            if (string.IsNullOrWhiteSpace(LANIP))
+          .OrderByDescending(c => c.Speed)
+          .Where(c => c.NetworkInterfaceType != NetworkInterfaceType.Loopback && c.OperationalStatus == OperationalStatus.Up);
+
+            List<string> ips = new List<string>();
+            foreach (var item in addressIpv4Hosts)
             {
-                foreach (var item in addressIpv4Hosts)
+                if (item.Supports(NetworkInterfaceComponent.IPv4))
                 {
                     var props = item.GetIPProperties();
                     //this is ip for ipv4
-                    //这是ipv4的ip地址
                     var firstIpV4Address = props.UnicastAddresses
                         .Where(c => c.Address.AddressFamily == AddressFamily.InterNetwork)
                         .Select(c => c.Address)
                         .FirstOrDefault().ToString();
-                    var serviceId = $"{serviceOptions.Value.ServiceName}_{firstIpV4Address}:{PORT}";
-
-                    var httpCheck = new AgentServiceCheck()
-                    {
-                        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-                        Interval = TimeSpan.FromSeconds(30),
-                        //this is default health check interface
-                        //这个是默认健康检查接口
-                        HTTP = $"{Uri.UriSchemeHttp}://{firstIpV4Address}:{PORT}{serviceOptions.Value.HealthPath}",
-                    };
-
-                    var registration = new AgentServiceRegistration()
-                    {
-                        Checks = new[] { httpCheck },
-                        Address = firstIpV4Address.ToString(),
-                        ID = serviceId,
-                        Name = serviceOptions.Value.ServiceName,
-                        Port = PORT.Value,
-                        Tags = serviceOptions.Value.Tags
-                    };
-
-                    var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
-
-                    try
-                    {
-                        consul.Agent.ServiceRegister(registration).ConfigureAwait(false).GetAwaiter().GetResult();
-                        //send consul request after service stop
-                        //当服务停止后想consul发送的请求
-                        appLife.ApplicationStopping.Register(() =>
-                        {
-                            consul.Agent.ServiceDeregister(serviceId).ConfigureAwait(false).GetAwaiter().GetResult();
-                        });
-                    }
-
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, $"consul error");
-                    }
-                    finally
-                    {
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        logger.LogInformation($"health check service:{httpCheck.HTTP}");
-                        Console.ResetColor();
-                    }
+                    ips.Add(firstIpV4Address);
                 }
             }
-            else
-            {
-                var serviceId = $"{serviceOptions.Value.ServiceName}_{LANIP}:{PORT}";
-                var httpCheck = new AgentServiceCheck()
-                {
-                    DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-                    Interval = TimeSpan.FromSeconds(30),
-                    //this is default health check interface
-                    //这个是默认健康检查接口
-                    HTTP = $"{Uri.UriSchemeHttp}://{LANIP}:{PORT}{serviceOptions.Value.HealthPath}",
-                };
-
-                var registration = new AgentServiceRegistration()
-                {
-                    Checks = new[] { httpCheck },
-                    Address = LANIP.ToString(),
-                    ID = serviceId,
-                    Name = serviceOptions.Value.ServiceName,
-                    Port = PORT.Value,
-                    Tags = serviceOptions.Value.Tags,
-                };
-
-                try
-                {
-                    consul.Agent.ServiceRegister(registration).ConfigureAwait(false).GetAwaiter().GetResult();
-
-                    //send consul request after service stop
-                    //当服务停止后想consul发送的请求
-                    appLife.ApplicationStopping.Register(() =>
-                    {
-                        consul.Agent.ServiceDeregister(serviceId).ConfigureAwait(false).GetAwaiter().GetResult();
-                    });
-                }
-                catch (Exception ex)
-                {
-                    var logger = app.ApplicationServices.GetRequiredService<ILogger<ConsulOption>>();
-                    logger.LogError(ex, $"consul error");
-                }
-
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"health check service:{httpCheck.HTTP}");
-            }
-
-            //register localhost address
-            //注册本地地址
-            //var localhostregistration = new AgentServiceRegistration()
-            //{
-            //    Checks = new[] { new AgentServiceCheck()
-            //    {
-            //        DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-            //        Interval = TimeSpan.FromSeconds(30),
-            //        HTTP = $"{Uri.UriSchemeHttp}://localhost:{PORT}{serviceOptions.Value.HealthPath}",
-            //    } },
-            //    Address = "localhost",
-            //    ID = $"{serviceOptions.Value.ServiceName}_localhost:{PORT}",
-            //    Name = serviceOptions.Value.ServiceName,
-            //    Port = PORT.Value
-            //};
-
-            //consul.Agent.ServiceRegister(localhostregistration).ConfigureAwait(false).GetAwaiter().GetResult();
-
-            ////send consul request after service stop
-            ////当服务停止后向consul发送的请求
-            //appLife.ApplicationStopping.Register(() =>
-            //{
-            //    consul.Agent.ServiceDeregister(localhostregistration.ID).ConfigureAwait(false).GetAwaiter().GetResult();
-            //});
-
-            app.Map($"{serviceOptions.Value.HealthPath}", s =>
-            {
-                s.Run(async context =>
-                {
-                    await context.Response.WriteAsync("ok");
-                });
-            });
-            return app;
+            return ips.ToArray();
         }
     }
 }

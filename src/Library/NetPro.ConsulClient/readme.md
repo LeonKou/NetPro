@@ -14,13 +14,15 @@ PORT 端口号 PORT=5000
 
 - 增加以下配置节点
 ```json
-"ConsulOption": {
-        "Enabled": false,//是否开启,不配置默认开启，不影响启动
-		"HealthPath": "/HealthCheck",//可空不填，默认HealthCheck
-		"ServiceName": "xxx.api",//可空不填，取运行时程序集名称
-		"EndPoint": "http://localhost:8500" consul服务地址
-        "Tags": [ "HUHU"] //tag
-	}
+  "ConsulOption": {
+    "Enabled": false, //是否开启,不配置默认开启
+    "ServiceName": "xxx.api", //可留空；留空默认以入口程序名作为servicename
+    "EndPoint": "http://localhost:8500",
+    "WaitTime": null,
+    "Tags": [ "HUHU" ], //可留空
+    "Datacenter": null, //可留空
+    "Token": null //可留空
+  }
 ```
 如果基于NetPro.WebApi的项目，只需要以上配置即可，如不是基于NetPro.WebApi的项目，需手动按一下初始化组件
 #### 启用服务
@@ -32,7 +34,6 @@ public void ConfigureServices(IServiceCollection services, IConfiguration config
 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseConsul();
         }
 ```
 
