@@ -7,7 +7,7 @@ namespace XXX.API.Service
         string GetLanguage();
     }
 
-    public class GlobalizationDemoService : IGlobalizationDemoService
+    public class GlobalizationDemoService : IGlobalizationDemoService,IScopedDependency
     {
         private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         public GlobalizationDemoService(IStringLocalizer<NetPro.Globalization.Globalization> localizer)

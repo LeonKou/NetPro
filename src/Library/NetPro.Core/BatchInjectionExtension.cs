@@ -48,7 +48,7 @@ namespace System.NetPro
         /// ^XXX.:匹配XXX.开头的字符串;
         /// *.XXX.*:匹配包含.XXX.的字符串;
         /// </remarks>
-        public static void BatchInjection(this IServiceCollection services, string assemblyPattern, string classNamePattern = "Service$")
+        public static IServiceCollection BatchInjection(this IServiceCollection services, string assemblyPattern, string classNamePattern = "Service$")
         {
             var typeFinder = services.BuildServiceProvider().GetService<ITypeFinder>();
 
@@ -79,13 +79,38 @@ namespace System.NetPro
                 ))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-
+            return services;
             //template code
             //services.Scan(scan => scan
             //  .FromAssemblies(typeFinder.GetAssemblies().Where(s => s.GetName().Name.EndsWith("API")).ToArray())
             //  .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
             //  .AsImplementedInterfaces()
             //  .WithScopedLifetime());
+        }
+
+        /// <summary>
+        /// 接口注入
+        /// </summary>
+        /// <param name="services"></param>
+        public static void InterfaceDependency(this IServiceCollection services)
+        {
+            services.Scan(scan => scan
+        .FromAssemblyOf<ITransientDependency>()
+        .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
+        .AsImplementedInterfaces()
+        .WithTransientLifetime());
+
+            services.Scan(scan => scan
+         .FromAssemblyOf<ISingletonDependency>()
+         .AddClasses(classes => classes.AssignableTo<ISingletonDependency>())
+         .AsImplementedInterfaces()
+         .WithSingletonLifetime());
+
+         services.Scan(scan => scan
+         .FromAssemblyOf<IScopedDependency>()
+         .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
+         .AsImplementedInterfaces()
+            .WithScopedLifetime());
         }
 
         private static bool IsValidName(this string currencyValue, string pattern)

@@ -26,6 +26,7 @@ namespace NetPro.Core.Startup
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
+            services.InterfaceDependency();
             var netProOption = services.ConfigureStartupConfig<NetProOption>(configuration.GetSection(nameof(NetProOption)));
             services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
 
@@ -84,8 +85,6 @@ namespace NetPro.Core.Startup
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已关闭");
             }
         }
-
-
     }
 
     internal static class _Helper
