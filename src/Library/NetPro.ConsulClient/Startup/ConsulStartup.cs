@@ -10,7 +10,7 @@ namespace NetPro.ConsulClient
     /// <summary>
     /// consul
     /// </summary>
-    public class ConsulStartup : INetProStartup, System.NetPro.Startup.__._
+    public class ConsulStartup //: INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

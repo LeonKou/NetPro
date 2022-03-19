@@ -24,25 +24,17 @@
 
 using Consul;
 using Consul.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NetPro.ConsulClient
 {
@@ -74,42 +66,82 @@ namespace NetPro.ConsulClient
                 return services;
             }
 
-            var url = configuration.GetValue<string>("ASPNETCORE_URLS");//not support multi urls
-            if (url.Contains(';'))
+            var url = configuration.GetValue<string>("urls");//ASPNETCORE_URLS not support multi urls
+            if (string.IsNullOrWhiteSpace(url))
             {
-                throw new ArgumentOutOfRangeException("Multiple hosts are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+                url = configuration.GetValue<string>("ASPNETCORE_URLS");//ASPNETCORE_URLS not support multi urls
             }
-            if (url.Contains('*') || url.Contains('+') || url.Contains('['))
+            if (string.IsNullOrWhiteSpace(url))
             {
-                throw new ArgumentException("wildcard character (*,+) are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+                if (string.IsNullOrWhiteSpace(url))
+                    throw new ArgumentNullException("url current endpoint not found");
+                LANIP = EndpointExtension.GetEndpointIp(services).FirstOrDefault();//There is only one network adapter by default
+                PORT = 80;
+            }
+            else
+            {
+                Console.WriteLine($"[NetPro.ConsulClient] The current server's listen endpoint is {url}");
+
+                if (url.Contains(';'))
+                {
+                    throw new ArgumentOutOfRangeException("Multiple hosts are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+                }
+                if (url.Contains('*') || url.Contains('+') || url.Contains('['))
+                {
+                    throw new ArgumentException("wildcard character (*,+) are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
+                }
+                var launchEndpoint = new Uri(url);
+
+                PORT = launchEndpoint.Port;
+                LANIP = launchEndpoint.Host;
             }
 
-            var launchEndpoint = new Uri(url);
-
-            PORT = launchEndpoint.Port;
-            LANIP = launchEndpoint.Host;
-
-            if (LANIP.Contains("0.0.0.0") || LANIP.Contains("127.0.0.1") || LANIP.Contains("localhost"))
+            if (string.IsNullOrWhiteSpace(LANIP) || LANIP.Contains("0.0.0.0") || LANIP.Contains("127.0.0.1") || LANIP.Contains("localhost"))
             {
                 LANIP = EndpointExtension.GetEndpointIp(services).FirstOrDefault();//There is only one network adapter by default
             }
             var serviceId = $"{consulOption.ServiceName}_{LANIP}:{PORT}";
 
-            services.AddConsul(options =>
+            Task.Run(async () =>
             {
-                options.Datacenter = consulOption.Datacenter;
-                options.Address = new Uri(consulOption.EndPoint);
-                options.Token = consulOption.Token;
-                options.WaitTime = consulOption.WaitTime;
+                services.AddConsul(options =>
+                {
+                    options.Datacenter = consulOption.Datacenter;
+                    options.Address = new Uri(consulOption.EndPoint);
+                    options.Token = consulOption.Token;
+                    options.WaitTime = consulOption.WaitTime;
 
-            }).AddConsulServiceRegistration(options =>
-            {
-                options.ID = serviceId;
-                options.Name = consulOption.ServiceName;
-                options.Address = LANIP;
-                options.Name = consulOption.ServiceName;
-                options.Port = PORT;
-                options.Tags = consulOption.Tags;
+                }).AddConsulServiceRegistration(options =>
+                {
+                    //var checkttl = new AgentCheckRegistration
+                    //{
+                    //    //Timeout = TimeSpan.FromSeconds(12),
+                    //    Name = $"checkttl",
+                    //    TTL = TimeSpan.FromSeconds(5),
+                    //    //Status = Consul.HealthStatus.Passing,
+                    //    ServiceID = serviceId,
+                    //    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
+                    //    Notes = "app does a curl internally every 10 seconds",
+                    //};
+                    var checktcp = new AgentCheckRegistration
+                    {
+                        Timeout = TimeSpan.FromSeconds(10),
+                        Name = $"checktcp",
+                        TCP = $"{LANIP}:{PORT}",
+                        Status = Consul.HealthStatus.Passing,
+                        ServiceID = serviceId,
+                        DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
+                        Interval = TimeSpan.FromSeconds(10),
+                        Notes = "check for tcp",
+                    };
+                    options.Checks = new[] { /*checkttl,*/ checktcp };
+                    options.ID = serviceId;
+                    options.Name = consulOption.ServiceName;
+                    options.Address = LANIP;
+                    options.Port = PORT;
+                    options.Tags = consulOption.Tags;
+                    options.Meta = consulOption.Meta;
+                });
             });
 
             return services;

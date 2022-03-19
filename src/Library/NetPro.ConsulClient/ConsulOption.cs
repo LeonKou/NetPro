@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace NetPro.ConsulClient
@@ -14,9 +15,14 @@ namespace NetPro.ConsulClient
         public bool Enabled { get; set; } = true;
 
         /// <summary>
-        /// 
+        /// Tags
         /// </summary>
         public string[] Tags { get; set; }//= new string[] { "" };
+
+        /// <summary>
+        /// Meta
+        /// </summary>
+        public IDictionary<string, string> Meta { get; set; }
 
         /// <summary>
         /// 服务名称

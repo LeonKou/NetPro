@@ -1,11 +1,13 @@
-﻿
-{
+﻿{
   "ConsulOption": {
     "Enabled": false, //是否开启,不配置默认开启
     "ServiceName": "xxx.api", //可留空；留空默认以入口程序名作为servicename
     "EndPoint": "http://localhost:8500",
     "WaitTime": null,
     "Tags": [ "HUHU" ], //可留空
+    "Meta": { //可留空
+      "key": "value"
+    },
     "Datacenter": null, //可留空
     "Token": null //可留空
   }

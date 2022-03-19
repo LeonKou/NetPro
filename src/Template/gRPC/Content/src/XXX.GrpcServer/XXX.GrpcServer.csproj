@@ -22,8 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.6" />
-		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />-->
+		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.6" />-->
+		<ProjectReference Include="..\..\..\..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<!--<ProjectReference Include="..\..\..\..\..\Library\NetPro.Grpc\NetPro.Grpc.csproj" />-->
 		<PackageReference Include="NetPro.Grpc" Version="6.0.5-beta.6" />
 	</ItemGroup>

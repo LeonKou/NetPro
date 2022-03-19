@@ -32,9 +32,6 @@
 		<PackageReference Include="Consul.AspNetCore" Version="1.6.10.4" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="Consul" Version="1.6.10.4" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
