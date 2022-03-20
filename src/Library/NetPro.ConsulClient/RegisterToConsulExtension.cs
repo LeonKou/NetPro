@@ -22,9 +22,6 @@
  *  SOFTWARE.
  */
 
-using Consul;
-using Consul.AspNetCore;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -33,8 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
+using Consul.AspNetCore;
 
 namespace NetPro.ConsulClient
 {
@@ -49,7 +45,7 @@ namespace NetPro.ConsulClient
         /// </summary>
         private static string LANIP { get; set; }
 
-        private static int PORT { get; set; }
+        //private static int PORT { get; set; }
         /// <summary>
         /// Add Consul
         /// </summary>
@@ -66,88 +62,43 @@ namespace NetPro.ConsulClient
                 return services;
             }
 
-            var url = configuration.GetValue<string>("urls");//ASPNETCORE_URLS not support multi urls
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                url = configuration.GetValue<string>("ASPNETCORE_URLS");//ASPNETCORE_URLS not support multi urls
-            }
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                if (string.IsNullOrWhiteSpace(url))
-                    throw new ArgumentNullException("url current endpoint not found");
-                LANIP = EndpointExtension.GetEndpointIp(services).FirstOrDefault();//There is only one network adapter by default
-                PORT = 80;
-            }
-            else
-            {
-                Console.WriteLine($"[NetPro.ConsulClient] The current server's listen endpoint is {url}");
-
-                if (url.Contains(';'))
-                {
-                    throw new ArgumentOutOfRangeException("Multiple hosts are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
-                }
-                if (url.Contains('*') || url.Contains('+') || url.Contains('['))
-                {
-                    throw new ArgumentException("wildcard character (*,+) are not supported in NetPro.ConsulClient's ASPNETCORE_URLS variable");
-                }
-                var launchEndpoint = new Uri(url);
-
-                PORT = launchEndpoint.Port;
-                LANIP = launchEndpoint.Host;
-            }
-
             if (string.IsNullOrWhiteSpace(LANIP) || LANIP.Contains("0.0.0.0") || LANIP.Contains("127.0.0.1") || LANIP.Contains("localhost"))
             {
                 LANIP = EndpointExtension.GetEndpointIp(services).FirstOrDefault();//There is only one network adapter by default
             }
-            var serviceId = $"{consulOption.ServiceName}_{LANIP}:{PORT}";
+            var serviceId = Guid.NewGuid().ToString("N");
 
-            Task.Run(async () =>
+            services.AddConsul(options =>
             {
-                services.AddConsul(options =>
-                {
-                    options.Datacenter = consulOption.Datacenter;
-                    options.Address = new Uri(consulOption.EndPoint);
-                    options.Token = consulOption.Token;
-                    options.WaitTime = consulOption.WaitTime;
+                options.Datacenter = consulOption.Datacenter;
+                options.Address = new Uri(consulOption.EndPoint);
+                options.Token = consulOption.Token;
+                options.WaitTime = consulOption.WaitTime;
 
-                }).AddConsulServiceRegistration(options =>
+            })
+                .AddConsulServiceRegistration(options =>
+            {
+                var checkttl = new AgentCheckRegistration_1_7
                 {
-                    //var checkttl = new AgentCheckRegistration
-                    //{
-                    //    //Timeout = TimeSpan.FromSeconds(12),
-                    //    Name = $"checkttl",
-                    //    TTL = TimeSpan.FromSeconds(5),
-                    //    //Status = Consul.HealthStatus.Passing,
-                    //    ServiceID = serviceId,
-                    //    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                    //    Notes = "app does a curl internally every 10 seconds",
-                    //};
-                    var checktcp = new AgentCheckRegistration
-                    {
-                        Timeout = TimeSpan.FromSeconds(10),
-                        Name = $"checktcp",
-                        TCP = $"{LANIP}:{PORT}",
-                        Status = Consul.HealthStatus.Passing,
-                        ServiceID = serviceId,
-                        DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                        Interval = TimeSpan.FromSeconds(10),
-                        Notes = "check for tcp",
-                    };
-                    options.Checks = new[] { /*checkttl,*/ checktcp };
-                    options.ID = serviceId;
-                    options.Name = consulOption.ServiceName;
-                    options.Address = LANIP;
-                    options.Port = PORT;
-                    options.Tags = consulOption.Tags;
-                    options.Meta = consulOption.Meta;
-                });
-            });
-
+                    CheckID = serviceId,
+                    Timeout = TimeSpan.FromSeconds(12),
+                    Name = $"checkttl",
+                    TTL = TimeSpan.FromSeconds(10),
+                    Status = Consul.HealthStatus.Passing,
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
+                    Notes = "app does a curl internally every 10 seconds",
+                };
+                options.Check = checkttl;
+                options.ID = serviceId;
+                options.Name = consulOption.ServiceName;
+                options.Address = LANIP;
+                options.Tags = consulOption.Tags;
+                options.Meta = consulOption.Meta;
+            })
+            ;
             return services;
         }
     }
-
 
     internal static class EndpointExtension
     {

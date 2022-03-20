@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Consul.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ namespace NetPro.ConsulClient
     /// <summary>
     /// consul
     /// </summary>
-    public class ConsulStartup //: INetProStartup, System.NetPro.Startup.__._
+    public class ConsulStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 
@@ -35,7 +36,7 @@ namespace NetPro.ConsulClient
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            app.UseConsuClient();
         }
     }
 }

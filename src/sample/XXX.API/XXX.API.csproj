@@ -15,7 +15,6 @@
 	
 	<ItemGroup>
 		<PackageReference Include="JWT" Version="8.9.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -31,15 +30,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
+		<!--<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />
-		<!--<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />-->
+		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />-->
 		<!--<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />-->
-		<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />
-		<!--<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />-->
+		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

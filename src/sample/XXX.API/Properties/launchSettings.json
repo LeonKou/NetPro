@@ -3,6 +3,7 @@
   "profiles": {
     "XXX.API": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

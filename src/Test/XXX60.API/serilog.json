@@ -1,0 +1,39 @@
+﻿{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Default": "Information",
+        "Microsoft": "Information",
+        "System": "Information",
+        "System.Net.Http.HttpClient": "Information",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+    "WriteTo:Async": {
+      "Name": "Async",
+      "Args": {
+        "configure": [
+          {
+            "Name": "Console"
+          }
+          //,{
+          //  "Name": "File",
+          //  "Args": {
+          //    "path": "Logs/.txt",
+          //    "rollingInterval": "Day",
+          //    "retainedFileCountLimit": "31", //Number of retained files by default 31
+          //    "retainedFileTimeLimit": "10.00:00:00", //Deletes files older than 10 days
+          //    "outputTemplate": "{Timestamp:o} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+          //  }
+          //}
+        ]
+      }
+    },
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+    "Properties": {
+      "Application": "XXX"
+    }
+  }
+}

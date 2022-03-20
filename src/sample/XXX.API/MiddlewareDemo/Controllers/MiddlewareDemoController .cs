@@ -58,10 +58,10 @@ namespace XXX.API.Controllers
         public async Task<IActionResult> ConsulDiscovery(string serviceName = "XXX.API")
         {
             //以下几种方式都可拿到注册的服务地址
-            var result = await _consulClient.Agent.DiscoveryAsync();
-            var result1 = await _consulClient.Catalog.DiscoveryAsync(serviceName);
-            var result2 = await _consulClient.DiscoveryAsync(serviceName);
-            return Ok(new { result, result1, result2 });
+            var resultAgent = await _consulClient.Agent.DiscoveryAsync();
+            var resultCatalog = await _consulClient.Catalog.DiscoveryAsync(serviceName);
+            var resultDiscovery = await _consulClient.DiscoveryAsync(serviceName);
+            return Ok(new { resultAgent, resultCatalog, resultDiscovery });
         }
 
         /// <summary>
