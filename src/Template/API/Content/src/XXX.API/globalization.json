@@ -1,0 +1,9 @@
+﻿{
+  "Globalization": {
+    "ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqlite地址
+    "Cultures": [
+      "zh-CN",
+      "en-US"
+    ]
+  }
+}
