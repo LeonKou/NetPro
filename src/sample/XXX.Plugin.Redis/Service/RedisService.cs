@@ -156,6 +156,7 @@ namespace XXX.Plugin.Redis
         /// <returns></returns>
         void IStartupTask.Execute()
         {
+            return;
             _redisClient.Get("1").Subscribe
                (
                ("runoobChat", msg =>

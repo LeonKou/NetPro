@@ -92,6 +92,9 @@ namespace NetPro.CsRedis
                 var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
                 _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
                 services.AddSingleton<IRedisManager, NullCache>();
+
+                var idleBusForNull = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
+                services.AddSingleton(idleBusForNull);
                 return services;
             }
 

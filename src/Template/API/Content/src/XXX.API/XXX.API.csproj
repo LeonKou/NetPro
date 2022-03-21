@@ -15,22 +15,22 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.5-beta.6" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.5-beta.7" />
 		<!--按需加载NetPro插件实现引用即启用，所有插件说明请参阅 https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library-->
-		<PackageReference Include="NetPro.Globalization" Version="6.0.5-beta.6" />
-		<PackageReference Include="NetPro.MongoDb" Version="6.0.5-beta.6" />
-		<PackageReference Include="NetPro.CsRedis" Version="6.0.5-beta.6" />
-		<PackageReference Include="NetPro.Swagger" Version="6.0.5-beta.6" />
-		<PackageReference Include="NetPro.AutoMapper" Version="6.0.5-beta.6" />
-		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.Checker" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.EasyNetQ" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.Grpc" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.MQTTClient" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.Proxy" Version="6.0.5-beta.6" />-->
-		<!--<PackageReference Include="NetPro.Utility" Version="6.0.5-beta.6" />-->
+		<PackageReference Include="NetPro.Globalization" Version="6.0.5-beta.7" />
+		<PackageReference Include="NetPro.MongoDb" Version="6.0.5-beta.7" />
+		<PackageReference Include="NetPro.CsRedis" Version="6.0.5-beta.7" />
+		<PackageReference Include="NetPro.Swagger" Version="6.0.5-beta.7" />
+		<PackageReference Include="NetPro.AutoMapper" Version="6.0.5-beta.7" />
+		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.Checker" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.EasyNetQ" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.Grpc" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.MQTTClient" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.Proxy" Version="6.0.5-beta.7" />-->
+		<!--<PackageReference Include="NetPro.Utility" Version="6.0.5-beta.7" />-->
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<!--按需加载serilog 插件-->
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
@@ -38,7 +38,7 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="FreeSql.DbContext" Version="3.0.100" />
 		<PackageReference Include="FreeSql.Provider.MySql" Version="3.0.100" />
@@ -47,5 +47,11 @@
 		<PackageReference Include="IdleBus" Version="1.5.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties swagger_1json__JsonSchema="https://appsemble.app/api.json" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>
