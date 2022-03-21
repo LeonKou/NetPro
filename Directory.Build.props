@@ -128,7 +128,7 @@
 		<NetProZeroMQAssemblyName>NetPro.ZeroMQ</NetProZeroMQAssemblyName>
 
 		<ConsulAspNetCore>1.7.1-beta.1</ConsulAspNetCore>
-		<ConsulAspNetCoreAssemblyName>Consul.AspNetCore</ConsulAspNetCoreAssemblyName>
+		<ConsulAspNetCoreAssemblyName>NetPro.Consul.AspNetCore</ConsulAspNetCoreAssemblyName>
 		
 	</PropertyGroup>
 
