@@ -1,16 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Version>$(ConsulAspNetCore)</Version>
+		<Description>Consul.AspNetCore support ttl health check</Description>
+		<AssemblyName>$(ConsulAspNetCoreAssemblyName)</AssemblyName>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageTags>consul;ttl check;docker ip discovery</PackageTags>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Analysic</PackageProjectUrl>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>bin\Debug\$(TargetVersion)\Consul.AspNetCore.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Consul" Version="1.6.10.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.10" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.10" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.10" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\$(TargetVersion)\Consul.AspNetCore.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591</NoWarn>
+	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="$(PackageIconPath)">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Consul" Version="1.6.10.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.10" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="readme.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
+	</Target>
 </Project>
