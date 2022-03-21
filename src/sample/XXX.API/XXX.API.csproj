@@ -11,7 +11,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
-	</PropertyGroup>
+	</PropertyGroup> 
 	
 	<ItemGroup>
 		<PackageReference Include="JWT" Version="8.9.0" />
