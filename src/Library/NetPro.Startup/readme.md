@@ -63,3 +63,28 @@ export ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup
 
 ```
 
+### 指定配置文件路径（用于整理拆分配置文件）：
+
+在`appsettings.json`文件中增加配置项`ConfigPath`，指定配置文件夹存放路径，例如此处，`appsetting.json`中只有这一条配置项：
+
+```json
+{
+  "ConfigPath": "ConfigJsons"
+}
+```
+
+所有在程序运行目录`ConfigJsons`中的json文件将被读取为配置项，此时，原有的`appsetting.json`被拆分为：
+
+```plaintext
+E:.
+|   appsettings.json
+|   Project.csproj
+|
+\---ConfigJsons
+        globalization.json
+        log.json
+        mq.json
+        redis.json
+        swagger.json
+```
+
