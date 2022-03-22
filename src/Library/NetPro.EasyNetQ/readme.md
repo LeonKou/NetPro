@@ -52,13 +52,13 @@ public void ConfigureServices(IServiceCollection services)
         /// </summary>
         public void Method()
         {
-             //订阅/Subscribe
-                    _idbus ["rabbit2"].Subscribe<TextMessage>("subscriptionId", tm =>
+             //订阅/Subscribe,禁止using
+                    _easyNetQMulti["rabbit2"].Subscribe<TextMessage>("subscriptionId", tm =>
                     {
                         Console.WriteLine("Recieve Message: {0}", tm.Text);
                     });
 
-           //发布/Publish
+           //发布/Publish，必须using包裹
                 using (var bus = _easyNetQMulti["rabbit21"])
                 {
                     var input = "";
