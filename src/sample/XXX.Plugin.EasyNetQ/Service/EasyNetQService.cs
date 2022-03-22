@@ -33,7 +33,14 @@ namespace XXX.Plugin.EasyNetQ
                     Task.Delay(300);
                     using (var bus2 = _easyNetQMulti[dbKey])
                     {
-                        bus2.PubSub.PublishAsync(new RabbitMessageModel { Text = "this is a message" });
+                        try
+                        {
+                            bus2.PubSub.PublishAsync(new RabbitMessageModel { Text = $"[{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}]this is a message" });
+                        }
+                        catch (Exception ex)
+                        {
+                            throw;
+                        }
                     }
                 }
             });

@@ -30,11 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.EasyNetQ\XXX.Plugin.EasyNetQ.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.FreeSql\XXX.Plugin.FreeSql.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MediatR\XXX.Plugin.MediatR.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />-->
+		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />
 		<!--<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />-->
 		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
