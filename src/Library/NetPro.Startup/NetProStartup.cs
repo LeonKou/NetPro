@@ -99,7 +99,7 @@ namespace System.NetPro.Startup._
 
                 _configuration = builder.Build();
 
-                var jsonFilePath = _configuration.GetValue<string>("ConfigPath") ?? ".";
+                var jsonFilePath = _configuration.GetValue<string>("ConfigPath",".");
 
                 //Load all jSON-formatted files as configuration
                 foreach (var file in Directory.GetFiles(jsonFilePath, $"*.json"))
