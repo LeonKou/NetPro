@@ -38,39 +38,72 @@ public void ConfigureServices(IServiceCollection services)
 
 ### 使用说明
 
+#### 发布者
 ```csharp
- public class RabbitmqService : IRabbitmqService
+    /// <summary>
+    /// rabbitmq发布者
+    /// </summary>
+ public class EasyNetQService : IRabbitmqService
     {
-        private readonly IEasyNetQMulti _easyNetQMulti;
-        public RabbitmqService( IEasyNetQMulti easyNetQMulti)
+        private readonly IdleBus<IBus> _idbus;//适合用于发布者使用，内部有对象管理机制如用于订阅有连接断开可能的错误。
+        private static bool _stop;
+        public EasyNetQService(IdleBus<IBus> idbus)
         {
-            _easyNetQMulti=easyNetQMulti;
+            _idbus = idbus;
         }
 
+
+         public async Task PublishAsync(string dbKey = "rabbit1")
+        {
+            _idbus.Get(dbKey).PubSub.PublishAsync(new RabbitMessageModel { Text = $"[{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}]this is a message" })
+                  .ContinueWith(p =>
+                  {
+                      if (p.Exception != null)
+                          p.Exception.Handle(x =>
+                          {
+                              Console.WriteLine(x.Message);
+                              return true;
+                          });
+                  });
+       }
+    }
+  /// <summary>
+  /// 定义rabbitmq 的队列，交换机等
+  /// </summary>
+ [Queue("my_queue_name", ExchangeName = "my_exchange_name_")]
+    public class RabbitMessageModel
+    {
         /// <summary>
         /// 
         /// </summary>
-        public void Method()
+        public string Text { get; set; }
+    }
+```
+#### 消费者
+```csharp
+    /// <summary>
+    /// rabbitmq消费者
+    /// </summary>
+    internal class RabbitMqStartTask : IStartupTask//消费者只需要初始化一次，放在后台服务或系统初始化操作中
+    {
+        private readonly IEasyNetQMulti _easyNetQMulti;//适合用于订阅者使用，无需using包裹保持对象不销毁以达到持续订阅。
+       
+        public RabbitMqStartTask()
         {
-             //订阅/Subscribe,禁止using
-                    _easyNetQMulti["rabbit2"].Subscribe<TextMessage>("subscriptionId", tm =>
-                    {
-                        Console.WriteLine("Recieve Message: {0}", tm.Text);
-                    });
+            _easyNetQMulti = EngineContext.Current.Resolve<IEasyNetQMulti>();
+        }
+        public int Order => 0;
 
-           //发布/Publish，必须using包裹
-                using (var bus = _easyNetQMulti["rabbit21"])
-                {
-                    var input = "";
-                    Console.WriteLine("Please enter a message. 'q'/'Q' to quit.");
-                    while ((input = Console.ReadLine()).ToLower() != "q")
-                    {
-                        bus.PubSub.Publish(new TextMessage
-                        {
-                            Text = input
-                        });
-                    }
-                }
+        public void Execute()
+        {
+            //订阅/Subscribe
+            //订阅需要保持长连接，请使用EasyNetQMulti获取连接对象并且不用使用using和调用dispose()
+            var bus = _easyNetQMulti["rabbit1"];
+            //同交换机，同队列下subscriptionId为订阅唯一标识，相同标识会依次收到订阅消息，类似于广播
+            bus.PubSub.Subscribe<RabbitMessageModel>("subscriptionId_", tm =>
+            {
+                Console.WriteLine("Recieve Message: {0}", tm.Text);
+            });
         }
     }
 ```

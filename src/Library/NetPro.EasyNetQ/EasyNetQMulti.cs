@@ -3,20 +3,28 @@ using System;
 using System.Linq;
 using System.NetPro;
 
+/// <summary>
+/// Support easyNetQ multiple connections
+/// It is recommended to use this object only for subscribers
+/// </summary>
 public interface IEasyNetQMulti
 {
     /// <summary>
     /// 根据key标识获取连接对象
     /// </summary>
     /// <param name="key"></param>
-    /// <returns></returns>
+    /// <returns>return Ibus;
+    /// avoid using when used by subscribers;
+    /// be sure to use using when used by publishers</returns>
     public IBus Get(string key);
 
     /// <summary>
     /// 根据key标识获取连接对象
     /// </summary>
     /// <param name="key"></param>
-    /// <returns></returns>
+    /// <returns>return Ibus;
+    /// avoid using when used by subscribers;
+    /// be sure to use using when used by publishers</returns>
     public IBus this[string key]
     {
         get;
@@ -29,7 +37,7 @@ namespace NetPro.EasyNetQ
     /// 支持多个rabbitmq server
     /// 不建议直接使用此类，请使用接口
     /// </summary>
-    public class EasyNetQMulti : IEasyNetQMulti
+    internal class EasyNetQMulti : IEasyNetQMulti
     {
         internal static EasyNetQOption EasyNetQOption;
         private EasyNetQMulti()

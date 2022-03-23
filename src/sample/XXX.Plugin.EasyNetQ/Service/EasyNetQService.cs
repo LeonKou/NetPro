@@ -9,8 +9,8 @@ namespace XXX.Plugin.EasyNetQ
 
     public class EasyNetQService : IEasyNetQService
     {
-        private readonly IdleBus<IBus> _idbus;
-        private readonly IEasyNetQMulti _easyNetQMulti;
+        private readonly IdleBus<IBus> _idbus;//只能用于发布使用，内部有对象管理机制如用于订阅有连接断开可能的错误。
+        private readonly IEasyNetQMulti _easyNetQMulti;//适合用于订阅者使用，无需using包裹保持对象不销毁以达到持续订阅。
         private static bool _stop;
         public EasyNetQService(IdleBus<IBus> idbus,
              IEasyNetQMulti easyNetQMulti)
@@ -21,29 +21,35 @@ namespace XXX.Plugin.EasyNetQ
 
         public async Task PublishAsync(string dbKey = "rabbit1", bool stop = false)
         {
-            _stop = stop;
-            Task.Factory.StartNew(() =>
-            {
-                while (true)
-                {
-                    if (_stop)
-                    {
-                        return;
-                    }
-                    Task.Delay(300);
-                    using (var bus2 = _easyNetQMulti[dbKey])
-                    {
-                        try
-                        {
-                            bus2.PubSub.PublishAsync(new RabbitMessageModel { Text = $"[{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}]this is a message" });
-                        }
-                        catch (Exception ex)
-                        {
-                            throw;
-                        }
-                    }
-                }
-            });
+            _idbus.Get(dbKey).PubSub.PublishAsync(new RabbitMessageModel { Text = $"[{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}]this is a message" })
+                  .ContinueWith(p =>
+                  {
+                      if (p.Exception != null)
+                          p.Exception.Handle(x =>
+                          {
+                              Console.WriteLine(x.Message);
+                              return true;
+                          });
+                  });
+            //return;
+            //await Task.Factory.StartNew(async () =>
+            // {
+            //     while (true)
+            //     {
+            //         //单例在while中需要 Thread.Sleep(1)操作，否则会发生内存无法回收的问题。
+            //         Thread.Sleep(1);
+            //         await _idbus.Get(dbKey).PubSub.PublishAsync(new RabbitMessageModel { Text = $"[{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}]this is a message" })
+            //          .ContinueWith(p =>
+            //          {
+            //              if (p.Exception != null)
+            //                  p.Exception.Handle(x =>
+            //                  {
+            //                      Console.WriteLine(x.Message);
+            //                      return true;
+            //                  });
+            //          });
+            //     }
+            // });
         }
     }
 
