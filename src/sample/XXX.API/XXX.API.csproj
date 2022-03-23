@@ -11,8 +11,23 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
-	</PropertyGroup> 
-	
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="config.json\connection.json" />
+		<None Include="config.json\globalization.json" />
+		<None Include="config.json\checker.json" />
+		<None Include="config.json\proxy.json" />
+		<None Include="config.json\swagger.json" />
+		<None Include="config.json\mongo.json" />
+		<None Include="config.json\redis.json" />
+		<None Include="config.json\easynetq.json" />
+		<None Include="config.json\consul.json" />
+		<None Include="config.json\mqtt.json" />
+		<None Include="config.json\tdengine.json" />
+		<None Include="config.json\serilog.json" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="JWT" Version="8.9.0" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
@@ -39,6 +54,10 @@
 		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties properties_4launchsettings_1json__JsonSchema="" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>

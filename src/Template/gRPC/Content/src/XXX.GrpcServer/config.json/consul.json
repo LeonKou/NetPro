@@ -1,0 +1,11 @@
+{
+	"ConsulOption": {
+		"Enabled": false, //是否开启,不配置默认开启
+		//"ServiceName": "xxx.grpc", //可留空；留空默认以入口程序名作为servicename
+		"EndPoint": "http://192.168.100.187:8500",
+		"WaitTime": 30,
+		"Tags": [ "HUHU" ], //可留空
+		"Datacenter": null, //可留空
+		"Token": null //可留空
+	}
+}

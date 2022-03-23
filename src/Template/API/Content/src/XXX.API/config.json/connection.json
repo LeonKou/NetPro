@@ -1,0 +1,7 @@
+{
+	"ConnectionStrings": {
+		"DefaultConnection": "Server=189.33.22.1;Port=3306;Database=netpro_microservice_demo;charset=utf8mb4;user=root;password=666666;Allow User Variables=True;",
+		"MysqlConnection": "Server=127.0.0.1;port=3306;Database=netpro_microservice_demo;user id=root;password=netpro@123!;minimumpoolsize=1;maximumpoolsize=20;AllowLoadLocalInfile=True;allowuservariables=True;",
+		"SqliteConnection": "Data Source=../XXX.db;Cache=Shared"
+	}
+}
