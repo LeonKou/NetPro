@@ -108,6 +108,8 @@ public void ConfigureServices(IServiceCollection services)
     }
 ```
 
+#### 性能：
+![](../../../docs/images/EasyNetQ.png)
 #### 更新中...
 reference
  [使用rabbitmq消息队列——EasyNetQ插件介绍](https://www.cnblogs.com/shanfeng1000/p/12359190.html)
