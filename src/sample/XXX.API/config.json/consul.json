@@ -1,3 +1,4 @@
+//consul服务发现注册相关配置
 {
 	"ConsulOption": {
 		"Enabled": true, //是否开启,不配置默认开启

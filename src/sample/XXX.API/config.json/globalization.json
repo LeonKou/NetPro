@@ -1,3 +1,4 @@
+//全球化相关配置
 {
 	"Globalization": {
 		"ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqlite地址

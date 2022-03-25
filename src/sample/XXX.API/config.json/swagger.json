@@ -1,5 +1,5 @@
 {
-  "swagger": {
+  "SwaggerOption": {
     "Enabled": true,
     "OAuth2": {
       "Server": "http://192.168.12.1:333",

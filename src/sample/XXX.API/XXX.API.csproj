@@ -14,6 +14,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="config.json\cors.json" />
+		<None Include="config.json\zeromq.json" />
 		<None Include="config.json\connection.json" />
 		<None Include="config.json\globalization.json" />
 		<None Include="config.json\checker.json" />
@@ -53,11 +55,5 @@
 		<!--<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />-->
 		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
-
-	<ProjectExtensions>
-		<VisualStudio>
-			<UserProperties properties_4launchsettings_1json__JsonSchema="" />
-		</VisualStudio>
-	</ProjectExtensions>
 
 </Project>
