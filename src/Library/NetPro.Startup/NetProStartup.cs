@@ -99,12 +99,12 @@ namespace System.NetPro.Startup._
 
                 _configuration = builder.Build();
 
-                var jsonFilePath = _configuration.GetValue<string>("ConfigPath",".");
+                var jsonFilePath = _configuration.GetValue<string>("ConfigPath", ".");
 
                 //Load all jSON-formatted files as configuration
                 foreach (var file in Directory.GetFiles(jsonFilePath, $"*.json"))
                 {
-                    if (file.Contains("runtimeconfig.template.json") || file.Contains($"appsettings.{env}.json") || file.Contains($"appsettings.json"))
+                    if (file.Contains("runtimeconfig.template.json") || file.Contains($"appsettings."))
                         continue;
 
                     builder.AddJsonFile(file, true, true);
