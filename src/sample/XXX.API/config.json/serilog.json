@@ -2,21 +2,21 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
+      "Default": "Error",
+      "Microsoft": "Error",
+      "Microsoft.Hosting.Lifetime": "Error"
     }
   },
   "Serilog": {
     "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
     "MinimumLevel": {
-      "Default": "Information",
+      "Default": "Error",
       "Override": {
-        "Default": "Information",
-        "Microsoft": "Information",
-        "System": "Information",
-        "System.Net.Http.HttpClient": "Information",
-        "Microsoft.Hosting.Lifetime": "Information"
+        "Default": "Error",
+        "Microsoft": "Error",
+        "System": "Error",
+        "System.Net.Http.HttpClient": "Error",
+        "Microsoft.Hosting.Lifetime": "Error"
       }
     },
     "WriteTo:Async": {
@@ -25,17 +25,25 @@
         "configure": [
           {
             "Name": "Console"
+          },
+          {
+            "Name": "File",
+            "Args": {
+              "path": "Logs/.txt",
+              "rollingInterval": "Day",
+              "retainedFileCountLimit": "31", //Number of retained files by default 31
+              "retainedFileTimeLimit": "10.00:00:00", //Deletes files older than 10 days
+              "outputTemplate": "{Timestamp:o} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+            }
+          },
+          {
+            "Name": "Elasticsearch",
+            "Args": {
+              "nodeUris": "http://es.com:9200",
+              "indexFormat": "XXXAPI-{0:yyyy.MM}",
+              "autoRegisterTemplate": true
+            }
           }
-          //,{
-          //  "Name": "File",
-          //  "Args": {
-          //    "path": "Logs/.txt",
-          //    "rollingInterval": "Day",
-          //    "retainedFileCountLimit": "31", //Number of retained files by default 31
-          //    "retainedFileTimeLimit": "10.00:00:00", //Deletes files older than 10 days
-          //    "outputTemplate": "{Timestamp:o} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
-          //  }
-          //}
         ]
       }
     },

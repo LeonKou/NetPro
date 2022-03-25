@@ -42,6 +42,19 @@ namespace XXX.Plugin.FreeSql
         }
 
         /// <summary>
+        /// 获取单行
+        /// </summary>
+        /// <param name="dbKey">数据库别名标识</param>
+        /// <returns></returns>
+        [HttpGet("user")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        public async Task<User> GetList(string dbKey = "sqlite")
+        {
+            var user = await _userService.GetList(dbKey);
+            return user;
+        }
+
+        /// <summary>
         /// 新增示例
         /// </summary>
         /// <param name="dbKey">数据库别名标识</param>

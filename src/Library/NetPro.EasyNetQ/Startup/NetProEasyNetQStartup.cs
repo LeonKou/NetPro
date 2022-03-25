@@ -9,7 +9,7 @@ namespace NetPro.EasyNetQ
     /// <summary>
     /// 
     /// </summary>
-    public class NetProCsRedisStartup : INetProStartup, System.NetPro.Startup.__._
+    public class NetProEasyNetQStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = int.MaxValue;
 

@@ -133,7 +133,7 @@ namespace System.NetPro.Startup._
                   .ToList();
 
                 //try to read startup.jsonfile
-                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"StartupConfig/startup.json");
+                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"Startup/startup.json");
                 if (File.Exists(jsonPath))
                 {
                     var startupJson = File.ReadAllText(jsonPath);
@@ -191,7 +191,7 @@ namespace System.NetPro.Startup._
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"StartupConfig/startup.json exception: {ex.Message}");
+                        Console.WriteLine($"Startup/startup.json exception: {ex.Message}");
                         goto nofile;
                     }
 
@@ -199,7 +199,7 @@ namespace System.NetPro.Startup._
                 }
                 else
                 {
-                    Directory.CreateDirectory("StartupConfig");
+                    Directory.CreateDirectory("Startup");
 
                     using (var writer = File.CreateText(jsonPath))
                     {

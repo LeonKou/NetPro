@@ -1,0 +1,7 @@
+//œÏ”¶ª∫¥Ê≈‰÷√
+{
+	"ResponseCacheOption": {
+		"Duration": 1,
+		"IgnoreVaryByQueryKeys": [ "sign", "timestamp" ]
+	}
+}

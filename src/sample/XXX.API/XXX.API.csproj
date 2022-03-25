@@ -12,8 +12,12 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Remove="config.json\responsecache.json" />
+	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="config.json\responsecache.json" />
 		<None Include="config.json\cors.json" />
 		<None Include="config.json\zeromq.json" />
 		<None Include="config.json\connection.json" />
@@ -38,6 +42,7 @@
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />

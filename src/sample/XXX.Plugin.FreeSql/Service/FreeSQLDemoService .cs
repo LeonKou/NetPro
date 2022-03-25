@@ -12,6 +12,7 @@ namespace XXX.Plugin.FreeSql
         Task<string> GenerateSqlByLinq(DynamicFilterInfo dyfilter, SearchPageBase searchPageBase, string dbKey = "sqlite");
         Task<PagedList<User>> GraphQLAsync(DynamicFilterInfo dyfilter, SearchPageBase searchPageBase, string dbKey = "sqlite");
         Task<int> InsertAsync(UserInsertAo userInsertAo, string dbKey = "sqlite");
+        Task<User> GetList(string dbKey = "sqlite");
         Task<string> MultiFreeSqlAsync(string dbKey = "sqlite");
         Task<PagedList<User>> SearchJoinAsync(UserSearchAo search, string dbKey = "sqlite");
         bool Transaction(string dbKey = "sqlite");
@@ -57,10 +58,23 @@ namespace XXX.Plugin.FreeSql
         {
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
             var freesql = _fsql.Get(dbKey);
-            var sqliteInstance = await freesql.Select<User>().ToListAsync();
+            var sqliteInstance = await freesql.Select<User>().Limit(2).ToListAsync();
             _logger.LogInformation($"当前默认数据库实例连接字符串 {freesql.Ado.ConnectionString}");
-            var mysqlInstance = await freesql.Select<User>().ToListAsync();
+            var mysqlInstance = await freesql.Select<User>().Limit(2).ToListAsync();
             return freesql.Ado.ConnectionString;
+        }
+
+        /// <summary>
+        /// 获取单行
+        /// </summary>
+        /// <param name="dbKey"></param>
+        /// <returns></returns>
+        public async Task<User> GetList(string dbKey = "sqlite")
+        {
+            //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
+            var freesql = _fsql.Get(dbKey);
+            var entityUser = await freesql.Select<User>().Limit(1).FirstAsync();
+            return entityUser;
         }
 
         /// <summary>
