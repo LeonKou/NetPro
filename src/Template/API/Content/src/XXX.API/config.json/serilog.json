@@ -2,7 +2,7 @@
   "Serilog": {
     "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
     "MinimumLevel": {
-      "Default": "Error",
+      "Default": "Information",
       "Override": {
       }
     },

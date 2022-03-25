@@ -3,9 +3,7 @@
 // </auto-generated>
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System.NetPro;
+using Serilog;
 
 namespace NetPro.Web.Api
 {
@@ -22,17 +20,21 @@ namespace NetPro.Web.Api
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-
+            //如需serilog日志请取消以下serilog代码注释并安装响应nuget包
+            Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                                .ReadFrom.Configuration(configuration)
+                                .CreateLogger();
         }
 
         /// <summary>
-        /// Endpoints请求管道;
-        /// Order执行顺序保证在RoutingStartup（200）之后即可
+        /// Endpoints请求管道
         /// </summary>
         /// <param name="application"></param>
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
+            //如需serilog请求日志请取消以下serilog相关代码
+            application.UseSerilogRequestLogging();
             application.UseEndpoints(s =>
             {
                 s.MapControllers();
