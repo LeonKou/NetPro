@@ -48,6 +48,7 @@
 
 	<ItemGroup>
 		<!--按需加载serilog 插件-->
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />

@@ -1,27 +1,23 @@
 ﻿{
   "Serilog": {
-    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.Async", "Serilog.Sinks.File" ],
     "MinimumLevel": {
       "Default": "Information",
       "Override": {
-        "Default": "Information",
-        "Microsoft": "Debug",
-        "System": "Debug",
-        "System.Net.Http.HttpClient": "Debug",
-        "Microsoft.Hosting.Lifetime": "Information"
       }
     },
     "WriteTo:Async": {
       "Name": "Async",
       "Args": {
         "configure": [
-          { "Name": "Console" }
+          {
+            "Name": "Console"
+          }
         ]
       }
     },
     "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
     "Properties": {
-      "Application": "Netpro"
+      "Application": "XXX"
     }
   }
 }

@@ -36,10 +36,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="JWT" Version="8.9.0" />
+		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
