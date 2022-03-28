@@ -30,6 +30,13 @@
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
+            //application.Use(async (context, next) =>
+            //{
+            //    //从当前请求中获取注入的某个service，要从HttpContext对象中取，，scope对象无法在IApplicationBuilder获取
+            //    var service = context.RequestServices.GetService<IWebHelper>();
+
+            //    await next();
+            //});
         }
     }
 }

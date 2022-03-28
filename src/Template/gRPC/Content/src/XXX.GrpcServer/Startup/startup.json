@@ -1,5 +1,6 @@
 {
   "NetProCoreStartup": 0,
   "GrpcStartup": 0,
+  "GrpcStartup-1": 2147483647,
   "ConsulStartup": 2147483647
 }

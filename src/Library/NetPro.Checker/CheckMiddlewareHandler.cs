@@ -82,8 +82,7 @@ namespace NetPro.Checker
                     var rangeC = IPAddressRange.Parse("10.0.0.0 - 10.255.255.255");
                     if (IPAddress.IsLoopback(remoteIp) || rangeA.Contains(remoteIp) || rangeB.Contains(remoteIp) || rangeC.Contains(remoteIp))
                     {
-                        var configuration = app.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
-                        var info = AppInfo.GetAppInfo(configuration);
+                        var info = AppInfo.GetAppInfo(config);
                         info.RequestHeaders = context.Request.Headers.ToDictionary(kv => kv.Key, kv => kv.Value.First());
                         //context.Response.Headers["Content-Type"] = "application/json";
                         context.Response.ContentType = DEFAULT_CONTENT_TYPE;
@@ -102,7 +101,6 @@ namespace NetPro.Checker
         [Obsolete("recommended to use IApplicationBuilder.UseCheck")]
         public static void UseHealthCheck(this IApplicationBuilder app, string path = "/health")
         {
-            var config = app.ApplicationServices.GetService<IConfiguration>();
             app.Map(path, s =>
             {
                 s.Run(async context =>
