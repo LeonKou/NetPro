@@ -88,3 +88,4 @@ E:.
         swagger.json
 ```
 
+注：这里的配置文件同样支持按环境适配，比如在开发环境下，`mq.Development.json`文件中的相应配置项将会生效
