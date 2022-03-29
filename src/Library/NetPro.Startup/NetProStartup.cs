@@ -102,10 +102,20 @@ namespace System.NetPro.Startup._
                 var jsonFilePath = _configuration.GetValue<string>("ConfigPath", ".");
 
                 //Load all jSON-formatted files as configuration
-                foreach (var file in Directory.GetFiles(jsonFilePath, $"*.json"))
+                foreach (var file in Directory.GetFiles(jsonFilePath, $"*.json").OrderBy(p => p.Length))
                 {
-                    if (file.Contains("runtimeconfig.template.json") || file.Contains("global.json") || file.Contains("startup.json") || file.Contains("appsettings."))
+                    var fileName = new FileInfo(file).Name;
+
+                    if (fileName.Contains("runtimeconfig.template.json") || fileName.Contains("global.json") || fileName.Contains("startup.json") || fileName.Contains("appsettings."))
                         continue;
+
+                    var fileNameArray = fileName.Split('.');
+
+                    // Filter json files by the environment name
+                    if (fileNameArray.Length > 2 && fileNameArray[1].ToLower() != env.ToLower())
+                    {
+                        continue;
+                    }
 
                     builder.AddJsonFile(file, true, true);
                     Console.WriteLine(file);
