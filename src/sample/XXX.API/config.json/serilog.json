@@ -1,21 +1,21 @@
-﻿//日志相关配置
+﻿//日志相关配置 Information  Error
 {
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Microsoft": "Error",
-      "Microsoft.Hosting.Lifetime": "Error"
+      "Microsoft": "Information",
+      "Microsoft.Hosting.Lifetime": "Information"
     }
   },
   "Serilog": {
     "MinimumLevel": {
       "Default": "Information",
       "Override": {
-        "Default": "Error",
-        "Microsoft": "Error",
-        "System": "Error",
-        "System.Net.Http.HttpClient": "Error",
-        "Microsoft.Hosting.Lifetime": "Error"
+        "Default": "Information",
+        "Microsoft": "Information",
+        "System": "Information",
+        "System.Net.Http.HttpClient": "Information",
+        "Microsoft.Hosting.Lifetime": "Information"
       }
     },
     "WriteTo:Async": {
@@ -34,13 +34,14 @@
           //    "retainedFileTimeLimit": "10.00:00:00", //Deletes files older than 10 days
           //    "outputTemplate": "{Timestamp:o} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
           //  }
-          //},
+          //},          
           //{
           //  "Name": "Elasticsearch",
           //  "Args": {
           //    "nodeUris": "http://elasticsearch.com:9200",
           //    "indexFormat": "xxxapi-{0:yyyy.MM}",
-          //    "autoRegisterTemplate": true
+          //    "autoRegisterTemplate": true,
+          //    "connectionGlobalHeaders": "Authorization=ApiKey XzVPaDFIOEJNNUduR1FGWFdiWlc6Sms5ajFUNHJTWDJ5VzEtOG4zSllsdw=="
           //  }
           //}
         ]
