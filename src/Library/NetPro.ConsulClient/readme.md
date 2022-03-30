@@ -5,10 +5,13 @@
 Consul 客户端
 
 ### 使用
+- 健康检查默认以TTL模式，10秒检查
 
-如在容器中使用，需要配置如下LANIP和PORT环境变量，默认便利本机所有网卡地址与分配给程序的默认端口，示例如下：
+- 如在容器中使用，会自动发现容器ip与程序分配的默认端口。
+
+- 如需要指定ip地址需配置如下LANIP和PORT环境变量，默认遍历本机所有网卡地址的第一个与分配给程序的默认端口，示例如下：
 宿主机IP地址   LANIP=192.168.1.1
-PORT 端口号 PORT=5000
+端口号 PORT=5000
 
 #### appsetting.json 
 
@@ -34,6 +37,7 @@ public void ConfigureServices(IServiceCollection services, IConfiguration config
 
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseConsuClient();
         }
 ```
 

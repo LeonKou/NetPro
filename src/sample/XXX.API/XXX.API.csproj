@@ -12,11 +12,10 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+	
 	<ItemGroup>
-	  <Content Remove="config.json\responsecache.json" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<None Include="config.json\checker.Production.json" />
+		<None Include="config.json\checker.Development.json" />
 		<None Include="config.json\responsecache.json" />
 		<None Include="config.json\cors.json" />
 		<None Include="config.json\zeromq.json" />

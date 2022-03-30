@@ -12,8 +12,12 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Remove="config.json\checker.Development.json" />
+	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="config.json\checker.Development.json" />
 	  <None Include="config.json\checker.json" />
 	  <None Include="config.json\connection.json" />
 	  <None Include="config.json\consul.json" />

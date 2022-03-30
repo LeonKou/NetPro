@@ -330,6 +330,19 @@ info: NetProSwaggerServiceExtensions[0]
 
 ```
 
+### IConfiguration 配置
+
+在asp.netcore默认的appsettings.json配置策略上增加了自定义目录配置，例如在appsettings.json中增加ConfigPath配置文件目录
+```
+ "ConfigPath": "configjson",//配置目录
+```
+即可在configjson目录下创建json文件会自动加入配置驱动中，并支持环境加载，例如有以下两份json配置文件
+- checker.json
+- checker.Development.json
+
+在自动加载checker.json配置文件的同时，依据当前环境决定是否加载checker.Development.json，如当前环境为Development ，即自动加载checker.Development.json文件以覆盖checker.json的相同节点配置信息
+
+
 ### 插件方式开发
 
 可将开发好的dll丢入TypeFinderOption:MountePath 配置的文件路径中，即可自动加载当前dll无需工程文件引用
