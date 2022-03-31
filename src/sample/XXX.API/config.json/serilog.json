@@ -2,20 +2,20 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Information",
-      "Microsoft.Hosting.Lifetime": "Information"
+      "Default": "Error",
+      "Microsoft": "Error",
+      "Microsoft.Hosting.Lifetime": "Error"
     }
   },
   "Serilog": {
     "MinimumLevel": {
-      "Default": "Information",
+      "Default": "Error",
       "Override": {
-        "Default": "Information",
-        "Microsoft": "Information",
-        "System": "Information",
-        "System.Net.Http.HttpClient": "Information",
-        "Microsoft.Hosting.Lifetime": "Information"
+        "Default": "Error",
+        "Microsoft": "Error",
+        "System": "Error",
+        "System.Net.Http.HttpClient": "Error",
+        "Microsoft.Hosting.Lifetime": "Error"
       }
     },
     "WriteTo:Async": {

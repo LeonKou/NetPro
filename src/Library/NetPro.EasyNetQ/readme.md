@@ -28,9 +28,9 @@
 ```csharp
 IConfiguration Configuration;
 
-public void ConfigureServices(IServiceCollection services)
+public void ConfigureServices(IServiceCollection services,IConfiguration configuration)
 {    
-       services.AddEasyNetQ(Configuration);
+        services.AddEasyNetQ().Build(configuration);
 }
 ```
 
@@ -110,6 +110,36 @@ public void ConfigureServices(IServiceCollection services)
 
 #### 性能：
 ![](../../../docs/images/EasyNetQ.png)
+
+#### 高级用法：
+- 自定义方式获取连接串
+```C#
+public class XXXEasyNetQ : INetProStartup
+    {
+        public double Order { get; set; } = int.MaxValue;
+
+        public void ConfigureServices(IServiceCollection services, IConfiguration? configuration = null, ITypeFinder? typeFinder = null)
+        {
+            services.AddEasyNetQ<CustomConnector>().Build(configuration);
+        }
+
+        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
+        {
+        }
+    }
+
+    public class CustomConnector : IConnectionsFactory
+    {
+        public IList<ConnectionString> GetConnectionStrings()
+        {
+            var connector = new List<ConnectionString>
+            {
+                new ConnectionString { Key = "2", Value = "host=192.168.78.187:5672;virtualHost=my_vhost;username=admin;password=admin;timeout=60" }
+            };
+            return connector;
+        }
+    }
+```
 #### 更新中...
 reference
  [使用rabbitmq消息队列——EasyNetQ插件介绍](https://www.cnblogs.com/shanfeng1000/p/12359190.html)

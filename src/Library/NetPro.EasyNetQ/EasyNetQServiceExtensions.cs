@@ -26,6 +26,7 @@ using EasyNetQ;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace NetPro.EasyNetQ
 {
@@ -35,19 +36,66 @@ namespace NetPro.EasyNetQ
     public static class EasyNetQServiceExtensions
     {
         /// <summary>
-        /// 启动EasyNetQ
+        /// 自定义连接串策略方式注册
+        /// </summary>
+        /// <typeparam name="GetConnections"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IEasyNetQBuilder AddEasyNetQ<GetConnections>(this IServiceCollection services) where GetConnections : class, IConnectionsFactory
+        {
+            services.AddTransient<IConnectionsFactory, GetConnections>();
+            return new EasyNetQBuilder(services);
+        }
+
+        /// <summary>
+        ///  默认本地连接串策略方式注册
         /// </summary>
         /// <param name="services"></param>
+        /// <returns></returns>
+        public static IEasyNetQBuilder AddEasyNetQ(this IServiceCollection services)
+        {
+            //如已经注册自定义服务，跳过
+            var serviceProviderIsService = services.BuildServiceProvider().GetRequiredService<IServiceProviderIsService>();
+            if (!serviceProviderIsService.IsService(typeof(IConnectionsFactory)))
+            {
+                services.AddTransient<IConnectionsFactory, DefaultConnections>();
+            }
+            return new EasyNetQBuilder(services);
+        }
+
+        /// <summary>
+        /// 构造EasyNetQ实例
+        /// </summary>
+        /// <param name="builder"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddEasyNetQ(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection Build(
+           this IEasyNetQBuilder builder,
+           IConfiguration configuration)
         {
             var option = new EasyNetQOption(configuration);
-            services.AddSingleton(option);
+            builder.Services.AddSingleton(option);
+            return builder.AddEasyNetQ(option);
+        }
+
+        /// <summary>
+        /// 启动EasyNetQ
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static IServiceCollection AddEasyNetQ(this IEasyNetQBuilder builder, EasyNetQOption option)
+        {
             // connectionstring format "host=192.168.18.129;virtualHost=/;username=admin;password=123456;timeout=60"
+
+            var connectionsFactory = builder.Services.BuildServiceProvider().GetRequiredService<IConnectionsFactory>();
+            if (connectionsFactory is not DefaultConnections)
+            {
+                option.ConnectionString = connectionsFactory.GetConnectionStrings().ToList();
+                builder.Services.AddSingleton(option);//用最新连接串覆盖
+            }
             //1、The first way
-            services.AddSingleton<IEasyNetQMulti>(EasyNetQMulti.Instance);
+            builder.Services.AddSingleton<IEasyNetQMulti>(EasyNetQMulti.Instance);
 
             //2、The second way
             var idleBus = new IdleBus<IBus>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
@@ -66,9 +114,9 @@ namespace NetPro.EasyNetQ
                     }
                 });
             }
-            services.AddSingleton(idleBus);
+            builder.Services.AddSingleton(idleBus);
 
-            return services;
+            return builder.Services;
         }
     }
 }

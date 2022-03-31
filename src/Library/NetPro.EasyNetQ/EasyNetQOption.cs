@@ -39,7 +39,7 @@ namespace NetPro.EasyNetQ
         /// <summary>
         /// 连接串集合
         /// </summary>
-        public List<ConnectionString> ConnectionString { get; set; }
+        public List<ConnectionString> ConnectionString { get; set; } = new List<ConnectionString>();
 
     }
 

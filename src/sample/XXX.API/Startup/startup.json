@@ -21,5 +21,6 @@
   "NetProEasyNetQStartup": 2147483647,
   "FreeSqlStartup": 2147483647,
   "MediatRStartup": 2147483647,
-  "MongoDBDemoStartup": 2147483647
+  "MongoDBDemoStartup": 2147483647,
+  "XXXEasyNetQ": 2147483647
 }

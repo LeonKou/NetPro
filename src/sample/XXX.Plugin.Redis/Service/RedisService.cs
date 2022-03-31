@@ -55,9 +55,9 @@ namespace XXX.Plugin.Redis
             //var redisManager = EngineContext.Current.Resolve<IRedisManager>();
 
             //获取依赖注入的对象方式二：通过构造函数注入获取对象实例
-            var succeed = await _redisManager.SetAsync(key, value, timeSpan);
-            var succeed2 = await _redisManager.SetAsync(key, value, timeSpan,"2");
-            var succeed1 = await _redisManager.SetAsync(key, value, timeSpan,"1");
+            //var succeed2 = await _redisManager.SetAsync(key, value, timeSpan);
+            var succeed = await _redisManager.SetAsync(key, value, timeSpan,"2");
+            //var succeed1 = await _redisManager.SetAsync(key, value, timeSpan,"1");
             _logger.LogInformation("redis 插入成功 ");
             return succeed;
         }

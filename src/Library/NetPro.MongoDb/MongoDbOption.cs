@@ -33,7 +33,7 @@ namespace NetPro.MongoDb
         /// <summary>
         /// 连接串集合
         /// </summary>
-        public List<ConnectionString> ConnectionString { get; set; }
+        public List<ConnectionString> ConnectionString { get; set; } = new List<ConnectionString>();
 
     }
 
@@ -45,11 +45,11 @@ namespace NetPro.MongoDb
         /// <summary>
         /// 连接串别名
         /// </summary>
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// 连接串
         /// </summary>
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }

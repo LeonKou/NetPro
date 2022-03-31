@@ -24,8 +24,7 @@ namespace NetPro.MongoDb
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddSingleton(new MongoDbOption(configuration));
-            services.AddSingleton(MongoDBMulti.Instance);
+            services.AddMongoDb().Build(configuration);
         }
 
         /// <summary>

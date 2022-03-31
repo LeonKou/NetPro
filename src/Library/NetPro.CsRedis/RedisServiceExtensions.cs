@@ -31,15 +31,11 @@ using System.Linq;
 
 namespace NetPro.CsRedis
 {
-
-
     /// <summary>
     /// 
     /// </summary>
     public static class RedisServiceExtensions
     {
-
-        internal static bool Flag;
         /// <summary>
         /// 增加Cs.Redis服务
         /// </summary>
