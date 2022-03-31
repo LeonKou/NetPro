@@ -22,9 +22,9 @@
  *  SOFTWARE.
  */
 
-using Maikebing.Data.Taos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace NetPro.Tdengine
@@ -38,16 +38,16 @@ namespace NetPro.Tdengine
     public static class TdengineServiceExtensions
     {
         /// <summary>
-        ///  依赖注入TdengineDb服务扩展方法
+        /// 依赖注入TdengineDb服务扩展方法
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="optionsAction"></param>
+        /// <param name="implementationFactory"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTdengineDb(this IServiceCollection services, TdengineOption optionsAction)
+        public static IServiceCollection AddTdengineDb(this IServiceCollection services, Func<IServiceProvider, TdengineOption> implementationFactory)
         {
-            TdengineMulti.TdengineOption = optionsAction;
-            services.AddSingleton(optionsAction);
-            services.AddSingleton<ITdengineMulti>(TdengineMulti.Instance);
+            TdengineMulti.TdengineOption = null;
+            services.Replace(ServiceDescriptor.Singleton(implementationFactory));
+            services.Replace(ServiceDescriptor.Singleton<ITdengineMulti>(TdengineMulti.Instance));
             return services;
         }
 
@@ -59,10 +59,15 @@ namespace NetPro.Tdengine
         /// <returns></returns>
         public static IServiceCollection AddTdengineDb(this IServiceCollection services, IConfiguration configuration)
         {
+            var serviceCount = services.Count;
             var mongoDbOptions = new TdengineOption(configuration);
-            TdengineMulti.TdengineOption = mongoDbOptions;
-            services.AddSingleton(mongoDbOptions);
-            services.AddSingleton<ITdengineMulti>(TdengineMulti.Instance);
+            services.TryAddSingleton(mongoDbOptions);
+
+            if (serviceCount != services.Count)
+            {
+                TdengineMulti.TdengineOption = mongoDbOptions;
+                services.TryAddSingleton<ITdengineMulti>(TdengineMulti.Instance);
+            }
 
             return services;
         }
