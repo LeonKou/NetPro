@@ -5,11 +5,12 @@
 
 ### appsetting.json
 
+
 ```json
 
 "RedisCacheOption": {
 		"Enabled": true,
-		"ConnectionString": [
+		"ConnectionString": [//如配置远程获取此节点可删除
 			{
 				"Key": "1", //连接串key别名，唯一,用来物理隔离
 				"Value": "127.0.0.1:6379,password=123,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10" //别名key对应的连接串
@@ -21,12 +22,32 @@
 
 ### 使用
 #### 启用redis服务
+- 默认注入方式，读取本地配置
 ```csharp
   public void ConfigureServices(IServiceCollection services)
   {
     //新增redis缓存注入
-    services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(Configuration);
+    services.AddCsRedis().Build<SystemTextJsonSerializer>(configuration);//连接串默认读取配置文件的RedisCacheOption节点
+
   }
+```
+- 自定义连接
+```C#
+public void ConfigureServices(IServiceCollection services)
+  {
+    //自定义的连接串获取实现类CustomConnector
+   services.AddCsRedis<CustomConnector>().Build<SystemTextJsonSerializer>(configuration);
+  }
+
+ public class CustomConnector : IConnectionsFactory//继承此接口实现自定义读取连接串
+    {
+        public IList<ConnectionString> GetConnectionStrings()
+        {
+            var connector = new List<ConnectionString>();
+            connector.Add(new ConnectionString { Key = "2", Value = "192.168.100.187:6379,password=,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10" });
+            return connector;
+        }
+    }
 ```
 
 #### 构造函数注入
@@ -51,17 +72,16 @@ public class WeatherForecastController : ControllerBase
 
 ```csharp
 方法说明
- /// <summary>
- ///获取或者创建缓存 
- /// localExpiredTime参数大于0并且小于expiredTime数据将缓存到本地内存
- /// </summary>
- /// <typeparam name="T"></typeparam>
- /// <param name="key"></param>
- /// <param name="func"></param>
- /// <param name="expiredTime">redis过期时间，默认不过期</param>
- /// <param name="localExpiredTime">本地过期时间，0 默认本地不缓存单位秒</param>
- /// <returns></returns>
- T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0);
+   /// <summary>
+   ///获取或者创建缓存 
+   /// localExpiredTime参数大于0并且小于expiredTime数据将缓存到本地内存
+   /// </summary>
+   /// <typeparam name="T"></typeparam>
+   /// <param name="key"></param>
+   /// <param name="func"></param>
+   /// <param name="expiredTime"></param>
+   /// <param name="localExpiredTime">本地过期时间</param>
+ T GetOrSet<T>(string key, Func<T> func = null, TimeSpan? expiredTime = null, int localExpiredTime = 0, string dbKey = default);
 ```
 
 #### 方法中调用

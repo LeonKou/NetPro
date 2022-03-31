@@ -27,80 +27,102 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace NetPro.CsRedis
 {
+
+
     /// <summary>
     /// 
     /// </summary>
     public static class RedisServiceExtensions
     {
+
+        internal static bool Flag;
         /// <summary>
         /// 增加Cs.Redis服务
         /// </summary>
+        /// <typeparam name="GetConnections">获取连接传集合类
+        /// 继承IConnectionsFactory</typeparam>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCsRedis<T>(this IServiceCollection services, IConfiguration configuration) where T : class, ISerializer, new()
+        public static ICSRedisBuilder AddCsRedis<GetConnections>(this IServiceCollection services) where GetConnections : class, IConnectionsFactory
         {
-            //切库参考：https://github.com/2881099/csredis/issues/63
-            var option = configuration.GetSection(nameof(RedisCacheOption)).Get<RedisCacheOption>();
-
-            if (option == null)
-            {
-                throw new ArgumentNullException(nameof(RedisCacheOption), $"未检测到NetPro.CsRedis配置节点{nameof(RedisCacheOption)}");
-            }
-
-            return services.AddCsRedis<T>(sp => option);
+            services.AddTransient<IConnectionsFactory, GetConnections>();
+            return new CSRedisBuilder(services);
         }
 
         /// <summary>
         /// 增加Cs.Redis服务
         /// </summary>
-        /// <param name="services">The service collection.</param>
-        /// <param name="RedisCacheOption">The redis configration.</param>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static ICSRedisBuilder AddCsRedis(this IServiceCollection services)
+        {
+            //如已经注册自定义服务，跳过
+            var serviceProviderIsService = services.BuildServiceProvider().GetRequiredService<IServiceProviderIsService>();
+            if (!serviceProviderIsService.IsService(typeof(IConnectionsFactory)))
+            {
+                services.AddTransient<IConnectionsFactory, DefaultConnections>();
+            }
+
+            return new CSRedisBuilder(services);
+        }
+
+        /// <summary>
+        /// 增加Cs.Redis服务
+        /// </summary>
         /// <typeparam name="T">The typof of serializer. <see cref="ISerializer" />.</typeparam>
-        public static IServiceCollection AddCsRedis<T>(
-            this IServiceCollection services,
-             Func<IServiceProvider, RedisCacheOption> RedisCacheOption)
+        public static IServiceCollection Build<T>(
+            this ICSRedisBuilder builder,
+            IConfiguration configuration)
             where T : class, ISerializer, new()
         {
-            services.AddSingleton<ISerializer, T>();
-            return services.AddCsRedis(RedisCacheOption);
+            builder.Services.AddSingleton<ISerializer, T>();
+            var option = new RedisCacheOption(configuration);
+            builder.Services.AddSingleton(option);
+            return builder.AddCsRedisConnecter(option);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="services"></param>
         /// <param name="redisCacheOption"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCsRedis(this IServiceCollection services, Func<IServiceProvider, RedisCacheOption> redisCacheOption)
+        private static IServiceCollection AddCsRedisConnecter(this ICSRedisBuilder builder, RedisCacheOption redisCacheOption)
         {
             // redis连接串示例 var connectionString = "127.0.0.1:6379,password=123,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=key前辍,testcluster=false,idleTimeout=10";
-            services.AddSingleton(redisCacheOption);
-            var option = redisCacheOption.Invoke(services.BuildServiceProvider());
-            services.AddSingleton(option);
-
-            if (option?.Enabled ?? false)
+            //builder.Services.AddSingleton(redisCacheOption);
+            //var option = redisCacheOption;// redisCacheOption.Invoke(builder.Services.BuildServiceProvider());
+            //var serviceProviderIsService = builder.Services.BuildServiceProvider().GetRequiredService<IServiceProviderIsService>();
+            var connectionsFactory = builder.Services.BuildServiceProvider().GetRequiredService<IConnectionsFactory>();
+            if (connectionsFactory is not DefaultConnections)
             {
-                services.AddSingleton<IRedisManager, CsRedisManager>();
+                redisCacheOption.ConnectionString = connectionsFactory.GetConnectionStrings().ToList();
+                builder.Services.AddSingleton(redisCacheOption);//用最新连接串覆盖
+            }
+
+            if (redisCacheOption?.Enabled ?? false)
+            {
+                builder.Services.AddSingleton<IRedisManager, CsRedisManager>();
             }
             else
             {
                 //禁用，用NullCache实例化，防止现有注入失败
-                var _logger = services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
+                var _logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<CsRedisManager>>();
                 _logger.LogInformation($"Redis已关闭，当前驱动为NullCache!!!");
-                services.AddSingleton<IRedisManager, NullCache>();
+                builder.Services.AddSingleton<IRedisManager, NullCache>();
 
-                var idleBusForNull = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
-                services.AddSingleton(idleBusForNull);
-                return services;
+                var idleBusForNull = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(redisCacheOption.Idle == 0 ? 60 : redisCacheOption.Idle));
+                builder.Services.AddSingleton(idleBusForNull);
+                return builder.Services;
             }
 
             //CSRedisClient csredis;
-            var idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(option.Idle == 0 ? 60 : option.Idle));
-            foreach (var item in option.ConnectionString)
+            var idleBus = new IdleBus<CSRedisClient>(TimeSpan.FromSeconds(redisCacheOption.Idle == 0 ? 60 : redisCacheOption.Idle));
+
+            foreach (var item in redisCacheOption.ConnectionString)
             {
                 idleBus.Register(item.Key, () =>
                 {
@@ -114,12 +136,11 @@ namespace NetPro.CsRedis
                     }
                 });
             }
-            services.AddSingleton(idleBus);
+            builder.Services.AddSingleton(idleBus);
 
             //静态RedisHelper方式初始化
             //RedisHelper.Initialization(csredis);
-
-            return services;
+            return builder.Services;
         }
     }
 }
