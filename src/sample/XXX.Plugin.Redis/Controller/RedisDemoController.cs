@@ -27,11 +27,12 @@
         /// </summary>
         /// <param name="key">redis key</param>
         /// <param name="value">插入值</param>
+        /// <param name="dbKey">dbkey</param>
         /// <param name="timeSpan">过期时间</param>
         /// <returns></returns>
         [HttpPost("Set")]
         [ProducesResponseType(200, Type = typeof(bool))]
-        public async Task<bool> SetAsync(string key = "one_key", string value = "one_value", TimeSpan? timeSpan = null)
+        public async Task<bool> SetAsync(string key = "one_key", string value = "one_value", string dbKey = "2", int timeSpan = int.MaxValue)
         {
             //除了构造函数获取对象实例也可使用静态的EngineContext来获取对象容器中的指定容器(不鼓励使用，图便利可以使用)
             var webHelper = EngineContext.Current.Resolve<IWebHelper>();
@@ -40,7 +41,7 @@
             // 也可通过构造函数获取对象(推荐)
             //var ip = _webHelper.GetCurrentIpAddress();
 
-            var result = await _redisService.SetAsync(key, value, timeSpan);
+            var result = await _redisService.SetAsync(key, value, dbKey, TimeSpan.FromMinutes(timeSpan));
             return result;
         }
 
@@ -51,7 +52,7 @@
         /// <returns></returns>
         [HttpGet("Get")]
         [ProducesResponseType(200, Type = typeof(string))]
-        public async Task<string> GetAsync(string key = "one_key")
+        public async Task<string> GetAsync(string key = "one_key", string dbKey = "2")
         {
             var result = await _redisService.GetAsync(key);
             return result;
@@ -65,7 +66,7 @@
         /// <returns></returns>
         [HttpPost("Publish")]
         [ProducesResponseType(200, Type = typeof(long))]
-        public async Task<long> PublishAsync(string channel, string message)
+        public async Task<long> PublishAsync(string channel, string message, string dbKey = "2")
         {
             var result = await _redisService.PublishAsync(channel, message);
             return result;
@@ -79,7 +80,6 @@
         [ProducesResponseType(200)]
         public IActionResult Subscribe()
         {
-            //class RedisTask : IStartupTask
             return Ok();
         }
 
@@ -92,7 +92,7 @@
         /// <returns></returns>
         [HttpGet("DistributeLock")]
         [ProducesResponseType(200)]
-        public IActionResult DistributeLock(string lockKey = "lockKey", int timeoutSeconds = 30, bool autoDelay = false)
+        public IActionResult DistributeLock(string lockKey = "lockKey", string dbKey = "2", int timeoutSeconds = 30, bool autoDelay = false)
         {
             var result = _redisService.DistributeLock(lockKey, timeoutSeconds, autoDelay);
             return Ok(result);

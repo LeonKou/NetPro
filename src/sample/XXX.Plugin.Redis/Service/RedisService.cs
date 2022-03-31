@@ -9,7 +9,7 @@ namespace XXX.Plugin.Redis
         int DistributeLock(string lockKey, int timeoutSeconds = 30, bool autoDelay = false);
         Task<string> GetAsync(string key = "one_key");
         Task<long> PublishAsync(string channel, string message);
-        Task<bool> SetAsync(string key = "one_key", string value = "one_value", TimeSpan? timeSpan = null);
+        Task<bool> SetAsync(string key = "one_key", string value = "one_value",string dbKey=null, TimeSpan? timeSpan = null);
         void ExecutePython(string cmd, string args);
     }
 
@@ -43,7 +43,7 @@ namespace XXX.Plugin.Redis
         /// <param name="value"></param>
         /// <param name="timeSpan"></param>
         /// <returns></returns>
-        public async Task<bool> SetAsync(string key = "one_key", string value = "one_value", TimeSpan? timeSpan = null)
+        public async Task<bool> SetAsync(string key = "one_key", string value = "one_value",string dbKey=null, TimeSpan? timeSpan = null)
         {
             //remark:
             //一秒后过期
@@ -55,8 +55,8 @@ namespace XXX.Plugin.Redis
             //var redisManager = EngineContext.Current.Resolve<IRedisManager>();
 
             //获取依赖注入的对象方式二：通过构造函数注入获取对象实例
-            //var succeed2 = await _redisManager.SetAsync(key, value, timeSpan);
-            var succeed = await _redisManager.SetAsync(key, value, timeSpan,"2");
+            var succeed = await _redisManager.SetAsync(key, value, timeSpan, dbKey);
+            //var succeed = await _redisManager.SetAsync(key, value, timeSpan,"2");
             //var succeed1 = await _redisManager.SetAsync(key, value, timeSpan,"1");
             _logger.LogInformation("redis 插入成功 ");
             return succeed;
@@ -71,7 +71,7 @@ namespace XXX.Plugin.Redis
         {
             //可随时改用原生对象操作redis
             var value = await _redisManager.GetAsync<string>(key);
-            _logger.LogError("redis 查询成功 ");
+            _logger.LogInformation("redis 查询成功 ");
             return value;
         }
 
@@ -85,7 +85,7 @@ namespace XXX.Plugin.Redis
         {
             //发布到别名为1的redis数据库中
             var value = await _redisManager.PublishAsync(channel, message);
-            _logger.LogInformation("redis 查询成功 ");
+            _logger.LogInformation("redis 消息发布 ");
             return value;
         }
 
