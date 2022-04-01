@@ -33,20 +33,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NetPro.Web.Api" Version="6.0.5" />
+		<PackageReference Include="NetPro.Web.Api" Version="6.0.5-beta.10" />
 		<!--按需加载NetPro插件实现引用即启用，所有插件说明请参阅 https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library-->
-		<PackageReference Include="NetPro.Globalization" Version="6.0.5" />
-		<PackageReference Include="NetPro.MongoDb" Version="6.0.5" />
-		<PackageReference Include="NetPro.CsRedis" Version="6.0.5" />
-		<PackageReference Include="NetPro.Swagger" Version="6.0.5" />
-		<PackageReference Include="NetPro.AutoMapper" Version="6.0.5" />
-		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.Checker" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.EasyNetQ" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.Grpc" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.MQTTClient" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.Proxy" Version="6.0.5" />-->
-		<!--<PackageReference Include="NetPro.Utility" Version="6.0.5" />-->
+		<PackageReference Include="NetPro.Globalization" Version="6.0.5-beta.10" />
+		<PackageReference Include="NetPro.MongoDb" Version="6.0.5-beta.10" />
+		<PackageReference Include="NetPro.CsRedis" Version="6.0.5-beta.10" />
+		<PackageReference Include="NetPro.Swagger" Version="6.0.5-beta.10" />
+		<PackageReference Include="NetPro.AutoMapper" Version="6.0.5-beta.10" />
+		<!--<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.Checker" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.EasyNetQ" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.Grpc" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.MQTTClient" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.Proxy" Version="6.0.5-beta.10" />-->
+		<!--<PackageReference Include="NetPro.Utility" Version="6.0.5-beta.10" />-->
 	</ItemGroup>
 
 	<ItemGroup>

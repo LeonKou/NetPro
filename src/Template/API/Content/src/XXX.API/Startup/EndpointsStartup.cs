@@ -20,7 +20,7 @@ namespace NetPro.Web.Api
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            //如需serilog日志请取消以下serilog代码注释并安装响应nuget包
+            //如需serilog日志请取消以下serilog代码注释并安装相应nuget包
             Serilog.Log.Logger = new Serilog.LoggerConfiguration()
                                 .ReadFrom.Configuration(configuration)
                                 .CreateLogger();
