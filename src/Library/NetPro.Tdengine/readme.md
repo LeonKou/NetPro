@@ -71,11 +71,38 @@ IConfiguration Configuration;
 
 public void ConfigureServices(IServiceCollection services)
 {
-     services.AddTdengine(new TdengineOption(configuration));
+     services.AddTdengine(Configuration);
 }
 ```
 
 基于NetPro.Web.Api的使用，只需要添加引用后配置以上appsetting.josn配置TaosOption节点即可
+
+> 当想自定义配置获取方式时，无论是否基于NetPro.Web.Api, 都能通过传入委托来自定义配置获取方式：
+
+```c#
+IConfiguration Configuration;
+
+public void ConfigureServices(IServiceCollection services)
+{
+     services.AddTdengineDb(GetTdengineDbOption);
+}
+
+public TdengineOption GetTdengineDbOption(IServiceProvider serviceProvider)
+{
+    return new TdengineOption
+    {
+        ConnectionString = new List<ConnectionString>
+        {
+            new ConnectionString()
+            {
+                Key ="remotekey",
+                Value = "Data Source=h26.taosdata.com;DataBase=db_netpro;Username=root;Password=taosdata;Port=6030"
+            }
+        }
+    };
+}
+```
+
 
 ### 使用说明
 ```csharp
