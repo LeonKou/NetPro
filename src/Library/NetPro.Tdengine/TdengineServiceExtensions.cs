@@ -26,6 +26,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NetPro.Tdengine
 {
@@ -41,12 +43,19 @@ namespace NetPro.Tdengine
         /// 依赖注入TdengineDb服务扩展方法
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="optionFactory"></param>
+        /// <param name="connectionFactory"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTdengineDb(this IServiceCollection services, Func<IServiceProvider, TdengineOption> optionFactory)
+        public static IServiceCollection AddTdengineDb(this IServiceCollection services, Func<IServiceProvider, IList<ConnectionString>> connectionFactory)
         {
+            services.Replace(ServiceDescriptor.Singleton(sp =>
+            {
+                var connection = connectionFactory.Invoke(sp);
+                var config = sp.GetRequiredService<IConfiguration>();
+                var option = config.GetSection(nameof(TdengineOption)).Get<TdengineOption>();
+                option!.ConnectionString = connection.ToList();
+                return option;
+            }));
             TdengineMulti.TdengineOption = null;
-            services.Replace(ServiceDescriptor.Singleton(optionFactory));
             services.Replace(ServiceDescriptor.Singleton<ITdengineMulti>(TdengineMulti.Instance));
             return services;
         }
