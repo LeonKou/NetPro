@@ -9,7 +9,7 @@
 
 ### 🕰️ 活跃分支
 
-* 👉[*dev_6.0* branch](https://github.com/LeonKou/NetPro/tree/dev_3.1)
+* 👉[*dev_6.0* branch](https://github.com/LeonKou/NetPro/tree/dev_6.0)
 
 ## 简要
 
