@@ -12,25 +12,22 @@ namespace XXX.Plugin.Tdengine
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            // 使用自定义的配置获取逻辑覆盖默认的配置加载逻辑
-            services.AddTdengineDb(GetTdengineDbOption);
+            // 使用自定义的连接字符串获取逻辑覆盖默认的连接字符串加载逻辑
+            services.AddTdengineDb(GetConnectionString);
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
 
-        public TdengineOption GetTdengineDbOption(IServiceProvider serviceProvider)
+        public List<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
         {
-            return new TdengineOption
+            return new List<ConnectionString>
             {
-                ConnectionString = new List<ConnectionString>
+                new ConnectionString()
                 {
-                    new ConnectionString()
-                    {
-                        Key ="remotekey",
-                        Value = "Data Source=h26.taosdata.com;DataBase=db_netpro;Username=root;Password=taosdata;Port=6030"
-                    }
+                    Key ="remotekey",
+                    Value = "Data Source=h26.taosdata.com;DataBase=db_netpro;Username=root;Password=taosdata;Port=6030"
                 }
             };
         }

@@ -12,6 +12,7 @@
   "CorsStartup": 300,
   "ShareBodyStartup": 400,
   "ResponseCacheStartup": 500,
+  "TdengineStartup": 600,
   "GlobalizationStartup": 900,
   "EndpointsStartup": 1000,
   "NetProCsRedisStartup": 1000,
