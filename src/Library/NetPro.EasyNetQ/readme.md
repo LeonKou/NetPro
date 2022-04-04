@@ -115,30 +115,27 @@ public void ConfigureServices(IServiceCollection services,IConfiguration configu
 - 自定义方式获取连接串
 ```C#
 public class XXXEasyNetQ : INetProStartup
+{
+    public double Order { get; set; } = int.MaxValue;
+
+    public void ConfigureServices(IServiceCollection services, IConfiguration? configuration = null, ITypeFinder? typeFinder = null)
     {
-        public double Order { get; set; } = int.MaxValue;
-
-        public void ConfigureServices(IServiceCollection services, IConfiguration? configuration = null, ITypeFinder? typeFinder = null)
-        {
-            services.AddEasyNetQ<CustomConnector>().Build(configuration);
-        }
-
-        public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
-        {
-        }
+        services.AddEasyNetQ(GetConnectionString);
     }
 
-    public class CustomConnector : IConnectionsFactory
+    public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
     {
-        public IList<ConnectionString> GetConnectionStrings()
-        {
-            var connector = new List<ConnectionString>
-            {
-                new ConnectionString { Key = "2", Value = "host=192.168.78.187:5672;virtualHost=my_vhost;username=admin;password=admin;timeout=60" }
-            };
-            return connector;
-        }
     }
+
+    public IList<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
+    {
+        var connector = new List<ConnectionString>
+        {
+            new ConnectionString { Key = "2", Value = "host=192.168.100.187:5672;virtualHost=my_vhost;username=admin;password=admin;timeout=60" }
+        };
+        return connector;
+    }
+}
 ```
 #### 更新中...
 reference

@@ -12,17 +12,14 @@ namespace XXX.Plugin.EasyNetQ
 
         public void ConfigureServices(IServiceCollection services, IConfiguration? configuration = null, ITypeFinder? typeFinder = null)
         {
-            services.AddEasyNetQ<CustomConnector>().Build(configuration);
+            services.AddEasyNetQ(GetConnectionString);
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
         }
-    }
 
-    public class CustomConnector : IConnectionsFactory
-    {
-        public IList<ConnectionString> GetConnectionStrings()
+        public IList<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
         {
             var connector = new List<ConnectionString>
             {

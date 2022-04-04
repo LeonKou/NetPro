@@ -19,7 +19,7 @@ namespace NetPro.EasyNetQ
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            services.AddEasyNetQ().Build(configuration);
+            services.AddEasyNetQ(configuration);
         }
     }
 }
