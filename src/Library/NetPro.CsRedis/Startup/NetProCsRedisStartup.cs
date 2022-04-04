@@ -17,7 +17,7 @@ namespace NetPro.CsRedis
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
             //新增redis缓存注入
-            services.AddCsRedis().Build<SystemTextJsonSerializer>(configuration);
+            services.AddCsRedis<SystemTextJsonSerializer>(configuration);
         }
     }
 }
