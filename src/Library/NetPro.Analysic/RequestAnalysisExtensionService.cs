@@ -29,7 +29,7 @@ namespace NetPro.Analysic
                 if (redisCacheOption != null && redisCacheOption.Enabled)
                 {
                     //新增redis缓存注入
-                    services.AddCsRedis().Build<NetPro.CsRedis.SystemTextJsonSerializer>(configuration);
+                    services.AddCsRedis<SystemTextJsonSerializer>(configuration);
                 }
             }
             catch (Exception ex)

@@ -24,7 +24,10 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NetPro.MongoDb;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -32,56 +35,46 @@ using System.Linq;
 /// </summary>
 public static class MongoDbBuilderExtensions
 {
-    public static IMongoDbBuilder AddMongoDb<GetConnections>(this IServiceCollection services) where GetConnections : class, IConnectionsFactory
+    /// <summary>
+    /// 依赖注入MongoDb服务扩展方法
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="connectionFactory"></param>
+    /// <returns></returns>
+    public static IServiceCollection AddMongoDb(this IServiceCollection services, Func<IServiceProvider, IList<ConnectionString>> connectionFactory)
     {
-        services.AddTransient<IConnectionsFactory, GetConnections>();
-        return new MongoDbBuilder(services);
-    }
-
-    public static IMongoDbBuilder AddMongoDb(this IServiceCollection services)
-    {
-        //如已经注册自定义服务，跳过
-        var serviceProviderIsService = services.BuildServiceProvider().GetRequiredService<IServiceProviderIsService>();
-        if (!serviceProviderIsService.IsService(typeof(IConnectionsFactory)))
+        services.Replace(ServiceDescriptor.Singleton(sp =>
         {
-            services.AddTransient<IConnectionsFactory, DefaultConnections>();
-        }
+            var connection = connectionFactory.Invoke(sp);
+            var config = sp.GetRequiredService<IConfiguration>();
+            var option = config.GetSection(nameof(MongoDbOption)).Get<MongoDbOption>();
+            option!.ConnectionString = connection.ToList();
+            return option;
+        }));
 
-        return new MongoDbBuilder(services);
+        MongoDBMulti.MongoDbOption = null;
+        services.Replace(ServiceDescriptor.Singleton<IMongoDBMulti>(MongoDBMulti.Instance));
+        return services;
     }
 
     /// <summary>
-    /// 构造MongoDb实例
+    /// 依赖注入MongoDb服务扩展方法
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
-    public static IServiceCollection Build(
-       this IMongoDbBuilder builder,
-       IConfiguration configuration)
+    public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
     {
-        var option = new MongoDbOption(configuration);
-        builder.Services.AddSingleton(option);
-        return builder.AddMongoDb(option);
-    }
+        var serviceCount = services.Count;
+        var mongoDbOptions = new MongoDbOption(configuration);
+        services.TryAddSingleton(mongoDbOptions);
 
-    /// <summary>
-    ///  依赖注入mongodb服务扩展方法
-    /// </summary>
-    /// <param name="optionsAction"></param>
-    /// <returns></returns>
-    private static IServiceCollection AddMongoDb(this IMongoDbBuilder builder, MongoDbOption optionsAction)
-    {
-        var connectionsFactory = builder.Services.BuildServiceProvider().GetRequiredService<IConnectionsFactory>();
-        if (connectionsFactory is not DefaultConnections)
+        if (serviceCount != services.Count)
         {
-            optionsAction.ConnectionString = connectionsFactory.GetConnectionStrings().ToList();
-            builder.Services.AddSingleton(optionsAction);//用最新连接串覆盖
+            MongoDBMulti.MongoDbOption = mongoDbOptions;
+            services.TryAddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
         }
 
-        MongoDBMulti.MongoDbOption = optionsAction;
-        builder.Services.AddSingleton(optionsAction);
-        builder.Services.AddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
-        return builder.Services;
+        return services;
     }
 }

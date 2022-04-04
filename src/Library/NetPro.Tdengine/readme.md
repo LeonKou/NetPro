@@ -96,7 +96,6 @@ public List<ConnectionString> GetConnectionString(IServiceProvider serviceProvid
         }
     };
 }
-
 ```
 
 

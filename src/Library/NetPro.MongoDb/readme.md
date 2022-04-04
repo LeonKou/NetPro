@@ -37,6 +37,23 @@ public void ConfigureServices(IServiceCollection services)
 
 基于NetPro.Web.Api的使用，只需要添加引用后配置以上appsetting.josn配置MongoDbOption节点即可
 
+> 当想自定义连接字符串获取方式时，无论是否基于NetPro.Web.Api, 都能通过传入委托来自定义连接字符串获取方式：
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMongoDb(GetConnectionString);
+}
+
+public IList<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
+{
+    var connector = new List<ConnectionString>();
+    connector.Add(new ConnectionString { Key = "2", Value = "mongodb://192.168.100.187:27017/netprodemo2" });
+    return connector;
+}
+```
+
+
 ### 使用说明
  entity 实体示例
 ```chsarp

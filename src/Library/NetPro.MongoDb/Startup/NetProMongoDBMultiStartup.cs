@@ -24,7 +24,7 @@ namespace NetPro.MongoDb
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.AddMongoDb().Build(configuration);
+            services.AddMongoDb(configuration);
         }
 
         /// <summary>
