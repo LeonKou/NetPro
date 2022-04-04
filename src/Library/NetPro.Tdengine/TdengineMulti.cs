@@ -31,7 +31,7 @@ namespace NetPro.Tdengine
     /// </summary>
     public class TdengineMulti : ITdengineMulti
     {
-        internal static TdengineOption TdengineOption = new();
+        internal static TdengineOption TdengineOption;
         private TdengineMulti()
         {
         }

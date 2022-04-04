@@ -31,7 +31,7 @@ namespace NetPro.MongoDb
     /// </summary>
     public class MongoDBMulti : IMongoDBMulti
     {
-        internal static MongoDbOption MongoDbOption = new();
+        internal static MongoDbOption MongoDbOption;
         private MongoDBMulti()
         {
         }

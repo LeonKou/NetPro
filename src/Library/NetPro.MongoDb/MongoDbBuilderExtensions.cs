@@ -47,13 +47,11 @@ public static class MongoDbBuilderExtensions
         {
             var connection = connectionFactory.Invoke(sp);
             var config = sp.GetRequiredService<IConfiguration>();
-            var option = config.GetSection(nameof(MongoDbOption)).Get<MongoDbOption>();
+            var option = new MongoDbOption(config);
             option!.ConnectionString = connection.ToList();
             return option;
         }));
 
-        MongoDBMulti.MongoDbOption = null;
-        services.Replace(ServiceDescriptor.Singleton<IMongoDBMulti>(MongoDBMulti.Instance));
         return services;
     }
 
@@ -65,15 +63,9 @@ public static class MongoDbBuilderExtensions
     /// <returns></returns>
     public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
     {
-        var serviceCount = services.Count;
         var mongoDbOptions = new MongoDbOption(configuration);
         services.TryAddSingleton(mongoDbOptions);
-
-        if (serviceCount != services.Count)
-        {
-            MongoDBMulti.MongoDbOption = mongoDbOptions;
-            services.TryAddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
-        }
+        services.TryAddSingleton<IMongoDBMulti>(MongoDBMulti.Instance);
 
         return services;
     }

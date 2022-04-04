@@ -51,12 +51,11 @@ namespace NetPro.Tdengine
             {
                 var connection = connectionFactory.Invoke(sp);
                 var config = sp.GetRequiredService<IConfiguration>();
-                var option = config.GetSection(nameof(TdengineOption)).Get<TdengineOption>();
+                var option = new TdengineOption(config);
                 option!.ConnectionString = connection.ToList();
                 return option;
             }));
-            TdengineMulti.TdengineOption = null;
-            services.Replace(ServiceDescriptor.Singleton<ITdengineMulti>(TdengineMulti.Instance));
+
             return services;
         }
 
@@ -68,16 +67,9 @@ namespace NetPro.Tdengine
         /// <returns></returns>
         public static IServiceCollection AddTdengineDb(this IServiceCollection services, IConfiguration configuration)
         {
-            var serviceCount = services.Count;
-            var mongoDbOptions = new TdengineOption(configuration);
-            services.TryAddSingleton(mongoDbOptions);
-
-            if (serviceCount != services.Count)
-            {
-                TdengineMulti.TdengineOption = mongoDbOptions;
-                services.TryAddSingleton<ITdengineMulti>(TdengineMulti.Instance);
-            }
-
+            var tdengineDbOptions = new TdengineOption(configuration);
+            services.TryAddSingleton(tdengineDbOptions);
+            services.TryAddSingleton<ITdengineMulti>(TdengineMulti.Instance);
             return services;
         }
     }
