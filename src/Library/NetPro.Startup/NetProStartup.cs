@@ -287,16 +287,11 @@ namespace System.NetPro.Startup._
                 var engine = EngineContext.Create();
                 engine.ConfigureServices(services);
 
-                //run startup tasks
-                RunStartupTasks(_typeFinder);
-
-                await RunStartupTasksAsync(_typeFinder);
-
                 AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             });
 
-            builder.Configure((context, app) =>
+            builder.Configure(async (context, app) =>
             {
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)
@@ -310,6 +305,11 @@ namespace System.NetPro.Startup._
                 {
                     instance.NetProStartupImplement.Configure(app, context.HostingEnvironment);
                 }
+
+                //run startup tasks
+                RunStartupTasks(app.ApplicationServices);
+
+                await RunStartupTasksAsync(app.ApplicationServices);
             });
 
         }
@@ -317,14 +317,15 @@ namespace System.NetPro.Startup._
         /// <summary>
         /// Run startup tasks
         /// </summary>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
+        /// <param name="serviceProvider"></param>
+        protected virtual void RunStartupTasks(IServiceProvider serviceProvider)
         {
             //find startup tasks provided by other assemblies
+            ITypeFinder typeFinder = serviceProvider.GetRequiredService<ITypeFinder>();
             var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
 
             var instances = startupTasks
-                .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
+                .Select(startupTask => (IStartupTask)ActivatorUtilities.CreateInstance(serviceProvider, startupTask))
                 .OrderBy(startupTask => startupTask.Order);
 
             foreach (var task in instances)
@@ -334,14 +335,15 @@ namespace System.NetPro.Startup._
         /// <summary>
         /// Run startupAsync tasks
         /// </summary>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual async Task RunStartupTasksAsync(ITypeFinder typeFinder)
+        /// <param name="serviceProvider"></param>
+        protected virtual async Task RunStartupTasksAsync(IServiceProvider serviceProvider)
         {
+            ITypeFinder typeFinder = serviceProvider.GetRequiredService<ITypeFinder>();
             //***IStartupTaskAsync***
             var startupAsyncTasks = typeFinder.FindClassesOfType<IStartupTaskAsync>();
 
             var instancesAsync = startupAsyncTasks
-                .Select(startupTask => (IStartupTaskAsync)Activator.CreateInstance(startupTask))
+                .Select(startupTask => (IStartupTaskAsync)ActivatorUtilities.CreateInstance(serviceProvider, startupTask))
                 .OrderBy(startupTask => startupTask.Order);
 
             foreach (var task in instancesAsync)
