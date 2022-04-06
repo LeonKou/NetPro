@@ -1,7 +1,6 @@
 //mqtt相关配置
 {
 	"MQTTClientOption": {
-		"Enabled": true,
 		"ConnectionString": [
 			{
 				"Key": "1", //连接串key别名，唯一

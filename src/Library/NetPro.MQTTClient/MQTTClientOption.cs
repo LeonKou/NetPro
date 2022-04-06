@@ -67,11 +67,6 @@ namespace NetPro.MQTTClient
         /// </summary>
         public List<ConnectionString> ConnectionString { get; set; }
 
-        /// <summary>
-        ///是否启用
-        ///true:启用，false:禁用
-        /// </summary>
-        public bool Enabled { get; set; } = false;
     }
 
     /// <summary>

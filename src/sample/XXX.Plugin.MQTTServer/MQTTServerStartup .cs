@@ -6,6 +6,7 @@ using MQTTnet;
 using MQTTnet.Client.Receiving;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
+using NetPro.MQTTClient;
 using System.Collections.Concurrent;
 using System.NetPro;
 using System.Text;
@@ -17,7 +18,7 @@ namespace XXX.Plugin.MQTTServer
     /// 端口默认1883
     /// http中间件不会命中mqtt请求，两套管道
     /// </summary>
-    public class MQTTServerStartup //: INetProStartup
+    public class MQTTServerStartup : INetProStartup
     {
         /// <summary>
         /// 执行顺序
@@ -37,6 +38,7 @@ namespace XXX.Plugin.MQTTServer
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
+            services.AddMQTTClient(GetConnectionString);
             var optionsBuilder = new MqttServerOptionsBuilder()
                         .WithDefaultEndpointReuseAddress()
                         .WithDefaultEndpointPort(1883)
@@ -176,6 +178,13 @@ namespace XXX.Plugin.MQTTServer
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
+        }
+
+        public IList<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
+        {
+            var connector = new List<ConnectionString>();
+            connector.Add(new ConnectionString { Key = "2", Value = "clientid=netpro;host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" });
+            return connector;
         }
     }
 }

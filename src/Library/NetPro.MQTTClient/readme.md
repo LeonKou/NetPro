@@ -10,7 +10,6 @@ MQTT客户端类库，支持多服务端，完整示例
 
 ```json
 "MQTTClientOption": {
-		"Enabled": true,
 		"ConnectionString": [
 			{
 				"Key": "1", //连接串key别名，唯一
@@ -32,7 +31,21 @@ public void ConfigureServices(IServiceCollection services)
    services.AddMQTTClient(configuration);      
 }
 ```
+> 当想自定义连接字符串获取方式时，无论是否基于NetPro.Web.Api, 都能通过传入委托来自定义连接字符串获取方式：
 
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMQTTClient(GetConnectionString);
+}
+
+ public IList<ConnectionString> GetConnectionString(IServiceProvider serviceProvider)
+ {
+     var connector = new List<ConnectionString>();
+     connector.Add(new ConnectionString { Key = "2", Value = "clientid=netpro;host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" });
+     return connector;
+ }
+```
 ##### 服务注入使用
 ```csharp 
 

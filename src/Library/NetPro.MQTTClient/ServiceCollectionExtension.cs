@@ -24,6 +24,7 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
@@ -32,6 +33,7 @@ using MQTTnet.Client.Options;
 using NetPro.MQTTClient;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.NetPro;
 using System.Text.Json;
@@ -249,18 +251,35 @@ namespace NetPro.MQTTClient
         /// MQTT客户端，支持多个host
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="connectionFactory"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static IServiceCollection AddMQTTClient(this IServiceCollection services, Func<IServiceProvider, IList<ConnectionString>> connectionFactory)
+        {
+            services.Replace(ServiceDescriptor.Singleton(sp =>
+            {
+                var connection = connectionFactory.Invoke(sp);
+                var config = sp.GetRequiredService<IConfiguration>();
+                var option = new MQTTClientOption(config);
+                option!.ConnectionString = connection.ToList();
+                return option;
+            }));
+            return services;
+        }
+
+        /// <summary>
+        /// MQTT客户端，支持多个host
+        /// </summary>
+        /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public static IServiceCollection AddMQTTClient(this IServiceCollection services, IConfiguration configuration)
         {
             var mqtttClientOptions = new MQTTClientOption(configuration);
-            if (!mqtttClientOptions.Enabled)
-            {
-                return services;
-            }
-            services.AddSingleton(mqtttClientOptions);
-            services.AddSingleton<IMqttClientMulti>(MqttClientMulti.Instance);
+           
+            services.TryAddSingleton(mqtttClientOptions);
+            services.TryAddSingleton<IMqttClientMulti>(MqttClientMulti.Instance);
             return services;
         }
     }

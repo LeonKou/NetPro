@@ -23,5 +23,7 @@
   "FreeSqlStartup": 2147483647,
   "MediatRStartup": 2147483647,
   "MongoDBDemoStartup": 2147483647,
-  "XXXEasyNetQ": 2147483647
+  "XXXEasyNetQ": 2147483647,
+  "MQTTClientStartup": 2147483647,
+  "MQTTServerStartup": 2147483647
 }
