@@ -38,5 +38,10 @@ namespace NetPro.ZeroMQ
         /// 推拉端口
         /// </summary>
         public int PushPort { get; set; } = 82;
+
+        /// <summary>
+        /// 请求响应端口
+        /// </summary>
+        public int ResponsePort { get; set; } = 83;
     }
 }

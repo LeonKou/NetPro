@@ -1,6 +1,7 @@
 {
-	"ZeroMQOption": {
-		"PublishPort": 81,
-		"PushPort": 82
-	}
+  "ZeroMQOption": {
+    "PublishPort": 81,
+    "PushPort": 82,
+    "ResponsePort": 83
+  }
 }

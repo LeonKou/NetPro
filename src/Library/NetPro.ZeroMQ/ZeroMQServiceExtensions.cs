@@ -59,7 +59,7 @@ namespace NetPro.ZeroMQ
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, ZeroMQOption zeroMQOption, SocketOptions socketOptions=null)
+        public static IServiceCollection AddZeroMQForPublisher(this IServiceCollection services, ZeroMQOption zeroMQOption, SocketOptions socketOptions = null)
         {
             PublisherSocket publisher = new();
             //发布是由于本机承载故配回环地址即可
@@ -104,6 +104,21 @@ namespace NetPro.ZeroMQ
             pushSocket.Bind($"tcp://*:{zeroMQOption.PushPort}");
 
             services.AddSingleton(pushSocket);
+            return services;
+        }
+
+        /// <summary>
+        /// AddZeroMQForResponseSocket
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static IServiceCollection AddZeroMQForResponseSocket(this IServiceCollection services, ZeroMQOption zeroMQOption, SocketOptions socketOptions = null)
+        {
+            ResponseSocket responseSocket = new();
+            responseSocket.Bind($"tcp://*:{zeroMQOption.ResponsePort}");
+
+            services.AddSingleton(responseSocket);
             return services;
         }
     }

@@ -29,6 +29,7 @@ namespace NetPro.Taos
             services.AddSingleton(option);
             services.AddZeroMQForPublisher(option);
             services.AddZeroMQForPushSocket(option);
+            services.AddZeroMQForResponseSocket(option);
         }
 
         /// <summary>
