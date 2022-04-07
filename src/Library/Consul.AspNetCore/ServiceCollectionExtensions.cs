@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -80,7 +81,7 @@ namespace Consul.AspNetCore
         {
             var feature = application.ServerFeatures.Get<IServerAddressesFeature>();
             var addresses = feature.Addresses;
-            var ports = addresses.Select(address => new Uri(address).Port);
+            var ports = addresses.Select(address => BindingAddress.Parse(address).Port);
             foreach (var item in ports)
             {
                 Console.WriteLine($"feature addresses is {item}");
