@@ -2,6 +2,6 @@ using Serilog;
 
 var host = Host.CreateDefaultBuilder(args)
                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup("NetPro.Startup"))
-               .UseSerilog();//如需serilog日志功能请取消UseSerilog注释
+               .UseSerilog();//濡傞渶serilog鏃ュ織鍔熻兘璇峰彇娑圲seSerilog娉ㄩ噴
 
 host.Build().Run();
