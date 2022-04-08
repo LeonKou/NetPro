@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<Version>$(ConsulAspNetCore)</Version>
 		<Description>Consul.AspNetCore support ttl health check</Description>
 		<AssemblyName>$(ConsulAspNetCoreAssemblyName)</AssemblyName>
@@ -25,13 +25,14 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-	
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Consul" Version="1.6.10.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.10" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.10" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="readme.md" Pack="true" PackagePath="" />
