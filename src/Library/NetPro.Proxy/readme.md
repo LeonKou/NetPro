@@ -1,6 +1,6 @@
 
 ## NetPro.Proxy使用
- [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.ResponseCache)
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.Proxy)
 
 远程调用组件
 

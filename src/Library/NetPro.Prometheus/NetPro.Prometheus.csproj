@@ -14,10 +14,11 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="readme.md" Pack="true" PackagePath="" />
+		<None Include="readme.md" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="App.Metrics.AspNetCore.All" Version="4.3.0" />
+		<PackageReference Include="App.Metrics.AspNetCore.Tracking" Version="4.3.0" />
 		<PackageReference Include="App.Metrics.Prometheus" Version="4.3.0" />
 	</ItemGroup>
 	
