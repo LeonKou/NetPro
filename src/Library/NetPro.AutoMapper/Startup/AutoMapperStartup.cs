@@ -6,7 +6,7 @@ using System.NetPro;
 
 namespace NetPro.AutoMapper
 {
-    public class AutoMapperStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class AutoMapperStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// AddAutoMapper

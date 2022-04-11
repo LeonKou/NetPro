@@ -6,7 +6,7 @@ using System.NetPro;
 
 namespace NetPro.ShareRequestBody
 {
-    public class ShareBodyStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class ShareBodyStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

@@ -8,7 +8,7 @@ using System.NetPro;
 
 namespace NetPro.Analysic
 {
-    public class NetProAnalysicStartup400 : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProAnalysicStartup400 : INetProStartup, System.NetPro.Startup.__._
     {
         private static bool enabled = true;
         /// <summary>

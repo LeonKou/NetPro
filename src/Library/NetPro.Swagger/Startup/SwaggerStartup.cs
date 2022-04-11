@@ -9,7 +9,7 @@ namespace NetPro.Swagger
     /// <summary>
     /// Swagger接口文档工具 
     /// </summary>
-    public class SwaggerStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class SwaggerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// /

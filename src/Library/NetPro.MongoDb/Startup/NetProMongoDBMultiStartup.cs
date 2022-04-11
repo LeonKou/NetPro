@@ -9,7 +9,7 @@ namespace NetPro.MongoDb
     /// <summary>
     /// mongobd
     /// </summary>
-    public class NetProMongoDBMultiStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProMongoDBMultiStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

@@ -9,7 +9,7 @@ namespace NetPro.MQTTClient
     /// <summary>
     /// MQTTClient
     /// </summary>
-    public class MQTTClientStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class MQTTClientStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

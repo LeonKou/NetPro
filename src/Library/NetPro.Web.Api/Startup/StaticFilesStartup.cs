@@ -14,7 +14,7 @@ namespace NetPro.Web.Api
     /// 文件中间件
     /// app.UseStaticFiles(); 
     /// </summary>
-    public class StaticFilesStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class StaticFilesStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

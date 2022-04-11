@@ -10,7 +10,7 @@ namespace NetPro.Sign
     /// 支持签名
     /// appsetting.json VerifySignOption:Enabled=true 打开签名
     /// </summary>
-    public class SignStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class SignStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 添加 

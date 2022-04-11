@@ -9,7 +9,7 @@ namespace NetPro.Taos
     /// <summary>
     /// Taos
     /// </summary>
-    public class NetProTaosMultiStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProTaosMultiStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

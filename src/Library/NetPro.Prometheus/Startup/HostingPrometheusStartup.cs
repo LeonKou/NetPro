@@ -33,7 +33,7 @@ using System.Linq;
 [assembly: HostingStartup(typeof(Startup))]
 namespace NetPro.Prometheus
 {
-    internal class Startup : IHostingStartup
+    internal sealed class Startup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {

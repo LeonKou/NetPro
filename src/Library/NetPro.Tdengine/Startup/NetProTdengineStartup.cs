@@ -9,7 +9,7 @@ namespace NetPro.Tdengine
     /// <summary>
     /// Tdengine
     /// </summary>
-    public class NetProTdengineStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProTdengineStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

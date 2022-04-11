@@ -45,7 +45,7 @@ namespace NetPro.Web.Api
     /// <summary>
     /// 路由中间件加载app.UseRouting(); 
     /// </summary>
-    class RoutingStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class RoutingStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

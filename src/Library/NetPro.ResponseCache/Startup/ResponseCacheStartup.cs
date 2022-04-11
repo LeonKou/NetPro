@@ -10,7 +10,7 @@ namespace NetPro.ResponseCache
     /// 响应缓存
     /// 响应缓存建议由服务器处理比如在nginx配置响应缓存策略。
     /// </summary>
-    public class ResponseCacheStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class ResponseCacheStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

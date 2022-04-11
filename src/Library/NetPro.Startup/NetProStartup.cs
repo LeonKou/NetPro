@@ -45,7 +45,7 @@ using System.Threading.Tasks;
 [assembly: HostingStartup(typeof(Startup))]
 namespace System.NetPro.Startup._
 {
-    internal class _
+    internal sealed class _
     {
         public INetProStartup NetProStartupImplement { get; set; }
 

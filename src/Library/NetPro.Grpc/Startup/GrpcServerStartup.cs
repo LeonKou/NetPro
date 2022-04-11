@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace NetPro.Grpc
 {
-    public class GrpcStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class GrpcServerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 0;
 
@@ -26,7 +26,6 @@ namespace NetPro.Grpc
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
             services.AddGrpc();
-
         }
     }
    

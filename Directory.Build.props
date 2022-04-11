@@ -129,6 +129,9 @@
 
 		<ConsulAspNetCore>1.7.1-beta.3</ConsulAspNetCore>
 		<ConsulAspNetCoreAssemblyName>NetPro.Consul.AspNetCore</ConsulAspNetCoreAssemblyName>
+
+		<NetProPrometheus>6.0.1-beta.1</NetProPrometheus>
+		<NetProPrometheusAssemblyName>NetPro.Prometheus</NetProPrometheusAssemblyName>
 		
 	</PropertyGroup>
 

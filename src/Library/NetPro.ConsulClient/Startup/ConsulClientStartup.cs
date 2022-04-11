@@ -31,7 +31,7 @@ using Consul.AspNetCore;
 [assembly: HostingStartup(typeof(ConsulClientStartup))]
 namespace NetPro.ConsulClient
 {
-    internal class ConsulClientStartup : IHostingStartup
+    internal sealed class ConsulClientStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {

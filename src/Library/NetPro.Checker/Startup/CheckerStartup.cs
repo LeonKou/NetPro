@@ -30,7 +30,7 @@ using System.NetPro;
 
 namespace NetPro.Checker
 {
-    public class CheckerStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class CheckerStartup : INetProStartup, System.NetPro.Startup.__._
     {
         private NetProCheckerOption _mqtttClientOptions;
         /// <summary>

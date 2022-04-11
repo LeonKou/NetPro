@@ -10,7 +10,7 @@ namespace NetPro.Taos
     /// <summary>
     /// ZeroMQStartup
     /// </summary>
-    public class ZeroMQStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class ZeroMQStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// 

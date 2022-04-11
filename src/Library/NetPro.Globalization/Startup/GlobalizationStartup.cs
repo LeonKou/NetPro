@@ -11,7 +11,7 @@ namespace NetPro.Globalization
     /// 全局多语言支持
     ///  app.UseRequestLocalization()
     /// </summary>
-    public class GlobalizationStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class GlobalizationStartup : INetProStartup, System.NetPro.Startup.__._
     {
         /// <summary>
         /// Add and configure any of the middleware

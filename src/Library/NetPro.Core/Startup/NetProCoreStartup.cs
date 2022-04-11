@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace NetPro.Core.Startup
 {
-    public class NetProCoreStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProCoreStartup : INetProStartup, System.NetPro.Startup.__._
     {
         //public double Order = 0;
 

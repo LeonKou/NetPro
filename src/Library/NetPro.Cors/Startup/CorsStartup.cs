@@ -36,7 +36,7 @@ namespace NetPro.Cors
     /// 跨域
     /// application.UseCors();
     /// </summary>
-    class CorsStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class CorsStartup : INetProStartup, System.NetPro.Startup.__._
     {
         bool enabled = true;
 
