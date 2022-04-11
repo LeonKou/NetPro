@@ -42,6 +42,7 @@
 		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
 		<ProjectReference Include="..\..\Library\NetPro.Checker\NetPro.Checker.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Prometheus\NetPro.Prometheus.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
@@ -58,7 +59,7 @@
 		<ProjectReference Include="..\XXX.Plugin.MongoDB\XXX.Plugin.MongoDB.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.Redis\XXX.Plugin.Redis.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />
+		<!--<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />-->
 		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
 

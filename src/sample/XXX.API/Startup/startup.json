@@ -25,5 +25,6 @@
   "MongoDBDemoStartup": 2147483647,
   "XXXEasyNetQ": 2147483647,
   "MQTTClientStartup": 2147483647,
-  "MQTTServerStartup": 2147483647
+  "MQTTServerStartup": 2147483647,
+  "PrometheusStartup": 2147483647
 }
