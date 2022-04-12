@@ -14,7 +14,7 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="readme.md" />
+		<None Include="readme.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="App.Metrics.AspNetCore.All" Version="4.3.0" />
