@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>netproapi</id>
-    <version>1.0.7-beta.6</version>
+    <version>1.0.7-beta.7</version>
     <description>
       NetProApi Template, including WebApi     
     </description>
@@ -10,6 +10,7 @@
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
   </metadata>
 </package>
