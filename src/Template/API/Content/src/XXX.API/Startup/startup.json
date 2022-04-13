@@ -12,5 +12,6 @@
   "RedisStartup": 2147483647,
   "MongoDBDemoStartup": 2147483647,
   "FreeSqlStartup": 2147483647,
-  "ApiStartup": 2147483647
+  "ApiStartup": 2147483647,
+  "MQTTClientStartup": 2147483647
 }

@@ -33,7 +33,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<!--<PackageReference Include="IdleBus" Version="1.5.2" />-->
-		<PackageReference Include="MQTTnet" Version="3.1.1" />
+		<PackageReference Include="MQTTnet" Version="3.1.2" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

@@ -34,8 +34,12 @@ using NetPro.MQTTClient;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.NetPro;
+using System.Numerics;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -150,12 +154,11 @@ namespace NetPro.MQTTClient
                     var succeedtimeout = int.TryParse(timeoutString, out int timeout);
                     var succeedCleansession = bool.TryParse(cleansessionString, out bool cleansession);
                     var succeedKeepalive = int.TryParse(keepaliveString, out int keepalive);
-
+                    
                     if (string.IsNullOrWhiteSpace(clientid) || string.IsNullOrWhiteSpace(host))
                     {
-                        throw new ArgumentException(@$"[mqttclient]mqttclient配置信息缺失;
-                                                    clientid={clientid};host={host};
-                                                    标准格式实例---> clientid=netpro;host=mqtt://localhost:1883;username=netpro;password=netpro;timeout=5000;cleansession=true;");
+                        //clientid不存在将自动生成
+                        clientid = $"{Assembly.GetEntryAssembly().GetName().Name}-{Guid.NewGuid().ToString("N")}";
                     }
                     var option = new MqttClientOptionsBuilder()
                     .WithClientId(clientid);
@@ -218,6 +221,10 @@ namespace NetPro.MQTTClient
                     });
                     //https://www.cnblogs.com/ccsharppython/archive/2019/07/28/11261069.html
                     //await will get a successful connection
+                    //var build = option.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V500).Build();
+                    //mqttClient.ConnectAsync(build).Wait();
+                    //var version= build.ProtocolVersion;
+                    //Console.WriteLine(version);
                     mqttClient.ConnectAsync(option.Build()).ConfigureAwait(false).GetAwaiter().GetResult();
                     MqttClients.TryRemove(key, out IMqttClient _outMqttClient);
                     var succeed = MqttClients.TryAdd(key, mqttClient);
@@ -225,7 +232,8 @@ namespace NetPro.MQTTClient
                 }
                 catch (Exception ex)
                 {
-                    throw new ArgumentException($"[mqttclient]初始化有误{ex}");
+                    throw new ArgumentException(@$"MQTT Client初始化有误;
+                                                    建议检查连接串是否符合规则；clientid是否有相同;标准格式实例---> clientid=netpro;host=mqtt://localhost:1883;username=netpro;password=netpro;timeout=5000;cleansession=true;");
                 }
             }
 
@@ -277,7 +285,7 @@ namespace NetPro.MQTTClient
         public static IServiceCollection AddMQTTClient(this IServiceCollection services, IConfiguration configuration)
         {
             var mqtttClientOptions = new MQTTClientOption(configuration);
-           
+
             services.TryAddSingleton(mqtttClientOptions);
             services.TryAddSingleton<IMqttClientMulti>(MqttClientMulti.Instance);
             return services;

@@ -10,7 +10,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development", //Development;Production
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Prometheus"
       },
-      "applicationUrl": "http://0.0.0.0:5000"
+      "applicationUrl": "http://0.0.0.0:5001"
     }
   }
 }
