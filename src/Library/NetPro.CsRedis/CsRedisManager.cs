@@ -736,6 +736,54 @@ namespace NetPro.CsRedis
             result.Dispose();
         }
 
+        public long HashIncrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).HIncrBy(key, field, value);
+            if (expiry.HasValue)
+                _cSRedisClient.Get(dbKey).Expire(key, expiry.Value);
+            return result;
+        }
+
+        public Task<long> HashIncrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).HIncrByAsync(key, field, value);
+            if (expiry.HasValue)
+                _cSRedisClient.Get(dbKey).ExpireAsync(key, expiry.Value);
+            return result;
+        }
+
+        public long HashDecrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).HIncrBy(key, field, -value);
+            if (expiry.HasValue)
+                _cSRedisClient.Get(dbKey).Expire(key, expiry.Value);
+            return result;
+        }
+
+        public Task<long> HashDecrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            if (string.IsNullOrWhiteSpace(dbKey))
+            {
+                dbKey = $"{_option.ConnectionString.FirstOrDefault()?.Key}";
+            }
+            var result = _cSRedisClient.Get(dbKey).HIncrByAsync(key, field, -value);
+            if (expiry.HasValue)
+                _cSRedisClient.Get(dbKey).ExpireAsync(key, expiry.Value);
+            return result;
+        }
+
         //private string AddDefaultPrefixKey(string key)
         //{
         //    var build = new StringBuilder(_option?.DefaultCustomKey ?? string.Empty);
