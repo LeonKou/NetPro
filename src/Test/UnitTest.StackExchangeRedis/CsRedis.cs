@@ -16,14 +16,14 @@ namespace UnitTest.StackExchangeRedis
         public void Init()
         {
             List<string> csredisConns = new List<string>();
-            string password = "netpro";
+            string password = ""; //netpro
             int defaultDb = 0;
             string ssl = "";
             string keyPrefix = "";
             int writeBuffer = 10240;
             int poolsize = 20;
             int timeout = 10;
-            csredisConns.Add($"198.185.15.16:6379,password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={1},idleTimeout={timeout},testcluster={true}");
+            csredisConns.Add($"172.16.127.229:6379,password={password},defaultDatabase={defaultDb},poolsize={poolsize},ssl={ssl},writeBuffer={writeBuffer},prefix={keyPrefix},preheat={1},idleTimeout={timeout},testcluster={true}");
 
             CSRedis.CSRedisClient csredis;
 
@@ -152,5 +152,47 @@ namespace UnitTest.StackExchangeRedis
             Assert.AreEqual(1, result);
         }
 
+
+        [TestMethod]
+        public async Task HIncrAsync()
+        {
+            string key = "HIncrAsync";
+            _redisDatabase.Remove(key);
+            var result = await _redisDatabase.HashIncrementAsync(key, "newt111", 1);
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void HIncr()
+        {
+            string key = "HIncr";
+            _redisDatabase.Remove(key);
+            var result = _redisDatabase.HashIncrement(key, "newt111", 1);
+            Assert.AreEqual(1, result);
+        }
+
+
+        [TestMethod]
+        public void HDecr()
+        {
+            string key = "HDecr";
+            _redisDatabase.Remove(key);
+            _redisDatabase.HashIncrement(key, "newt111", 10);
+
+            var result = _redisDatabase.HashDecrement(key, "newt111", 1);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public async Task HDecrAsync()
+        {
+            string key = "HDecrAsync";
+            _redisDatabase.Remove(key);
+
+            await _redisDatabase.HashIncrementAsync(key, "newt111", 10);
+
+            var result = await _redisDatabase.HashDecrementAsync(key, "newt111", 1);
+            Assert.AreEqual(9, result);
+        }
     }
 }

@@ -313,5 +313,25 @@ namespace NetPro.CsRedis
         {
             return default;
         }
+
+        public long HashIncrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            return default;
+        }
+
+        public Task<long> HashIncrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            return default;
+        }
+
+        public long HashDecrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            return default;
+        }
+
+        public Task<long> HashDecrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = null)
+        {
+            return default;
+        }
     }
 }

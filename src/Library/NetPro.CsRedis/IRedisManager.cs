@@ -262,6 +262,32 @@ namespace NetPro.CsRedis
         Task<T> HashGetAsync<T>(string key, string field, string dbKey = default);
 
         /// <summary>
+        /// 为哈希表 key 中的指定字段的整数值加上增量 increment
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <param name="dbKey"></param>
+        /// <returns></returns>
+        long HashIncrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = default);
+
+        Task<long> HashIncrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = default);
+
+        /// <summary>
+        /// 为哈希表 key 中的指定字段的整数值递减 Decrement
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
+        /// <param name="dbKey"></param>
+        /// <returns></returns>
+        long HashDecrement(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = default);
+
+        Task<long> HashDecrementAsync(string key, string field, long value = 1, TimeSpan? expiry = null, string dbKey = default);
+
+        /// <summary>
         /// lua脚本
         /// obj :new {key=key}
         /// </summary>
