@@ -110,7 +110,7 @@ namespace NetPro.Globalization
             services.AddHybridLocalization(opts =>
             {
                 opts.ResourcesPath = "";//"Resources";
-            }, options => options.UseSettings(true, false, true, true));
+            }, options => options.UseSettings(true, false, true, false));
             //services.AddScoped<LanguageActionFilter>();
 
             ////注册请求本地化配置：
