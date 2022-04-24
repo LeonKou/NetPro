@@ -89,3 +89,13 @@ E:.
 ```
 
 注：这里的配置文件同样支持按环境适配，比如在开发环境下，`mq.Development.json`文件中的相应配置项将会生效
+
+#### 可覆盖
+
+在`appsetting.json`中可以配置`Overridable`属性，这个变量用来决定在`appsetting.json`和`ConfigPath`中配置文件有相同的配置节点时，是否用`ConfigPath`中配置文件的节点来覆盖`appsetting.json`中的配置节点，当不配置时默认为`true`，即存在相同配置节点时，`appsetting.json`中的配置节点会被覆盖，调整这个属性为`false`有助于在使用`ConfigJsons`整理配置项的同时，将一些经常变动的配置项集中到`appsetting.json`进行调整
+
+```json
+{
+  "Overridable": true
+}
+```

@@ -121,6 +121,14 @@ namespace System.NetPro.Startup._
                     Console.WriteLine(file);
                 }
 
+                var overridable = _configuration.GetValue("Overridable", true);
+
+                if (!overridable)
+                {
+                    builder.AddJsonFile("appsettings.json", true, true)
+                           .AddJsonFile($"appsettings.{env}.json", true, true);
+                }
+
                 builder.AddEnvironmentVariables();
                 _configuration = builder.Build();
             });
