@@ -57,19 +57,7 @@ namespace System.NetPro
                 .AddClasses(classes =>
                 classes.Where(type =>
                 {
-                    if (type == typeof(BackgroundService))
-                    {
-                        return false;
-                    }
-                    if (type.BaseType == typeof(BackgroundService))
-                    {
-                        return false;
-                    }
-                    if (type.BaseType?.BaseType != null && type.BaseType?.BaseType == typeof(BackgroundService))
-                    {
-                        return false;
-                    }
-                    if (type.BaseType == typeof(IHostedService))
+                    if (typeof(IHostedService).IsAssignableFrom(type))
                     {
                         return false;
                     }
@@ -106,11 +94,11 @@ namespace System.NetPro
          .AsImplementedInterfaces()
          .WithSingletonLifetime());
 
-         services.Scan(scan => scan
-         .FromAssemblyOf<IScopedDependency>()
-         .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
-         .AsImplementedInterfaces()
-            .WithScopedLifetime());
+            services.Scan(scan => scan
+            .FromAssemblyOf<IScopedDependency>()
+            .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
+            .AsImplementedInterfaces()
+               .WithScopedLifetime());
         }
 
         private static bool IsValidName(this string currencyValue, string pattern)
