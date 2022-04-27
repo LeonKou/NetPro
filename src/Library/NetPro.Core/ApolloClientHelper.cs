@@ -21,7 +21,8 @@ namespace NetPro
         {
             //TODO 递归加载指定文件夹下所有json文件
             var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
-            builder.SetBasePath(Directory.GetCurrentDirectory())
+            var basePath= Directory.GetCurrentDirectory();
+            builder.SetBasePath(basePath)
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                         .AddEnvironmentVariables()

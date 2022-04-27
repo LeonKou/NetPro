@@ -93,7 +93,9 @@ namespace System.NetPro.Startup._
                 //}
 
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] loading json files");
-                builder.SetBasePath(Directory.GetCurrentDirectory())
+                //var basePath = Directory.GetCurrentDirectory();
+                var basePath = AppContext.BaseDirectory;//bin目录
+                builder.SetBasePath(basePath)
                             .AddJsonFile("appsettings.json", true, true)//base config
                             .AddJsonFile($"appsettings.{env}.json", true, true); //inherit base config
 
@@ -151,7 +153,8 @@ namespace System.NetPro.Startup._
                   .ToList();
 
                 //try to read startup.jsonfile
-                var jsonPath = Path.Combine(Directory.GetCurrentDirectory(), $"Startup/startup.json");
+                var basePath = Directory.GetCurrentDirectory();
+                var jsonPath = Path.Combine(basePath, $"Startup/startup.json");
                 if (File.Exists(jsonPath))
                 {
                     var startupJson = File.ReadAllText(jsonPath);

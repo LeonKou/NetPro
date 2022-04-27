@@ -27,7 +27,7 @@ namespace Native
         { 
             //ÐÂÔöredis»º´æ×¢Èë
             services.AddCsRedis<NetPro.CsRedis.SystemTextJsonSerializer>(Configuration);
-            services.AddCsRedis<SystemTextJsonSerializer>(Configuration, GetConnectionString);
+            //services.AddCsRedis<SystemTextJsonSerializer>(Configuration, GetConnectionString);
 
             services.AddControllers();
         }

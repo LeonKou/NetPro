@@ -16,7 +16,8 @@ namespace TestConsole
             var host = new HostBuilder()
                 .ConfigureHostConfiguration(configHost =>
                 {
-                    configHost.SetBasePath(Directory.GetCurrentDirectory());
+                    var basePath = Directory.GetCurrentDirectory();
+                    configHost.SetBasePath(basePath);
                     configHost.AddEnvironmentVariables("ASPNETCORE_");
                 })
                 .ConfigureAppConfiguration((hostContext, configApp) =>
