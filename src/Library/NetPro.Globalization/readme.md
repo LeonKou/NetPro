@@ -48,7 +48,8 @@ appsetting.json
 			"zh-CN",
 			"en-US"
 		],
-        "Annotations": true //是否打开注册数据注解本地化服务
+        "Annotations": true, //是否打开注册数据注解本地化服务,默认true打开
+        "Verify": false//是否检查多语言已配置，默认false
 	}
 }
 
@@ -68,7 +69,8 @@ appsetting.json
 			"zh-CN",
 			"en-US"
 		],
-        "Annotations": true //是否打开注册数据注解本地化服务
+        "Annotations": true, //是否打开注册数据注解本地化服务，默认true打开
+        "Verify": false//是否检查多语言已配置，默认false
 	}
 }
 ```

@@ -18,5 +18,10 @@
         /// 是否打开注册数据注解本地化服务，默认打开
         /// </summary>
         public bool Annotations { get; set; } = true;
+
+        /// <summary>
+        /// 校验(是否多语言已配置,默认不校验)
+        /// </summary>
+        public bool Verify { get; set; } = false;
     }
 }

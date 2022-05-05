@@ -71,18 +71,19 @@ namespace NetPro.Globalization
 
             var globalization = configuration.GetSection(nameof(Globalization)).Get<Globalization>();
 
-            var sqlConnectionString = $"Data Source ={nameof(Globalization)}.db";
-            if (!string.IsNullOrWhiteSpace(globalization?.ConnectionString))
+            if (globalization == null)
             {
-                sqlConnectionString = globalization.ConnectionString;
+                globalization = new Globalization();
+                globalization.ConnectionString = $"Data Source ={nameof(Globalization)}.db";
+                globalization.Cultures = new string[2];
+                globalization.Cultures[0] = "zh-CN";
+                globalization.Cultures[1] = "en-US";
             }
 
-            if (globalization != null)
+            using (var connection = new SqliteConnection(globalization.ConnectionString))// "Data Source=LocalizationRecords.sqlite"
             {
-                using (var connection = new SqliteConnection(sqlConnectionString))// "Data Source=LocalizationRecords.sqlite"
-                {
-                    connection.Open();  //  <== The database file is created here.
-                    using var cmd = new SqliteCommand(@$"
+                connection.Open();  //  <== The database file is created here.
+                using var cmd = new SqliteCommand(@$"
                     CREATE TABLE IF NOT EXISTS ""LocalizationRecords"" (
                     ""Id"" INTEGER NOT NULL CONSTRAINT ""PK_DataEventRecord"" PRIMARY KEY AUTOINCREMENT,
                     ""Key"" TEXT,
@@ -91,47 +92,26 @@ namespace NetPro.Globalization
                     ""LocalizationCulture"" TEXT,
                     ""UpdatedTimestamp"" TEXT NOT NULL
                     )", connection);
-                    cmd.ExecuteScalar();
-                }
-
-                services.AddDbContext<LocalizationModelContext>(options =>
-                options.UseSqlite(
-                sqlConnectionString,
-                b => b.MigrationsAssembly("ImportExportLocalization")),
-                ServiceLifetime.Singleton,
-                ServiceLifetime.Singleton
-                );
-
-                // Requires that LocalizationModelContext is defined
-                services.AddSqlLocalization(options => options.UseTypeFullNames = true);
+                cmd.ExecuteScalar();
             }
+
+            services.AddDbContext<LocalizationModelContext>(options =>
+            options.UseSqlite(
+            globalization.ConnectionString,
+            b => b.MigrationsAssembly("ImportExportLocalization")),
+            ServiceLifetime.Singleton,
+            ServiceLifetime.Singleton
+            );
+
+            // Requires that LocalizationModelContext is defined
+            services.AddSqlLocalization(options => options.UseTypeFullNames = true);
 
             //注册自制的混合国际化服务：
             services.AddHybridLocalization(opts =>
             {
                 opts.ResourcesPath = "";//"Resources";
-            }, options => options.UseSettings(true, false, true, false));
+            }, options => options.UseSettings(true, false, true, globalization.Verify));
             //services.AddScoped<LanguageActionFilter>();
-
-            ////注册请求本地化配置：
-            //services.Configure<RequestLocalizationOptions>(
-            //options =>
-            //{
-            //    var cultures = globalization?.Cultures
-            //    .Select(x => new CultureInfo(x)).ToList();
-            //    var supportedCultures = cultures;
-
-            //    var defaultRequestCulture = cultures.FirstOrDefault() ?? new CultureInfo("zh-CN");
-            //    options.DefaultRequestCulture = new RequestCulture(culture: null, uiCulture: defaultRequestCulture);
-
-            //    options.DefaultRequestCulture = new RequestCulture("zh-CN");
-            //    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
-            //    options.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
-            //    options.RequestCultureProviders.Insert(2, new AcceptLanguageHeaderRequestCultureProvider());
-
-            //    options.SupportedCultures = supportedCultures;
-            //    options.SupportedUICultures = supportedCultures;
-            //});
 
             //注册mvc
             var builder = services.AddControllers();
