@@ -140,6 +140,10 @@ namespace System.NetPro
                     else if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
                     {
                         stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"];
+                        if (!string.IsNullOrEmpty(stringIp))
+                        {
+                            stringIp = stringIp.Split(',')[0];
+                        }
                         return stringIp;
                     }
                     else
