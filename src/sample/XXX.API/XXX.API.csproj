@@ -50,7 +50,6 @@
 		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Utility\NetPro.Utility.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
-		<ProjectReference Include="..\XXX.Plugin.FreeRedis\XXX.Plugin.FreeRedis.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -61,6 +60,7 @@
 		<ProjectReference Include="..\XXX.Plugin.Redis\XXX.Plugin.Redis.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.Tdengine\XXX.Plugin.Tdengine.csproj" />
 		<ProjectReference Include="..\XXX.Plugin.MQTTServer\XXX.Plugin.MQTTServer.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.FreeRedis\XXX.Plugin.FreeRedis.csproj" />
 		<!--<ProjectReference Include="..\XXX.Plugin.ZeroMQ\XXX.Plugin.ZeroMQ.csproj" />-->
 	</ItemGroup>
 

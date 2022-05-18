@@ -71,7 +71,7 @@
 		<NetProCsRedisAssemblyName>NetPro.CsRedis</NetProCsRedisAssemblyName>
 
 		<NetProFreeRedis>6.0.7</NetProFreeRedis>
-		<NetProFreeRedisAssemblyName>NetPro.CsRedis</NetProFreeRedisAssemblyName>
+		<NetProFreeRedisAssemblyName>NetPro.FreeRedis</NetProFreeRedisAssemblyName>
 
 		<NetProUtility>6.0.7</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
