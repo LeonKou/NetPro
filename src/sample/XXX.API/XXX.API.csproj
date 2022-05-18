@@ -50,6 +50,7 @@
 		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Utility\NetPro.Utility.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
+		<ProjectReference Include="..\XXX.Plugin.FreeRedis\XXX.Plugin.FreeRedis.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

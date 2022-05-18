@@ -16,6 +16,7 @@
   "GlobalizationStartup": 900,
   "EndpointsStartup": 1000,
   "NetProCsRedisStartup": 1000,
+  "NetProFreeRedisStartup": 1000,
   "RedisStartup": 1111,
   "ApiStartup": 2147483647,
   "ConsulStartup": 2147483647,
