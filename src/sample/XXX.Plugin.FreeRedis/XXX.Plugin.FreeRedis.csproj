@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Dependency\NetPro.Dependency.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.FreeRedis\NetPro.FreeRedis.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 	</ItemGroup>

@@ -25,6 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Dependency\NetPro.Dependency.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.MongoDb\NetPro.MongoDb.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 	</ItemGroup>

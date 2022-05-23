@@ -31,7 +31,6 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetPro.Core.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;

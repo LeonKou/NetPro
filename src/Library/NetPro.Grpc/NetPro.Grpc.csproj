@@ -30,7 +30,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+	  <ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />

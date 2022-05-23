@@ -2,9 +2,10 @@
 using Com.Ctrip.Framework.Apollo.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
 
-namespace NetPro
+namespace NetPro.Apollo
 {
     /// <summary>
     /// 
@@ -48,6 +49,28 @@ namespace NetPro
                 {
                     apolloBuilder.AddNamespace(t, GetNameSpaceType(t));
                 }
+            }
+
+            if (builder.Build().GetValue<bool>("Apollo:Enabled", false))
+            {
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已开启");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo MetaServer={builder.Build().GetValue<string>("Apollo:MetaServer")}");
+
+                var uri = new Uri(builder.Build().GetValue<string>("Apollo:MetaServer"));
+                using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
+                {
+                    if (tcpClient.Connected)
+                    {
+                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={builder.Build().GetValue<string>("Apollo:Env")}");
+                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={builder.Build().GetValue<string>("Apollo:Cluster")}");
+                        Console.WriteLine($"{uri.Host}:{uri.Port}connection successful; pollo:Env={builder.Build().GetValue<string>("Apollo:Env")}--Apollo:Cluster={builder.Build().GetValue<string>("Apollo:Cluster")}");
+                    }
+                    Console.WriteLine($"Apollo{uri.Host}:{uri.Port} connection failed");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已关闭");
             }
         }
 

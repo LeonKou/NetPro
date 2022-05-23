@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetPro.Core.Configuration;
 using System;
 using System.Diagnostics;
 using System.IO;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XXX.Plugin.FreeSql
 {
-    public interface IFreeSQLDemoService
+    public interface IFreeSQLDemoByDependency
     {
         Task<int> DeleteAsync(uint id, string dbKey = "sqlite");
         Task<string> GenerateSqlByLinq(DynamicFilterInfo dyfilter, SearchPageBase searchPageBase, string dbKey = "sqlite");
@@ -24,9 +24,9 @@ namespace XXX.Plugin.FreeSql
     /// Freesql示例服务
     /// reference： https://github.com/dotnetcore/FreeSql/wiki/入门
     /// </summary>
-    public class FreeSQLDemoService : IFreeSQLDemoService
+    public class FreeSQLDemoByDependency : IFreeSQLDemoByDependency, IScopedDependency//通过继承注入接口实现依赖注入
     {
-        private readonly ILogger<FreeSQLDemoService> _logger;
+        private readonly ILogger<FreeSQLDemoByDependency> _logger;
         //private readonly IFreeSql _fsql;
         private readonly IdleBus<IFreeSql> _fsql;
         private readonly IMapper _mapper;
@@ -38,7 +38,7 @@ namespace XXX.Plugin.FreeSql
         /// <param name="fsql"></param>
         /// <param name="idleFsql"></param>
         /// <param name="mapper"></param>
-        public FreeSQLDemoService(ILogger<FreeSQLDemoService> logger
+        public FreeSQLDemoByDependency(ILogger<FreeSQLDemoByDependency> logger
             //, IFreeSql fsql
             , IdleBus<IFreeSql> idleFsql
             , IMapper mapper)

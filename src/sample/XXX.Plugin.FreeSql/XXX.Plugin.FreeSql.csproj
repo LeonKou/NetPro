@@ -29,6 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Dependency\NetPro.Dependency.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.AutoMapper\NetPro.AutoMapper.csproj" />
 	</ItemGroup>

@@ -22,29 +22,23 @@
  *  SOFTWARE.
  */
 
-using App.Metrics;
-using App.Metrics.AspNetCore;
-using App.Metrics.Formatters.Prometheus;
 using Microsoft.AspNetCore.Hosting;
-using NetPro.Prometheus;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using System.Linq;
 
-[assembly: HostingStartup(typeof(Startup))]
-namespace NetPro.Prometheus
+[assembly: HostingStartup(typeof(NetPro.Serilog.Startup))]
+namespace NetPro.Serilog
 {
     internal sealed class Startup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureMetrics(AppMetrics.CreateDefaultBuilder()
-                    .OutputMetrics.AsPrometheusPlainText()
-                    .Build()).UseMetrics(options =>
-                    {
-                        options.EndpointOptions = endpointsOptions =>
-                        {
-                            endpointsOptions.MetricsTextEndpointOutputFormatter = Metrics.Instance.OutputMetricsFormatters.OfType<MetricsPrometheusTextOutputFormatter>().First();
-                        };
-                    });
+            builder.ConfigureServices(s=> {
+                Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+                                   .ReadFrom.Configuration(configuration)
+                                   .CreateLogger();
+            });
         }
     }
 }

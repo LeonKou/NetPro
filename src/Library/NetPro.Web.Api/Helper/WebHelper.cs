@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using NetPro.Core.Configuration;
+using NetPro.Web.Api;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;

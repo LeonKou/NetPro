@@ -82,20 +82,25 @@ namespace System.NetPro
         /// <param name="services"></param>
         public static void InterfaceDependency(this IServiceCollection services)
         {
+            var typeFinder = services.BuildServiceProvider().GetService<ITypeFinder>();
+
             services.Scan(scan => scan
         .FromAssemblyOf<ITransientDependency>()
+        .FromAssemblies(typeFinder.GetAssemblies())
         .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
         .AsImplementedInterfaces()
         .WithTransientLifetime());
 
             services.Scan(scan => scan
          .FromAssemblyOf<ISingletonDependency>()
+         .FromAssemblies(typeFinder.GetAssemblies())
          .AddClasses(classes => classes.AssignableTo<ISingletonDependency>())
          .AsImplementedInterfaces()
          .WithSingletonLifetime());
 
             services.Scan(scan => scan
-            .FromAssemblyOf<IScopedDependency>()
+            //.FromAssemblyOf<IScopedDependency>()
+            .FromAssemblies(typeFinder.GetAssemblies())
             .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
             .AsImplementedInterfaces()
                .WithScopedLifetime());

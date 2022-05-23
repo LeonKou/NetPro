@@ -24,6 +24,7 @@ namespace XXX.Plugin.EasyNetQ
             {
                 Console.WriteLine("Recieve Message: {0}", tm.Text);
             });
+            //其他订阅方式介绍 https://www.likecs.com/show-305311908.html
         }
     }
 }

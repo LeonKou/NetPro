@@ -23,6 +23,7 @@
 	  <None Remove="Service\**" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Library\NetPro.Dependency\NetPro.Dependency.csproj" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />
 	</ItemGroup>

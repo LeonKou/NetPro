@@ -1,24 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<!--<Import Project="../../package.props"/>-->
 	<PropertyGroup>
 		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
-		<Version>$(NetProFreeRedis)</Version>
+		<Version>$(NetProSerilog)</Version>
 		<Description>
 		</Description>
-		<AssemblyName>$(NetProFreeRedisAssemblyName)</AssemblyName>
+		<AssemblyName>$(NetProSerilogAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.FreeRedis</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Serilog</PackageProjectUrl>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.FreeRedis.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Serilog.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.FreeRedis.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Serilog.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Startup\HostingSerilogStartup.cs" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<None Include="$(PackageIconPath)">
 			<Pack>True</Pack>
@@ -28,21 +33,22 @@
 	<ItemGroup>
 		<None Include="readme.md" Pack="true" PackagePath="" />
 	</ItemGroup>
-
 	<ItemGroup>
-		<PackageReference Include="FreeRedis" Version="0.5.2" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<!--<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />-->
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
 	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="IdleBus" Version="1.5.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
+
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 	</Target>
+
 </Project>

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NetMQ;
 using NetMQ.Sockets;
-using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.NetPro;
 using System.Text;

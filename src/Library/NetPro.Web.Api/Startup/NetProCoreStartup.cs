@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NetPro.Core.Configuration;
 using System;
 using System.NetPro;
 using System.Reflection;
 using System.Threading;
 
-namespace NetPro.Core.Startup
+namespace NetPro.Web.Api.Startup
 {
     internal sealed class NetProCoreStartup : INetProStartup, System.NetPro.Startup.__._
     {
@@ -26,7 +25,6 @@ namespace NetPro.Core.Startup
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            services.InterfaceDependency();
             var netProOption = services.ConfigureStartupConfig<NetProOption>(configuration.GetSection(nameof(NetProOption)));
             services.ConfigureStartupConfig<HostingConfig>(configuration.GetSection("Hosting"));
 
@@ -39,10 +37,6 @@ namespace NetPro.Core.Startup
 
                 netProOption.ApplicationName = hostEnvironment.ApplicationName;
             }
-
-            //--------------- AutoMapper
-
-            //AddAutoMapper(services, typeFinder);
 
             //----------------
             //由runtimeconfig.template.json 提供配置
@@ -62,28 +56,6 @@ namespace NetPro.Core.Startup
             ThreadPool.GetMinThreads(out int work, out int comple);
             ThreadPool.GetAvailableThreads(out int worktemp, out int completemp);
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss} 核心数为：{Environment.ProcessorCount}--默认线程最小为：{work}--Available:{worktemp}");
-
-            if (configuration.GetValue<bool>("Apollo:Enabled", false))
-            {
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已开启");
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo MetaServer={configuration.GetValue<string>("Apollo:MetaServer")}");
-
-                var uri = new Uri(configuration.GetValue<string>("Apollo:MetaServer"));
-                using (var tcpClient = new System.Net.Sockets.TcpClient(uri.Host, uri.Port))
-                {
-                    if (tcpClient.Connected)
-                    {
-                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] pollo:Env={configuration.GetValue<string>("Apollo:Env")}");
-                        Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
-                        Console.WriteLine($"{uri.Host}:{uri.Port}connection successful; pollo:Env={configuration.GetValue<string>("Apollo:Env")}--Apollo:Cluster={configuration.GetValue<string>("Apollo:Cluster")}");
-                    }
-                    Console.WriteLine($"Apollo{uri.Host}:{uri.Port} connection failed");
-                }
-            }
-            else
-            {
-                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] apollo已关闭");
-            }
         }
     }
 

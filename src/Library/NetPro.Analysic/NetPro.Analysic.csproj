@@ -28,7 +28,7 @@
 	</ItemGroup>
 
 	<!--<ItemGroup Condition="'$(TargetFramework)' == '$(NetCoreTargetVersion)'">-->
-	<ItemGroup >
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -41,8 +41,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
 		<ProjectReference Include="..\NetPro.CsRedis\NetPro.CsRedis.csproj" />
+		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

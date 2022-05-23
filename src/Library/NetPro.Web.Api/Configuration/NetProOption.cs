@@ -1,4 +1,4 @@
-namespace NetPro.Core.Configuration
+namespace NetPro.Web.Api
 {
     /// <summary>
     /// Represents startup  configuration parameters

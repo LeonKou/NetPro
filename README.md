@@ -93,6 +93,8 @@ NetPro就是为解决以上问题而创建。
 
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.ResponseCache ) [NetPro.ResponseCache ](https://github.com/LeonKou/NetPro.ResponseCache ) （响应缓存）
 
+- [![NuGet](https://img.shields.io/nuget/v/NetPro.AutoMapper.svg)](https://nuget.org/packages/NetPro.AutoMapper ) [NetPro.AutoMapper ](https://github.com/LeonKou/NetPro.AutoMapper ) （对象映射）
+
 - [![NuGet](https://img.shields.io/nuget/v/NetPro.Analysic.svg)](https://nuget.org/packages/NetPro.Analysic) [NetPro.Analysic](https://github.com/LeonKou/NetPro.Analysic)(请求分析控制，可精细配置同ip一定时间的错误数和正确数，超过阈值拦截熔断访问)
 
 ---

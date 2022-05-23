@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 	</ItemGroup>
 

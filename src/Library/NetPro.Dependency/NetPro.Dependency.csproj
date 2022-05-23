@@ -3,20 +3,20 @@
 	<PropertyGroup>
 		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
-		<Version>$(NetProCore)</Version>
+		<Version>$(NetProDependency)</Version>
 		<Description>
 		</Description>
-		<AssemblyName>$(NetProCoreAssemblyName)</AssemblyName>
+		<AssemblyName>$(NetProDependencyAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Core</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Dependency</PackageProjectUrl>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\NetPro.Dependency.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\$(NetCoreTargetVersion)\NetPro.Dependency.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
 
@@ -33,14 +33,8 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 	
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.4.1" />
-		<PackageReference Include="ConsoleTables" Version="2.4.2" />
-	</ItemGroup>	
-
 	<ItemGroup>
 		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
-		<ProjectReference Include="..\NetPro.TypeFinder\NetPro.TypeFinder.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

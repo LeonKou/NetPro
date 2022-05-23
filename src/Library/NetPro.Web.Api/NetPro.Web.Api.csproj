@@ -58,7 +58,7 @@
 		<!--<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.9" />-->
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\NetPro.Core\NetPro.Core.csproj" />
+		<ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">

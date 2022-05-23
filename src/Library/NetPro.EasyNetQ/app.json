@@ -1,5 +1,6 @@
 {
 	"EasyNetQOption": {
+		"Idle": 31536000000,//对象保持1000年
 		"ConnectionString": [
 			{
 				"Key": "1", //连接串key别名，唯一

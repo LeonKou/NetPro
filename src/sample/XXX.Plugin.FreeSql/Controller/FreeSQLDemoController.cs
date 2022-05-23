@@ -11,7 +11,7 @@ namespace XXX.Plugin.FreeSql
     {
         private readonly ILogger<FreeSQLDemoController> _logger;
         private readonly IWebHelper _webHelper;
-        private readonly IFreeSQLDemoService _userService;
+        private readonly IFreeSQLDemoByDependency _userService;
 
         /// <summary>
         /// ctor
@@ -21,7 +21,7 @@ namespace XXX.Plugin.FreeSql
         /// <param name="userService"></param>
         public FreeSQLDemoController(ILogger<FreeSQLDemoController> logger,
             IWebHelper webHelper
-            , IFreeSQLDemoService userService)
+            , IFreeSQLDemoByDependency userService)
         {
             _logger = logger;
             _webHelper = webHelper;

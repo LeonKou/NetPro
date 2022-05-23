@@ -10,6 +10,7 @@
 
 ```json
 "EasyNetQOption": {
+    "Idle": 60,//默认60秒对象持续
     "ConnectionString": [
       {
         "Key": "rabbit2", //连接串key别名，唯一
