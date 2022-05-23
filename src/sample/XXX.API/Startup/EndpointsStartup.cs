@@ -20,10 +20,6 @@ namespace NetPro.Web.Api
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            //如需serilog日志请取消以下serilog代码注释并安装响应nuget包
-            Serilog.Log.Logger = new Serilog.LoggerConfiguration()
-                                .ReadFrom.Configuration(configuration)
-                                .CreateLogger();
         }
 
         /// <summary>
@@ -34,8 +30,6 @@ namespace NetPro.Web.Api
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
         {
-            //如需serilog请求日志请取消以下serilog相关代码
-            application.UseSerilogRequestLogging();
             application.UseEndpoints(s =>
             {
                 s.MapControllers();

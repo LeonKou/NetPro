@@ -6,6 +6,7 @@
   "ApiProxyStartup": 0,
   "NetProTdengineStartup": 0,
   "ErrorHandlerStartup": 0,
+  "NetProSerilogStartup": 0,
   "SwaggerStartup": 100,
   "StaticFilesStartup": 100,
   "RoutingStartup": 200,

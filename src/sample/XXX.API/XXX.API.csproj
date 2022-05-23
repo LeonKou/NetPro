@@ -59,6 +59,7 @@
 		<ProjectReference Include="..\..\Library\NetPro.Globalization\NetPro.Globalization.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Prometheus\NetPro.Prometheus.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ResponseCache\NetPro.ResponseCache.csproj" />
+		<ProjectReference Include="..\..\Library\NetPro.Serilog\NetPro.Serilog.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Swagger\NetPro.Swagger.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.ConsulClient\NetPro.ConsulClient.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Cors\NetPro.Cors.csproj" />
