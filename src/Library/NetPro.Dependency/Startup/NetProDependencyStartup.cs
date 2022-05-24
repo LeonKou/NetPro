@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace NetPro.Dependency.Startup
 {
-    internal sealed class NetProCoreStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class NetProDependencyStartup : INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 0;
 
