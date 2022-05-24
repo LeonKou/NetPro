@@ -100,7 +100,7 @@ namespace System.NetPro.Startup._
                             .AddJsonFile($"appsettings.{env}.json", true, true); //inherit base config
 
                 _configuration = builder.Build();
-
+                                
                 var jsonFilePath = _configuration.GetValue<string>("ConfigPath", ".");
 
                 //Load all jSON-formatted files as configuration

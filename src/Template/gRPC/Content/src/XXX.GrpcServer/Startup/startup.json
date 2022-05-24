@@ -1,0 +1,6 @@
+{
+  "NetProDependencyStartup": 0,
+  "GrpcServerStartup": 0,
+  "NetProSerilogStartup": 0,
+  "ConsulStartup": 2147483647
+}

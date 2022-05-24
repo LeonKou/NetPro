@@ -50,6 +50,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AgileConfig.Client" Version="1.6.2.1" />
 		<PackageReference Include="JWT" Version="8.9.0" />
 		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />

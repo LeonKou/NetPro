@@ -1,0 +1,20 @@
+{
+  "AutoMapperStartup": 0,
+  "NetProDependencyStartup": 0,
+  "NetProMongoDBMultiStartup": 0,
+  "NetProSerilogStartup": 0,
+  "ErrorHandlerStartup": 0,
+  "NetProCoreStartup": 0,
+  "CheckerStartup": 0,
+  "SwaggerStartup": 100,
+  "StaticFilesStartup": 100,
+  "RoutingStartup": 200,
+  "GlobalizationStartup": 900,
+  "EndpointsStartup": 1000,
+  "NetProCsRedisStartup": 1000,
+  "ApiStartup": 2147483647,
+  "RedisStartup": 2147483647,
+  "MongoDBDemoStartup": 2147483647,
+  "FreeSqlStartup": 2147483647,
+  "MQTTClientStartup": 2147483647
+}
