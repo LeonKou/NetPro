@@ -4,7 +4,7 @@
 		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
 		<Version>$(NetProDependency)</Version>
-		<Description>
+		<Description> 辅助依赖注入
 		</Description>
 		<AssemblyName>$(NetProDependencyAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>

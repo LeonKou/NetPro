@@ -3,10 +3,11 @@
 	<PropertyGroup>
 		<!--<TargetFramework>$(NetCoreTargetVersion)</TargetFramework>-->
 		<TargetFrameworks>$(TargetsVersion)</TargetFrameworks>
-		<Version>$(NetProApollo)</Version>
+		<!--<Version>$(NetProApollo)</Version>-->
+		<IsPackable>false</IsPackable>
 		<Description>
 		</Description>
-		<AssemblyName>$(NetProApolloAssemblyName)</AssemblyName>
+		<!--<AssemblyName>$(NetProApolloAssemblyName)</AssemblyName>-->
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Apollo</PackageProjectUrl>
 	</PropertyGroup>
@@ -35,9 +36,9 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>	
 
-	<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
+	<!--<Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(OS)' == 'Windows_NT' and Exists('$(SolutionDir)\PushNuget') and '$(Configuration)' == 'Release'">
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
 		<Copy SourceFiles="$(ProjectDir)\bin\Release\$(PackageId).$(PackageVersion).snupkg" DestinationFolder="$(SolutionDir)\PushNuget" />
-	</Target>
+	</Target>-->
 
 </Project>
