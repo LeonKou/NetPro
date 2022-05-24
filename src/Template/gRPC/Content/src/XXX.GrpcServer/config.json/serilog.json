@@ -17,7 +17,7 @@
     },
     "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
     "Properties": {
-      "Application": "XXX"
+      "Application": "XXX.Grpc"
     }
   }
 }

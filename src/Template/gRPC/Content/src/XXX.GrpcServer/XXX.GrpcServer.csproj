@@ -8,27 +8,30 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="config.json\consul.json" />
-	  <None Include="config.json\serilog.json" />
+		<None Include="config.json\consul.json" />
+		<None Include="config.json\serilog.json" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Protobuf Include="DemoOne\Protos\greetone.proto" GrpcServices="Server" />
 		<Protobuf Include="DemoTwo\Protos\greettwo.proto" GrpcServices="Server" />
 	</ItemGroup>
-
 	<ItemGroup>
+		<PackageReference Include="NetPro.Dependency" Version="6.0.8-beta.3" />
+		<PackageReference Include="NetPro.ConsulClient" Version="6.0.8-beta.3" />
+		<PackageReference Include="NetPro.Grpc" Version="6.0.8-beta.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<!--按需加载serilog 插件-->
+		<PackageReference Include="NetPro.Serilog" Version="6.0.8-beta.3" />
 		<PackageReference Include="Serilog.Sinks.ElasticSearch" Version="8.4.1" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
 		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.37.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="NetPro.ConsulClient" Version="6.0.5-beta.16" />
-		<PackageReference Include="NetPro.Grpc" Version="6.0.5-beta.16" />
-	</ItemGroup>
+	
 
 </Project>

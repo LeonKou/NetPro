@@ -1,7 +1,7 @@
 //consul服务发现注册相关配置
 {
 	"ConsulOption": {
-		"Enabled": true, //是否开启,不配置默认开启
+		"Enabled": false, //是否开启,不配置默认开启
 		//"ServiceName": "xxx.api", //可留空；留空默认以入口程序名作为servicename
 		"EndPoint": "http://192.168.100.187:8500",
 		//"WaitTime": null,
