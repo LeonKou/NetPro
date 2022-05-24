@@ -30,9 +30,9 @@ namespace NetPro.Web.Api
         /// </summary>
         public string PageNotFoundUrl { get; set; }
         /// <summary>
-        /// 是否是调试模式
+        /// 是否是调试模式，默认true
         /// </summary>
-        public bool IsDebug { get; set; }
+        public bool IsDebug { get; set; } = true;
 
         /// <summary>
         /// 全局路由前缀

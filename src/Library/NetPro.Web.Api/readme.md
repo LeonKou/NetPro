@@ -53,6 +53,7 @@
 		//"ApplicationName": "", //应用名称
 		//"RequestWarningThreshold": 5, //请求时长的警告临界值
 		//"RoutePrefix": "api" //全局路由前缀
+        "IsDebug":true//Debug模式,默认true，方便线上调试
 	},
 
 ```
@@ -132,3 +133,29 @@ namespace NetPro.Web.Api
 }
 
 ```
+
+## Feature
+
+### `IWebHelper`  Web助手
+包含获取客户端ip、是否GET POST,操作Query
+
+```C#
+使用：构造函数注入即可
+
+ private readonly IWebHelper _webHelper;
+
+ public XXXController(
+            IWebHelper webHelper)
+        {
+            _webHelper = webHelper;
+        }
+
+_webHelper.GetCurrentIpAddress();
+```
+
+
+### 全局异常
+包含全局异常处理
+异常响应如下
+
+`System exception, please try again later`

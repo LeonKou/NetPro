@@ -27,7 +27,7 @@ namespace NetPro.Web.Api
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UseNetProExceptionHandler(this IApplicationBuilder application)
         {
-            var nopConfig = application.ApplicationServices.GetService<NetProOption>();
+            var netConfig = application.ApplicationServices.GetService<NetProOption>();
             var hostingEnvironment = application.ApplicationServices.GetService<IWebHostEnvironment>();
 
             var logger = application.ApplicationServices.GetRequiredService<Microsoft.Extensions.Logging.ILogger<dynamic>>();
@@ -89,7 +89,11 @@ namespace NetPro.Web.Api
                                     ");
                                     }
                                 }
-                                context.Response.Headers.Add("error", $"{contextFeature.Error.Message}");
+                                if (netConfig.IsDebug)
+                                {
+                                    context.Response.Headers.Add("error", $"{contextFeature.Error.Message}");
+                                }
+                                
                                 await context.Response.WriteAsync("System exception, please try again later");
                                 //    JsonSerializer.Serialize(new ResponseResult { Code = -1, Msg = $"System exception, please try again later", Result = "" }, new JsonSerializerOptions
                                 //{
