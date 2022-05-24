@@ -32,9 +32,9 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0' OR '$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="BetterConsoleTables" Version="2.0.2-rc1" />
+		<PackageReference Include="BetterConsoleTables" Version="2.0.4-rc1" />
 		<PackageReference Include="Figgle" Version="0.4.0" />
-		<PackageReference Include="Scrutor" Version="3.3.0" />
+		
 	</ItemGroup>
 
 	<ItemGroup>

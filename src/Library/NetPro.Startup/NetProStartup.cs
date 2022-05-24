@@ -267,31 +267,38 @@ namespace System.NetPro.Startup._
                 }).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
              .AddColumn("Version").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
              .Build();
-
-                table.Config = TableConfig.Default();
-
-                var tempList = new List<string>();
-                uint tempstartupClassNameInt = 1;
-                foreach (var instance in instancesByOrder ?? instances)
+                try
                 {
-                    instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
-                    var assemblyName = instance.Type.Assembly.GetName();
-                    string startupClassName;
+                    table.Config = TableConfig.Default();
 
-                    if (tempList.Where(s => s == instance.Type.Name).Any())
+                    var tempList = new List<string>();
+                    uint tempstartupClassNameInt = 1;
+                    foreach (var instance in instancesByOrder ?? instances)
                     {
-                        startupClassName = $"{instance.Type.Name}-{tempstartupClassNameInt}";
-                        tempstartupClassNameInt++;
+                        instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
+                        var assemblyName = instance.Type.Assembly.GetName();
+                        string startupClassName;
+
+                        if (tempList.Where(s => s == instance.Type.Name).Any())
+                        {
+                            startupClassName = $"{instance.Type.Name}-{tempstartupClassNameInt}";
+                            tempstartupClassNameInt++;
+                        }
+                        else
+                        {
+                            startupClassName = instance.Type.Name;
+                        }
+                        table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
+                        tempList.Add(instance.Type.Name);
                     }
-                    else
-                    {
-                        startupClassName = instance.Type.Name;
-                    }
-                    table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
-                    tempList.Add(instance.Type.Name);
+                    Console.WriteLine($"instancesByOrder={instancesByOrder?.Count()};instances={instances.Count()}");
+                    Console.WriteLine(table.ToString());
                 }
-                Console.WriteLine($"instancesByOrder={instancesByOrder?.Count()};instances={instances.Count()}");
-                Console.WriteLine(table.ToString());
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"BetterConsoles.Tables exception: {ex.Message}");
+                }
+               
                 Console.ResetColor();
 
                 //Inject the static object engine
