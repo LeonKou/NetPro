@@ -84,4 +84,35 @@ appsetting.json
 
 #### 注意事项
 - 以本地配置为最准
+- 公共应用作为公开配置可被继承
+- 关联公共应用可集成公共配置，并且同节点支持覆写
+例如：
+
+公共配置
+```json
+{
+  "Commonconf": {
+    "CustomDllPattern": "1111111",
+    "MountePath": "111111"
+  }
+}
+```
+私有配置
+```json
+{
+  "Commonconf": {
+    "CustomDllPattern": "22222",
+  }
+}
+```
+
+最准私有配置生效的既是
+```json
+{
+  "Commonconf": {
+    "CustomDllPattern": "22222",
+     "MountePath": "111111"
+  }
+}
+```
 
