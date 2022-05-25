@@ -159,7 +159,8 @@ namespace System.NetPro
                 {
                     entryPoint = a.EntryPoint.Module.Assembly.GetName().Name;
                 }
-                loadedDll[a.GetName().Name] = a.Location;
+                if (!a.IsDynamic)//reference：https://www.coder.work/article/238581
+                    loadedDll[a.GetName().Name] = a.Location;
             }
 
             //check plugin directory

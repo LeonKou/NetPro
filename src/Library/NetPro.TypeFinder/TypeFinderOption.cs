@@ -12,6 +12,7 @@
 
         /// <summary>
         /// 自定义程序集正则模式
+        /// 例如 ^XXX.* XXX前缀开头并加.
         /// </summary>
         public string CustomDllPattern { get; set; } = null;//RegexOptions.IgnoreCase
     }

@@ -107,7 +107,7 @@ namespace NetPro.Web.Api
                     }
                     return new BadRequestObjectResult(
                         $"validation errors：{stringBuilder}" //return content-type: text/plain;
-                                                      //new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" }
+                                                             //new ResponseResult { Code = -1, Msg = $"数据验证失败--详情：{stringBuilder}" }
                         )
                     {
                         //ContentTypes = { "text/plain; charset=utf-8", "application/problem+json", "application/problem+xml" },                        
@@ -139,7 +139,8 @@ namespace NetPro.Web.Api
                 {
                     if (!Regex.IsMatch(item.FullName, assemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(item.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
                     {
-                        assembliesResult.Add(item);
+                        if (!item.IsDynamic)
+                            assembliesResult.Add(item);
                     }
                 }
                 configuration.RegisterValidatorsFromAssemblies(assembliesResult);
@@ -147,7 +148,6 @@ namespace NetPro.Web.Api
                 //implicit/automatic validation of child properties 复合对象是否验证
                 configuration.ImplicitlyValidateChildProperties = true;
             });
-
 
             //string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 

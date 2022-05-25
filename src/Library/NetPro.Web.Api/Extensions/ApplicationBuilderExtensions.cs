@@ -40,7 +40,7 @@ namespace NetPro.Web.Api
             else
             {
                 {
-                    var webHelper = application.ApplicationServices.GetRequiredService<IWebHelper>();
+                    var webHelper = application.ApplicationServices.GetService<IWebHelper>();
                     //The global default handles exceptions
                     application.UseExceptionHandler(handler =>
                     {

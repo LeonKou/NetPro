@@ -275,28 +275,38 @@ namespace System.NetPro.Startup._
                     uint tempstartupClassNameInt = 1;
                     foreach (var instance in instancesByOrder ?? instances)
                     {
-                        instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
-                        var assemblyName = instance.Type.Assembly.GetName();
-                        string startupClassName;
+                        try
+                        {
 
-                        if (tempList.Where(s => s == instance.Type.Name).Any())
-                        {
-                            startupClassName = $"{instance.Type.Name}-{tempstartupClassNameInt}";
-                            tempstartupClassNameInt++;
+                            instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
+                            var assemblyName = instance.Type.Assembly.GetName();
+                            string startupClassName;
+
+                            if (tempList.Where(s => s == instance.Type.Name).Any())
+                            {
+                                startupClassName = $"{instance.Type.Name}-{tempstartupClassNameInt}";
+                                tempstartupClassNameInt++;
+                            }
+                            else
+                            {
+                                startupClassName = instance.Type.Name;
+                            }
+                            table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
+                            tempList.Add(instance.Type.Name);
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            startupClassName = instance.Type.Name;
+                            Console.WriteLine(@$"error loading startup,message={ex.Message}
+                                                StackTrace={ex.StackTrace}");
                         }
-                        table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
-                        tempList.Add(instance.Type.Name);
                     }
                     Console.WriteLine($"instancesByOrder={instancesByOrder?.Count()};instances={instances.Count()}");
                     Console.WriteLine(table.ToString());
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"BetterConsoles.Tables exception: {ex.Message}");
+                    Console.WriteLine(@$"BetterConsoles.Tables exception: {ex.Message}
+                                         StackTrace={ex.StackTrace}");
                 }
                
                 Console.ResetColor();
