@@ -26,6 +26,7 @@ using App.Metrics;
 using App.Metrics.AspNetCore;
 using App.Metrics.Formatters.Prometheus;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using NetPro.Prometheus;
 using System.Linq;
 
@@ -45,6 +46,13 @@ namespace NetPro.Prometheus
                             endpointsOptions.MetricsTextEndpointOutputFormatter = Metrics.Instance.OutputMetricsFormatters.OfType<MetricsPrometheusTextOutputFormatter>().First();
                         };
                     });
+
+            // refer to https://www.app-metrics.io/reporting/collectors
+            builder.ConfigureServices(services =>
+            {
+                services.AddAppMetricsSystemMetricsCollector();
+                services.AddAppMetricsGcEventsMetricsCollector();
+            });
         }
     }
 }
