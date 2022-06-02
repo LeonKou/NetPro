@@ -8,6 +8,7 @@
   "NetProTdengineStartup": 0,
   "ErrorHandlerStartup": 0,
   "NetProCoreStartup": 0,
+  "PrometheusStartup": 0,
   "TdengineStartup": 2,
   "SwaggerStartup": 100,
   "StaticFilesStartup": 100,
