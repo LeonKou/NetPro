@@ -32,7 +32,7 @@ namespace NetPro.Checker
 {
     internal sealed class CheckerStartup : INetProStartup, System.NetPro.Startup.__._
     {
-        private NetProCheckerOption _mqtttClientOptions;
+        private NetProCheckerOption _checkerOption;
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
@@ -41,11 +41,11 @@ namespace NetPro.Checker
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, ITypeFinder typeFinder)
         {
-            var mqtttClientOptions = new NetProCheckerOption(configuration);
-            _mqtttClientOptions = mqtttClientOptions;
-            if (mqtttClientOptions.Enabled)
+            var checkerOption = new NetProCheckerOption(configuration);
+            _checkerOption = checkerOption;
+            if (checkerOption.Enabled)
             {
-                var healthbuild = services.AddHealthChecks();
+                services.AddHealthChecks();
             }
 
             //services.AddHealthChecksUI(setupSettings: setup =>
@@ -83,23 +83,23 @@ namespace NetPro.Checker
             //});
 
             //application.UseHealthChecksUI(s => s.UIPath = "/hc-ui");
-            if (_mqtttClientOptions.Enabled)
+            if (_checkerOption.Enabled)
             {
-                if (!_mqtttClientOptions.EnvPath.StartsWith("/"))
+                if (!_checkerOption.EnvPath.StartsWith("/"))
                 {
-                    _mqtttClientOptions.EnvPath = "/" + _mqtttClientOptions.EnvPath;
+                    _checkerOption.EnvPath = "/" + _checkerOption.EnvPath;
                 }
-                application.UseEnvCheck(_mqtttClientOptions.EnvPath);
-                if (!_mqtttClientOptions.InfoPath.StartsWith("/"))
+                application.UseEnvCheck(_checkerOption.EnvPath);
+                if (!_checkerOption.InfoPath.StartsWith("/"))
                 {
-                    _mqtttClientOptions.InfoPath = "/" + _mqtttClientOptions.InfoPath;
+                    _checkerOption.InfoPath = "/" + _checkerOption.InfoPath;
                 }
-                application.UseInfoCheck(_mqtttClientOptions.InfoPath);
-                if (!_mqtttClientOptions.HealthPath.StartsWith("/"))
+                application.UseInfoCheck(_checkerOption.InfoPath);
+                if (!_checkerOption.HealthPath.StartsWith("/"))
                 {
-                    _mqtttClientOptions.HealthPath = "/" + _mqtttClientOptions.HealthPath;
+                    _checkerOption.HealthPath = "/" + _checkerOption.HealthPath;
                 }
-                application.UseHealthCheck(_mqtttClientOptions.HealthPath);
+                application.UseHealthCheck(_checkerOption.HealthPath);
             }
 
             //application.UseCheck();
