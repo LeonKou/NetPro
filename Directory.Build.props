@@ -133,7 +133,7 @@
 		<NetProSerilog>6.0.8</NetProSerilog>
 		<NetProSerilogAssemblyName>NetPro.Serilog</NetProSerilogAssemblyName>
 
-		<NetProPrometheus>6.0.8</NetProPrometheus>
+		<NetProPrometheus>6.0.9-beta.1</NetProPrometheus>
 		<NetProPrometheusAssemblyName>NetPro.Prometheus</NetProPrometheusAssemblyName>
 
 		<ConsulAspNetCore>1.7.1-beta.3</ConsulAspNetCore>

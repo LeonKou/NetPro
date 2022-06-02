@@ -12,7 +12,7 @@ using System.NetPro;
 
 namespace NetPro.Prometheus
 {
-    internal sealed class PrometheusStartup : INetProStartup, System.NetPro.Startup.__._
+    internal sealed class PrometheusStartup //: INetProStartup, System.NetPro.Startup.__._
     {
         public double Order { get; set; } = 0;
 
