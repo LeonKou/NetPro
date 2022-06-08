@@ -38,7 +38,7 @@ using System.NetPro;
 [assembly: HostingStartup(typeof(Startup))]
 namespace NetPro.Prometheus
 {
-    internal sealed class Startup : IHostingStartup
+    internal sealed class Startup //: IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)
         {
@@ -60,6 +60,8 @@ namespace NetPro.Prometheus
                 services.AddAppMetricsGcEventsMetricsCollector();
             });
 
+            // because Configure can only execute once, this method is not used
+            // refer to https://stackoverflow.com/a/65061961/14700529
             builder.Configure(application =>
             {
                 application.UseMetricsAllMiddleware();
