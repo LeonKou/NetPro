@@ -6,7 +6,7 @@ namespace XXX.API.StartTask
     /// 通过初始化一次后的定时执行作业示例
     /// 固定周期的定时器作业示例代码
     /// </summary>
-    public class TimerjobStartTask : IStartupTaskAsync
+    public class TimerjobStartTask //: IStartupTaskAsync
     {
         public int Order => 0;
 

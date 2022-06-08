@@ -320,7 +320,11 @@ namespace System.NetPro
 
                 foreach (FileInfo file in sourceDirectory.GetFiles())
                 {
-                    file.CopyTo(Path.Combine(targetDirectory.FullName, file.Name), overwrite: true);
+                    var destFilePath = Path.Combine(targetDirectory.FullName, file.Name);
+                    if (!File.Exists(destFilePath))
+                    {
+                        file.CopyTo(destFilePath);
+                    }
                 }
 
                 foreach (DirectoryInfo subDirectory in sourceDirectory.GetDirectories())

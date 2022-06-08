@@ -10,7 +10,7 @@ namespace XXX.Plugin.MQTTServer.StartTask
     /// <summary>
     /// MQTTClientTask
     /// </summary>
-    public class MQTTClientTask : IStartupTask
+    public class MQTTClientTask // : IStartupTask
     {
         private readonly IMqttClientMulti _mqttClientMulti;
         public MQTTClientTask()

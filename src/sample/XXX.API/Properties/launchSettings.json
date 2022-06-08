@@ -8,7 +8,6 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production", //Development;Production
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Prometheus"
       },
       "applicationUrl": "http://0.0.0.0:5001"
     }

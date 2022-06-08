@@ -58,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItem", "SolutionIte
 		..\docker-compose.yml = ..\docker-compose.yml
 		..\.github\workflows\dotnetcore.yml = ..\.github\workflows\dotnetcore.yml
 		..\global.json = ..\global.json
+		Template\API\NetProApi.nuspec = Template\API\NetProApi.nuspec
 		NuGet.config = NuGet.config
 		Push Nuget.ps1 = Push Nuget.ps1
 		..\README.md = ..\README.md

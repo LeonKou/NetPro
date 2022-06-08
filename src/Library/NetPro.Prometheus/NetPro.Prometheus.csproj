@@ -5,6 +5,7 @@
 		<Version>$(NetProPrometheus)</Version>
 		<AssemblyName>$(NetProPrometheusAssemblyName)</AssemblyName>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<PackageProjectUrl>https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library/NetPro.Prometheus</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
