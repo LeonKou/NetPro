@@ -5,10 +5,7 @@
 Prometheus 监控
 
 - 添加`NetPro.Prometheus`引用
--添加环境变量
-``` 
- "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "NetPro.Prometheus"
-```
+- 添加配置
 appsetting.json
 ```json
 {	
