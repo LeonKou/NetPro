@@ -8,6 +8,11 @@ namespace XXX.API.StartTask
     /// </summary>
     public class TimerjobStartTask //: IStartupTaskAsync
     {
+        private readonly IConfiguration _configuration;
+        public TimerjobStartTask(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public int Order => 0;
 
         public async Task ExecuteAsync()

@@ -1,0 +1,24 @@
+//prometheus º‡øÿ≈‰÷√
+{	
+	"MetricEndpointsOptions": {
+		"EnvironmentInfoEndpointEnabled": "True",
+		"MetricsEndpointEnabled": "True",
+		"MetricsTextEndpointEnabled": "True"
+	},
+	"MetricsEndpointsHostingOptions": {
+		"EnvironmentInfoEndpoint": "/env",
+		"MetricsEndpoint": "/metrics",
+		"MetricsTextEndpoint": "/metrics-text"
+	},
+	"MetricsOptions": {
+		"Enabled": "False"
+	},
+	"MetricsWebTrackingOptions": {
+		"ApdexTrackingEnabled": "True",
+		"ApdexTSeconds": "0.1",
+		"IgnoredHttpStatusCodes": [
+			"100"
+		],
+		"OAuth2TrackingEnabled": "True"
+	}
+}
