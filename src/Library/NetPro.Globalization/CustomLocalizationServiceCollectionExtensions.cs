@@ -24,6 +24,8 @@
 
 using Localization.SqlLocalizer;
 using Localization.SqlLocalizer.DbStringLocalizer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace NetPro.Globalization
 {
@@ -110,7 +114,7 @@ namespace NetPro.Globalization
             services.AddHybridLocalization(opts =>
             {
                 opts.ResourcesPath = "";//"Resources";
-            }, options => options.UseSettings(true, false, true, globalization.Verify));
+            }, options => options.UseSettings(true, false, true, globalization.Record));
             //services.AddScoped<LanguageActionFilter>();
 
             //注册mvc

@@ -7,7 +7,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production", //Development;Production
+        "ASPNETCORE_ENVIRONMENT": "Production" //Development;Production
       },
       "applicationUrl": "http://0.0.0.0:5001"
     }

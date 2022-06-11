@@ -319,7 +319,7 @@ namespace System.NetPro.Startup._
 
             });
 
-            builder.Configure(async (context, app) =>
+            builder.Configure(async (context, app) =>//Only the last Configure will be in effect globally
             {
                 //var hostEnvironment = context.HostingEnvironment;
                 //if (hostEnvironment.EnvironmentName == Environments.Development)

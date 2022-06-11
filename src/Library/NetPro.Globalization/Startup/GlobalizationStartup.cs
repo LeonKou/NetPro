@@ -34,11 +34,11 @@ namespace NetPro.Globalization
 
             var localizationOptions = new RequestLocalizationOptions()
                 .AddSupportedUICultures(cultures)
-                .AddSupportedCultures(cultures);
-
-            localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
-            localizationOptions.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
-            localizationOptions.RequestCultureProviders.Insert(2, new AcceptLanguageHeaderRequestCultureProvider());
+                //.AddSupportedCultures(cultures)
+                ;
+            localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider { UIQueryStringKey = globalization.UIQueryStringKey });
+            localizationOptions.RequestCultureProviders.Insert(1, new AcceptLanguageHeaderRequestCultureProvider());
+            localizationOptions.RequestCultureProviders.Insert(2, new CookieRequestCultureProvider());
             app.UseRequestLocalization(localizationOptions);
         }
 

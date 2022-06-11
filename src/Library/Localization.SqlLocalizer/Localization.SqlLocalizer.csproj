@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<IsPackable>false</IsPackable>
+		<Authors>damienbod</Authors>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<title>Localization.SqlLocalizer</title>
+		<Summary>ASP.NET Core Localization using SQL with EF Core</Summary>
+		<PackageId>Localization.SqlLocalizer</PackageId>
+		<PackageTags>Localization;SqlLocalizer;SQlite;Postgres;MS SQL Server;MySQL</PackageTags>
+		<PackageReleaseNotes>Release Notes: Version 3.1.0 Add app support for Entity Framework 5.0</PackageReleaseNotes>
+		<PackageProjectUrl>https://github.com/damienbod/AspNet5Localization</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/damienbod/AspNet5Localization</RepositoryUrl>
+		<Version>3.1.0</Version>
+		<Copyright>2021 @damienbod</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="[2.0.0,2.2.0)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[2.0.0,5.0.17)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[2.0.0,5.0.17)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[2.0.0,5.0.17)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[3.0.0,6.0.0)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[3.0.0,6.0.0)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[3.0.0,6.0.0)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[5.0.0,)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[5.0.0,)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[5.0.0,)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[6.0.0,]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[6.0.0,]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[6.0.0,]" />
+	</ItemGroup>
+</Project>

@@ -19,22 +19,21 @@
 
   public void Configure(IApplicationBuilder application)
    {
-    application.UseRouting();
     //置于app.UseRouting()后便可;
-        var configuration = application.ApplicationServices.GetService<IConfiguration>();
+    var configuration = app.ApplicationServices.GetService<IConfiguration>();
 
-        var globalization = configuration.GetSection(nameof(Globalization)).Get<Globalization>();
+    var globalization = configuration.GetSection(nameof(Globalization)).Get<Globalization>();
 
-        var cultures = globalization?.Cultures ?? new string[] { };
+    var cultures = globalization?.Cultures ?? new string[] { };
 
-        var localizationOptions = new RequestLocalizationOptions()
-            .AddSupportedUICultures(cultures)
-            .AddSupportedCultures(cultures);
-
-        localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
-        localizationOptions.RequestCultureProviders.Insert(1, new CookieRequestCultureProvider());
-        localizationOptions.RequestCultureProviders.Insert(2, new AcceptLanguageHeaderRequestCultureProvider());
-        application.UseRequestLocalization(localizationOptions);
+    var localizationOptions = new RequestLocalizationOptions()
+        .AddSupportedUICultures(cultures)
+        //.AddSupportedCultures(cultures)
+        ;
+    localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider { UIQueryStringKey = globalization.UIQueryStringKey });
+    localizationOptions.RequestCultureProviders.Insert(1, new AcceptLanguageHeaderRequestCultureProvider());
+    localizationOptions.RequestCultureProviders.Insert(2, new CookieRequestCultureProvider());
+    app.UseRequestLocalization(localizationOptions);
    }
 ```
 
@@ -43,13 +42,14 @@ appsetting.json
 ```json
 {
 	"Globalization": {
-		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址,初始化会默认生成数据库
+		"UIQueryStringKey": "language",//请求的query携带的多语言参数名
+		"ConnectionString": "Data Source=LocalizationRecords.sqlite", //sqlite地址
 		"Cultures": [
 			"zh-CN",
 			"en-US"
 		],
-        "Annotations": true, //是否打开注册数据注解本地化服务,默认true打开
-        "Verify": false//是否检查多语言已配置，默认false
+		"Annotations": true, //是否打开注册数据注解本地化服务
+		"Record": false //不存在是否记录(自动插入数据库默认语系)，默认true
 	}
 }
 
@@ -64,13 +64,14 @@ appsetting.json
 ```json
 {
 	"Globalization": {
-		"ConnectionString": "Data Source=LocalizationRecords.sqlite",	//存储多语言的sqlite地址,初始化会默认生成数据库
+		"UIQueryStringKey": "language",//请求的query携带的多语言参数名
+		"ConnectionString": "Data Source=LocalizationRecords.sqlite", //sqlite地址
 		"Cultures": [
 			"zh-CN",
 			"en-US"
 		],
-        "Annotations": true, //是否打开注册数据注解本地化服务，默认true打开
-        "Verify": false//是否检查多语言已配置，默认false
+		"Annotations": true, //是否打开注册数据注解本地化服务
+		"Record": false //不存在是否记录(自动插入数据库默认语系)，默认true
 	}
 }
 ```
@@ -99,6 +100,14 @@ appsetting.json
         }
     }
 ```
+
+### 客户端处理
+
+客户端请求接口时，依次支持，query，header，cookie等三种方式携带多语言标识
+query 默认 ui-culture; 支持修改`UIQueryStringKey`节点覆盖默认参数名
+header 默认 Accept-Language
+cookie 默认为 ".AspNetCore.Culture" 既：（Microsoft.AspNetCore.Localization.CookieRequestCultureProvider.DefaultCookieName）
+
 
 ### tips
 

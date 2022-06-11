@@ -20,8 +20,13 @@
         public bool Annotations { get; set; } = true;
 
         /// <summary>
-        /// 校验(是否多语言已配置,默认不校验)
+        /// 语系不存在是否记录
         /// </summary>
-        public bool Verify { get; set; } = false;
+        public bool Record { get; set; } = true;
+
+        /// <summary>
+        /// 语言参数名称
+        /// </summary>
+        public string UIQueryStringKey { get; set; } = "language";
     }
 }
