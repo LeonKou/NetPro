@@ -1,16 +1,16 @@
 {
   "SwaggerOption": {
     "Enabled": true,
-    "Headers": [ //swaggerÄ¬ÈÏÍ·²ÎÊı
+    "Headers": [ //swaggeré»˜è®¤å¤´å‚æ•°
       {
         "Name": "User",
-        "Description": "ÓÃ»§"
+        "Description": "ç”¨æˆ·"
       }
     ],
-    "Query": [ //swaggerÄ¬ÈÏurl¹«¹²²ÎÊı
+    "Query": [ //swaggeré»˜è®¤urlå…¬å…±å‚æ•°
       {
         "Name": "language",
-        "Description": "¶àÓïÑÔ"
+        "Description": "å¤šè¯­è¨€"
       }
     ],
     "OAuth2": {

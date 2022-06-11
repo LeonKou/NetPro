@@ -1,12 +1,12 @@
-//consul·şÎñ·¢ÏÖ×¢²áÏà¹ØÅäÖÃ
+//consulæœåŠ¡å‘ç°æ³¨å†Œç›¸å…³é…ç½®
 {
 	"ConsulOption": {
-		"Enabled": false, //ÊÇ·ñ¿ªÆô,²»ÅäÖÃÄ¬ÈÏ¿ªÆô
-		//"ServiceName": "xxx.api", //¿ÉÁô¿Õ£»Áô¿ÕÄ¬ÈÏÒÔÈë¿Ú³ÌĞòÃû×÷Îªservicename
+		"Enabled": false, //æ˜¯å¦å¼€å¯,ä¸é…ç½®é»˜è®¤å¼€å¯
+		//"ServiceName": "xxx.api", //å¯ç•™ç©ºï¼›ç•™ç©ºé»˜è®¤ä»¥å…¥å£ç¨‹åºåä½œä¸ºservicename
 		"EndPoint": "http://192.168.100.187:8500",
 		//"WaitTime": null,
-		"Tags": [ "HUHU" ] //¿ÉÁô¿Õ
-		//"Datacenter": null, //¿ÉÁô¿Õ
-		//"Token": null //¿ÉÁô¿Õ
+		"Tags": [ "HUHU" ] //å¯ç•™ç©º
+		//"Datacenter": null, //å¯ç•™ç©º
+		//"Token": null //å¯ç•™ç©º
 	}
 }

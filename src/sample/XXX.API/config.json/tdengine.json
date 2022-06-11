@@ -1,10 +1,10 @@
-//tdengine相关配置
+//tdengine鐩稿叧閰嶇疆
 {
 	"TdengineOption": {
 		"ConnectionString": [
 			{
-				"Key": "power", //连接串key别名，唯一
-				"Value": "Data Source=h26.taosdata.com;DataBase=db_netpro;Username=root;Password=taosdata;Port=6030" //别名key对应的连接串
+				"Key": "power", //杩炴帴涓瞜ey鍒悕锛屽敮涓�
+				"Value": "Data Source=h26.taosdata.com;DataBase=db_netpro;Username=root;Password=taosdata;Port=6030" //鍒悕key瀵瑰簲鐨勮繛鎺ヤ覆
 			}
 		]
 	}

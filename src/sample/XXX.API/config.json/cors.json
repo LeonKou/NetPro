@@ -1,6 +1,6 @@
-//¿çÓòÅäÖÃ
+//è·¨åŸŸé…ç½®
 {
   "NetProCorsOption": {
-    "CorsOrigins": "*" //ÔÊÐí¿çÓò,²»ÌîÎ´¿ªÆô¿çÓò
+    "CorsOrigins": "*" //å…è®¸è·¨åŸŸ,ä¸å¡«æœªå¼€å¯è·¨åŸŸ
   }
 }

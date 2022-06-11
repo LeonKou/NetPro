@@ -1,4 +1,4 @@
-//prometheus ¼à¿ØÅäÖÃ
+//prometheus ç›‘æ§é…ç½®
 {	
 	"MetricEndpointsOptions": {
 		"EnvironmentInfoEndpointEnabled": "True",

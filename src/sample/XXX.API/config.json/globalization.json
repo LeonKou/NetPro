@@ -1,12 +1,12 @@
-//È«Çò»¯Ïà¹ØÅäÖÃ
+//å…¨çƒåŒ–ç›¸å…³é…ç½®
 {
 	"Globalization": {
-		"ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqliteµØÖ·
+		"ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqliteåœ°å€
 		"Cultures": [
 			"zh-CN",
 			"en-US"
 		],
-		"Annotations": true, //ÊÇ·ñ´ò¿ª×¢²áÊı¾İ×¢½â±¾µØ»¯·şÎñ
-		"Record": true //²»´æÔÚÊÇ·ñ¼ÇÂ¼(×Ô¶¯²åÈëÊı¾İ¿âÄ¬ÈÏÓïÏµ)£¬Ä¬ÈÏtrue
+		"Annotations": true, //æ˜¯å¦æ‰“å¼€æ³¨å†Œæ•°æ®æ³¨è§£æœ¬åœ°åŒ–æœåŠ¡
+		"Record": true //ä¸å­˜åœ¨æ˜¯å¦è®°å½•(è‡ªåŠ¨æ’å…¥æ•°æ®åº“é»˜è®¤è¯­ç³»)ï¼Œé»˜è®¤true
 	}
 }

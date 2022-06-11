@@ -1,8 +1,21 @@
-﻿{
+//日志相关配置 Information  Error
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft": "Debug",
+      "Microsoft.Hosting.Lifetime": "Debug"
+    }
+  },
   "Serilog": {
     "MinimumLevel": {
-      "Default": "Information",
+      "Default": "Debug",
       "Override": {
+        "Default": "Information",
+        "Microsoft": "Information",
+        "System": "Information",
+        "System.Net.Http.HttpClient": "Information",
+        "Microsoft.Hosting.Lifetime": "Information"
       }
     },
     "WriteTo:Async": {
@@ -12,6 +25,25 @@
           {
             "Name": "Console"
           }
+          //,{
+          //  "Name": "File",
+          //  "Args": {
+          //    "path": "Logs/.txt",
+          //    "rollingInterval": "Day",
+          //    "retainedFileCountLimit": "31", //Number of retained files by default 31
+          //    "retainedFileTimeLimit": "10.00:00:00", //Deletes files older than 10 days
+          //    "outputTemplate": "{Timestamp:o} [{Level:u3}] ({Application}/{MachineName}/{ThreadId}) {Message}{NewLine}{Exception}"
+          //  }
+          //},          
+          //{
+          //  "Name": "Elasticsearch",
+          //  "Args": {
+          //    "nodeUris": "http://elasticsearch.com:9200",
+          //    "indexFormat": "xxxapi-{0:yyyy.MM}",
+          //    "autoRegisterTemplate": true,
+          //    "connectionGlobalHeaders": "Authorization=ApiKey XzVPaDFIOEJNNUduR1FGWFdiWlc6Sms5ajFUNHJTWDJ5VzEtOG4zSllsdw=="
+          //  }
+          //}
         ]
       }
     },

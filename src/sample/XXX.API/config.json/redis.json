@@ -1,11 +1,11 @@
-//redisÏà¹ØÅäÖÃ
+//redisç›¸å…³é…ç½®
 {
 	"RedisCacheOption": { //Redis 
-		"Enabled": true, //ÊÇ·ñÆôÓÃ
+		"Enabled": true, //æ˜¯å¦å¯ç”¨
 		"ConnectionString": [
 			{
-				"Key": "1", //±ğÃûÎª1µÄÁ¬½Ó´®£¬keyÒªÎ¨Ò»
-				"Value": "192.168.100.187:6379,password=,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=keyÇ°ê¡,testcluster=false,idleTimeout=10" //±ğÃûkey¶ÔÓ¦µÄÁ¬½Ó´®
+				"Key": "1", //åˆ«åä¸º1çš„è¿æ¥ä¸²ï¼Œkeyè¦å”¯ä¸€
+				"Value": "192.168.100.187:6379,password=,defaultDatabase=0,poolsize=10,preheat=20,ssl=false,writeBuffer=10240,prefix=keyå‰è¾,testcluster=false,idleTimeout=10" //åˆ«åkeyå¯¹åº”çš„è¿æ¥ä¸²
 			}
 		]
 	}

@@ -1,14 +1,14 @@
-//mqtt相关配置
+//mqtt鐩稿叧閰嶇疆
 {
 	"MQTTClientOption": {
 		"ConnectionString": [
 			{
-				"Key": "1", //连接串key别名，唯一
-				"Value": "host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" //别名key对应的连接串
+				"Key": "1", //杩炴帴涓瞜ey鍒悕锛屽敮涓�
+				"Value": "host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" //鍒悕key瀵瑰簲鐨勮繛鎺ヤ覆
 			},
 			{
-				"Key": "2", //连接串key别名，唯一
-				"Value": "clientid=netpro;host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" //别名key对应的连接串
+				"Key": "2", //杩炴帴涓瞜ey鍒悕锛屽敮涓�
+				"Value": "clientid=netpro;host=mqtt://192.168.100.187:1883;username=netpro;password=netpro;timeout=5000;keepalive=2;cleansession=true;" //鍒悕key瀵瑰簲鐨勮繛鎺ヤ覆
 			}
 		]
 	}

@@ -1,11 +1,11 @@
-//rabbitmq 相关配置
+//rabbitmq 鐩稿叧閰嶇疆
 {
 	"EasyNetQOption": {
 		"Idle": 1,
 		"ConnectionString": [
 			{
-				"Key": "rabbit1", //连接串key别名，唯一
-				"Value": "host=192.168.100.187:5672;virtualHost=my_vhost;username=admin;password=admin;timeout=60" //别名key对应的连接串
+				"Key": "rabbit1", //杩炴帴涓瞜ey鍒悕锛屽敮涓�
+				"Value": "host=192.168.100.187:5672;virtualHost=my_vhost;username=admin;password=admin;timeout=60" //鍒悕key瀵瑰簲鐨勮繛鎺ヤ覆
 			}
 		]
 	}
