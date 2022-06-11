@@ -34,16 +34,16 @@
 
 	<PropertyGroup Label="NetPro SDK Versions">
 
-		<NetProAuthentication>6.0.9</NetProAuthentication>
+		<NetProAuthentication>6.0.10</NetProAuthentication>
 		<NetProAuthenticationAssemblyName>NetPro.Authentication</NetProAuthenticationAssemblyName>
 
-		<NetProAnalysic>6.0.9</NetProAnalysic>
+		<NetProAnalysic>6.0.10</NetProAnalysic>
 		<NetProAnalysicAssemblyName>NetPro.Analysic</NetProAnalysicAssemblyName>
 
-		<NetProChecker>6.0.9</NetProChecker>
+		<NetProChecker>6.0.10</NetProChecker>
 		<NetProCheckerAssemblyName>NetPro.Checker</NetProCheckerAssemblyName>
 
-		<NetProCors>6.0.9</NetProCors>
+		<NetProCors>6.0.10</NetProCors>
 		<NetProCorsAssemblyName>NetPro.Cors</NetProCorsAssemblyName>
 
 		<NetProDapper>6.0.1</NetProDapper>
@@ -52,88 +52,88 @@
 		<NetProLog>6.0.1</NetProLog>
 		<NetProLogAssemblyName>NetPro.Log</NetProLogAssemblyName>
 
-		<NetProMongoDb>6.0.9</NetProMongoDb>
+		<NetProMongoDb>6.0.10</NetProMongoDb>
 		<NetProMongoDbAssemblyName>NetPro.MongoDb</NetProMongoDbAssemblyName>
 
-		<NetProRabbitMQ>6.0.9</NetProRabbitMQ>
+		<NetProRabbitMQ>6.0.10</NetProRabbitMQ>
 		<NetProRabbitMQAssemblyName>NetPro.RabbitMQ</NetProRabbitMQAssemblyName>
 
-		<NetProRedisManager>6.0.9</NetProRedisManager>
+		<NetProRedisManager>6.0.10</NetProRedisManager>
 		<NetProRedisManagerAssemblyName>NetPro.RedisManager</NetProRedisManagerAssemblyName>
 
-		<NetProStackExchangeRedis>6.0.9</NetProStackExchangeRedis>
+		<NetProStackExchangeRedis>6.0.10</NetProStackExchangeRedis>
 		<NetProStackExchangeRedisAssemblyName>NetPro.StackExchange.Redis</NetProStackExchangeRedisAssemblyName>
 
-		<NetProCsRedis>6.0.9</NetProCsRedis>
+		<NetProCsRedis>6.0.10</NetProCsRedis>
 		<NetProCsRedisAssemblyName>NetPro.CsRedis</NetProCsRedisAssemblyName>
 
-		<NetProFreeRedis>6.0.9</NetProFreeRedis>
+		<NetProFreeRedis>6.0.10</NetProFreeRedis>
 		<NetProFreeRedisAssemblyName>NetPro.FreeRedis</NetProFreeRedisAssemblyName>
 
-		<NetProUtility>6.0.9</NetProUtility>
+		<NetProUtility>6.0.10</NetProUtility>
 		<NetProUtilityAssemblyName>NetPro.Utility</NetProUtilityAssemblyName>
 
-		<NetProTypeFinder>6.0.9</NetProTypeFinder>
+		<NetProTypeFinder>6.0.10</NetProTypeFinder>
 		<NetProTypeFinderAssemblyName>NetPro.TypeFinder</NetProTypeFinderAssemblyName>
 
-		<NetProSwagger>6.0.9</NetProSwagger>
+		<NetProSwagger>6.0.10</NetProSwagger>
 		<NetProSwaggerAssemblyName>NetPro.Swagger</NetProSwaggerAssemblyName>
 
-		<NetProShareRequestBody>6.0.9</NetProShareRequestBody>
+		<NetProShareRequestBody>6.0.10</NetProShareRequestBody>
 		<NetProShareRequestBodyAssemblyName>NetPro.NetProShareRequestBody</NetProShareRequestBodyAssemblyName>
 
-		<NetProResponseCache>6.0.9</NetProResponseCache>
+		<NetProResponseCache>6.0.10</NetProResponseCache>
 		<NetProResponseCacheAssemblyName>NetPro.ResponseCache</NetProResponseCacheAssemblyName>
 
-		<NetProWebApi>6.0.9</NetProWebApi>
+		<NetProWebApi>6.0.10</NetProWebApi>
 		<NetProWebApiAssemblyName>NetPro.Web.Api</NetProWebApiAssemblyName>
 
 		<NetProEFCore>3.1.13</NetProEFCore>
 		<NetProEFCoreAssemblyName>NetPro.EFCore</NetProEFCoreAssemblyName>
 
-		<NetProSign>6.0.9</NetProSign>
+		<NetProSign>6.0.10</NetProSign>
 		<NetProSignAssemblyName>NetPro.Sign</NetProSignAssemblyName>
 
-		<NetProGlobalization>6.0.9</NetProGlobalization>
+		<NetProGlobalization>6.0.10</NetProGlobalization>
 		<NetProGlobalizationAssemblyName>NetPro.Globalization</NetProGlobalizationAssemblyName>
 
-		<NetProGrpc>6.0.9</NetProGrpc>
+		<NetProGrpc>6.0.10</NetProGrpc>
 		<NetProGrpcAssemblyName>NetPro.Grpc</NetProGrpcAssemblyName>
 
-		<NetProProxy>6.0.9</NetProProxy>
+		<NetProProxy>6.0.10</NetProProxy>
 		<NetProProxyAssemblyName>NetPro.Proxy</NetProProxyAssemblyName>
 
-		<NetProStartup>6.0.9</NetProStartup>
+		<NetProStartup>6.0.10</NetProStartup>
 		<NetProStartupAssemblyName>NetPro.Startup</NetProStartupAssemblyName>
 
-		<NetProResponseResult>6.0.9</NetProResponseResult>
+		<NetProResponseResult>6.0.10</NetProResponseResult>
 		<NetProResponseResultAssemblyName>NetPro.ResponseResult</NetProResponseResultAssemblyName>
 
-		<NetProMQTTClient>6.0.9</NetProMQTTClient>
+		<NetProMQTTClient>6.0.10</NetProMQTTClient>
 		<NetProMQTTClientAssemblyName>NetPro.MQTTClient</NetProMQTTClientAssemblyName>
 
-		<NetProConsulClient>6.0.9</NetProConsulClient>
+		<NetProConsulClient>6.0.10</NetProConsulClient>
 		<NetProConsulClientAssemblyName>NetPro.ConsulClient</NetProConsulClientAssemblyName>
 
-		<NetProEasyNetQ>6.0.9</NetProEasyNetQ>
+		<NetProEasyNetQ>6.0.10</NetProEasyNetQ>
 		<NetProEasyNetQAssemblyName>NetPro.EasyNetQ</NetProEasyNetQAssemblyName>
 
-		<NetProAutoMapper>6.0.9</NetProAutoMapper>
+		<NetProAutoMapper>6.0.10</NetProAutoMapper>
 		<NetProAutoMapperAssemblyName>NetPro.AutoMapper</NetProAutoMapperAssemblyName>
 
-		<NetProTdengine>6.0.9</NetProTdengine>
+		<NetProTdengine>6.0.10</NetProTdengine>
 		<NetProTdengineAssemblyName>NetPro.Tdengine</NetProTdengineAssemblyName>
 
-		<NetProZeroMQ>6.0.9</NetProZeroMQ>
+		<NetProZeroMQ>6.0.10</NetProZeroMQ>
 		<NetProZeroMQAssemblyName>NetPro.ZeroMQ</NetProZeroMQAssemblyName>
 
-		<NetProDependency>6.0.9</NetProDependency>
+		<NetProDependency>6.0.10</NetProDependency>
 		<NetProDependencyAssemblyName>NetPro.Dependency</NetProDependencyAssemblyName>
 
-		<NetProSerilog>6.0.9</NetProSerilog>
+		<NetProSerilog>6.0.10</NetProSerilog>
 		<NetProSerilogAssemblyName>NetPro.Serilog</NetProSerilogAssemblyName>
 
-		<NetProPrometheus>6.0.9</NetProPrometheus>
+		<NetProPrometheus>6.0.10</NetProPrometheus>
 		<NetProPrometheusAssemblyName>NetPro.Prometheus</NetProPrometheusAssemblyName>
 
 		<ConsulAspNetCore>1.7.1-beta.3</ConsulAspNetCore>
