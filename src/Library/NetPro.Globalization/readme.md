@@ -4,6 +4,8 @@
 
 国际化多语言使用，支持官方资源文件的方式外底层增加了sqlite持久化存储方式，便于跨语言跨项目共享和检查遗漏的多语言
 
+此项目通过修改了[Localization.SqlLocalizer](https://github.com/damienbod/AspNetCoreLocalization)源码获得支持，特此感谢[damienbod](https://github.com/damienbod/AspNetCoreLocalization)
+
 ## 使用
 
 ### 初始化服务

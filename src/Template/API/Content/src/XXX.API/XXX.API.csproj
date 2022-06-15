@@ -33,7 +33,7 @@
 	<ItemGroup>
 		<PackageReference Include="NetPro.Web.Api" Version="*" />
 		<!--按需加载NetPro插件实现引用即启用，所有插件说明请参阅 https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library-->
-		<PackageReference Include="NetPro.Globalization" Version="*" />
+		<!--<PackageReference Include="NetPro.Globalization" Version="*" />-->
 		<PackageReference Include="NetPro.MongoDb" Version="*" />
 		<PackageReference Include="NetPro.CsRedis" Version="*" />
 		<PackageReference Include="NetPro.Swagger" Version="*" />

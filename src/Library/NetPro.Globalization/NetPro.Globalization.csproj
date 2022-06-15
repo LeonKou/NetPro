@@ -23,17 +23,30 @@
 	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
-	</ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>	
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="[3.0.0,6.0.0)" />		
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[3.0.0,6.0.0)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[3.0.0,6.0.0)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[3.0.0,6.0.0)" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="[5.0.0,)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[5.0.0,)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[5.0.0,)" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[5.0.0,)" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="[6.0.0,]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[6.0.0,]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="[6.0.0,]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="[6.0.0,]" />
 	</ItemGroup>
 	
+	
 	<ItemGroup>
-	  <ProjectReference Include="..\Localization.SqlLocalizer\Localization.SqlLocalizer.csproj" />
+	  <!--<ProjectReference Include="..\Localization.SqlLocalizer\Localization.SqlLocalizer.csproj" />-->
 	  <ProjectReference Include="..\NetPro.Startup\NetPro.Startup.csproj" />
 	</ItemGroup>	
 
