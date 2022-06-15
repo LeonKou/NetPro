@@ -36,7 +36,7 @@ namespace NetPro.Globalization
                 .AddSupportedUICultures(cultures)
                 //.AddSupportedCultures(cultures)
                 ;
-            localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider { UIQueryStringKey = globalization.UIQueryStringKey });
+            localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider { UIQueryStringKey = globalization?.UIQueryStringKey ?? "language" });
             localizationOptions.RequestCultureProviders.Insert(1, new AcceptLanguageHeaderRequestCultureProvider());
             localizationOptions.RequestCultureProviders.Insert(2, new CookieRequestCultureProvider());
             app.UseRequestLocalization(localizationOptions);
