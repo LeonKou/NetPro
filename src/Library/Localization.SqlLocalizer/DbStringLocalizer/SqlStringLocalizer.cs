@@ -73,7 +73,7 @@ namespace Localization.SqlLocalizer.DbStringLocalizer
                 if (_createNewRecordWhenLocalisedStringDoesNotExist)
                 {
                     _developmentSetup.AddNewLocalizedItem(key, culture.ToString(), _resourceKey);
-                    _localizations.Add(computedKey, computedKey);
+                    _localizations.Add(computedKey, key);
                     //return computedKey;
                     return key;
                 }

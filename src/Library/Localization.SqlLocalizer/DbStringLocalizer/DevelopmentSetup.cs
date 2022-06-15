@@ -23,10 +23,10 @@ namespace Localization.SqlLocalizer.DbStringLocalizer
 
         public void AddNewLocalizedItem(string key, string culture, string resourceKey)
         {
-            if(_requestLocalizationOptions.Value.SupportedCultures.Contains(new System.Globalization.CultureInfo(culture)))
+            if (_requestLocalizationOptions.Value.SupportedUICultures.Contains(new System.Globalization.CultureInfo(culture)))
             {
                 //string computedKey = $"{key}.{culture}";
-                string computedKey = $"{key}";
+                string computedKey = key;
 
                 LocalizationRecord localizationRecord = new LocalizationRecord()
                 {

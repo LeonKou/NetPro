@@ -37,6 +37,6 @@ namespace Localization.SqlLocalizer
             UseOnlyPropertyNames = useOnlyPropertyNames;
             ReturnOnlyKeyIfNotFound = returnOnlyKeyIfNotFound;
             CreateNewRecordWhenLocalisedStringDoesNotExist = createNewRecordWhenLocalisedStringDoesNotExist;
-    }
+        }
     }
 }

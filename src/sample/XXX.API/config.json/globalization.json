@@ -4,7 +4,8 @@
 		"ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqlite地址
 		"Cultures": [
 			"zh-CN",
-			"en-US"
+			"en-US",
+			"ja-JP"
 		],
 		"Annotations": true, //是否打开注册数据注解本地化服务
 		"Record": true //不存在是否记录(自动插入数据库默认语系)，默认true
