@@ -1,4 +1,5 @@
 ﻿using FreeSql.Internal.Model;
+using Microsoft.Extensions.Localization;
 
 namespace XXX.Plugin.FreeSql
 {
@@ -11,6 +12,7 @@ namespace XXX.Plugin.FreeSql
     {
         private readonly ILogger<FreeSQLDemoController> _logger;
         private readonly IWebHelper _webHelper;
+        private readonly IStringLocalizer<NetPro.Globalization.Globalization> _localizer;
         private readonly IFreeSQLDemoService _userService;
 
         /// <summary>
@@ -21,11 +23,12 @@ namespace XXX.Plugin.FreeSql
         /// <param name="userService"></param>
         public FreeSQLDemoController(ILogger<FreeSQLDemoController> logger,
             IWebHelper webHelper
-            , IFreeSQLDemoService userService)
+            , IFreeSQLDemoService userService, IStringLocalizer<NetPro.Globalization.Globalization> localizer)
         {
             _logger = logger;
             _webHelper = webHelper;
             _userService = userService;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -49,6 +52,7 @@ namespace XXX.Plugin.FreeSql
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
         {
+            Console.WriteLine(_localizer["当前时间为"]);
             var result = await _userService.InsertAsync(userInsertAo, dbKey);
             return result;
         }

@@ -6,9 +6,10 @@
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
 		<title>Localization.SqlLocalizer</title>
 		<Summary>ASP.NET Core Localization using SQL with EF Core</Summary>
-		<PackageId>Localization.SqlLocalizer</PackageId>
+		<!--<PackageId>Localization.SqlLocalizer</PackageId>-->
+		<AssemblyName>NetPro.Localization.SqlLocalizer</AssemblyName>
 		<PackageTags>Localization;SqlLocalizer;SQlite;Postgres;MS SQL Server;MySQL</PackageTags>
-		<PackageReleaseNotes>Release Notes: Version 3.1.0 Add app support for Entity Framework 5.0</PackageReleaseNotes>
+		<PackageReleaseNotes>Release Notes: Version 3.1.0 Add app support for Entity Framework 6.0</PackageReleaseNotes>
 		<PackageProjectUrl>https://github.com/damienbod/AspNet5Localization</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/damienbod/AspNet5Localization</RepositoryUrl>
 		<Version>3.1.0</Version>
