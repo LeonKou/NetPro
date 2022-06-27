@@ -1,10 +1,17 @@
 //远程请求相关配置
-{
-	"NetProProxyOption": {
-		"AssemblyPattern": "^XXX.*$", //批量注入程序集的正则,此处表示将XXX开头，Proxy结尾的程序集中使用了NetProProxy功能的接口批量注入
-		"InterfacePattern": "^I.*.Proxy$",
-		"IBaiduProxy": "https://baidu.com/", //名称要与具体定义的接口名称一致,例如此项对应的接口定义为 public interface IExampleProxy{}
-		"ITaosProxy": "http://192.168.100.175:31181"
+{	
+	"Remoting": {
+		"IBaiduProxy": { //接口定义,与代码interface一致
+			"HttpHost": "https://baidu.com/",
+			"UseParameterPropertyValidate": false,
+			"UseReturnValuePropertyValidate": false,
+			"JsonSerializeOptions": {
+				"IgnoreNullValues": true,
+				"WriteIndented": false
+			}
+		},
+		"ITaosProxy": { //接口定义，与代码interface一致
+			"HttpHost": "http://192.168.100.175:31181"
+		}
 	}
-
 }

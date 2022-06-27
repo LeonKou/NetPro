@@ -18,8 +18,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="WebApiClientCore" Version="2.0.2" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\..\Library\NetPro.Dependency\NetPro.Dependency.csproj" />
-		<ProjectReference Include="..\..\Library\NetPro.Proxy\NetPro.Proxy.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Tdengine\NetPro.Tdengine.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Utility\NetPro.Utility.csproj" />
 		<ProjectReference Include="..\..\Library\NetPro.Web.Api\NetPro.Web.Api.csproj" />

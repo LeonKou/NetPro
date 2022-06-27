@@ -1,9 +1,90 @@
 
-## NetPro.Proxy使用
+ # ~~NetPro.Proxy远程调用~~
  [![NuGet](https://img.shields.io/nuget/v/NetPro.ResponseCache.svg)](https://nuget.org/packages/NetPro.Proxy)
 
-远程调用组件
+此库已**归档**，推荐直接使用原生组件,说明请查阅
+[WebApiClientCore使用说明](https://www.cnblogs.com/kewei/p/12939866.html)
 
+归档原因：
+原生组件使用已足够方便，没有再次封装意义。
+
+##  最佳使用建议
+[WebApiClientCore](https://www.cnblogs.com/kewei/p/12939866.html) 组件已屏蔽了过多细节，使用已足够便捷，推荐按作者说明使用。
+
+接口配置建议以配置文件方式
+
+配置建议按以下标准
+```json
+"Remoting": {
+ "IUserApi": {//接口定义,与代码interface一致
+    "HttpHost": "http://www.user.com/",
+    "UseParameterPropertyValidate": false,
+    "UseReturnValuePropertyValidate": false,
+    "JsonSerializeOptions": {
+        "IgnoreNullValues": true,
+        "WriteIndented": false
+        }
+     },
+ "IAdminApi": {//接口定义，与代码interface一致
+    "HttpHost": "http://www.admin.com/",
+    "UseParameterPropertyValidate": false,
+    "UseReturnValuePropertyValidate": false,
+    "JsonSerializeOptions": {
+        "IgnoreNullValues": true,
+        "WriteIndented": false
+        }
+     }
+}
+```
+定义远程接口
+``` csharp
+/// <summary>
+/// 记得要实现IHttpApi
+/// </summary>
+public interface IUserApi : IHttpApi
+{ 
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+    ...
+}
+
+public interface IAdminApi : IHttpApi
+{ 
+    [HttpGet("api/users/{id}")]
+    Task<User> GetAsync(string id);
+    ...
+}
+```
+注册
+```csharp
+     var sectionUser = configuration.GetSection($"Remoting:{nameof(ITaosProxy)}");
+     services.AddHttpApi<ITaosProxy>().ConfigureHttpApi(section).ConfigureHttpApi(o =>
+      {
+          // 符合国情的不标准时间格式，有些接口就是这么要求必须不标准
+          o.JsonSerializeOptions.Converters.Add(new JsonDateTimeConverter("yyyy-MM-dd HH:mm:ss"));
+      });
+
+     var sectionAdmin = configuration.GetSection($"Remoting:{nameof(IAdminApi)}");
+     services.AddHttpApi<IAdminApi>().ConfigureHttpApi(section).ConfigureHttpApi(o =>
+      {
+          // 符合国情的不标准时间格式，有些接口就是这么要求必须不标准
+          o.JsonSerializeOptions.Converters.Add(new JsonDateTimeConverter("yyyy-MM-dd HH:mm:ss"));
+      });
+```
+
+使用
+``` csharp
+public class MyService
+{
+    private readonly IUserApi userApi;
+    public MyService(IUserApi userApi)
+    {
+        this.userApi = userApi;
+    }
+}
+```
+
+## 以下为过时的文档
 ### 使用
 
 - 如果已添加环境变量ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup      启用自动初始化，添加appsetting.json 配置即可

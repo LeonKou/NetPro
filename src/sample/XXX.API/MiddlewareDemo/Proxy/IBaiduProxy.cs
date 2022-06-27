@@ -9,21 +9,25 @@ namespace XXX.API.Controllers
     /// 获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
     /// [HttpHost("https://ug.baidu.com/")]
     /// </summary>
-    public interface IBaiduProxy
+    /// <remarks>
+    /// QA:https://github.com/dotnetcore/WebApiClient/wiki/WebApiClient-QA
+    /// 文档：https://www.cnblogs.com/kewei/p/12939866.html
+    /// </remarks>
+    public interface IBaiduProxy:IHttpApi
     {
         [HttpGet("/")]
-        [ApiClientFilter]
+        [LoggingFilter]
         //[RawReturn]
         ITask<string> SharepageAsync([Parameter(Kind.Query)] string queryparameter);
 
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
         // POST api/user 
         [HttpPost("api/user")]
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> AddAsync([FormContent] dynamic user);
 
         /// <summary>
@@ -37,7 +41,7 @@ namespace XXX.API.Controllers
         [Timeout(10 * 1000)] // 10s超时
         [JsonReturn(Enable = false)]
         [Cache(60 * 1000)]
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
     }
 
@@ -47,17 +51,17 @@ namespace XXX.API.Controllers
     public interface IExampleProxy
     {
         [HttpGet("")]
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> GetAsync([Parameter(Kind.Query)] string account);
 
         [HttpPost("api/v1/NetProgoods/list")]
         [Timeout(10 * 1000)] // 10s超时
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> GetGoodsList(int appid, string appVersion);
 
         // POST api/user 
         [HttpPost("api/user")]
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> AddAsync([FormContent] dynamic user);
 
         /// <summary>
@@ -71,7 +75,7 @@ namespace XXX.API.Controllers
         [Timeout(10 * 1000)] // 10s超时
         [JsonReturn(Enable = false)]
         [Cache(60 * 1000)]
-        [ApiClientFilter]
+        [LoggingFilter]
         ITask<dynamic> LoginByPwd([Uri] string url, [Parameter(Kind.Query)] string username, string password, string Captcha);
     }
 }

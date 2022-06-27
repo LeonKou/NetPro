@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>netproapi</id>
-    <version>1.0.8</version>
-    <description>
-      NetProApi Template, including WebApi     
-    </description>
+    <version>1.0.9</version>
+    <title>netproapi 脚手架</title>
     <authors>leon</authors>
+    <owners></owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <icon>logo2.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/LeonKou/NetPro</projectUrl>
+    <description>NetProApi Template, including WebApi</description>
+    <summary>netpro项目生成脚手架</summary>
+    <language>zh-Hans-CN</language>
+    <tags>netcore,microservice,微服务,linux</tags>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/LeonKou/NetPro</PackageProjectUrl>
   </metadata>
 </package>

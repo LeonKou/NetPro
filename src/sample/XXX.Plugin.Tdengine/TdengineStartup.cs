@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetPro.Tdengine;
+using WebApiClientCore.Serialization.JsonConverters;
 
 namespace XXX.Plugin.Tdengine
 {
@@ -14,6 +15,14 @@ namespace XXX.Plugin.Tdengine
         {
             // 使用自定义的连接字符串获取逻辑覆盖默认的连接字符串加载逻辑
             services.AddTdengineDb(GetConnectionString);
+
+            var section = configuration.GetSection($"Remoting:{nameof(ITaosProxy)}");
+
+            services.AddHttpApi<ITaosProxy>().ConfigureHttpApi(section).ConfigureHttpApi(o =>
+            {
+                // 符合国情的不标准时间格式，有些接口就是这么要求必须不标准
+                o.JsonSerializeOptions.Converters.Add(new JsonDateTimeConverter("yyyy-MM-dd HH:mm:ss"));
+            });
         }
 
         public void Configure(IApplicationBuilder application, IWebHostEnvironment env)

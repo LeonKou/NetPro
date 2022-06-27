@@ -12,39 +12,33 @@
 		<DocumentationFile>bin\Debug\$(NetCoreTargetVersion)\XXX.Api.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<None Include="config.json\checker.Development.json" />
 		<None Include="config.json\checker.json" />
 		<None Include="config.json\connection.json" />
 		<None Include="config.json\consul.json" />
-		<None Include="config.json\easynetq.json" />
 		<None Include="config.json\globalization.json" />
-		<None Include="config.json\mongo.json" />
-		<None Include="config.json\mqtt.json" />
 		<None Include="config.json\prometheus.json" />
-		<None Include="config.json\proxy.json" />
 		<None Include="config.json\redis.json" />
 		<None Include="config.json\serilog.json" />
 		<None Include="config.json\swagger.json" />
-		<None Include="config.json\tdengine.json" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="NetPro.Web.Api" Version="*" />
-		<!--按需加载NetPro插件实现引用即启用，所有插件说明请参阅 https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library-->
 		<PackageReference Include="NetPro.Globalization" Version="*" />
-		<PackageReference Include="NetPro.MongoDb" Version="*" />
-		<PackageReference Include="NetPro.CsRedis" Version="*" />
 		<PackageReference Include="NetPro.Swagger" Version="*" />
 		<PackageReference Include="NetPro.AutoMapper" Version="*" />
 		<PackageReference Include="NetPro.Dependency" Version="*" />
+		<!--按需加载NetPro包，引用即自动注册并启用，相关设置参考文档设置配置即可，所有插件说明请参阅 https://github.com/LeonKou/NetPro/tree/dev_6.0/src/Library-->
+		<!--<PackageReference Include="NetPro.MongoDb" Version="*" />-->
+		<!--<PackageReference Include="NetPro.CsRedis" Version="*" />-->
 		<!--<PackageReference Include="NetPro.ConsulClient" Version="*" />-->
-		<PackageReference Include="NetPro.Checker" Version="*" />
+		<!--<PackageReference Include="NetPro.Checker" Version="*" />-->
 		<!--<PackageReference Include="NetPro.EasyNetQ" Version="*" />-->
 		<!--<PackageReference Include="NetPro.Grpc" Version="*" />-->
-		<PackageReference Include="NetPro.MQTTClient" Version="*" />
-		<!--<PackageReference Include="NetPro.Proxy" Version="*" />-->
+		<!--<PackageReference Include="NetPro.MQTTClient" Version="*" />-->
 		<!--<PackageReference Include="NetPro.Utility" Version="*" />-->
 	</ItemGroup>
 

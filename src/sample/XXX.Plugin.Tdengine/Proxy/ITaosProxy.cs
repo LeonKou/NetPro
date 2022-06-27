@@ -12,7 +12,7 @@ namespace XXX.Plugin.Tdengine
     /// 获取或设置Http服务完整主机域名 例如http://www.abc.com设置了HttpHost值，HttpHostAttribute将失效
     /// [HttpHost("https://www.taosdata.com/docs/cn/v2.0/connector#restful")]
     /// </summary>
-    public interface ITaosProxy
+    public interface ITaosProxy:IHttpApi
     {
         /// <summary>
         /// 执行sql

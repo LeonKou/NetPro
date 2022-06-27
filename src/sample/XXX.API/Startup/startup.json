@@ -27,5 +27,6 @@
   "FreeSqlStartup": 2147483647,
   "MediatRStartup": 2147483647,
   "MongoDBDemoStartup": 2147483647,
-  "RedisStartup-1": 2147483647
+  "RedisStartup-1": 2147483647,
+  "RemotingStartup": 2147483647
 }

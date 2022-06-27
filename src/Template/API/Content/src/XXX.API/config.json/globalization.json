@@ -1,6 +1,7 @@
 //全球化相关配置
 {
 	"Globalization": {
+		"UIQueryStringKey": "language", //请求的query携带的多语言参数名
 		"ConnectionString": "Data Source=Globalization.db;Cache=Shared", //sqlite地址
 		"Cultures": [
 			"zh-CN",

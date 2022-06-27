@@ -6,10 +6,15 @@ namespace XXX.API.StartTask
     /// 通过初始化一次后的定时执行作业示例
     /// 固定周期的定时器作业示例代码
     /// </summary>
-    public class TimerjobStartTask //: IStartupTaskAsync
+    public class TimerjobStartTask : IStartupTaskAsync
     {
         public int Order => 0;
 
+        private readonly IConfiguration _configuration;
+        public TimerjobStartTask(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public async Task ExecuteAsync()
         {
             //间隔3秒执行一次
