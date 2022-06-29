@@ -1,4 +1,5 @@
 ﻿using FreeSql.Internal.Model;
+using IdGen;
 using System.Globalization;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -353,11 +354,22 @@ namespace XXX.Plugin.FreeSql
     internal static partial class Extenisons
     {
         /// <summary>
+        /// 生成唯一Id
+        /// 例如 991576137677144064
+        /// </summary>
+        /// <returns>雪花Id</returns>
+        public static string GenerateIdByTimestamp()
+        {
+            var uniqueId = new IdGenerator(0).CreateId().ToString();
+            return uniqueId;
+        }
+
+        /// <summary>
         /// 生成基于时间戳的Id
         /// 例如 164570046556820221029
         /// </summary>
         /// <returns>毫秒时间戳+2位随机数+3位随机数</returns>
-        public static string GenerateIdByTimestamp()
+        public static string Test()
         {
             var huge = BigInteger.Parse(Guid.NewGuid().ToString("N"), NumberStyles.AllowHexSpecifier).ToString();
             var uniqueId = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}{huge.Substring(2, 4)}{Environment.CurrentManagedThreadId.ToString().PadLeft(2, '0')[..2]}{RandomNumberGenerator.GetInt32(10, 99)}";

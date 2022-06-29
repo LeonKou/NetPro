@@ -17,6 +17,7 @@ namespace XXX.API.StartTask
 
         public async Task ExecuteAsync()
         {
+            await Task.Yield();
             //间隔3秒执行一次
             using var timer = new PeriodicTimer(TimeSpan.FromSeconds(3));
             try
@@ -52,6 +53,7 @@ namespace XXX.API.StartTask
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await Task.Yield();
             _logger.LogInformation(
                 $"Queued Hosted Service is running.{Environment.NewLine}" +
                 $"{Environment.NewLine}Tap W to add a work item to the " +

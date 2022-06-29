@@ -19,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="IdGen.DependencyInjection" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.0.100" />
 		<PackageReference Include="FreeSql.Provider.MySql" Version="3.0.100" />

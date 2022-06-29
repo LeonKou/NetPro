@@ -1,4 +1,6 @@
 ﻿using FreeSql;
+using IdGen;
+using IdGen.DependencyInjection;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
@@ -18,6 +20,9 @@ namespace XXX.Plugin.FreeSql
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
+            //注册Id生成器
+            services.AddIdGen(0, () => IdGeneratorOptions.Default);
+
             #region Freesql初始化
             //多数据库初始化
             var idleBus = new IdleBus<IFreeSql>(TimeSpan.FromSeconds(60));

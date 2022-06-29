@@ -56,7 +56,7 @@ namespace XXX.API.Controllers
         [HttpGet("ConsulDiscovery")]
         [ProducesResponseType(200, Type = typeof(ResponseResult))]
         public async Task<IActionResult> ConsulDiscovery(string serviceName = "XXX.API")
-        {
+        {            
             //以下几种方式都可拿到注册的服务地址
             var resultAgent = await _consulClient.Agent.DiscoveryAsync();
             var resultCatalog = await _consulClient.Catalog.DiscoveryAsync(serviceName);
