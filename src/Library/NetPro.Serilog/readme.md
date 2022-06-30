@@ -6,7 +6,15 @@
 
 ### 依赖NetPro.Web.Api组件的模式
 
-1、安装引用 [![NuGet](https://img.shields.io/nuget/v/NetPro.Serilog.svg)](https://nuget.org/packages/NetPro.Serilog) Nuget包
+1、安装引用
+
+[NetPro.Serilog](https://nuget.org/packages/NetPro.Serilog) [![NuGet](https://img.shields.io/nuget/v/NetPro.Serilog.svg)](https://nuget.org/packages/NetPro.Serilog)(已包含文件写入能力)
+
+[Serilog.Sinks.Async](https://nuget.org/packages/Serilog.Sinks.Async) [![NuGet](https://img.shields.io/nuget/v/Serilog.Sinks.Async.svg)](https://nuget.org/packages/Serilog.Sinks.Async)(异步写入能力)
+
+如需要写入Elasticsearch，安装以下Nuget包即可
+
+[Serilog.Sinks.ElasticSearch](https://nuget.org/packages/Serilog.Sinks.ElasticSearch) [![NuGet](https://img.shields.io/nuget/v/Serilog.Sinks.ElasticSearch.svg)](https://nuget.org/packages/Serilog.Sinks.ElasticSearch)
 
 2、增加配置
 ```json
