@@ -22,4 +22,20 @@
         /// </summary>
         public int Order => 0;
     }
+    public class LogMapper : Profile, IOrderedMapperProfile
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public LogMapper()
+        {
+            CreateMap<LogInsertAo, Log>().ReverseMap();
+            CreateMap<LogUpdateAo, Log>().ReverseMap();
+        }
+
+        /// <summary>
+        /// 映射顺序，默认0即可，无需更改
+        /// </summary>
+        public int Order => 0;
+    }
 }
