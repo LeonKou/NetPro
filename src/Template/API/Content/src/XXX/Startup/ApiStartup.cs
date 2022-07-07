@@ -1,7 +1,7 @@
 ﻿using IdGen;
 using IdGen.DependencyInjection;
 
-namespace XXX.API
+namespace XXX
 {
     /// <summary>
     /// 自定义启动类
@@ -26,7 +26,7 @@ namespace XXX.API
             services.AddIdGen(0, () => IdGeneratorOptions.Default);
 
             //批量注入(可正则匹配注入所有子程序集，也可在每个子程序集中独立注入)
-            services.BatchInjection("^XXX.", "Service$"); //批量注入以XXX前缀的程序集，Service结尾的类           
+            services.BatchInjection("^XXX", "Service$"); //批量注入以XXX前缀的程序集，Service结尾的类           
         }
 
         /// <summary>

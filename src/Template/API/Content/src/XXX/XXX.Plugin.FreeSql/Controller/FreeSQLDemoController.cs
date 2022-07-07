@@ -53,8 +53,7 @@ namespace XXX.Plugin.FreeSql
         [HttpPost("insert")]
         [ProducesResponseType(200, Type = typeof(int))]
         public async Task<int> InsertAsync([FromBody] UserInsertAo userInsertAo, [FromQuery] string dbKey = "sqlite")
-        {
-            Console.WriteLine(_localizer["当前时间为"]);
+        {           
             var result = await _userService.InsertAsync(userInsertAo, dbKey);
             return result;
         }
@@ -150,6 +149,22 @@ namespace XXX.Plugin.FreeSql
         {
             var succeed = _userService.Transaction(dbKey);
             return succeed;
+        }
+
+        /// <summary>
+        /// 本地化
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Localizer")]
+        public string Localizer()
+        {
+            var text1= _localizer["当前时间为"];
+            var text2 = _localizer["你好吗"];
+            var text3 = _localizer["用户不存在"];
+            var text4 = _localizer["服务器错误"];
+            var text5 = _localizer["请求被限制"];
+            var text6 = _localizer["多语言"];
+            return _localizer["这是测试多语言"];
         }
     }
 }

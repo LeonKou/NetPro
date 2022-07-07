@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace XXX.API.StartTask
+namespace XXX.StartTask
 {
     /// <summary>
     /// 通过初始化一次后的定时执行作业示例

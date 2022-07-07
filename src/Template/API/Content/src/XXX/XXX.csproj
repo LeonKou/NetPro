@@ -40,6 +40,7 @@
 		<!--<PackageReference Include="NetPro.Grpc" Version="*" />-->
 		<!--<PackageReference Include="NetPro.MQTTClient" Version="*" />-->
 		<!--<PackageReference Include="NetPro.Utility" Version="*" />-->
+		<PackageReference Include="NetPro.Prometheus" Version="*" />
 	</ItemGroup>
 
 	<ItemGroup>
