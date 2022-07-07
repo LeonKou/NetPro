@@ -227,6 +227,7 @@ namespace NetPro.Swagger
                     var prefix = !string.IsNullOrEmpty(basePath) ? $"/{basePath}/" : "/";
                     c.SwaggerEndpoint($"{prefix}docs/v1/docs.json", $"{swaggerOption.Title}");//此处配置要和UseSwagger的RouteTemplate匹配
                     c.SwaggerEndpoint("https://petstore.swagger.io/v2/swagger.json", "petstore.swagger");//远程swagger示例
+                    c.ConfigObject.AdditionalItems["syntaxHighlight"] = false;
 
                     #region
                     typeof(NetProSwaggerMiddlewareExtensions).GetTypeInfo().Assembly.GetManifestResourceStream("NetPro.Swagger.SwaggerProfiler.html");
