@@ -22,7 +22,6 @@
  *  SOFTWARE.
  */
 
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -121,36 +120,7 @@ namespace NetPro.Web.Api
             //MVC now serializes JSON with camel case names by default, use this code to avoid it
             //mvcBuilder.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
-            //add fluent validation
             var assemblies = typeFinder.GetAssemblies();
-            mvcBuilder.AddFluentValidation(configuration =>
-            {
-                //register all available validators from netpro assemblies
-
-                // AppDomain.CurrentDomain.GetAssemblies();
-                //var assemblies = mvcBuilder.PartManager.ApplicationParts
-                //    .OfType<AssemblyPart>()
-                //    //.Where(part => part.Name.StartsWith($"{netProOption.ProjectPrefix}", StringComparison.InvariantCultureIgnoreCase))
-                //    .Select(part => part.Assembly);
-
-                string assemblySkipLoadingPattern = "^NetPro.*|^Com.Ctrip*|^Figgle|^Serilog.*|^netstandard|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
-                var assembliesResult = new List<Assembly>();
-                foreach (var item in assemblies)
-                {
-                    if (!Regex.IsMatch(item.FullName, assemblySkipLoadingPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled) && Regex.IsMatch(item.FullName, ".*", RegexOptions.IgnoreCase | RegexOptions.Compiled))
-                    {
-                        if (!item.IsDynamic)
-                            assembliesResult.Add(item);
-                    }
-                }
-                configuration.RegisterValidatorsFromAssemblies(assembliesResult);
-
-                //implicit/automatic validation of child properties 复合对象是否验证
-                configuration.ImplicitlyValidateChildProperties = true;
-            });
-
-            //string AssemblySkipLoadingPattern = "^Enums.NET|^App.Metrics.Formatters.Ascii|^App.Metrics.Extensions.Hosting|^App.Metrics.Extensions.DependencyInjection|^App.Metrics.Extensions.Configuration|^App.Metrics|^App.Metrics.Core|^App.Metrics.Concurrency|^App.Metrics.Abstractions|^ConsoleTables|^NetPro.TypeFinder|^Com.Ctrip.Framework.Apollo|^Com.Ctrip.Framework.Apollo.Configuration|^NetPro.Core|^Figgle|^NetPro.Startup|^Serilog.Extensions.Logging|^Serilog|^netstandard|^Serilog.Extensions.Hosting|^OpenTracing.Contrib.NetCor|^App.Metrics.AspNetCore|^SkyAPM|^Swashbuckle|^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
-
             foreach (var assembly in assemblies)//AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (assembly.EntryPoint != null || assembly.GetName().Name.Contains(".Plugin."))//The plug-in identifier
