@@ -53,15 +53,10 @@ namespace System.NetPro.Startup._
     }
     internal class Startup : IHostingStartup
     {
-        /// <summary>
-        /// Gets or sets service provider
-        /// </summary>
-        private IServiceProvider _serviceProvider { get; set; }
-
         public void Configure(IWebHostBuilder builder)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            var frameworkName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            var frameworkName = Assembly.GetExecutingAssembly().GetName().Name;
 
             Console.WriteLine(Figgle.FiggleFonts.Varsity.Render(frameworkName.Substring(0, frameworkName.IndexOf('.'))));
             Console.ResetColor();
@@ -72,8 +67,9 @@ namespace System.NetPro.Startup._
             IConfiguration _configuration = null;
             List<_> instancesByOrder = null;
             List<_> instances = null;
-            List<string> defaultStartupNames = null;
-            var dynamicObject = new ExpandoObject() as IDictionary<string, Object>;
+            HashSet<string> defaultStartupNames = new HashSet<string>();
+            HashSet<string> startupIgnored = new HashSet<string>();
+            var dynamicObject = new ExpandoObject() as IDictionary<string, object>;
 
             builder.ConfigureAppConfiguration((config, builder) =>
             {
@@ -100,7 +96,7 @@ namespace System.NetPro.Startup._
                             .AddJsonFile($"appsettings.{env}.json", true, true); //inherit base config
 
                 _configuration = builder.Build();
-                                
+
                 var jsonFilePath = _configuration.GetValue<string>("ConfigPath", ".");
 
                 //Load all jSON-formatted files as configuration
@@ -135,22 +131,39 @@ namespace System.NetPro.Startup._
                 _configuration = builder.Build();
             });
 
-            builder.ConfigureServices(async (context, services) =>
+            builder.ConfigureServices((context, services) =>
             {
                 //Inject the file lookup component
                 var option = _configuration.GetSection(nameof(TypeFinderOption)).Get<TypeFinderOption>();
                 services.AddFileProcessService(option);
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
-                var startupConfigurations = _typeFinder.FindClassesOfType<INetProStartup>();
-                var defaultStartup = _typeFinder.FindClassesOfType<System.NetPro.Startup.__._>().ToList();
 
-                defaultStartupNames = defaultStartup.Select(s => s.Name).ToList();
+                // get and sort instances of all startup classes
+                var instances = _typeFinder.FindClassesOfType<INetProStartup>()
+                                                       .Select(startup => new _
+                                                       {
+                                                           NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup),
+                                                           Type = startup
+                                                       })
+                                                       .OrderBy(startup => startup.NetProStartupImplement.Order)
+                                                       .ToList();
 
-                //create and sort instances of startup configurations
-                instances = startupConfigurations
-                  .Select(startup => new _ { NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup), Type = startup })
-                  .OrderBy(startup => startup.NetProStartupImplement.Order)
-                  .ToList();
+                foreach (var item in instances)
+                {
+                    if (typeof(System.NetPro.Startup.__._).IsAssignableFrom(item.Type))
+                    {
+                        if (!defaultStartupNames.Contains(item.Type.Name))
+                        {
+                            defaultStartupNames.Add(item.Type.Name);
+                        }
+                    }
+
+                    var attr = Attribute.GetCustomAttributes(item.Type).FirstOrDefault(e => e is ReplaceStartupAttribute) as ReplaceStartupAttribute;
+                    if (!string.IsNullOrEmpty(attr?.StartupClassName) && !startupIgnored.Contains(attr.StartupClassName))
+                    {
+                        startupIgnored.Add(attr.StartupClassName);
+                    }
+                }
 
                 //try to read startup.jsonfile
                 var basePath = Directory.GetCurrentDirectory();
@@ -235,7 +248,7 @@ namespace System.NetPro.Startup._
                 }
             //configure services
             nofile:
-                Console.WriteLine($"Service injection sequence", System.Drawing.Color.FromArgb(1, 212, 1));
+                Console.WriteLine($"Service injection sequence", Color.FromArgb(1, 212, 1));
 
                 CellFormat headerFormat = new CellFormat()
                 {
@@ -248,25 +261,22 @@ namespace System.NetPro.Startup._
                     //高亮原生中间件，方便识别中间件顺序
                     if (defaultStartupNames.Where(s => s == text).Any())
                     {
-                        return $"{text}(default)".ForegroundColor(Color.FromArgb(0, 255, 0));
+                        return $"{text}(default)".ForegroundColor(Color.Lime);
                     }
                     else
                     {
-                        return $"{text}(custom)".ForegroundColor(Color.FromArgb(255, 215, 0));
+                        return $"{text}(custom)".ForegroundColor(Color.Gold);
                     }
-
                 }
 
                 Table table = new TableBuilder(headerFormat)
-              .AddColumn("Order", rowsFormat: new CellFormat(foregroundColor: Color.FromArgb(128, 129, 126)))
-              .AddColumn("StartupClassName").RowFormatter<string>((x) => FormatData(x)).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126))
-              .AddColumn("Path").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126))
-              .AddColumn("Assembly").RowFormatter<string>((x) =>
-                {
-                    return x;
-                }).RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
-             .AddColumn("Version").RowsFormat().ForegroundColor(Color.FromArgb(128, 129, 126)).Alignment(Alignment.Left)
-             .Build();
+                .AddColumn("Order", rowsFormat: new CellFormat(foregroundColor: Color.Gray))
+                .AddColumn("StartupClassName").RowFormatter<string>((x) => FormatData(x)).RowsFormat().ForegroundColor(Color.Gray)
+                .AddColumn("Path").RowsFormat().ForegroundColor(Color.Gray)
+                .AddColumn("Assembly").RowsFormat().ForegroundColor(Color.Gray).Alignment(Alignment.Left)
+                .AddColumn("Version").RowsFormat().ForegroundColor(Color.Gray).Alignment(Alignment.Left)
+                .Build();
+
                 try
                 {
                     table.Config = TableConfig.Default();
@@ -277,8 +287,13 @@ namespace System.NetPro.Startup._
                     {
                         try
                         {
+                            if (startupIgnored.Contains(instance.Type.Name))
+                            {
+                                continue;
+                            }
 
                             instance.NetProStartupImplement.ConfigureServices(services, _configuration, _typeFinder);
+
                             var assemblyName = instance.Type.Assembly.GetName();
                             string startupClassName;
 
@@ -291,6 +306,7 @@ namespace System.NetPro.Startup._
                             {
                                 startupClassName = instance.Type.Name;
                             }
+
                             table.AddRow(instance.NetProStartupImplement.Order, startupClassName, instance.NetProStartupImplement, $"{assemblyName.Name} ", $" {assemblyName.Version}");
                             tempList.Add(instance.Type.Name);
                         }
@@ -308,7 +324,7 @@ namespace System.NetPro.Startup._
                     Console.WriteLine(@$"BetterConsoles.Tables exception: {ex.Message}
                                          StackTrace={ex.StackTrace}");
                 }
-               
+
                 Console.ResetColor();
 
                 //Inject the static object engine
@@ -321,17 +337,13 @@ namespace System.NetPro.Startup._
 
             builder.Configure(async (context, app) =>//Only the last Configure will be in effect globally
             {
-                //var hostEnvironment = context.HostingEnvironment;
-                //if (hostEnvironment.EnvironmentName == Environments.Development)
-                _serviceProvider = app.ApplicationServices;
-
-                var typeFinder = _serviceProvider.GetRequiredService<ITypeFinder>();
-                var startupConfigurations = typeFinder.FindClassesOfType<INetProStartup>();
-
                 //configure request pipeline
                 foreach (var instance in instancesByOrder ?? instances)
                 {
-                    instance.NetProStartupImplement.Configure(app, context.HostingEnvironment);
+                    if (!startupIgnored.Contains(instance.Type.Name))
+                    {
+                        instance.NetProStartupImplement.Configure(app, context.HostingEnvironment);
+                    }
                 }
 
                 //run startup tasks
