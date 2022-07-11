@@ -1,7 +1,7 @@
 
 # NetPro.Satrtup使用
 
- [![NuGet](https://img.shields.io/nuget/v/NetPro.Satrtup.svg)](https://nuget.org/packages/NetPro.Satrtup)
+ [![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg)](https://nuget.org/packages/NetPro.Startup)
 无代码侵入性的Startup初始化插件
 
 ## 使用
