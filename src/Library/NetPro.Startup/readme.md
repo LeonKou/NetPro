@@ -63,6 +63,23 @@ export ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=NetPro.Satrtup
 
 ```
 
+### 覆盖替换指定Startup
+>感谢[KamenRiderKuuga](https://github.com/KamenRiderKuuga)提交的此功能"[用于使用自定义Startup替换已有的Startup](https://github.com/LeonKou/NetPro/commit/5c6ffbc191c08105aa6cb30291667c0b5d9af660#diff-cb145826b192a3c244679748c28d91e409ad0fd0b2d68915d385e4f79f5c8a01)".
+
+日常开发中，可能我们并不想使用已经内置的Startup实现，比如NetPro.Web.Api包内的ErrorHandlerStartup处理异常操作，
+此时我们想用我们自己的实现替换他，就可用到`ReplaceStartupAttribute`
+```
+    /// <summary>
+    /// 自定义异常处理中间件
+    /// </summary>
+    [ReplaceStartup("ErrorHandlerStartup")]
+    public class CustomErrorHandlerStartup : INetProStartup
+    {
+
+    }
+```
+此时ErrorHandlerStartup将失效,又ApiStartup所在功能覆盖。
+
 ### 指定配置文件路径（用于整理拆分配置文件）：
 
 在`appsettings.json`文件中增加配置项`ConfigPath`，指定配置文件夹存放路径，例如此处，`appsetting.json`中只有这一条配置项：

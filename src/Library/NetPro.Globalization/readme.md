@@ -113,4 +113,6 @@ cookie 默认为 ".AspNetCore.Culture" 既：（Microsoft.AspNetCore.Localizatio
 
 ### tips
 
-[在线sqlite工具](https://sqliteonline.com/) https://sqliteonline.com/
+> [在线sqlite工具](https://sqliteonline.com/) https://sqliteonline.com/
+
+> 感谢[KamenRiderKuuga](https://github.com/KamenRiderKuuga)开发的多语言翻译辅助工具[Translator](https://github.com/KamenRiderKuuga/Translator)
