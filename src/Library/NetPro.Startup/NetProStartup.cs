@@ -139,14 +139,14 @@ namespace System.NetPro.Startup._
                 ITypeFinder _typeFinder = services.BuildServiceProvider().GetRequiredService<ITypeFinder>();
 
                 // get and sort instances of all startup classes
-                var instances = _typeFinder.FindClassesOfType<INetProStartup>()
-                                                       .Select(startup => new _
-                                                       {
-                                                           NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup),
-                                                           Type = startup
-                                                       })
-                                                       .OrderBy(startup => startup.NetProStartupImplement.Order)
-                                                       .ToList();
+                instances = _typeFinder.FindClassesOfType<INetProStartup>()
+                                       .Select(startup => new _
+                                       {
+                                           NetProStartupImplement = (INetProStartup)Activator.CreateInstance(startup),
+                                           Type = startup
+                                       })
+                                       .OrderBy(startup => startup.NetProStartupImplement.Order)
+                                       .ToList();
 
                 foreach (var item in instances)
                 {
