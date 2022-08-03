@@ -30,6 +30,7 @@ namespace XXX.Plugin.FreeSql
         private readonly ILogger<FreeSQLAsTableByDependency> _logger;
         private readonly IdleBus<IFreeSql> _fsql;
         private readonly IMapper _mapper;
+        private readonly IdGenerator _idGenerator;
         private static Regex _regTableNameFormat = new Regex(@"\{([^\\}]+)\}");
 
         /// <summary>
@@ -38,13 +39,15 @@ namespace XXX.Plugin.FreeSql
         /// <param name="logger"></param>
         /// <param name="idleFsql"></param>
         /// <param name="mapper"></param>
+        /// <param name="idGenerator"></param>
         public FreeSQLAsTableByDependency(ILogger<FreeSQLAsTableByDependency> logger
             , IdleBus<IFreeSql> idleFsql
-            , IMapper mapper)
+            , IMapper mapper, IdGenerator idGenerator)
         {
             _logger = logger;
             _fsql = idleFsql;
             _mapper = mapper;
+            _idGenerator = idGenerator;
         }
 
         /// <summary>
@@ -57,11 +60,11 @@ namespace XXX.Plugin.FreeSql
         {
             //AO实体映射为数据库DO实体
             var logEntity = _mapper.Map<LogInsertAo, Log>(input);
-            logEntity.Id = Extenisons.GenerateIdByDateTime(logEntity.CreateTime);
+            logEntity.Id = _idGenerator.GenerateIdByDateTime(logEntity.CreateTime);
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
             var freesql = _fsql.Get(dbKey);
- 
+
             // Insert方法多个重载，支持单对象、集合对象 
             var sqlatd = freesql.Insert(logEntity).NoneParameter();
             _logger.LogInformation(sqlatd.ToSql());
@@ -206,7 +209,7 @@ namespace XXX.Plugin.FreeSql
             //根据时间查询满足条件的表名，所有表范围：设置开始时间到现在
             string[] names = tb.AsTableImpl.GetTableNamesByColumnValueRange(DateTimeOffset.FromUnixTimeMilliseconds(input.StartTime).DateTime, DateTimeOffset.FromUnixTimeMilliseconds(input.EndTime).DateTime);
             foreach (var name in names)
-                 freesql.CodeFirst.SyncStructure(typeof(Log), name);
+                freesql.CodeFirst.SyncStructure(typeof(Log), name);
             return names;
         }
 
@@ -216,13 +219,13 @@ namespace XXX.Plugin.FreeSql
         /// <param name="dbKey">数据库实例别名</param>
         /// </summary>
         /// <returns></returns>
-        public string CreateTable(Type tableEntity,string dbKey = "sqlite")
-        {           
+        public string CreateTable(Type tableEntity, string dbKey = "sqlite")
+        {
             var freesql = _fsql.Get(dbKey);
             var tb = freesql.CodeFirst.GetTableByEntity(tableEntity);
             var tableNameFormat = _regTableNameFormat.Match(tb.DbName);
             var tableName = tb.DbName.Replace(tableNameFormat.Groups[0].Value, DateTimeOffset.UtcNow.AddMonths(1).ToString(tableNameFormat.Groups[1].Value));
-            freesql.CodeFirst.SyncStructure(tableEntity, tableName);       
+            freesql.CodeFirst.SyncStructure(tableEntity, tableName);
             return tableName;
         }
     }
@@ -237,9 +240,9 @@ namespace XXX.Plugin.FreeSql
         /// 例如 20220101991576137677144064
         /// </summary>
         /// <returns>雪花Id</returns>
-        public static string GenerateIdByDateTime(DateTime time)
+        public static string GenerateIdByDateTime(this IdGenerator idGenerator, DateTime time)
         {
-            var uniqueId = new IdGenerator(0).CreateId().ToString();
+            var uniqueId = idGenerator.CreateId().ToString();
             return $"{time.ToString("yyyyMMdd")}{uniqueId}";
         }
 

@@ -31,6 +31,7 @@ namespace XXX.Plugin.FreeSql
         //private readonly IFreeSql _fsql;
         private readonly IdleBus<IFreeSql> _fsql;
         private readonly IMapper _mapper;
+        private readonly IdGenerator _idGenerator;
 
         /// <summary>
         /// 
@@ -39,15 +40,18 @@ namespace XXX.Plugin.FreeSql
         /// <param name="fsql"></param>
         /// <param name="idleFsql"></param>
         /// <param name="mapper"></param>
+        /// <param name="idGenerator"></param>
         public FreeSQLDemoByDependency(ILogger<FreeSQLDemoByDependency> logger
             //, IFreeSql fsql
             , IdleBus<IFreeSql> idleFsql
-            , IMapper mapper)
+            , IMapper mapper, IdGenerator idGenerator
+            )
         {
             _logger = logger;
             //_fsql = fsql;
             _fsql = idleFsql;
             _mapper = mapper;
+            _idGenerator = idGenerator;
         }
 
         /// <summary>
@@ -89,7 +93,7 @@ namespace XXX.Plugin.FreeSql
             //AO实体隐射为数据库DO实体
             //var userEntity = _mapper.Map<UserInsertAo, User>(userInsertAo);
             var userEntity = _mapper.Map<UserInsertAo, UserProfile>(userInsertAo);
-            userEntity.Id = Extenisons.GenerateIdByTimestamp();
+            userEntity.Id = _idGenerator.GenerateIdByTimestamp();
 
             //将当前库sqlite切换到mysql实例上，本方法后续操作都是基于"mysql"实例的操作
             var freesql = _fsql.Get(dbKey);
@@ -275,7 +279,7 @@ namespace XXX.Plugin.FreeSql
                   .Count(out long totalCount)
                   .ToSql();//生成SQL
 
-            _logger.LogInformation($"生成sql:{sqlString }");
+            _logger.LogInformation($"生成sql:{sqlString}");
             return sqlString;
         }
 
@@ -358,9 +362,9 @@ namespace XXX.Plugin.FreeSql
         /// 例如 991576137677144064
         /// </summary>
         /// <returns>雪花Id</returns>
-        public static string GenerateIdByTimestamp()
+        public static string GenerateIdByTimestamp(this IdGenerator idGenerator)
         {
-            var uniqueId = new IdGenerator(0).CreateId().ToString();
+            var uniqueId = idGenerator.CreateId().ToString();
             return uniqueId;
         }
 
