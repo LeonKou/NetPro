@@ -75,7 +75,7 @@ dotnet new netproapi -n IAM
 Executing the above command will automatically create the WebApi code solution
 
 
-### 运行
+### Execute
 
 After the development environment runs, the effect is as follows:
 
