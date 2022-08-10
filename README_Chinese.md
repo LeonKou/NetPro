@@ -1,42 +1,43 @@
 <p align="center"> <a href="https://leonkou.github.io/NetPro/"></a>
   <img  src="docs/images/netpro2.png" >
 </p>
-
-# NetPro　　　　　　　　　　　　　　　　　　　[Chinese](README_Chinese.md)
+# NetPro　　　　　　　　　　　　　　　　　　　[English](README.md)
 ![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg) ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg)
 
-NetpPro is based on enhanced Startup features development of efficient management Startup implementation, he is cross-platform, written in C# language, and is designed to code low intrusion, low dependency, modular, pluggable, on demand reference, support dotnet3.1, dotnet5.0, dotnet6.0, due to low intrusion, References on demand can be easily upgraded for future higher versions.
-# Architecture preview
+.NetpPro是基于增强启动特性开发的高效管理Startup的实现，他是跨平台的，用C#语言编写，并被设计成代码侵入性低、依赖低、模块化、可插拔、按需引用，支持dotnet3.1、dotnet5.0、dotnet6.0 ,由于侵入性低，按需引用，可轻松升级未来的更高版本。
+
+# 架构预览 
 
 <p align="center">
   <img  src="docs/images/netproinfo.png">
 </p>
 
-# Feature
+# 特点
 
-Compared to the various development frameworks commonly used, NetPro has many advantages:
-- It improves the development and maintenance cost caused by Startup clutter and high integration of components in the framework
+与平常使用的各种开发框架相比，NetPro具有许多有点：
+- 改进了以往Startup杂乱，框架对各组件的集成度过高导致的开发维护成本
 
-- Low intrusion, based on the `NetPro.Startup` developed kit can be put into the specified path to achieve plug-in ability, easily expand new functions
+- 侵入性低，基于`NetPro.Startup`开发的工具包可放入指定路径即可实现插件化能力，轻松扩展新功能
 
-- Low dependency: all development packages based on NetPro.Startup do not depend on each other
+- 依赖低，所有基于NetPro.Startup的开发包互相都无依赖
 
-- Easily realize the development according to the business domain, through `NetPro.Startup` can easily pack the business needs into an assembly, achieve high cohesion within the business, avoid the past controller and business layer, database layer, Startup and other scattered in multiple assemblies
+- 轻松实现按业务领域开发，通过`NetPro.Startup`可轻松将业务所需打包进一个程序集中，实现业务内的高内聚，避免以往控制器与业务层、数据库层、Startup等散落在多个程序集。
 
-- Rapid development of microservices, based on NetPro.Startup best practices after the development of business modules can be quickly converted to microservices without changing the code conditions
+- 微服务快速开发，基于NetPro.Startup最佳实践开发业务模块后在不改代码条件下即可快速转为微服务。
 
-- On-demand reference. By enhancing the Startup feature, all the toolkits developed based on NetPro.Startup can be enabled by reference
+- 按需引用，通过增强启动特性，所有基于NetPro.Startup开发的工具包都可实现引用即启用，
 
 # Getting Started
-All preset development kits based on NetPro.Startup please view under `src/Library`
-For various development examples and best practices please view under `src/sample`
-### Package Manager: 
-You can install netpro.startup in your project by running the following command
+所有基于NetPro.Startup的预置开发包请在 `src/Library`下查看
+
+
+### Package Manager方式: 
+你可以运行以下下命令在你的项目中安装NetPro.Startup
 ```
 PM> Install-Package NetPro.Startup -Version *
 ```
 
-### .NET CLI : 
+### .NET CLI 方式: 
 ```
 dotnet add package NetPro.Startup --version *
 ```
@@ -46,38 +47,37 @@ dotnet add package NetPro.Startup --version *
 <PackageReference Include="NetPro.Startup" Version="*" />
 ```
 
-### .NET CLI : 
+### .NET CLI 方式: 
 ```
 paket add NetPro.Startup --version *
 ```
 
 ---
 
-## Creating projects through scaffolding (recommended)
+## 通过脚手架创建项目(推荐)
 
-### 1、install netproapi[![NuGet](https://img.shields.io/nuget/v/netproapi.svg)](https://nuget.org/packages/netproapi)scaffold
-
-Run the following command to install the scaffold
+### 1、安装netproapi[![NuGet](https://img.shields.io/nuget/v/netproapi.svg)](https://nuget.org/packages/netproapi)脚手架
+执行以下命令安装脚手架
 ```
 dotnet new -i netproapi::* 
 ```
 
-### 2、Use scaffolding to create projects
+### 2、使用脚手架创建项目
 
-Execute the following command in the specified project folder
+在指定的项目文件夹中执行以下命令
 ```
-dotnet new netproapi -n project name
+dotnet new netproapi -n 项目名称
 ```
-For example, the current project is IAM
+例如当前项目为IAM
 ```
 dotnet new netproapi -n IAM
 ```
-Executing the above command will automatically create the WebApi code solution
+执行以上命令将自动创建WebApi代码解决方案
 
 
 ### 运行
 
-After the development environment runs, the effect is as follows:
+开发环境运行后效果如下：
 
 ```
  ____  _____        _   _______
