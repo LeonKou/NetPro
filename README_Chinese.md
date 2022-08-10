@@ -1,6 +1,7 @@
-<p align="center"> <a href="https://leonkou.github.io/NetPro/"></a>
+<p align="center">
   <img  src="docs/images/netpro2.png" >
 </p>
+
 # NetPro　　　　　　　　　　　　　　　　　　　[English](README.md)
 ![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg) ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg)
 
