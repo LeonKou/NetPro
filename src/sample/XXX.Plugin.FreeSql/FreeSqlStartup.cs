@@ -20,9 +20,8 @@ namespace XXX.Plugin.FreeSql
         /// <param name="typeFinder"></param>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration = null, ITypeFinder typeFinder = null)
         {
-            var seed = Convert.ToInt32(DateTimeOffset.Now.ToUnixTimeMilliseconds() % 1_000_000_000);
             //注册Id生成器
-            services.AddIdGen(seed + new Random(seed).Next(100000));
+            services.AddIdGen(Convert.ToInt32(DateTimeOffset.Now.ToUnixTimeMilliseconds() % 1024));
             #region Freesql初始化
             //多数据库初始化
             var idleBus = new IdleBus<IFreeSql>(TimeSpan.FromSeconds(60));
