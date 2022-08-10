@@ -2,7 +2,7 @@
   <img  src="docs/images/netpro2.png" >
 </p>
 
-# NetPro　　　　　　　　　　　　　　　　　　　[English](README.md)
+# NetPro　　　　　　　　　　　　　　　　　　　[English](https://github.com/LeonKou/NetPro)
 ![.NET Core](https://github.com/LeonKou/NetPro/workflows/.NET%20Core/badge.svg)  ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg) ![NuGet](https://img.shields.io/nuget/v/NetPro.Startup.svg)
 
 .NetpPro是基于增强启动特性开发的高效管理Startup的实现，他是跨平台的，用C#语言编写，并被设计成代码侵入性低、依赖低、模块化、可插拔、按需引用，支持dotnet3.1、dotnet5.0、dotnet6.0 ,由于侵入性低，按需引用，可轻松升级未来的更高版本。
