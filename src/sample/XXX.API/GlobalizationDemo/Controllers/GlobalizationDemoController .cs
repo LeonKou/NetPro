@@ -43,8 +43,10 @@ namespace XXX.API.Controllers
         {
             var applicationName = _hostEnvironment.ApplicationName;
             var serviceMsg = _globalizationService.GetLanguage();
-            var localMsg = _localizer["当前时间为"] + $"：{DateTime.Now}";
-            return Ok(new { serviceMsg, localMsg });
+            var localMsg = _localizer["当前时间为:"].Value + $"：{DateTime.Now}";
+            var localMsgFormat = string.Format(_localizer["当前时间为: {0} "].Value, DateTime.Now);
+            var localTemplateString = _localizer[$"当前时间为: {DateTime.Now}"].Value;
+            return Ok(new { serviceMsg, localMsg , localMsgFormat , localTemplateString });
         }
     }
 }
