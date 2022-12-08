@@ -32,7 +32,7 @@
 		<PackageReference Include="DotNetCore.NPOI" Version="1.2.3" />
 		<PackageReference Include="IdGen" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.13" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="TimeZoneConverter" Version="5.0.0" />
