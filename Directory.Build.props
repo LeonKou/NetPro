@@ -127,6 +127,9 @@
 		<NetProZeroMQ>6.0.15</NetProZeroMQ>
 		<NetProZeroMQAssemblyName>NetPro.ZeroMQ</NetProZeroMQAssemblyName>
 
+		<NetProPulsar>6.0.15</NetProPulsar>
+		<NetProPulsarAssemblyName>NetPro.Pulsar</NetProPulsarAssemblyName>
+
 		<NetProDependency>6.0.15</NetProDependency>
 		<NetProDependencyAssemblyName>NetPro.Dependency</NetProDependencyAssemblyName>
 

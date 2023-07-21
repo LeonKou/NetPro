@@ -131,19 +131,19 @@ namespace System.NetPro
             {
                 //first try to get IP address from the forwarded header
                 if (_httpContextAccessor.HttpContext.Request.Headers != null)
-                {
-                    if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Real-IP"))
-                    {
-                        stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Real-IP"];
-                        return stringIp;
-                    }
-                    else if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
+                {                    
+                    if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
                     {
                         stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"];
                         if (!string.IsNullOrEmpty(stringIp))
                         {
                             stringIp = stringIp.Split(',')[0];
                         }
+                        return stringIp;
+                    }
+                    else if (_httpContextAccessor.HttpContext.Request.Headers.ContainsKey("X-Real-IP"))
+                    {
+                        stringIp = _httpContextAccessor.HttpContext.Request.Headers["X-Real-IP"];
                         return stringIp;
                     }
                     else
