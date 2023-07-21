@@ -21,6 +21,7 @@
   "EndpointsStartup": 1000,
   "NetProCsRedisStartup": 1000,
   "NetProFreeRedisStartup": 1000,
+  "NetProPulsarStartup": 1000,
   "ApiStartup": 2147483647,
   "ConsulStartup": 2147483647,
   "MQTTClientStartup": 2147483647,
@@ -29,5 +30,6 @@
   "MediatRStartup": 2147483647,
   "MongoDBDemoStartup": 2147483647,
   "RedisStartup-1": 2147483647,
-  "RemotingStartup": 2147483647
+  "RemotingStartup": 2147483647,
+  "PulsarStartup": 2147483647
 }
