@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
 
