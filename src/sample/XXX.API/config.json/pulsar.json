@@ -1,0 +1,12 @@
+{
+  "PulsarOption": {
+    "ServiceUrl": "pulsar://pulsar",
+    "AdminServiceUrl": "http://pulsar:8080",
+    "HttpServiceUrl": "http://pulsarcheck",
+    "Authentication": {
+      "UserName": "superuser",
+      "Password": "admin",
+      "Token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlcnVzZXIifQ.Jw3vmLWQJgebSQ1eZMi0rhmBDNFidodmgjvSJ36mjKo"
+    }
+  }
+}
