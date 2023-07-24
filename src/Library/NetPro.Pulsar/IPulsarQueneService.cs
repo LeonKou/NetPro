@@ -23,7 +23,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumePatternAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumePatternAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
         /// <summary>
         /// 批量消息订阅(正则topic)
@@ -38,7 +38,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumePatternBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumePatternBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
         /// <summary>
         /// 消息订阅(完整topic)
@@ -53,7 +53,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumeAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumeAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumeBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumeBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumePatternAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumePatternAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
         /// <summary>
         /// 批量消息订阅(正则topic)
@@ -96,7 +96,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumePatternBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumePatternBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
         /// <summary>
         /// 消息订阅(完整topic)
@@ -109,7 +109,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumeAsync(string topic, string subscriptiont, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumeAsync(string topic, string subscriptiont, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task ConsumeBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default);
+        Task ConsumeBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest);
 
         /// <summary>
         /// 发布消息
@@ -131,9 +131,17 @@ namespace NetPro.Pulsar
         /// <typeparam name="T">消息类型</typeparam>
         /// <param name="topic">主题</param>
         /// <param name="data">消息实例</param>
-        /// <param name="state">CancellationToken</param>
         /// <returns></returns>
-        Task ProduceMessagesAsync<T>(string topic, T? data, CancellationToken state = default);
+        Task ProduceMessagesAsync<T>(string topic, T? data);
+
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <typeparam name="T">消息类型</typeparam>
+        /// <param name="topic">主题</param>
+        /// <param name="data">消息实例</param>
+        /// <returns></returns>
+        Task ProduceMessagesServiceAsync<T>(string topic, T? data, int producerNum = 1);
 
 
     }

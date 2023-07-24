@@ -60,7 +60,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumePatternAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumePatternAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -74,11 +74,11 @@ namespace NetPro.Pulsar
                         .TopicsPattern(topic)
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.ReceiveAsync(state.Token);
+                            var message = await consumer.ReceiveAsync(state);
                             _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功，【tenantId】{tenantId}");
                             if (func != null)
                             {
@@ -125,7 +125,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumePatternBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumePatternBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -140,11 +140,11 @@ namespace NetPro.Pulsar
                         .BatchReceivePolicy(new BatchReceivePolicy())
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.BatchReceiveAsync(state.Token);
+                            var message = await consumer.BatchReceiveAsync(state);
                             foreach (var item in message)
                             {
                                 _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
@@ -195,7 +195,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumeAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumeAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -209,11 +209,11 @@ namespace NetPro.Pulsar
                         .Topic(topic)
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.ReceiveAsync(state.Token);
+                            var message = await consumer.ReceiveAsync(state);
                             _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功，【tenantId】{tenantId}");
                             if (func != null)
                             {
@@ -260,7 +260,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumeBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumeBatchAsync(string tenantId, string projectId, string topic, string subscription, Func<string, string, string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -275,11 +275,11 @@ namespace NetPro.Pulsar
                         .BatchReceivePolicy(new BatchReceivePolicy())
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.BatchReceiveAsync(state.Token);
+                            var message = await consumer.BatchReceiveAsync(state);
                             foreach (var item in message)
                             {
                                 _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
@@ -327,7 +327,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumePatternAsync( string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumePatternAsync( string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -341,11 +341,11 @@ namespace NetPro.Pulsar
                         .TopicsPattern(topic)
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.ReceiveAsync(state.Token);
+                            var message = await consumer.ReceiveAsync(state);
                             _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
                             if (func != null)
                             {
@@ -390,7 +390,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumePatternBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumePatternBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -405,11 +405,11 @@ namespace NetPro.Pulsar
                         .BatchReceivePolicy(new BatchReceivePolicy())
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.BatchReceiveAsync(state.Token);
+                            var message = await consumer.BatchReceiveAsync(state);
                             foreach (var item in message)
                             {
                                 _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
@@ -458,7 +458,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumeAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumeAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -472,11 +472,11 @@ namespace NetPro.Pulsar
                         .Topic(topic)
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.ReceiveAsync(state.Token);
+                            var message = await consumer.ReceiveAsync(state);
                             _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
                             if (func != null)
                             {
@@ -521,7 +521,7 @@ namespace NetPro.Pulsar
         /// <param name="state">CancellationToken</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Task ConsumeBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest, CancellationTokenSource state = default)
+        public Task ConsumeBatchAsync(string topic, string subscription, Func<string, byte[], Task> func, CancellationToken state, SubscriptionType subscriptionType = SubscriptionType.Shared, SubscriptionInitialPosition initialPosition = SubscriptionInitialPosition.Latest)
         {
             //每个topic创建一个消费者
             return Task.Run(async () =>
@@ -536,11 +536,11 @@ namespace NetPro.Pulsar
                         .BatchReceivePolicy(new BatchReceivePolicy())
                         .SubscribeAsync().Result;
 
-                    while (!state?.IsCancellationRequested ?? false)
+                    while (!state.IsCancellationRequested)
                     {
                         try
                         {
-                            var message = await consumer.BatchReceiveAsync(state.Token);
+                            var message = await consumer.BatchReceiveAsync(state);
                             foreach (var item in message)
                             {
                                 _logger.LogInformation($"【{DateTime.Now.ToString("HH:MM:ss fff")}】消费成功");
@@ -584,9 +584,8 @@ namespace NetPro.Pulsar
         /// <param name="topic">主题</param>
         /// <param name="data">消息实例</param>
         /// <param name="producerNum">创建的发送端数量</param>
-        /// <param name="state">CancellationToken</param>
         /// <returns></returns>
-        public Task ProduceMessagesServiceAsync<T>(string topic, T? data, int producerNum = 1, CancellationToken state = default)
+        public Task ProduceMessagesServiceAsync<T>(string topic, T? data, int producerNum = 1)
         {
             Task.Run(async () =>
             {
@@ -629,9 +628,8 @@ namespace NetPro.Pulsar
         /// <typeparam name="T">消息类型</typeparam>
         /// <param name="topic">主题</param>
         /// <param name="data">消息实例</param>
-        /// <param name="state">CancellationToken</param>
         /// <returns></returns>
-        public Task ProduceMessagesAsync<T>(string topic, T? data, CancellationToken state = default)
+        public Task ProduceMessagesAsync<T>(string topic, T? data)
         {
             Task.Run(async () =>
             {
