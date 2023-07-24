@@ -46,8 +46,7 @@ namespace XXX.Plugin.Pulsar.TaskService
         /// <returns></returns>
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var stop = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
-            await _pulsarQuene.ConsumeAsync("persistent://public/default/service-test-pulsar", "test-group", HandleEventAsync,state: stop);
+            await _pulsarQuene.ConsumeAsync("persistent://public/default/service-test-pulsar", "test-group", HandleEventAsync, stoppingToken);
             await Task.CompletedTask;
         }
     }
