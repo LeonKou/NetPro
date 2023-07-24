@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Pulsar.Client.Api;
+using System;
 
 namespace NetPro.Pulsar
 {
